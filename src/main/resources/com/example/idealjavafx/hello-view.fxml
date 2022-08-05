@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="735.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
+   <children>
+      <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Файл">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#chooseFile" text="Вибрати файл" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveOfMainData" text="Зберегти" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Дані">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showVarRowList" text="Варіаційний ряд" />
+                  <MenuItem mnemonicParsing="false" onAction="#shownMainCharacteristic" text="Основні характеристики" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Звичайні графіки">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#barChartSimpleGraph" text="Звичайний графік" />
+                  <MenuItem mnemonicParsing="false" onAction="#barChartAnomalGraph" text="Вилучання аномальних значень" />
+                  <MenuItem mnemonicParsing="false" onAction="#barChartStandartizationGraph" text="Стандартизувати" />
+                  <MenuItem mnemonicParsing="false" onAction="#barChartZsuvAndLogarifmGraph" text="Зсув і логарифмування" />
+                  <MenuItem mnemonicParsing="false" onAction="#barChartAnomalPlusZsuvAndLogarifmGraph" text="Аномальні + зсув" />
+                  <MenuItem mnemonicParsing="false" onAction="#barChartAnomalPlusStandartizationGraph" text="Аномальні + стандартизувати" />
+                  <MenuItem mnemonicParsing="false" onAction="#cleanBarCharts" text="Очистити" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Складні графіки">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#areaChartEksponetial" text="Експоненціальний" />
+                  <MenuItem mnemonicParsing="false" onAction="#areaChartLaplasa" text="Лапласа" />
+                  <MenuItem mnemonicParsing="false" onAction="#areaChartNorm" text="Нормальний" />
+                  <MenuItem mnemonicParsing="false" onAction="#areaChartRivnomirniy" text="Рівномірний" />
+                  <MenuItem mnemonicParsing="false" onAction="#areaChartVeibula" text="Вейбулла" />
+                  <MenuItem mnemonicParsing="false" onAction="#cleanAreaChart" text="Очистити" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Про програму">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.25757575757575757" layoutX="199.0" layoutY="104.0" orientation="VERTICAL" prefHeight="476.0" prefWidth="681.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+        <items>
+          <AnchorPane fx:id="welcomeText" minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="733.0" style="-fx-background-color: #fafafafa;">
+               <children>
+                  <SplitPane dividerPositions="0.5849335302806499" layoutX="218.0" layoutY="-43.0" prefHeight="164.0" prefWidth="733.0" AnchorPane.bottomAnchor="-29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="425.0">
+                           <children>
+                              <TextField fx:id="stringOfNumberOfClasses" layoutX="67.0" layoutY="8.0" prefHeight="25.0" prefWidth="62.0" />
+                              <TextField fx:id="stringOfKvantil" layoutX="67.0" layoutY="38.0" prefHeight="25.0" prefWidth="62.0" />
+                              <TextField fx:id="stringOfAlfa" layoutX="67.0" layoutY="72.0" prefHeight="25.0" prefWidth="62.0" />
+                              <Label fx:id="label" layoutX="7.0" layoutY="12.0" text="Класи:" />
+                              <Label fx:id="label1" layoutX="7.0" layoutY="42.0" text="Квантиль:" />
+                              <Label fx:id="label2" layoutX="6.0" layoutY="76.0" text="Альфа:" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0" />
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="392.0" prefWidth="733.0" style="-fx-background-color: #fafa;">
+               <children>
+                  <SplitPane dividerPositions="0.4719562243502052" layoutX="228.0" prefHeight="393.0" prefWidth="733.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <SplitPane dividerPositions="0.5" layoutX="100.0" layoutY="69.0" orientation="VERTICAL" prefHeight="391.0" prefWidth="342.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <BarChart fx:id="barChartFunctionOfShilnist" layoutX="-125.0" layoutY="-95.0" onDragDetected="#aboutMenu" prefHeight="192.0" prefWidth="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <xAxis>
+                                              <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </BarChart>
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <BarChart fx:id="barChartEmpiritionFunction" layoutX="-121.0" layoutY="-114.0" prefHeight="191.0" prefWidth="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <xAxis>
+                                              <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </BarChart>
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane>
+                           <children>
+                              <SplitPane dividerPositions="0.5" layoutX="180.0" layoutY="96.0" orientation="VERTICAL" prefHeight="391.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <AreaChart fx:id="areaChartFunctionOfShilnist" layoutX="-100.0" layoutY="-104.0" prefHeight="192.0" prefWidth="381.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <xAxis>
+                                              <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </AreaChart>
+                                       </children></AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <AreaChart fx:id="areaChartEmpiritionFunction" layoutX="-80.0" layoutY="-114.0" prefHeight="191.0" prefWidth="381.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <xAxis>
+                                              <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </AreaChart>
+                                       </children></AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
