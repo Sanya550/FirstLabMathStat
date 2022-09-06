@@ -1,4 +1,4 @@
-package com.example.idealjavafx;
+/*package com.example.idealjavafx;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,3 +75,4 @@ public class VarRow extends JPanel {
 
 
 }
+*/
