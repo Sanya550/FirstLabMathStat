@@ -4,7 +4,9 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.CheckBox;
 
+import javax.swing.*;
 import java.awt.geom.Area;
 import java.math.BigDecimal;
 import java.util.*;
@@ -522,5 +524,146 @@ public class Helper {
             }
         }
         areaChart.getData().addAll(series2, seriesUp, seriesDown);
+    }
+
+    //lab3:
+    static List<ArrayList> returnTwoCheckBox(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
+        List<ArrayList> resultList = new ArrayList();
+        if (ch1.isSelected() && ch2.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            return resultList;
+        } else if (ch1.isSelected() && ch3.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr3);
+            return resultList;
+        } else if (ch1.isSelected() && ch4.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch1.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch2.isSelected() && ch3.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr3);
+            return resultList;
+        } else if (ch2.isSelected() && ch4.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch2.isSelected() && ch5.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch3.isSelected() && ch4.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch3.isSelected() && ch5.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        } else {
+            return resultList;
+        }
+    }
+
+    static double fTest(ArrayList arr1, ArrayList arr2) {
+        //1:
+        double sa1 = 0;
+        for (int i = 0; i < arr1.size() - 1; i++) {
+            sa1 = sa1 + (double) arr1.get(i);
+        }
+
+        double resultSA1 = sa1 / arr1.size();
+        resultSA1 = BigDecimal.valueOf(resultSA1).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        double dus1 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            dus1 += Math.pow(((double) arr1.get(i) - resultSA1), 2) / ((arr1.size() - 1));
+        }
+        dus1 = BigDecimal.valueOf(dus1).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+
+        //2:
+        double sa2 = 0;
+        for (int i = 0; i < arr2.size() - 1; i++) {
+            sa2 = sa2 + (double) arr2.get(i);
+        }
+
+        double resultSA2 = sa2 / arr2.size();
+        resultSA2 = BigDecimal.valueOf(resultSA2).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        double dus2 = 0;
+        for (int i = 0; i < arr2.size(); i++) {
+            dus2 += Math.pow(((double) arr2.get(i) - resultSA2), 2) / ((arr2.size() - 1));
+        }
+        dus2 = BigDecimal.valueOf(dus2).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+
+        double f = 0;
+        if (dus1 < dus2) {
+            f = dus2 / dus1;
+        } else {
+            f = dus1 / dus2;
+        }
+        f = BigDecimal.valueOf(f).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
+        return f;
+    }
+
+    static double tTestForDepends(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+        ArrayList<Double> newList = new ArrayList();
+        for (int i = 0; i < arr1.size(); i++) {
+            newList.add(arr1.get(i) - arr2.get(i));
+        }
+        double k = 0;
+        for (int i = 0; i < newList.size(); i++) {
+            k += newList.get(i);
+        }
+        double z = k / newList.size();
+
+        double temp = 0;
+        for (int i = 0; i < newList.size(); i++) {
+            temp += Math.pow((newList.get(i) - z), 2);
+        }
+        double S2 = temp / (newList.size() - 1);
+        double t = z * Math.sqrt(newList.size()) / Math.sqrt(S2);
+        return BigDecimal.valueOf(Math.abs(t)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+    }
+
+    static double tTestForIndependence(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+        //1:
+        double sa1 = 0;
+        for (int i = 0; i < arr1.size() - 1; i++) {
+            sa1 = sa1 + (double) arr1.get(i);
+        }
+
+        double resultSA1 = sa1 / arr1.size();
+        resultSA1 = BigDecimal.valueOf(resultSA1).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        double dus1 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            dus1 += Math.pow((arr1.get(i) - resultSA1), 2) / ((arr1.size() - 1));
+        }
+        dus1 = BigDecimal.valueOf(dus1).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+
+        //2:
+        double sa2 = 0;
+        for (int i = 0; i < arr2.size() - 1; i++) {
+            sa2 = sa2 + arr2.get(i);
+        }
+
+        double resultSA2 = sa2 / arr2.size();
+        resultSA2 = BigDecimal.valueOf(resultSA2).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        double dus2 = 0;
+        for (int i = 0; i < arr2.size(); i++) {
+            dus2 += Math.pow(((double) arr2.get(i) - resultSA2), 2) / ((arr2.size() - 1));
+        }
+        dus2 = BigDecimal.valueOf(dus2).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        double z = resultSA1 - resultSA2;
+        double Sz = (dus1 / arr1.size()) + (dus2 / arr2.size());
+        double t = z / Sz;
+        return BigDecimal.valueOf(Math.abs(t)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
     }
 }

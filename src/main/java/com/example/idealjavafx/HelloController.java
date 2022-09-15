@@ -57,6 +57,20 @@ public class HelloController {
     private AreaChart areaChartEmpiritionFunction;
     @FXML
     private TableView tableView;
+    @FXML
+    private CheckBox depend;
+    @FXML
+    private CheckBox independ;
+    @FXML
+    private CheckBox checkBox1;
+    @FXML
+    private CheckBox checkBox2;
+    @FXML
+    private CheckBox checkBox3;
+    @FXML
+    private CheckBox checkBox4;
+    @FXML
+    private CheckBox checkBox5;
 
     @FXML
     protected void test() {
@@ -412,7 +426,30 @@ public class HelloController {
 
         tableView.setItems(data);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tableView.getColumns().addAll(columnCharacteristic, columnINF,columnForValue,columnSUP,columnForAverage);
+        tableView.getColumns().addAll(columnCharacteristic, columnINF, columnForValue, columnSUP, columnForAverage);
+    }
+
+    @FXML
+    protected void kriteriiOdnoridnosti(ActionEvent event) {
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        if (listOfCheckBox.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            List arr1 = (List) listOfCheckBox.get(0);
+            List arr2 = (List) listOfCheckBox.get(1);
+            if (arr1.isEmpty() || arr2.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
+            }else {
+                if(depend.isSelected()){
+
+                }else if(independ.isSelected()){
+
+                }else{
+                    JOptionPane.showMessageDialog(null, "Оберіть залежна чи незалежна вибірка", "Warn", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+
     }
 
     //Про програму:
@@ -422,7 +459,7 @@ public class HelloController {
         JOptionPane.showMessageDialog(null, message, "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    //змінити
+    //файл
     @FXML
     protected void changeMenuNumber1(ActionEvent event) {
         arrayList.clear();
@@ -430,7 +467,7 @@ public class HelloController {
             arrayList.add(arrayListNumber1.get(i));
         }
         if (!arrayList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №1", "About", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №1. Розмір файлу:" + arrayListNumber1.size(), "About", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
@@ -443,7 +480,7 @@ public class HelloController {
             arrayList.add(arrayListNumber2.get(i));
         }
         if (!arrayList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №2", "About", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №2. Розмір файлу:" + arrayListNumber2.size(), "About", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
@@ -456,7 +493,7 @@ public class HelloController {
             arrayList.add(arrayListNumber3.get(i));
         }
         if (!arrayList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №3", "About", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №3.Розмір файлу:" + arrayListNumber3.size(), "About", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
@@ -469,7 +506,7 @@ public class HelloController {
             arrayList.add(arrayListNumber4.get(i));
         }
         if (!arrayList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №4", "About", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №4.Розмір файлу:" + arrayListNumber4.size(), "About", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
@@ -482,7 +519,7 @@ public class HelloController {
             arrayList.add(arrayListNumber5.get(i));
         }
         if (!arrayList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №5", "About", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №5.Розмір файлу:" + arrayListNumber5.size(), "About", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }

@@ -4,7 +4,7 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -41,6 +41,7 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#showVarRowList" text="Варіаційний ряд" />
                   <MenuItem mnemonicParsing="false" onAction="#shownMainCharacteristic" text="Основні характеристики" />
+                  <MenuItem mnemonicParsing="false" onAction="#kriteriiOdnoridnosti" text="Критерії однорідності" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Звичайні графіки">
@@ -75,7 +76,7 @@
         <items>
           <AnchorPane fx:id="welcomeText" minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="733.0" style="-fx-background-color: #fafafafa;">
                <children>
-                  <SplitPane dividerPositions="0.5849335302806499" layoutX="218.0" layoutY="-43.0" prefHeight="164.0" prefWidth="733.0" AnchorPane.bottomAnchor="-29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.4856361149110807" layoutX="218.0" layoutY="-43.0" prefHeight="164.0" prefWidth="733.0" AnchorPane.bottomAnchor="-29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="425.0">
                            <children>
@@ -85,7 +86,13 @@
                               <Label fx:id="label" layoutX="7.0" layoutY="12.0" text="Класи:" />
                               <Label fx:id="label1" layoutX="7.0" layoutY="42.0" text="Квантиль:" />
                               <Label fx:id="label2" layoutX="6.0" layoutY="76.0" text="Альфа:" />
-                              <Button layoutX="228.0" layoutY="17.0" mnemonicParsing="false" onAction="#test" text="Test" />
+                              <CheckBox fx:id="depend" layoutX="140.0" layoutY="12.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="88.0" text="Залежні" />
+                              <CheckBox fx:id="independ" layoutX="140.0" layoutY="42.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="88.0" text="Незалежні" />
+                              <CheckBox fx:id="checkBox1" layoutX="3.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="1" />
+                              <CheckBox fx:id="checkBox2" layoutX="39.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="2" />
+                              <CheckBox fx:id="checkBox3" layoutX="76.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="3" />
+                              <CheckBox fx:id="checkBox4" layoutX="107.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="27.0" text="4" />
+                              <CheckBox fx:id="checkBox5" layoutX="140.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="5" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">
