@@ -12,6 +12,11 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class Helper {
+    //f const:
+    static double fFrom200To500 = 1;// DATA FROM TABLE 4;
+    //t const:
+    static double t1= 1.96;// DATA FROM TABLE 2;
+
     public static Map<Double, Integer> returnMap(ArrayList arrayList) {
         ArrayList arrayList1 = new ArrayList();
         for (int i = 0; i < arrayList.size(); i++) {
@@ -574,7 +579,7 @@ public class Helper {
         }
     }
 
-    static double fTest(ArrayList arr1, ArrayList arr2) {
+    static double fTest(List arr1, List arr2) {
         //1:
         double sa1 = 0;
         for (int i = 0; i < arr1.size() - 1; i++) {
@@ -613,7 +618,47 @@ public class Helper {
         return f;
     }
 
-    static double tTestForDepends(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+    static String returnFtestMessage(List arr1, List arr2){
+        double f = fTest(arr1, arr2);
+        //f-test:
+        String message = "Результати проведення F-тесту для перевірки збігу дисперсій:\n";
+        if (f <= fFrom200To500) {
+            message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n "
+                    + f + "<=" + fFrom200To500;
+        } else {
+            message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n "
+                    + f + ">" + fFrom200To500;
+        }
+        return message;
+    }
+
+    static String returnTtestForDepends(List arr1,List arr2){
+        String message ="\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
+            double t = tTestForDepends(arr1,arr2);
+            if(t>t1){
+                message+="Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n"+
+                        t+">"+t1;
+            }else {
+                message+="Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n"+
+                        t+"<="+t1;
+            }
+            return message;
+    }
+
+    static String returnTtestForInDepends(List arr1,List arr2){
+        double t = Helper.tTestForIndependence(arr1,arr2);
+        String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";;
+        if(t>t1){
+            message+="Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n"+
+                    t+">"+t1;
+        }else {
+            message+="Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n"+
+                    t+"<="+t1;
+        }
+        return message;
+    }
+
+    static double tTestForDepends(List<Double> arr1, List<Double> arr2) {
         ArrayList<Double> newList = new ArrayList();
         for (int i = 0; i < arr1.size(); i++) {
             newList.add(arr1.get(i) - arr2.get(i));
@@ -633,7 +678,7 @@ public class Helper {
         return BigDecimal.valueOf(Math.abs(t)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
     }
 
-    static double tTestForIndependence(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+    static double tTestForIndependence(List<Double> arr1, List<Double> arr2) {
         //1:
         double sa1 = 0;
         for (int i = 0; i < arr1.size() - 1; i++) {

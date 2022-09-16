@@ -439,12 +439,19 @@ public class HelloController {
             List arr2 = (List) listOfCheckBox.get(1);
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
-            }else {
-                if(depend.isSelected()){
-
-                }else if(independ.isSelected()){
-
-                }else{
+            } else {
+                String message = Helper.returnFtestMessage(arr1, arr2);
+                if (depend.isSelected()) {
+                    if (arr1.size() != arr2.size()) {
+                        JOptionPane.showMessageDialog(null, "Помилка! Різні розміри файлів", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        message += Helper.returnTtestForDepends(arr1, arr2);
+                        JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else if (independ.isSelected()) {
+                    message += Helper.returnTtestForInDepends(arr1, arr2);
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                } else {
                     JOptionPane.showMessageDialog(null, "Оберіть залежна чи незалежна вибірка", "Warn", JOptionPane.WARNING_MESSAGE);
                 }
             }
