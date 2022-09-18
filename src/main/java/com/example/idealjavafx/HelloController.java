@@ -330,32 +330,10 @@ public class HelloController {
             arr1.add(arrayList.get(i));
         }
         int size = arr1.size();
-        final ObservableList<VariationRowForData> data = FXCollections.observableArrayList(
-                new VariationRowForData((double) arr1.get(0), (double) hashMap.get(arr1.get(0))),
-                new VariationRowForData((double) arr1.get(1), (double) hashMap.get(arr1.get(1))),
-                new VariationRowForData((double) arr1.get(2), (double) hashMap.get(arr1.get(2))),
-                new VariationRowForData((double) arr1.get(3), (double) hashMap.get(arr1.get(3))),
-                new VariationRowForData((double) arr1.get(4), (double) hashMap.get(arr1.get(4))),
-                new VariationRowForData((double) arr1.get(5), (double) hashMap.get(arr1.get(5))),
-                new VariationRowForData((double) arr1.get(6), (double) hashMap.get(arr1.get(6))),
-                new VariationRowForData((double) arr1.get(7), (double) hashMap.get(arr1.get(7))),
-                new VariationRowForData((double) arr1.get(8), (double) hashMap.get(arr1.get(8))),
-                new VariationRowForData((double) arr1.get(9), (double) hashMap.get(arr1.get(9))),
-                new VariationRowForData((double) arr1.get(10), (double) hashMap.get(arr1.get(10))),
-                new VariationRowForData((double) arr1.get(11), (double) hashMap.get(arr1.get(11))),
-                new VariationRowForData((double) arr1.get(12), (double) hashMap.get(arr1.get(12))),
-                new VariationRowForData((double) arr1.get(13), (double) hashMap.get(arr1.get(13))),
-                new VariationRowForData((double) arr1.get(14), (double) hashMap.get(arr1.get(14))),
-                new VariationRowForData((double) arr1.get(15), (double) hashMap.get(arr1.get(15))),
-                new VariationRowForData((double) arr1.get(16), (double) hashMap.get(arr1.get(16))),
-                new VariationRowForData((double) arr1.get(17), (double) hashMap.get(arr1.get(17))),
-                new VariationRowForData((double) arr1.get(18), (double) hashMap.get(arr1.get(18))),
-                new VariationRowForData((double) arr1.get(19), (double) hashMap.get(arr1.get(19))),
-                new VariationRowForData((double) arr1.get(20), (double) hashMap.get(arr1.get(20))),
-                new VariationRowForData((double) arr1.get(size - 2), (double) hashMap.get(arr1.get(size - 2)))
-
-
-        );
+        final ObservableList<VariationRowForData> data = FXCollections.observableArrayList();
+        for (int i = 0; i < arr1.size(); i++) {
+            data.add(new VariationRowForData((double) arr1.get(i), (double) hashMap.get(arr1.get(i))));
+        }
         //Creating columns
         TableColumn columnForNumber = new TableColumn("Число");
         columnForNumber.setCellValueFactory(new PropertyValueFactory<>("number"));
