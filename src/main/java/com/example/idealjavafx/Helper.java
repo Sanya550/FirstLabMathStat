@@ -15,7 +15,7 @@ public class Helper {
     //f const:
     static double fFrom200To500 = 1;// DATA FROM TABLE 4;
     //t const:
-    static double t1= 1.96;// DATA FROM TABLE 2;
+    static double t1 = 1.96;// DATA FROM TABLE 2;
 
     public static Map<Double, Integer> returnMap(ArrayList arrayList) {
         ArrayList arrayList1 = new ArrayList();
@@ -618,7 +618,7 @@ public class Helper {
         return f;
     }
 
-    static String returnFtestMessage(List arr1, List arr2){
+    static String returnFtestMessage(List arr1, List arr2) {
         double f = fTest(arr1, arr2);
         //f-test:
         String message = "Результати проведення F-тесту для перевірки збігу дисперсій:\n";
@@ -632,28 +632,29 @@ public class Helper {
         return message;
     }
 
-    static String returnTtestForDepends(List arr1,List arr2){
-        String message ="\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
-            double t = tTestForDepends(arr1,arr2);
-            if(t>t1){
-                message+="Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n"+
-                        t+">"+t1;
-            }else {
-                message+="Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n"+
-                        t+"<="+t1;
-            }
-            return message;
+    static String returnTtestForDepends(List arr1, List arr2) {
+        String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
+        double t = tTestForDepends(arr1, arr2);
+        if (t > t1) {
+            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n" +
+                    t + ">" + t1;
+        } else {
+            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n" +
+                    t + "<=" + t1;
+        }
+        return message;
     }
 
-    static String returnTtestForInDepends(List arr1,List arr2){
-        double t = Helper.tTestForIndependence(arr1,arr2);
-        String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";;
-        if(t>t1){
-            message+="Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n"+
-                    t+">"+t1;
-        }else {
-            message+="Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n"+
-                    t+"<="+t1;
+    static String returnTtestForInDepends(List arr1, List arr2) {
+        double t = Helper.tTestForIndependence(arr1, arr2);
+        String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
+        ;
+        if (t > t1) {
+            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n" +
+                    t + ">" + t1;
+        } else {
+            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n" +
+                    t + "<=" + t1;
         }
         return message;
     }
@@ -710,5 +711,46 @@ public class Helper {
         double Sz = (dus1 / arr1.size()) + (dus2 / arr2.size());
         double t = z / Sz;
         return BigDecimal.valueOf(Math.abs(t)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+    }
+
+    //need update this method if value repeats!!!!
+    static ArrayList<ArrayList> rangRow(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+        ArrayList<Double> listX = new ArrayList();
+        ArrayList<Double> listY = new ArrayList();
+        ArrayList<Double> generalList = new ArrayList();
+        ArrayList<String> resultXorY = new ArrayList<>();
+        ArrayList<Double> resultValue = new ArrayList<>();
+        ArrayList<Double> resultRang = new ArrayList<>();
+        ArrayList<ArrayList> resultList = new ArrayList<>();
+        int countOfRepeat = 0;
+        for (double el : arr1) {
+            listX.add(el);
+            generalList.add(el);
+        }
+        for (double el : arr2) {
+            listY.add(el);
+            generalList.add(el);
+        }
+        listX.sort(Comparator.naturalOrder());
+        listY.sort(Comparator.naturalOrder());
+        generalList.sort(Comparator.naturalOrder());
+        int size = generalList.size();
+        double element;
+        for (int i = 0; i < generalList.size(); i++) {
+            element = generalList.get(i);
+            if (listX.contains(element)) {
+                resultXorY.add("x" + i);
+                resultValue.add(element);
+                resultRang.add((double) (i + 1));
+            } else {
+                resultXorY.add("y" + i);
+                resultValue.add(element);
+                resultRang.add((double) (i + 1));
+            }
+        }
+        resultList.add(resultXorY);
+        resultList.add(resultValue);
+        resultList.add(resultRang);
+        return resultList;
     }
 }
