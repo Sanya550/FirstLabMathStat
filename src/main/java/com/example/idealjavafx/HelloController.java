@@ -415,11 +415,15 @@ public class HelloController {
         } else {
             List arr1 = (List) listOfCheckBox.get(0);
             List arr2 = (List) listOfCheckBox.get(1);
+            String message = "";
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
+                //vilksona:
+                ArrayList<Double> vilksonArray = Helper.vilksona(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
+                message += "Критерій суми рангів Вілкоксона вибірки 1 = "+vilksonArray.get(0)+"; 2 = "+vilksonArray.get(1) +"\n";
                 //f-test:
-                String message = Helper.returnFtestMessage(arr1, arr2);
+                message += Helper.returnFtestMessage(arr1, arr2);
                 //t-test:
                 if (depend.isSelected()) {
                     if (arr1.size() != arr2.size()) {
@@ -452,80 +456,81 @@ public class HelloController {
             } else {
                 Helper.showRangRowList(tableView, (ArrayList) arr1, (ArrayList) arr2);
             }
-        }}
-
-        //Про програму:
-        @FXML
-        protected void aboutMenu (ActionEvent event){
-            String message = "Program created by Oleksandr Pyvovar";
-            JOptionPane.showMessageDialog(null, message, "About", JOptionPane.INFORMATION_MESSAGE);
         }
-
-        //файл
-        @FXML
-        protected void changeMenuNumber1 (ActionEvent event){
-            arrayList.clear();
-            for (int i = 0; i < arrayListNumber1.size(); i++) {
-                arrayList.add(arrayListNumber1.get(i));
-            }
-            if (!arrayList.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №1. Розмір файлу:" + arrayListNumber1.size(), "About", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        @FXML
-        protected void changeMenuNumber2 (ActionEvent event){
-            arrayList.clear();
-            for (int i = 0; i < arrayListNumber2.size(); i++) {
-                arrayList.add(arrayListNumber2.get(i));
-            }
-            if (!arrayList.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №2. Розмір файлу:" + arrayListNumber2.size(), "About", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        @FXML
-        protected void changeMenuNumber3 (ActionEvent event){
-            arrayList.clear();
-            for (int i = 0; i < arrayListNumber3.size(); i++) {
-                arrayList.add(arrayListNumber3.get(i));
-            }
-            if (!arrayList.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №3.Розмір файлу:" + arrayListNumber3.size(), "About", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        @FXML
-        protected void changeMenuNumber4 (ActionEvent event){
-            arrayList.clear();
-            for (int i = 0; i < arrayListNumber4.size(); i++) {
-                arrayList.add(arrayListNumber4.get(i));
-            }
-            if (!arrayList.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №4.Розмір файлу:" + arrayListNumber4.size(), "About", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        @FXML
-        protected void changeMenuNumber5 (ActionEvent event){
-            arrayList.clear();
-            for (int i = 0; i < arrayListNumber5.size(); i++) {
-                arrayList.add(arrayListNumber5.get(i));
-            }
-            if (!arrayList.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №5.Розмір файлу:" + arrayListNumber5.size(), "About", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-
     }
+
+    //Про програму:
+    @FXML
+    protected void aboutMenu(ActionEvent event) {
+        String message = "Program created by Oleksandr Pyvovar";
+        JOptionPane.showMessageDialog(null, message, "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    //файл
+    @FXML
+    protected void changeMenuNumber1(ActionEvent event) {
+        arrayList.clear();
+        for (int i = 0; i < arrayListNumber1.size(); i++) {
+            arrayList.add(arrayListNumber1.get(i));
+        }
+        if (!arrayList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №1. Розмір файлу:" + arrayListNumber1.size(), "About", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    protected void changeMenuNumber2(ActionEvent event) {
+        arrayList.clear();
+        for (int i = 0; i < arrayListNumber2.size(); i++) {
+            arrayList.add(arrayListNumber2.get(i));
+        }
+        if (!arrayList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №2. Розмір файлу:" + arrayListNumber2.size(), "About", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    protected void changeMenuNumber3(ActionEvent event) {
+        arrayList.clear();
+        for (int i = 0; i < arrayListNumber3.size(); i++) {
+            arrayList.add(arrayListNumber3.get(i));
+        }
+        if (!arrayList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №3.Розмір файлу:" + arrayListNumber3.size(), "About", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    protected void changeMenuNumber4(ActionEvent event) {
+        arrayList.clear();
+        for (int i = 0; i < arrayListNumber4.size(); i++) {
+            arrayList.add(arrayListNumber4.get(i));
+        }
+        if (!arrayList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №4.Розмір файлу:" + arrayListNumber4.size(), "About", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    protected void changeMenuNumber5(ActionEvent event) {
+        arrayList.clear();
+        for (int i = 0; i < arrayListNumber5.size(); i++) {
+            arrayList.add(arrayListNumber5.get(i));
+        }
+        if (!arrayList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №5.Розмір файлу:" + arrayListNumber5.size(), "About", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+}

@@ -2,10 +2,8 @@ package com.example.idealjavafx;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.SelectionMode;
@@ -13,8 +11,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import javax.swing.*;
-import java.awt.geom.Area;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -789,5 +785,23 @@ public class Helper {
         tableView.setItems(data);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableView.getColumns().addAll(columnForXOrY, columnForValue, columnForRang);
+    }
+
+    static ArrayList<Double> vilksona(ArrayList<ArrayList> resList){
+        double vilksonX = 0;
+        double vilksonY = 0;
+        ArrayList<String> resultXorY = (ArrayList<String>) resList.get(0);
+        ArrayList<Double> resultRang = (ArrayList<Double>) resList.get(2);
+        for (int i = 0; i < resultXorY.size(); i++) {
+            if(resultXorY.get(i).contains("x")){
+                vilksonX += resultRang.get(i);
+            }else if(resultXorY.get(i).contains("y")){
+                vilksonY += resultRang.get(i);
+            }
+        }
+        ArrayList<Double> vilksonResult = new ArrayList();
+        vilksonResult.add(vilksonX);
+        vilksonResult.add(vilksonY);
+        return vilksonResult;
     }
 }

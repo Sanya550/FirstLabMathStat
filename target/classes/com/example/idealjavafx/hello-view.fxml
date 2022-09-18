@@ -42,6 +42,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#showVarRowList" text="Варіаційний ряд" />
                   <MenuItem mnemonicParsing="false" onAction="#shownMainCharacteristic" text="Основні характеристики" />
                   <MenuItem mnemonicParsing="false" onAction="#kriteriiOdnoridnosti" text="Критерії однорідності" />
+                  <MenuItem mnemonicParsing="false" onAction="#rangTable" text="Ранги" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Звичайні графіки">
