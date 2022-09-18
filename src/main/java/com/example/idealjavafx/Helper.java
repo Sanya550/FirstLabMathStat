@@ -1,10 +1,17 @@
 package com.example.idealjavafx;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.swing.*;
 import java.awt.geom.Area;
@@ -735,22 +742,52 @@ public class Helper {
         listY.sort(Comparator.naturalOrder());
         generalList.sort(Comparator.naturalOrder());
         int size = generalList.size();
+        int countForX = 1;
+        int countForY = 1;
         double element;
         for (int i = 0; i < generalList.size(); i++) {
             element = generalList.get(i);
             if (listX.contains(element)) {
-                resultXorY.add("x" + i);
+                resultXorY.add("x" + countForX);
                 resultValue.add(element);
                 resultRang.add((double) (i + 1));
+                countForX++;
             } else {
-                resultXorY.add("y" + i);
+                resultXorY.add("y" + countForY);
                 resultValue.add(element);
                 resultRang.add((double) (i + 1));
+                countForY++;
             }
         }
         resultList.add(resultXorY);
         resultList.add(resultValue);
         resultList.add(resultRang);
         return resultList;
+    }
+
+    static void showRangRowList(TableView tableView, ArrayList arr1, ArrayList arr2) {
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+        ArrayList generalList = rangRow(arr1, arr2);
+        ArrayList<String> resultXorY = (ArrayList<String>) generalList.get(0);
+        ArrayList<Double> resultValue = (ArrayList<Double>) generalList.get(1);
+        ArrayList<Double> resultRang = (ArrayList<Double>) generalList.get(2);
+
+        final ObservableList<RangRowForData> data = FXCollections.observableArrayList();
+        for (int i = 0; i < resultXorY.size(); i++) {
+            data.add(new RangRowForData(resultXorY.get(i), resultValue.get(i), resultRang.get(i)));
+        }
+        //Creating columns
+        TableColumn columnForXOrY = new TableColumn("Загальний варіаційний ряд");
+        columnForXOrY.setCellValueFactory(new PropertyValueFactory<>("gerenalVarRow"));
+        TableColumn columnForValue = new TableColumn("Значення");
+        columnForValue.setCellValueFactory(new PropertyValueFactory("value"));
+        TableColumn columnForRang = new TableColumn("Ранг");
+        columnForRang.setCellValueFactory(new PropertyValueFactory("rang"));
+
+        //Adding data to the table
+        tableView.setItems(data);
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableView.getColumns().addAll(columnForXOrY, columnForValue, columnForRang);
     }
 }

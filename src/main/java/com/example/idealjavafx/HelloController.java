@@ -418,7 +418,11 @@ public class HelloController {
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
+                //f-test:
                 String message = Helper.returnFtestMessage(arr1, arr2);
+                //rang row:
+                Helper.showRangRowList(tableView, (ArrayList) arr1, (ArrayList) arr2);
+                //t-test:
                 if (depend.isSelected()) {
                     if (arr1.size() != arr2.size()) {
                         JOptionPane.showMessageDialog(null, "Помилка! Різні розміри файлів", "Error", JOptionPane.ERROR_MESSAGE);
