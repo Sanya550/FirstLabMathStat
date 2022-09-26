@@ -16,10 +16,33 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class Helper {
-    //u:
-    static double u = 0;
     //t const:
     static double t1 = 1.96;//DATA FROM TABLE 2;
+
+    static double koefForSmirnovKolmogorov(ArrayList arr1) {
+        if (arr1.size() >= 500) {
+            return 0.05;
+        } else if ((arr1.size() < 500) && (arr1.size() >= 200)) {
+            return 0.15;
+        } else {
+            return 0.8;
+        }
+    }
+
+    static double koefForVilksonaAndRiznSerednihRangiv(ArrayList<ArrayList> resList) {
+        int a = resList.get(0).size();
+        double kva = 0;
+        if (a >= 500) {
+            kva = 1.64;
+        } else if ((a < 500) && (a >= 200)) {
+            kva = 1.28;
+        } else if ((a < 200) && (a >= 100)) {
+            kva = 2.05;
+        } else {
+            kva = 0.22;
+        }
+        return kva;
+    }
 
     //f const:
     static double koefForFisher(List arr1, List arr2) {
@@ -34,7 +57,6 @@ public class Helper {
         return kva;
     }
 
-    //const:
     //DATA FROM TABLE 3;
     static double koefForBartlet(List<ArrayList> list) {
         double kva = 0;
@@ -997,7 +1019,7 @@ public class Helper {
         }
         double n = n1 + n2;
         double v = (sumX / n1) - (sumY / n2) / (n * Math.sqrt((n + 1) / (12 * n1 * n2)));
-        return v;
+        return Math.abs(v);
     }
 
     static double kolmogorovaSmirnova(ArrayList arr1, ArrayList arr2) {
@@ -1019,7 +1041,6 @@ public class Helper {
     static void abbe() {
         //2.10
     }
-
 
     //5:
     static double bartleta(List<ArrayList> list) {
@@ -1343,6 +1364,7 @@ public class Helper {
     }
 
     //message:
+    //4.1:
     static String messageFtestMessage(List arr1, List arr2) {
         double f = fTest(arr1, arr2);
         double kva = koefForFisher(arr1, arr2);
@@ -1350,10 +1372,10 @@ public class Helper {
         String message = "Результати проведення F-тесту для перевірки збігу дисперсій:\n";
         if (f <= kva) {
             message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n ";
-                //    + f + "<=" + kva;
+            //    + f + "<=" + kva;
         } else {
             message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n ";
-               //     + f + ">" + kva;
+            //     + f + ">" + kva;
         }
         return message;
     }
@@ -1380,6 +1402,57 @@ public class Helper {
         } else {
             message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n";
             // + t + "<=" + t1;
+        }
+        return message;
+    }
+
+    //4.2:
+    static String messageForVilksona(ArrayList<ArrayList> resList) {
+        double kva = koefForVilksonaAndRiznSerednihRangiv(resList);
+        List<Double> list1 = vilksona(resList);
+        String message = "Критерій суми рангів Вілкоксона:\n";
+        if (list1.get(0) > kva) {
+            message += "Головну гіпотезу для 1 вибірки спростовано. ";
+            //    + list1.get(0) + ">"+kva;
+        } else {
+            message += "Головну гіпотезу для 1 вибірки підтверджено. ";
+            //    + list1.get(0) + "<="+kva;
+        }
+
+        if (list1.get(1) > kva) {
+            message += "Для 2 вибірки спростовано. ";
+            //    + list1.get(1) + ">"+kva;
+        } else {
+            message += "Для 2 вибірки підтверджено. ";
+            //    + list1.get(1) + "<="+kva;
+        }
+        return message;
+    }
+
+    static String messageForRiznSerednihRangiv(ArrayList<ArrayList> resList) {
+        double kva = koefForVilksonaAndRiznSerednihRangiv(resList);
+        double riz = riznSerednihRangiv(resList);
+        String message = "Критерій різниці середніх рангів вибірок:\n";
+        if (riz > kva) {
+            message += "Головну гіпотезу спростовано ";
+            //    + riz + ">"+kva;
+        } else {
+            message += "Головну гіпотезу підтверджено ";
+            //    + riz + "<="+kva;
+        }
+        return message;
+    }
+
+    static String messageForKolmogorovaSmirnova(ArrayList arr1, ArrayList arr2) {
+        double kolAndSm = kolmogorovaSmirnova(arr1, arr2);
+        double kva = koefForSmirnovKolmogorov(arr1);
+        String message = "Критерій однорідності Смирнова-Колмогорова: \n";
+        if (kolAndSm > kva) {
+            message += "Вибірки однорідні ";
+//                    + kolAndSm +">"+kva;
+        } else {
+            message += "Вибірки неоднорідні ";
+//                    + kolAndSm +"<="+kva;
         }
         return message;
     }
