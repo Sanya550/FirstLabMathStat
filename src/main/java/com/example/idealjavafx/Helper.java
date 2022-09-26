@@ -11,14 +11,61 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.*;
 
 public class Helper {
+    //u:
+    static double u = 0;
     //f const:
-    static double fFrom200To500 = 1;// DATA FROM TABLE 4;
+    static double fFrom200To500 = 1;//DATA FROM TABLE 4;
     //t const:
-    static double t1 = 1.96;// DATA FROM TABLE 2;
+    static double t1 = 1.96;//DATA FROM TABLE 2;
+
+    //const:
+    static double koefForBartlet(List<ArrayList> list) {
+        double kva = 0;
+        int count = 0;
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).size(); j++) {
+                count++;
+            }
+        }
+        double temp = count / list.size();
+        if (temp >= 500) {
+            if (list.size() == 5) {
+                kva = 9.49;
+            } else if (list.size() == 4) {
+                kva = 7.81;
+            } else if (list.size() == 3) {
+                kva = 5.99;
+            } else if (list.size() == 2) {
+                kva = 3.84;
+            }
+        } else if ((temp < 500) && (temp >= 200)) {
+            if (list.size() == 5) {
+                kva = 7.78;
+            } else if (list.size() == 4) {
+                kva = 6.25;
+            } else if (list.size() == 3) {
+                kva = 4.61;
+            } else if (list.size() == 2) {
+                kva = 2.71;
+            }
+        } else if (temp < 200) {
+            if (list.size() == 5) {
+                kva = 3.36;
+            } else if (list.size() == 4) {
+                kva = 2.37;
+            } else if (list.size() == 3) {
+                kva = 1.39;
+            } else if (list.size() == 2) {
+                kva = 0.455;
+            }
+        }
+        return kva;
+    }
 
     public static Map<Double, Integer> returnMap(ArrayList arrayList) {
         ArrayList arrayList1 = new ArrayList();
@@ -582,6 +629,149 @@ public class Helper {
         }
     }
 
+    static List<ArrayList> returnSeveralCheckBox(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
+        List<ArrayList> resultList = new ArrayList();
+        //5:
+        if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        }
+        //4:
+        else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch4.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch1.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch2.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        }
+        //3:
+        else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr3);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch4.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch1.isSelected() && ch3.isSelected() && ch4.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch1.isSelected() && ch3.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr3);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch1.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch2.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch2.isSelected() && ch3.isSelected() && ch5.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch2.isSelected() && ch3.isSelected() && ch4.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch3.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        }
+        //2:
+        else if (ch1.isSelected() && ch2.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            return resultList;
+        } else if (ch1.isSelected() && ch3.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr3);
+            return resultList;
+        } else if (ch1.isSelected() && ch4.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch1.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch2.isSelected() && ch3.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr3);
+            return resultList;
+        } else if (ch2.isSelected() && ch4.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch2.isSelected() && ch5.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch3.isSelected() && ch4.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr4);
+            return resultList;
+        } else if (ch3.isSelected() && ch5.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        } else {
+            JOptionPane.showMessageDialog(null, "Виберіть декілька чекбоксів", "Error", JOptionPane.ERROR_MESSAGE);
+            return resultList;
+        }
+    }
+
+    //3:
     static double fTest(List arr1, List arr2) {
         //1:
         double sa1 = 0;
@@ -619,47 +809,6 @@ public class Helper {
         }
         f = BigDecimal.valueOf(f).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         return f;
-    }
-
-    static String returnFtestMessage(List arr1, List arr2) {
-        double f = fTest(arr1, arr2);
-        //f-test:
-        String message = "Результати проведення F-тесту для перевірки збігу дисперсій:\n";
-        if (f <= fFrom200To500) {
-            message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n "
-                    + f + "<=" + fFrom200To500;
-        } else {
-            message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n "
-                    + f + ">" + fFrom200To500;
-        }
-        return message;
-    }
-
-    static String returnTtestForDepends(List arr1, List arr2) {
-        String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
-        double t = tTestForDepends(arr1, arr2);
-        if (t > t1) {
-            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n" +
-                    t + ">" + t1;
-        } else {
-            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n" +
-                    t + "<=" + t1;
-        }
-        return message;
-    }
-
-    static String returnTtestForInDepends(List arr1, List arr2) {
-        double t = Helper.tTestForIndependence(arr1, arr2);
-        String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
-        ;
-        if (t > t1) {
-            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n" +
-                    t + ">" + t1;
-        } else {
-            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n" +
-                    t + "<=" + t1;
-        }
-        return message;
     }
 
     static double tTestForDepends(List<Double> arr1, List<Double> arr2) {
@@ -716,6 +865,7 @@ public class Helper {
         return BigDecimal.valueOf(Math.abs(t)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
     }
 
+    //4:
     //need update this method if value repeats!!!!
     static ArrayList<ArrayList> rangRow(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         ArrayList<Double> listX = new ArrayList();
@@ -787,21 +937,402 @@ public class Helper {
         tableView.getColumns().addAll(columnForXOrY, columnForValue, columnForRang);
     }
 
-    static ArrayList<Double> vilksona(ArrayList<ArrayList> resList){
+    static ArrayList<Double> vilksona(ArrayList<ArrayList> resList) {
         double vilksonX = 0;
         double vilksonY = 0;
         ArrayList<String> resultXorY = (ArrayList<String>) resList.get(0);
         ArrayList<Double> resultRang = (ArrayList<Double>) resList.get(2);
+        double n1 = 0;
+        double n2 = 0;
         for (int i = 0; i < resultXorY.size(); i++) {
-            if(resultXorY.get(i).contains("x")){
+            if (resultXorY.get(i).contains("x")) {
                 vilksonX += resultRang.get(i);
-            }else if(resultXorY.get(i).contains("y")){
+                n1++;
+            } else if (resultXorY.get(i).contains("y")) {
                 vilksonY += resultRang.get(i);
+                n2++;
             }
         }
+
+        double n = n1 + n2;//????
+        double EVilk1 = n1 * (n + 1) / 2;
+        double EVilk2 = n2 * (n + 1) / 2;
+        double DW = (n1 * n2) * (n + 1) / 12;
+        double w1 = (vilksonX - EVilk1) / Math.sqrt(DW);
+        double w2 = (vilksonY - EVilk2) / Math.sqrt(DW);
         ArrayList<Double> vilksonResult = new ArrayList();
-        vilksonResult.add(vilksonX);
-        vilksonResult.add(vilksonY);
+        vilksonResult.add(w1);
+        vilksonResult.add(w2);
         return vilksonResult;
+        //2.8
     }
+
+    static double riznSerednihRangiv(ArrayList<ArrayList> resList) {
+        double sumX = 0;
+        double sumY = 0;
+        double n1 = 0;
+        double n2 = 0;
+        ArrayList<String> resultXorY = (ArrayList<String>) resList.get(0);
+        ArrayList<Double> resultRang = (ArrayList<Double>) resList.get(2);
+        for (int i = 0; i < resultXorY.size(); i++) {
+            if (resultXorY.get(i).contains("x")) {
+                sumX += resultRang.get(i);
+                n1++;
+            } else if (resultXorY.get(i).contains("y")) {
+                sumY += resultRang.get(i);
+                n2++;
+            }
+        }
+        double n = n1 + n2;
+        double v = (sumX / n1) - (sumY / n2) / (n * Math.sqrt((n + 1) / (12 * n1 * n2)));
+        return v;
+    }
+
+    static double kolmogorovaSmirnova(ArrayList arr1, ArrayList arr2) {
+        int size1 = arr1.size();
+        int size2 = arr2.size();
+        double z = Math.abs(size1 - size2);
+        int Nmin = 0;
+        if (size1 >= size2) {
+            Nmin = size2;
+        } else {
+            Nmin = size1;
+        }
+        double p = 1 - Math.pow(Math.E, -2 * Nmin * Nmin) * (1 - 2 * z / (3 * Math.sqrt(Nmin)) + (2 * Math.pow(z, 2) / (3 * Nmin)) * (1 - 2 * Math.pow(z, 2) / 3) +
+                4 * z / (9 * Math.sqrt(Math.pow(Nmin, 3))) * (0.2 - (19 * Math.pow(z, 2) / 15) + 2 * Math.pow(z, 4) / 3));
+        return (1 - z);
+        //2.7
+    }
+
+    static void abbe() {
+        //2.10
+    }
+
+
+    //5:
+    static double bartleta(List<ArrayList> list) {
+        double q = 0;
+        double b = 0;
+        double c = 0;
+        if (list.size() == 5) {
+            ArrayList<Double> l0 = list.get(0);
+            ArrayList<Double> l1 = list.get(1);
+            ArrayList<Double> l2 = list.get(2);
+            ArrayList<Double> l3 = list.get(3);
+            ArrayList<Double> l4 = list.get(4);
+
+            double temp0 = 0;
+            for (int i = 0; i < l0.size(); i++) {
+                temp0 += l0.get(i);
+            }
+            double x0 = temp0 / l0.size();
+
+            double temp1 = 0;
+            for (int i = 0; i < l1.size(); i++) {
+                temp1 += l1.get(i);
+            }
+            double x1 = temp1 / l1.size();
+
+            double temp2 = 0;
+            for (int i = 0; i < l2.size(); i++) {
+                temp2 += l2.get(i);
+            }
+            double x2 = temp2 / l2.size();
+
+            double temp3 = 0;
+            for (int i = 0; i < l3.size(); i++) {
+                temp3 += l3.get(i);
+            }
+            double x3 = temp3 / l3.size();
+
+            double temp4 = 0;
+            for (int i = 0; i < l4.size(); i++) {
+                temp4 += l4.get(i);
+            }
+            double x4 = temp4 / l4.size();
+
+            double tempS0 = 0;
+            for (int i = 0; i < l0.size(); i++) {
+                tempS0 += Math.pow(l0.get(i) - x0, 2);
+            }
+            double S2i0 = tempS0 / (l0.size() - 1);
+
+            double tempS1 = 0;
+            for (int i = 0; i < l1.size(); i++) {
+                tempS1 += Math.pow(l1.get(i) - x1, 2);
+            }
+            double S2i1 = tempS1 / (l1.size() - 1);
+
+            double tempS2 = 0;
+            for (int i = 0; i < l2.size(); i++) {
+                tempS2 += Math.pow(l2.get(i) - x2, 2);
+            }
+            double S2i2 = tempS2 / (l2.size() - 1);
+
+            double tempS3 = 0;
+            for (int i = 0; i < l3.size(); i++) {
+                tempS3 += Math.pow(l3.get(i) - x3, 2);
+            }
+            double S2i3 = tempS3 / (l3.size() - 1);
+
+            double tempS4 = 0;
+            for (int i = 0; i < l4.size(); i++) {
+                tempS4 += Math.pow(l4.get(i) - x4, 2);
+            }
+            double S2i4 = tempS4 / (l4.size() - 1);
+
+            double S2 = 0;
+            S2 += (l0.size() - 1) * S2i0 / (l0.size() - 1);
+            S2 += (l1.size() - 1) * S2i1 / (l1.size() - 1);
+            S2 += (l2.size() - 1) * S2i2 / (l2.size() - 1);
+            S2 += (l3.size() - 1) * S2i3 / (l3.size() - 1);
+            S2 += (l4.size() - 1) * S2i4 / (l4.size() - 1);
+
+            b = (l0.size() - 1) * Math.log(S2i0 / S2);
+            b += (l1.size() - 1) * Math.log(S2i1 / S2);
+            b += (l2.size() - 1) * Math.log(S2i2 / S2);
+            b += (l3.size() - 1) * Math.log(S2i3 / S2);
+            b += (l4.size() - 1) * Math.log(S2i4 / S2);
+            b *= -1;
+
+            double tempC = 0;
+            tempC += (1 / (l0.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size() + l4.size()));
+            tempC += (1 / (l1.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size() + l4.size()));
+            tempC += (1 / (l2.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size() + l4.size()));
+            tempC += (1 / (l3.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size() + l4.size()));
+            tempC += (1 / (l4.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size() + l4.size()));
+            c = 1 + (1 / (3 * (list.size() - 1))) * tempC;
+        } else if (list.size() == 4) {
+            ArrayList<Double> l0 = list.get(0);
+            ArrayList<Double> l1 = list.get(1);
+            ArrayList<Double> l2 = list.get(2);
+            ArrayList<Double> l3 = list.get(3);
+
+            double temp0 = 0;
+            for (int i = 0; i < l0.size(); i++) {
+                temp0 += l0.get(i);
+            }
+            double x0 = temp0 / l0.size();
+
+            double temp1 = 0;
+            for (int i = 0; i < l1.size(); i++) {
+                temp1 += l1.get(i);
+            }
+            double x1 = temp1 / l1.size();
+
+            double temp2 = 0;
+            for (int i = 0; i < l2.size(); i++) {
+                temp2 += l2.get(i);
+            }
+            double x2 = temp2 / l2.size();
+
+            double temp3 = 0;
+            for (int i = 0; i < l3.size(); i++) {
+                temp3 += l3.get(i);
+            }
+            double x3 = temp3 / l3.size();
+
+            double tempS0 = 0;
+            for (int i = 0; i < l0.size(); i++) {
+                tempS0 += Math.pow(l0.get(i) - x0, 2);
+            }
+            double S2i0 = tempS0 / (l0.size() - 1);
+
+            double tempS1 = 0;
+            for (int i = 0; i < l1.size(); i++) {
+                tempS1 += Math.pow(l1.get(i) - x1, 2);
+            }
+            double S2i1 = tempS1 / (l1.size() - 1);
+
+            double tempS2 = 0;
+            for (int i = 0; i < l2.size(); i++) {
+                tempS2 += Math.pow(l2.get(i) - x2, 2);
+            }
+            double S2i2 = tempS2 / (l2.size() - 1);
+
+            double tempS3 = 0;
+            for (int i = 0; i < l3.size(); i++) {
+                tempS3 += Math.pow(l3.get(i) - x3, 2);
+            }
+            double S2i3 = tempS3 / (l3.size() - 1);
+
+            double S2 = 0;
+            S2 += (l0.size() - 1) * S2i0 / (l0.size() - 1);
+            S2 += (l1.size() - 1) * S2i1 / (l1.size() - 1);
+            S2 += (l2.size() - 1) * S2i2 / (l2.size() - 1);
+            S2 += (l3.size() - 1) * S2i3 / (l3.size() - 1);
+
+            b = (l0.size() - 1) * Math.log(S2i0 / S2);
+            b += (l1.size() - 1) * Math.log(S2i1 / S2);
+            b += (l2.size() - 1) * Math.log(S2i2 / S2);
+            b += (l3.size() - 1) * Math.log(S2i3 / S2);
+            b *= -1;
+
+            double tempC = 0;
+            tempC += (1 / (l0.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size()));
+            tempC += (1 / (l1.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size()));
+            tempC += (1 / (l2.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size()));
+            tempC += (1 / (l3.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size() + l3.size()));
+            c = 1 + (1 / (3 * (list.size() - 1))) * tempC;
+        } else if (list.size() == 3) {
+            ArrayList<Double> l0 = list.get(0);
+            ArrayList<Double> l1 = list.get(1);
+            ArrayList<Double> l2 = list.get(2);
+
+            double temp0 = 0;
+            for (int i = 0; i < l0.size(); i++) {
+                temp0 += l0.get(i);
+            }
+            double x0 = temp0 / l0.size();
+
+            double temp1 = 0;
+            for (int i = 0; i < l1.size(); i++) {
+                temp1 += l1.get(i);
+            }
+            double x1 = temp1 / l1.size();
+
+            double temp2 = 0;
+            for (int i = 0; i < l2.size(); i++) {
+                temp2 += l2.get(i);
+            }
+            double x2 = temp2 / l2.size();
+
+            double tempS0 = 0;
+            for (int i = 0; i < l0.size(); i++) {
+                tempS0 += Math.pow(l0.get(i) - x0, 2);
+            }
+            double S2i0 = tempS0 / (l0.size() - 1);
+
+            double tempS1 = 0;
+            for (int i = 0; i < l1.size(); i++) {
+                tempS1 += Math.pow(l1.get(i) - x1, 2);
+            }
+            double S2i1 = tempS1 / (l1.size() - 1);
+
+            double tempS2 = 0;
+            for (int i = 0; i < l2.size(); i++) {
+                tempS2 += Math.pow(l2.get(i) - x2, 2);
+            }
+            double S2i2 = tempS2 / (l2.size() - 1);
+
+            double S2 = 0;
+            S2 += (l0.size() - 1) * S2i0 / (l0.size() - 1);
+            S2 += (l1.size() - 1) * S2i1 / (l1.size() - 1);
+            S2 += (l2.size() - 1) * S2i2 / (l2.size() - 1);
+
+            b = (l0.size() - 1) * Math.log(S2i0 / S2);
+            b += (l1.size() - 1) * Math.log(S2i1 / S2);
+            b += (l2.size() - 1) * Math.log(S2i2 / S2);
+            b *= -1;
+
+            double tempC = 0;
+            tempC += (1 / (l0.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size()));
+            tempC += (1 / (l1.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size()));
+            tempC += (1 / (l2.size() - 1)) - (1 / (l0.size() + l1.size() + l2.size()));
+            c = 1 + (1 / (3 * (list.size() - 1))) * tempC;
+        } else if (list.size() == 2) {
+            ArrayList<Double> l0 = list.get(0);
+            ArrayList<Double> l1 = list.get(1);
+
+            double temp0 = 0;
+            for (int i = 0; i < l0.size(); i++) {
+                temp0 += l0.get(i);
+            }
+            double x0 = temp0 / l0.size();
+
+            double temp1 = 0;
+            for (int i = 0; i < l1.size(); i++) {
+                temp1 += l1.get(i);
+            }
+            double x1 = temp1 / l1.size();
+
+            double tempS0 = 0;
+            for (int i = 0; i < l0.size(); i++) {
+                tempS0 += Math.pow(l0.get(i) - x0, 2);
+            }
+            double S2i0 = tempS0 / (l0.size() - 1);
+
+            double tempS1 = 0;
+            for (int i = 0; i < l1.size(); i++) {
+                tempS1 += Math.pow(l1.get(i) - x1, 2);
+            }
+            double S2i1 = tempS1 / (l1.size() - 1);
+
+            double S2 = 0;
+            S2 += (l0.size() - 1) * S2i0 / (l0.size() - 1);
+            S2 += (l1.size() - 1) * S2i1 / (l1.size() - 1);
+
+            b = (l0.size() - 1) * Math.log(S2i0 / S2);
+            b += (l1.size() - 1) * Math.log(S2i1 / S2);
+            b *= -1;
+
+            double tempC = 0;
+            tempC += (1 / (l0.size() - 1)) - (1 / (l0.size() + l1.size()));
+            tempC += (1 / (l1.size() - 1)) - (1 / (l0.size() + l1.size()));
+            c = 1 + (1 / (3 * (list.size() - 1))) * tempC;
+        } else {
+            new Exception("кількіть чекбоксів < 2");
+        }
+        q = b / c;
+        return q;
+    }
+
+    static String messageFtestMessage(List arr1, List arr2) {
+        double f = fTest(arr1, arr2);
+        //f-test:
+        String message = "Результати проведення F-тесту для перевірки збігу дисперсій:\n";
+        if (f <= fFrom200To500) {
+            message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n "
+                    + f + "<=" + fFrom200To500;
+        } else {
+            message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n "
+                    + f + ">" + fFrom200To500;
+        }
+        return message;
+    }
+
+//message:
+    static String messageTtestForDepends(List arr1, List arr2) {
+        String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
+        double t = tTestForDepends(arr1, arr2);
+        if (t > t1) {
+            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n" +
+                    t + ">" + t1;
+        } else {
+            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n" +
+                    t + "<=" + t1;
+        }
+        return message;
+    }
+
+    static String messageTtestForInDepends(List arr1, List arr2) {
+        double t = Helper.tTestForIndependence(arr1, arr2);
+        String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
+        ;
+        if (t > t1) {
+            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n" +
+                    t + ">" + t1;
+        } else {
+            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n" +
+                    t + "<=" + t1;
+        }
+        return message;
+    }
+
+    static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
+        List<ArrayList> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+        double bart = bartleta(list);
+        double kva = koefForBartlet(list);
+        String message = "Критерій Бартлета:\n";
+        if (kva > bart) {
+            message += "Головну гіпотезу спростовано ";
+            //  + "<- " + kva + ">" + bart;
+        } else {
+            message += "Головну гіпотезу підтверджено ";
+            //  + "<- " + kva + "<=" + bart;
+        }
+        return message;
+    }
+
+
 }

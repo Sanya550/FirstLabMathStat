@@ -422,18 +422,18 @@ public class HelloController {
                 //vilksona:
                 ArrayList<Double> vilksonArray = Helper.vilksona(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
                 message += "Критерій суми рангів Вілкоксона вибірки 1 = "+vilksonArray.get(0)+"; 2 = "+vilksonArray.get(1) +"\n";
-                //f-test:
-                message += Helper.returnFtestMessage(arr1, arr2);
                 //t-test:
                 if (depend.isSelected()) {
                     if (arr1.size() != arr2.size()) {
                         JOptionPane.showMessageDialog(null, "Помилка! Різні розміри файлів", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        message += Helper.returnTtestForDepends(arr1, arr2);
+                        //f-test:
+                        message += Helper.messageTtestForDepends(arr1, arr2);
                         JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else if (independ.isSelected()) {
-                    message += Helper.returnTtestForInDepends(arr1, arr2);
+                    message += Helper.messageFtestMessage(arr1, arr2);
+                    message += Helper.messageTtestForInDepends(arr1, arr2);
                     JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "Оберіть залежна чи незалежна вибірка", "Warn", JOptionPane.WARNING_MESSAGE);
