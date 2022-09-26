@@ -18,12 +18,24 @@ import java.util.*;
 public class Helper {
     //u:
     static double u = 0;
-    //f const:
-    static double fFrom200To500 = 1;//DATA FROM TABLE 4;
     //t const:
     static double t1 = 1.96;//DATA FROM TABLE 2;
 
+    //f const:
+    static double koefForFisher(List arr1, List arr2) {
+        double kva = 0;
+        if ((arr1.size() > 120) && (arr2.size() > 120)) {
+            kva = 1;
+        } else if ((arr1.size() < 120) && (arr2.size() < 120) && (arr1.size() > 120) && (arr2.size() > 120)) {
+            kva = 1.22;
+        } else {
+            kva = 2;
+        }
+        return kva;
+    }
+
     //const:
+    //DATA FROM TABLE 3;
     static double koefForBartlet(List<ArrayList> list) {
         double kva = 0;
         int count = 0;
@@ -35,23 +47,23 @@ public class Helper {
         double temp = count / list.size();
         if (temp >= 500) {
             if (list.size() == 5) {
-                kva = 9.49;
+                kva = 0.711;
             } else if (list.size() == 4) {
-                kva = 7.81;
+                kva = 0.352;
             } else if (list.size() == 3) {
-                kva = 5.99;
+                kva = 0.103;
             } else if (list.size() == 2) {
-                kva = 3.84;
+                kva = 0.0039;
             }
         } else if ((temp < 500) && (temp >= 200)) {
             if (list.size() == 5) {
-                kva = 7.78;
+                kva = 1.06;
             } else if (list.size() == 4) {
-                kva = 6.25;
+                kva = 0.584;
             } else if (list.size() == 3) {
-                kva = 4.61;
+                kva = 0.21;
             } else if (list.size() == 2) {
-                kva = 2.71;
+                kva = 0.0158;
             }
         } else if (temp < 200) {
             if (list.size() == 5) {
@@ -1277,30 +1289,84 @@ public class Helper {
         return q;
     }
 
+    static double odnoFactorniyDuspersniyAnaliz(List<ArrayList> list) {
+        //міжгрупова варіація:
+        double nGeneral = 0;
+        for (int i = 0; i < list.size(); i++) {
+            nGeneral += list.get(i).size();
+        }
+
+        double xMatSpod;
+        double temp = 0;
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).size(); j++) {
+                temp += (double) list.get(i).get(j);//  * (Ni/Ni) = 1
+            }
+        }
+        xMatSpod = temp / nGeneral;
+
+        double temporaryS2m = 0;
+        double s2m;
+        temp = 0;
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).size(); j++) {
+                temp += (double) list.get(i).get(j);
+            }
+            temporaryS2m += list.get(i).size() * Math.pow((temp / list.get(i).size()) - xMatSpod, 2);
+            temp = 0;
+        }
+        s2m = temporaryS2m / (list.size() - 1);
+
+        //варіація всередині кожної вибірки:
+        double tempS2v = 0;
+        double s2v;
+        double sa = 0;
+        double dus = 0;
+        double resultSA;
+
+        for (int i = 0; i < list.size(); i++) {
+            for (int k = 0; k < list.get(i).size(); k++) {
+                sa += (double) list.get(i).get(k);
+            }
+            resultSA = sa / list.get(i).size();
+            for (int j = 0; j < list.get(i).size(); j++) {
+                dus += Math.pow(((double) list.get(i).get(j) - resultSA), 2);
+            }
+            tempS2v += dus;
+            sa = 0;
+            dus = 0;
+        }
+        s2v = tempS2v / (nGeneral - list.size());
+
+        double f = s2m / s2v;
+        return f;
+    }
+
+    //message:
     static String messageFtestMessage(List arr1, List arr2) {
         double f = fTest(arr1, arr2);
+        double kva = koefForFisher(arr1, arr2);
         //f-test:
         String message = "Результати проведення F-тесту для перевірки збігу дисперсій:\n";
-        if (f <= fFrom200To500) {
-            message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n "
-                    + f + "<=" + fFrom200To500;
+        if (f <= kva) {
+            message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n ";
+                //    + f + "<=" + kva;
         } else {
-            message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n "
-                    + f + ">" + fFrom200To500;
+            message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n ";
+               //     + f + ">" + kva;
         }
         return message;
     }
 
-//message:
     static String messageTtestForDepends(List arr1, List arr2) {
         String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
         double t = tTestForDepends(arr1, arr2);
         if (t > t1) {
-            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n" +
-                    t + ">" + t1;
+            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n";
+            //   +  t + ">" + t1;
         } else {
-            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n" +
-                    t + "<=" + t1;
+            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n";
+            //    +  t + "<=" + t1;
         }
         return message;
     }
@@ -1308,13 +1374,12 @@ public class Helper {
     static String messageTtestForInDepends(List arr1, List arr2) {
         double t = Helper.tTestForIndependence(arr1, arr2);
         String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
-        ;
         if (t > t1) {
-            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n" +
-                    t + ">" + t1;
+            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n";
+            //  +  t + ">" + t1;
         } else {
-            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n" +
-                    t + "<=" + t1;
+            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n";
+            // + t + "<=" + t1;
         }
         return message;
     }
@@ -1334,5 +1399,20 @@ public class Helper {
         return message;
     }
 
+    static String messageForOdnoFactorniyDuspersniyAnaliz(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
+        List<ArrayList> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+        double f = odnoFactorniyDuspersniyAnaliz(list);
+        double kva = koefForFisher(list.get(0), list.get(1));
+        //f-test:
+        String message = "Результати проведення перевірки однорідності множини вибірок: ";
+        if (f <= kva) {
+            message += "Нульову гіпотезу підтверджено\n ";
+            //      + f + "<=" + kva;
+        } else {
+            message += "Нульову гіпотезу спростовано\n ";
+            //   + f + ">" + kva;
+        }
+        return message;
+    }
 
 }
