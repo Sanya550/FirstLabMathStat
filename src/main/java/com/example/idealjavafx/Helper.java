@@ -29,6 +29,21 @@ public class Helper {
         }
     }
 
+    static double koefForKriteriiZnakiv(ArrayList list) {
+        int a = list.size();
+        double kva = 0;
+        if (a >= 500) {
+            kva = 1.64;
+        } else if ((a < 500) && (a >= 200)) {
+            kva = 1.28;
+        } else if ((a < 200) && (a >= 100)) {
+            kva = 2.05;
+        } else {
+            kva = 0.22;
+        }
+        return kva;
+    }
+
     static double koefForVilksonaAndRiznSerednihRangiv(ArrayList<ArrayList> resList) {
         int a = resList.get(0).size();
         double kva = 0;
@@ -1038,6 +1053,22 @@ public class Helper {
         //2.7
     }
 
+    static double kriteriiZnakiv(ArrayList arr1, ArrayList arr2) {
+        ArrayList<Double> newArr = new ArrayList();
+        for (int i = 0; i < arr1.size(); i++) {
+            newArr.add((double) arr1.get(i) - (double) arr2.get(i));
+        }
+        double s = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            if (newArr.get(i) > 0) {
+                s += 1;
+            }
+        }
+
+        double s1 = (2 * s - 1 - newArr.size()) / Math.sqrt(newArr.size());
+        return s1;
+    }
+
     static void abbe() {
         //2.10
     }
@@ -1453,6 +1484,20 @@ public class Helper {
         } else {
             message += "Вибірки неоднорідні ";
 //                    + kolAndSm +"<="+kva;
+        }
+        return message;
+    }
+
+    static String messageForKriteriiZnakiv(ArrayList arr1, ArrayList arr2){
+        double kriteriiZnakiv = kriteriiZnakiv(arr1, arr2);
+        double kva = koefForKriteriiZnakiv(arr1);
+        String message = "Критерій знаків: \n";
+        if (kriteriiZnakiv >= kva) {
+            message += "Головну гіпотезу спростовано ";
+//                    + kriteriiZnakiv +">="+kva;
+        } else {
+            message += "Головну гіпотезу підтверджено ";
+//                    + kriteriiZnakiv +"<"+kva;
         }
         return message;
     }
