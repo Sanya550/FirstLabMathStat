@@ -14,12 +14,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 public class Helper {
     //t const:
     static double t1 = 1.96;//DATA FROM TABLE 2;
 
-    static double koefForSmirnovKolmogorov(ArrayList arr1) {
+    static double koefForSmirnovKolmogorovAndAbbe(ArrayList arr1) {
         if (arr1.size() >= 500) {
             return 0.05;
         } else if ((arr1.size() < 500) && (arr1.size() >= 200)) {
@@ -73,7 +75,7 @@ public class Helper {
     }
 
     //DATA FROM TABLE 3;
-    static double koefForBartlet(List<ArrayList> list) {
+    static double koefForBartletAndKohrena(List<ArrayList> list) {
         double kva = 0;
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -1069,7 +1071,28 @@ public class Helper {
         return s1;
     }
 
-    static void abbe() {
+    static double abbe(List<Double> arr1) {
+        double sa = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            sa = sa + arr1.get(i);
+
+        }
+        double resultSA = sa / arr1.size();
+        //НЕзсун:
+        double dus = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            dus += Math.pow(( arr1.get(i) - resultSA), 2) / ((arr1.size() - 1));
+        }
+
+        double tempD = 0;
+        for (int i = 0; i < arr1.size() - 1; i++) {
+            tempD += Math.pow(arr1.get(i + 1) - arr1.get(i), 2);
+        }
+        double d2 = tempD / (arr1.size() - 1);
+        double q = d2 / dus;
+        double u = (q - 1) * Math.sqrt((Math.pow(arr1.size(), 2) - 1) / (arr1.size() - 2));
+        double p = 1 / (Math.sqrt(2 * Math.PI * dus)) * Math.pow(Math.E, -0.5 * (Math.pow((u - resultSA)/Math.sqrt(dus), 2)));
+        return p;
         //2.10
     }
 
@@ -1394,6 +1417,175 @@ public class Helper {
         return f;
     }
 
+    static double QKohren(List<ArrayList> list) {
+        double sum = 0;
+        ArrayList<ArrayList> array = new ArrayList<>();
+        for (int i = 0; i < list.get(0).size(); i++) {
+            sum += (double) list.get(0).get(i);
+        }
+        double average = sum / list.get(0).size();
+        if (list.size() == 2) {
+            ArrayList<Integer> arr0 = new ArrayList();
+            ArrayList<Integer> arr1 = new ArrayList();
+            for (int i = 0; i < list.get(0).size(); i++) {
+                if ((double) list.get(0).get(i) > average) {
+                    arr0.add(1);
+                } else {
+                    arr0.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(1).size(); i++) {
+                if ((double) list.get(1).get(i) > average) {
+                    arr1.add(1);
+                } else {
+                    arr1.add(0);
+                }
+            }
+            array.add(arr0);
+            array.add(arr1);
+        }else  if (list.size() == 3) {
+            ArrayList<Integer> arr0 = new ArrayList();
+            ArrayList<Integer> arr1 = new ArrayList();
+            ArrayList<Integer> arr2 = new ArrayList();
+            for (int i = 0; i < list.get(0).size(); i++) {
+                if ((double) list.get(0).get(i) > average) {
+                    arr0.add(1);
+                } else {
+                    arr0.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(1).size(); i++) {
+                if ((double) list.get(1).get(i) > average) {
+                    arr1.add(1);
+                } else {
+                    arr1.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(2).size(); i++) {
+                if ((double) list.get(2).get(i) > average) {
+                    arr2.add(1);
+                } else {
+                    arr2.add(0);
+                }
+            }
+            array.add(arr0);
+            array.add(arr1);
+            array.add(arr2);
+        }else  if (list.size() == 4) {
+            ArrayList<Integer> arr0 = new ArrayList();
+            ArrayList<Integer> arr1 = new ArrayList();
+            ArrayList<Integer> arr2 = new ArrayList();
+            ArrayList<Integer> arr3 = new ArrayList();
+            for (int i = 0; i < list.get(0).size(); i++) {
+                if ((double) list.get(0).get(i) > average) {
+                    arr0.add(1);
+                } else {
+                    arr0.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(1).size(); i++) {
+                if ((double) list.get(1).get(i) > average) {
+                    arr1.add(1);
+                } else {
+                    arr1.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(2).size(); i++) {
+                if ((double) list.get(2).get(i) > average) {
+                    arr2.add(1);
+                } else {
+                    arr2.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(3).size(); i++) {
+                if ((double) list.get(3).get(i) > average) {
+                    arr3.add(1);
+                } else {
+                    arr3.add(0);
+                }
+            }
+            array.add(arr0);
+            array.add(arr1);
+            array.add(arr2);
+            array.add(arr3);
+        }else  if (list.size() == 4) {
+            ArrayList<Integer> arr0 = new ArrayList();
+            ArrayList<Integer> arr1 = new ArrayList();
+            ArrayList<Integer> arr2 = new ArrayList();
+            ArrayList<Integer> arr3 = new ArrayList();
+            ArrayList<Integer> arr4 = new ArrayList();
+            for (int i = 0; i < list.get(0).size(); i++) {
+                if ((double) list.get(0).get(i) > average) {
+                    arr0.add(1);
+                } else {
+                    arr0.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(1).size(); i++) {
+                if ((double) list.get(1).get(i) > average) {
+                    arr1.add(1);
+                } else {
+                    arr1.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(2).size(); i++) {
+                if ((double) list.get(2).get(i) > average) {
+                    arr2.add(1);
+                } else {
+                    arr2.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(3).size(); i++) {
+                if ((double) list.get(3).get(i) > average) {
+                    arr3.add(1);
+                } else {
+                    arr3.add(0);
+                }
+            }
+            for (int i = 0; i < list.get(4).size(); i++) {
+                if ((double) list.get(4).get(i) > average) {
+                    arr4.add(1);
+                } else {
+                    arr4.add(0);
+                }
+            }
+            array.add(arr0);
+            array.add(arr1);
+            array.add(arr2);
+            array.add(arr3);
+            array.add(arr4);
+        }else{
+            JOptionPane.showMessageDialog(null, "arr<2 or arr>5", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        double tempT1 = 0;
+        for (int i = 0; i < array.size(); i++) {
+            for (int j = 0; j < array.get(i).size(); j++) {
+                tempT1 += (double) array.get(i).get(j);
+            }
+        }
+        double t1 = tempT1 / array.size();
+        double u = 0;
+        double u2 = 0;
+        int count;
+        for (int i = 0; i < array.size(); i++) {
+            count = array.size() - 1;
+            while (count != -1) {
+                u += (double) array.get(count).get(i);
+                u2 += Math.pow((double) array.get(count).get(i), 2);
+                count--;
+            }
+        }
+        double sumTb = 0;
+        double Tj = 0;
+        for (int i = 0; i < array.size(); i++) {
+            for (int j = 0; j < array.get(i).size(); j++) {
+                sumTb += Math.pow((double) array.get(i).get(j) - t1, 2);
+            }
+        }
+        double q = list.size() * (list.size() - 1) * sumTb / (list.size() * u - u2);
+        return q;
+    }
+
     //message:
     //4.1:
     static String messageFtestMessage(List arr1, List arr2) {
@@ -1443,20 +1635,20 @@ public class Helper {
         List<Double> list1 = vilksona(resList);
         String message = "Критерій суми рангів Вілкоксона:\n";
         if (list1.get(0) > kva) {
-            message += "Головну гіпотезу для 1 вибірки спростовано. ";
+            message += "Головну гіпотезу спростовано. ";
             //    + list1.get(0) + ">"+kva;
         } else {
-            message += "Головну гіпотезу для 1 вибірки підтверджено. ";
+            message += "Головну гіпотезу підтверджено. ";
             //    + list1.get(0) + "<="+kva;
         }
 
-        if (list1.get(1) > kva) {
-            message += "Для 2 вибірки спростовано. ";
-            //    + list1.get(1) + ">"+kva;
-        } else {
-            message += "Для 2 вибірки підтверджено. ";
-            //    + list1.get(1) + "<="+kva;
-        }
+//        if (list1.get(1) > kva) {
+//            message += "Для 2 вибірки спростовано. ";
+//            //    + list1.get(1) + ">"+kva;
+//        } else {
+//            message += "Для 2 вибірки підтверджено. ";
+//            //    + list1.get(1) + "<="+kva;
+//        }
         return message;
     }
 
@@ -1476,7 +1668,7 @@ public class Helper {
 
     static String messageForKolmogorovaSmirnova(ArrayList arr1, ArrayList arr2) {
         double kolAndSm = kolmogorovaSmirnova(arr1, arr2);
-        double kva = koefForSmirnovKolmogorov(arr1);
+        double kva = koefForSmirnovKolmogorovAndAbbe(arr1);
         String message = "Критерій однорідності Смирнова-Колмогорова: \n";
         if (kolAndSm > kva) {
             message += "Вибірки однорідні ";
@@ -1488,7 +1680,7 @@ public class Helper {
         return message;
     }
 
-    static String messageForKriteriiZnakiv(ArrayList arr1, ArrayList arr2){
+    static String messageForKriteriiZnakiv(ArrayList arr1, ArrayList arr2) {
         double kriteriiZnakiv = kriteriiZnakiv(arr1, arr2);
         double kva = koefForKriteriiZnakiv(arr1);
         String message = "Критерій знаків: \n";
@@ -1502,10 +1694,24 @@ public class Helper {
         return message;
     }
 
+    static String messageForAbbe(ArrayList arr1){
+        double abbe = abbe(arr1);
+        double kva = koefForSmirnovKolmogorovAndAbbe(arr1);
+        String message = "Критерій однорідності Аббе: \n";
+        if (abbe > kva) {
+            message += "Спостереження є незалежним ";
+//                    + abbe +">"+kva;
+        } else {
+            message += "Спостереження є залежним ";
+//                    + abbe +"<="+kva;
+        }
+        return message;
+    }
+
     static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
         List<ArrayList> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
         double bart = bartleta(list);
-        double kva = koefForBartlet(list);
+        double kva = koefForBartletAndKohrena(list);
         String message = "Критерій Бартлета:\n";
         if (kva > bart) {
             message += "Головну гіпотезу спростовано ";
@@ -1517,6 +1723,7 @@ public class Helper {
         return message;
     }
 
+    //5:
     static String messageForOdnoFactorniyDuspersniyAnaliz(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
         List<ArrayList> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
         double f = odnoFactorniyDuspersniyAnaliz(list);
@@ -1529,6 +1736,21 @@ public class Helper {
         } else {
             message += "Нульову гіпотезу спростовано\n ";
             //   + f + ">" + kva;
+        }
+        return message;
+    }
+
+    static String messageForQKohren(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
+        List<ArrayList> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+        double kohren = QKohren(list);
+        double kva = koefForBartletAndKohrena(list);
+        String message = "Q-критерій Кохрена:\n";
+        if (kva > kohren) {
+            message += "Головну гіпотезу спростовано ";
+            //  + "<- " + kva + ">" + kohren;
+        } else {
+            message += "Головну гіпотезу підтверджено ";
+            //  + "<- " + kva + "<=" + kohren;
         }
         return message;
     }
