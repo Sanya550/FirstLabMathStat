@@ -75,7 +75,7 @@ public class Helper {
     }
 
     //DATA FROM TABLE 3;
-    static double koefForBartletAndKohrena(List<ArrayList> list) {
+    static double koefForBartletAndKohrena(List<ArrayList<Double>> list) {
         double kva = 0;
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -680,8 +680,8 @@ public class Helper {
         }
     }
 
-    static List<ArrayList> returnSeveralCheckBox(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
-        List<ArrayList> resultList = new ArrayList();
+    static List<ArrayList<Double>> returnSeveralCheckBox(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
+        List<ArrayList<Double>> resultList = new ArrayList();
         //5:
         if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected()) {
             resultList.add(arr1);
@@ -938,7 +938,6 @@ public class Helper {
         listX.sort(Comparator.naturalOrder());
         listY.sort(Comparator.naturalOrder());
         generalList.sort(Comparator.naturalOrder());
-        int size = generalList.size();
         int countForX = 1;
         int countForY = 1;
         double element;
@@ -959,6 +958,231 @@ public class Helper {
         resultList.add(resultXorY);
         resultList.add(resultValue);
         resultList.add(resultRang);
+        return resultList;
+    }
+
+    static ArrayList<ArrayList> rangRowForSeveral(List<ArrayList<Double>> list) {
+        ArrayList<String> resultXorY = new ArrayList<>();
+        ArrayList<Double> resultValue = new ArrayList<>();
+        ArrayList<Double> resultRang = new ArrayList<>();
+        ArrayList<ArrayList> resultList = new ArrayList<>();
+        if (list.size() == 2) {
+            ArrayList<Double> listX = new ArrayList();
+            ArrayList<Double> listY = new ArrayList();
+            ArrayList<Double> generalList = new ArrayList();
+            int countOfRepeat = 0;
+            for (double el : list.get(0)) {
+                listX.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(1)) {
+                listY.add(el);
+                generalList.add(el);
+            }
+            listX.sort(Comparator.naturalOrder());
+            listY.sort(Comparator.naturalOrder());
+            generalList.sort(Comparator.naturalOrder());
+            int countForX = 1;
+            int countForY = 1;
+            double element;
+            for (int i = 0; i < generalList.size(); i++) {
+                element = generalList.get(i);
+                if (listX.contains(element)) {
+                    resultXorY.add("x1" + countForX);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForX++;
+                } else {
+                    resultXorY.add("x2" + countForY);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForY++;
+                }
+            }
+            resultList.add(resultXorY);
+            resultList.add(resultValue);
+            resultList.add(resultRang);
+        } else if (list.size() == 3) {
+            ArrayList<Double> listX = new ArrayList();
+            ArrayList<Double> listY = new ArrayList();
+            ArrayList<Double> listZ = new ArrayList();
+            ArrayList<Double> generalList = new ArrayList();
+            int countOfRepeat = 0;
+            for (double el : list.get(0)) {
+                listX.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(1)) {
+                listY.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(2)) {
+                listZ.add(el);
+                generalList.add(el);
+            }
+            listX.sort(Comparator.naturalOrder());
+            listY.sort(Comparator.naturalOrder());
+            listZ.sort(Comparator.naturalOrder());
+            generalList.sort(Comparator.naturalOrder());
+            int countForX = 1;
+            int countForY = 1;
+            int countForZ = 1;
+            double element;
+            for (int i = 0; i < generalList.size(); i++) {
+                element = generalList.get(i);
+                if (listX.contains(element)) {
+                    resultXorY.add("x1" + countForX);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForX++;
+                } else if (listY.contains(element)) {
+                    resultXorY.add("x2" + countForY);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForY++;
+                } else {
+                    resultXorY.add("x3" + countForZ);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForZ++;
+                }
+            }
+            resultList.add(resultXorY);
+            resultList.add(resultValue);
+            resultList.add(resultRang);
+        } else if (list.size() == 4) {
+            ArrayList<Double> listX = new ArrayList();
+            ArrayList<Double> listY = new ArrayList();
+            ArrayList<Double> listZ = new ArrayList();
+            ArrayList<Double> listK = new ArrayList();
+            ArrayList<Double> generalList = new ArrayList();
+            int countOfRepeat = 0;
+            for (double el : list.get(0)) {
+                listX.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(1)) {
+                listY.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(2)) {
+                listZ.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(3)) {
+                listK.add(el);
+                generalList.add(el);
+            }
+            listX.sort(Comparator.naturalOrder());
+            listY.sort(Comparator.naturalOrder());
+            listZ.sort(Comparator.naturalOrder());
+            listK.sort(Comparator.naturalOrder());
+            generalList.sort(Comparator.naturalOrder());
+            int countForX = 1;
+            int countForY = 1;
+            int countForZ = 1;
+            int countForK = 1;
+            double element;
+            for (int i = 0; i < generalList.size(); i++) {
+                element = generalList.get(i);
+                if (listX.contains(element)) {
+                    resultXorY.add("x1" + countForX);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForX++;
+                } else if (listY.contains(element)) {
+                    resultXorY.add("x2" + countForY);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForY++;
+                } else if (listZ.contains(element)) {
+                    resultXorY.add("x3" + countForZ);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForZ++;
+                } else {
+                    resultXorY.add("x4" + countForK);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForK++;
+                }
+            }
+            resultList.add(resultXorY);
+            resultList.add(resultValue);
+            resultList.add(resultRang);
+        } else if (list.size() == 5) {
+            ArrayList<Double> listX = new ArrayList();
+            ArrayList<Double> listY = new ArrayList();
+            ArrayList<Double> listZ = new ArrayList();
+            ArrayList<Double> listK = new ArrayList();
+            ArrayList<Double> listT = new ArrayList();
+            ArrayList<Double> generalList = new ArrayList();
+            int countOfRepeat = 0;
+            for (double el : list.get(0)) {
+                listX.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(1)) {
+                listY.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(2)) {
+                listZ.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(3)) {
+                listK.add(el);
+                generalList.add(el);
+            }
+            for (double el : list.get(4)) {
+                listT.add(el);
+                generalList.add(el);
+            }
+            listX.sort(Comparator.naturalOrder());
+            listY.sort(Comparator.naturalOrder());
+            listZ.sort(Comparator.naturalOrder());
+            listK.sort(Comparator.naturalOrder());
+            listT.sort(Comparator.naturalOrder());
+            generalList.sort(Comparator.naturalOrder());
+            int countForX = 1;
+            int countForY = 1;
+            int countForZ = 1;
+            int countForK = 1;
+            int countForT = 1;
+            double element;
+            for (int i = 0; i < generalList.size(); i++) {
+                element = generalList.get(i);
+                if (listX.contains(element)) {
+                    resultXorY.add("x1" + countForX);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForX++;
+                } else if (listY.contains(element)) {
+                    resultXorY.add("x2" + countForY);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForY++;
+                } else if (listZ.contains(element)) {
+                    resultXorY.add("x3" + countForZ);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForZ++;
+                } else if (listK.contains(element)) {
+                    resultXorY.add("x4" + countForK);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForK++;
+                } else {
+                    resultXorY.add("x5" + countForT);
+                    resultValue.add(element);
+                    resultRang.add((double) (i + 1));
+                    countForT++;
+                }
+            }
+            resultList.add(resultXorY);
+            resultList.add(resultValue);
+            resultList.add(resultRang);
+        }
         return resultList;
     }
 
@@ -1081,7 +1305,7 @@ public class Helper {
         //НЕзсун:
         double dus = 0;
         for (int i = 0; i < arr1.size(); i++) {
-            dus += Math.pow(( arr1.get(i) - resultSA), 2) / ((arr1.size() - 1));
+            dus += Math.pow((arr1.get(i) - resultSA), 2) / ((arr1.size() - 1));
         }
 
         double tempD = 0;
@@ -1091,13 +1315,13 @@ public class Helper {
         double d2 = tempD / (arr1.size() - 1);
         double q = d2 / dus;
         double u = (q - 1) * Math.sqrt((Math.pow(arr1.size(), 2) - 1) / (arr1.size() - 2));
-        double p = 1 / (Math.sqrt(2 * Math.PI * dus)) * Math.pow(Math.E, -0.5 * (Math.pow((u - resultSA)/Math.sqrt(dus), 2)));
+        double p = 1 / (Math.sqrt(2 * Math.PI * dus)) * Math.pow(Math.E, -0.5 * (Math.pow((u - resultSA) / Math.sqrt(dus), 2)));
         return p;
         //2.10
     }
 
     //5:
-    static double bartleta(List<ArrayList> list) {
+    static double bartleta(List<ArrayList<Double>> list) {
         double q = 0;
         double b = 0;
         double c = 0;
@@ -1364,7 +1588,7 @@ public class Helper {
         return q;
     }
 
-    static double odnoFactorniyDuspersniyAnaliz(List<ArrayList> list) {
+    static double odnoFactorniyDuspersniyAnaliz(List<ArrayList<Double>> list) {
         //міжгрупова варіація:
         double nGeneral = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -1417,7 +1641,7 @@ public class Helper {
         return f;
     }
 
-    static double QKohren(List<ArrayList> list) {
+    static double QKohren(List<ArrayList<Double>> list) {
         double sum = 0;
         ArrayList<ArrayList> array = new ArrayList<>();
         for (int i = 0; i < list.get(0).size(); i++) {
@@ -1443,7 +1667,7 @@ public class Helper {
             }
             array.add(arr0);
             array.add(arr1);
-        }else  if (list.size() == 3) {
+        } else if (list.size() == 3) {
             ArrayList<Integer> arr0 = new ArrayList();
             ArrayList<Integer> arr1 = new ArrayList();
             ArrayList<Integer> arr2 = new ArrayList();
@@ -1471,7 +1695,7 @@ public class Helper {
             array.add(arr0);
             array.add(arr1);
             array.add(arr2);
-        }else  if (list.size() == 4) {
+        } else if (list.size() == 4) {
             ArrayList<Integer> arr0 = new ArrayList();
             ArrayList<Integer> arr1 = new ArrayList();
             ArrayList<Integer> arr2 = new ArrayList();
@@ -1508,7 +1732,7 @@ public class Helper {
             array.add(arr1);
             array.add(arr2);
             array.add(arr3);
-        }else  if (list.size() == 4) {
+        } else if (list.size() == 4) {
             ArrayList<Integer> arr0 = new ArrayList();
             ArrayList<Integer> arr1 = new ArrayList();
             ArrayList<Integer> arr2 = new ArrayList();
@@ -1554,7 +1778,7 @@ public class Helper {
             array.add(arr2);
             array.add(arr3);
             array.add(arr4);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "arr<2 or arr>5", "Error", JOptionPane.ERROR_MESSAGE);
         }
         double tempT1 = 0;
@@ -1586,6 +1810,129 @@ public class Helper {
         return q;
     }
 
+    static double HKruskalaUolis(List<ArrayList> list, int size) {
+        ArrayList<String> xOrYOrZOrKOrT = list.get(0);
+        ArrayList<Double> value = list.get(1);
+        ArrayList<Double> rang = list.get(2);
+        double n = xOrYOrZOrKOrT.size();
+        double h = 0;
+        if (size == 2) {
+            double sz1 = 0;
+            double sz2 = 0;
+            double tempW1 = 0;
+            double tempW2 = 0;
+            for (int i = 0; i < xOrYOrZOrKOrT.size(); i++) {
+                if (xOrYOrZOrKOrT.get(i).contains("1")) {
+                    tempW1 += rang.get(i);
+                    sz1++;
+                } else {
+                    tempW2 += rang.get(i);
+                    sz2++;
+                }
+            }
+            double w1 = tempW1 / sz1;
+            double w2 = tempW2 / sz2;
+            h+=(Math.pow(w1-(n+1)/2,2)/((n+1)*(n-sz1)/(12*sz1)))*(1-(sz1/n));
+            h+=(Math.pow(w2-(n+1)/2,2)/((n+1)*(n-sz2)/(12*sz2)))*(1-(sz2/n));
+        } else if (size == 3) {
+            double sz1 = 0;
+            double sz2 = 0;
+            double sz3 = 0;
+            double tempW1 = 0;
+            double tempW2 = 0;
+            double tempW3 = 0;
+            for (int i = 0; i < xOrYOrZOrKOrT.size(); i++) {
+                if (xOrYOrZOrKOrT.get(i).contains("1")) {
+                    tempW1 += rang.get(i);
+                    sz1++;
+                } else if (xOrYOrZOrKOrT.get(i).contains("2")){
+                    tempW2 += rang.get(i);
+                    sz2++;
+                }else{
+                    tempW3 += rang.get(i);
+                    sz3++;
+                }
+            }
+            double w1 = tempW1 / sz1;
+            double w2 = tempW2 / sz2;
+            double w3 = tempW3 / sz3;
+            h+=(Math.pow(w1-(n+1)/2,2)/((n+1)*(n-sz1)/(12*sz1)))*(1-(sz1/n));
+            h+=(Math.pow(w2-(n+1)/2,2)/((n+1)*(n-sz2)/(12*sz2)))*(1-(sz2/n));
+            h+=(Math.pow(w3-(n+1)/2,2)/((n+1)*(n-sz3)/(12*sz3)))*(1-(sz3/n));
+        }else if (size == 4) {
+            double sz1 = 0;
+            double sz2 = 0;
+            double sz3 = 0;
+            double sz4 = 0;
+            double tempW1 = 0;
+            double tempW2 = 0;
+            double tempW3 = 0;
+            double tempW4 = 0;
+            for (int i = 0; i < xOrYOrZOrKOrT.size(); i++) {
+                if (xOrYOrZOrKOrT.get(i).contains("1")) {
+                    tempW1 += rang.get(i);
+                    sz1++;
+                } else if (xOrYOrZOrKOrT.get(i).contains("2")){
+                    tempW2 += rang.get(i);
+                    sz2++;
+                }else if (xOrYOrZOrKOrT.get(i).contains("3")){
+                    tempW3 += rang.get(i);
+                    sz3++;
+                }else{
+                    tempW4 += rang.get(i);
+                    sz4++;
+                }
+            }
+            double w1 = tempW1 / sz1;
+            double w2 = tempW2 / sz2;
+            double w3 = tempW3 / sz3;
+            double w4 = tempW4 / sz4;
+            h+=(Math.pow(w1-(n+1)/2,2)/((n+1)*(n-sz1)/(12*sz1)))*(1-(sz1/n));
+            h+=(Math.pow(w2-(n+1)/2,2)/((n+1)*(n-sz2)/(12*sz2)))*(1-(sz2/n));
+            h+=(Math.pow(w3-(n+1)/2,2)/((n+1)*(n-sz3)/(12*sz3)))*(1-(sz3/n));
+            h+=(Math.pow(w4-(n+1)/2,2)/((n+1)*(n-sz4)/(12*sz4)))*(1-(sz4/n));
+        }else if (size == 5) {
+            double sz1 = 0;
+            double sz2 = 0;
+            double sz3 = 0;
+            double sz4 = 0;
+            double sz5 = 0;
+            double tempW1 = 0;
+            double tempW2 = 0;
+            double tempW3 = 0;
+            double tempW4 = 0;
+            double tempW5 = 0;
+            for (int i = 0; i < xOrYOrZOrKOrT.size(); i++) {
+                if (xOrYOrZOrKOrT.get(i).contains("1")) {
+                    tempW1 += rang.get(i);
+                    sz1++;
+                } else if (xOrYOrZOrKOrT.get(i).contains("2")){
+                    tempW2 += rang.get(i);
+                    sz2++;
+                }else if (xOrYOrZOrKOrT.get(i).contains("3")){
+                    tempW3 += rang.get(i);
+                    sz3++;
+                }else if (xOrYOrZOrKOrT.get(i).contains("4")){
+                    tempW4 += rang.get(i);
+                    sz4++;
+                }else{
+                    tempW5 += rang.get(i);
+                    sz5++;
+                }
+            }
+            double w1 = tempW1 / sz1;
+            double w2 = tempW2 / sz2;
+            double w3 = tempW3 / sz3;
+            double w4 = tempW4 / sz4;
+            double w5 = tempW5 / sz5;
+            h+=(Math.pow(w1-(n+1)/2,2)/((n+1)*(n-sz1)/(12*sz1)))*(1-(sz1/n));
+            h+=(Math.pow(w2-(n+1)/2,2)/((n+1)*(n-sz2)/(12*sz2)))*(1-(sz2/n));
+            h+=(Math.pow(w3-(n+1)/2,2)/((n+1)*(n-sz3)/(12*sz3)))*(1-(sz3/n));
+            h+=(Math.pow(w4-(n+1)/2,2)/((n+1)*(n-sz4)/(12*sz4)))*(1-(sz4/n));
+            h+=(Math.pow(w5-(n+1)/2,2)/((n+1)*(n-sz5)/(12*sz5)))*(1-(sz5/n));
+        }
+        return h;
+    }
     //message:
     //4.1:
     static String messageFtestMessage(List arr1, List arr2) {
@@ -1694,7 +2041,7 @@ public class Helper {
         return message;
     }
 
-    static String messageForAbbe(ArrayList arr1){
+    static String messageForAbbe(ArrayList arr1) {
         double abbe = abbe(arr1);
         double kva = koefForSmirnovKolmogorovAndAbbe(arr1);
         String message = "Критерій однорідності Аббе: \n";
@@ -1709,7 +2056,7 @@ public class Helper {
     }
 
     static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
-        List<ArrayList> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
         double bart = bartleta(list);
         double kva = koefForBartletAndKohrena(list);
         String message = "Критерій Бартлета:\n";
@@ -1725,7 +2072,7 @@ public class Helper {
 
     //5:
     static String messageForOdnoFactorniyDuspersniyAnaliz(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
-        List<ArrayList> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
         double f = odnoFactorniyDuspersniyAnaliz(list);
         double kva = koefForFisher(list.get(0), list.get(1));
         //f-test:
@@ -1741,7 +2088,7 @@ public class Helper {
     }
 
     static String messageForQKohren(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
-        List<ArrayList> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
         double kohren = QKohren(list);
         double kva = koefForBartletAndKohrena(list);
         String message = "Q-критерій Кохрена:\n";
@@ -1755,4 +2102,19 @@ public class Helper {
         return message;
     }
 
+    static String messageForHKruskalaUolis(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5){
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+        List rang = rangRowForSeveral(list);
+        double h = HKruskalaUolis(rang,list.size());
+        double kva = koefForBartletAndKohrena(list);
+        String message = "Н-критерій (критерій Крускала-Уоліса):\n";
+        if (kva >= h) {
+            message += "Головну гіпотезу підтверджено ";
+            //  + "<- " + kva + ">=" + h;
+        } else {
+            message += "Головну гіпотезу спростовано ";
+            //  + "<- " + kva + "<" + h;
+        }
+        return message;
+    }
 }
