@@ -1979,13 +1979,14 @@ public class Helper {
     static String messageForVilksona(ArrayList<ArrayList> resList) {
         double kva = koefForVilksonaAndRiznSerednihRangiv(resList);
         List<Double> list1 = vilksona(resList);
+        double n1 = BigDecimal.valueOf(Math.abs(list1.get(0))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         String message = "Критерій суми рангів Вілкоксона:\n";
-        if (list1.get(0) > kva) {
+        if (n1 > kva) {
             message += "Головну гіпотезу спростовано \n"
-                + kva + "<"+list1.get(0);
+                + kva + "<"+n1;
         } else {
             message += "Головну гіпотезу підтверджено \n"
-                + kva + ">="+list1.get(0);
+                + kva + ">="+n1;
         }
 
 //        if (list1.get(1) > kva) {
@@ -2041,7 +2042,7 @@ public class Helper {
     }
 
     static String messageForAbbe(ArrayList arr1) {
-        double abbe = abbe(arr1);
+        double abbe = BigDecimal.valueOf(abbe(arr1)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = koefForSmirnovKolmogorovAndAbbe(arr1);
         String message = "Критерій однорідності Аббе: \n";
         if (abbe > kva) {
@@ -2056,7 +2057,7 @@ public class Helper {
 
     static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
         List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
-        double bart = bartleta(list);
+        double bart = BigDecimal.valueOf(bartleta(list)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = koefForBartletAndKohrena(list);
         String message = "Критерій Бартлета:\n";
         if (kva > bart) {
@@ -2072,7 +2073,7 @@ public class Helper {
     //5:
     static String messageForOdnoFactorniyDuspersniyAnaliz(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
         List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
-        double f = odnoFactorniyDuspersniyAnaliz(list);
+        double f =  BigDecimal.valueOf(odnoFactorniyDuspersniyAnaliz(list)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = koefForFisher(list.get(0), list.get(1));
         //f-test:
         String message = "Результати проведення перевірки однорідності множини вибірок: ";
