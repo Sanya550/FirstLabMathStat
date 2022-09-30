@@ -1292,7 +1292,7 @@ public class Helper {
         }
 
         double s1 = (2 * s - 1 - newArr.size()) / Math.sqrt(newArr.size());
-        return s1;
+        return Math.abs(s1);
     }
 
     static double abbe(List<Double> arr1) {
@@ -1316,7 +1316,7 @@ public class Helper {
         double q = d2 / dus;
         double u = (q - 1) * Math.sqrt((Math.pow(arr1.size(), 2) - 1) / (arr1.size() - 2));
         double p = 1 / (Math.sqrt(2 * Math.PI * dus)) * Math.pow(Math.E, -0.5 * (Math.pow((u - resultSA) / Math.sqrt(dus), 2)));
-        return p;
+        return BigDecimal.valueOf(p).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         //2.10
     }
 
@@ -1585,7 +1585,7 @@ public class Helper {
             new Exception("кількіть чекбоксів < 2");
         }
         q = b / c;
-        return q;
+        return BigDecimal.valueOf(q).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
     }
 
     static double odnoFactorniyDuspersniyAnaliz(List<ArrayList<Double>> list) {
@@ -1638,7 +1638,7 @@ public class Helper {
         s2v = tempS2v / (nGeneral - list.size());
 
         double f = s2m / s2v;
-        return f;
+        return BigDecimal.valueOf(f).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
     }
 
     static double QKohren(List<ArrayList<Double>> list) {
@@ -1781,36 +1781,35 @@ public class Helper {
         } else {
             JOptionPane.showMessageDialog(null, "arr<2 or arr>5", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        double tempT1 = 0;
+        int tempT1 = 0;
         for (int i = 0; i < array.size(); i++) {
             for (int j = 0; j < array.get(i).size(); j++) {
-                tempT1 += (double) array.get(i).get(j);
+                tempT1 += (int) array.get(i).get(j);
             }
         }
-        double t1 = tempT1 / array.size();
-        double u = 0;
-        double u2 = 0;
+        int t1 = tempT1 / array.size();
+        int u = 0;
+        int u2 = 0;
         int count;
-        for (int i = 0; i < array.size(); i++) {
+        for (int i = 0; i < array.get(0).size(); i++) {
             count = array.size() - 1;
             while (count != -1) {
-                u += (double) array.get(count).get(i);
-                u2 += Math.pow((double) array.get(count).get(i), 2);
+                u = u+ (int)array.get(count).get(i);
+                u2 += Math.pow((int) array.get(count).get(i), 2);
                 count--;
             }
         }
-        double sumTb = 0;
-        double Tj = 0;
+        int sumTb = 0;
         for (int i = 0; i < array.size(); i++) {
             for (int j = 0; j < array.get(i).size(); j++) {
-                sumTb += Math.pow((double) array.get(i).get(j) - t1, 2);
+                sumTb += Math.pow((int) array.get(i).get(j) - t1, 2);
             }
         }
         double q = list.size() * (list.size() - 1) * sumTb / (list.size() * u - u2);
         return q;
     }
 
-    static double HKruskalaUolis(List<ArrayList> list, int size) {
+    static double HKruskalaUolis(ArrayList<ArrayList> list, int size) {
         ArrayList<String> xOrYOrZOrKOrT = list.get(0);
         ArrayList<Double> value = list.get(1);
         ArrayList<Double> rang = list.get(2);
@@ -1941,11 +1940,11 @@ public class Helper {
         //f-test:
         String message = "Результати проведення F-тесту для перевірки збігу дисперсій:\n";
         if (f <= kva) {
-            message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n ";
-            //    + f + "<=" + kva;
+            message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n "
+                + kva + ">=" + f;
         } else {
-            message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n ";
-            //     + f + ">" + kva;
+            message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n "
+                 + kva + "<" + f;
         }
         return message;
     }
@@ -1954,11 +1953,11 @@ public class Helper {
         String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
         double t = tTestForDepends(arr1, arr2);
         if (t > t1) {
-            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n";
-            //   +  t + ">" + t1;
+            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n"
+            +  t1 + "<" + t;
         } else {
-            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n";
-            //    +  t + "<=" + t1;
+            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n"
+            + t1 + ">=" + t;
         }
         return message;
     }
@@ -1967,11 +1966,11 @@ public class Helper {
         double t = Helper.tTestForIndependence(arr1, arr2);
         String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
         if (t > t1) {
-            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n";
-            //  +  t + ">" + t1;
+            message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n"
+              +  t1 + "<" + t;
         } else {
-            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n";
-            // + t + "<=" + t1;
+            message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n"
+             + t1 + ">=" + t;
         }
         return message;
     }
@@ -1982,11 +1981,11 @@ public class Helper {
         List<Double> list1 = vilksona(resList);
         String message = "Критерій суми рангів Вілкоксона:\n";
         if (list1.get(0) > kva) {
-            message += "Головну гіпотезу спростовано. ";
-            //    + list1.get(0) + ">"+kva;
+            message += "Головну гіпотезу спростовано \n"
+                + kva + "<"+list1.get(0);
         } else {
-            message += "Головну гіпотезу підтверджено. ";
-            //    + list1.get(0) + "<="+kva;
+            message += "Головну гіпотезу підтверджено \n"
+                + kva + ">="+list1.get(0);
         }
 
 //        if (list1.get(1) > kva) {
@@ -2004,11 +2003,11 @@ public class Helper {
         double riz = riznSerednihRangiv(resList);
         String message = "Критерій різниці середніх рангів вибірок:\n";
         if (riz > kva) {
-            message += "Головну гіпотезу спростовано ";
-            //    + riz + ">"+kva;
+            message += "Головну гіпотезу спростовано \n"
+                + kva + "<"+riz;
         } else {
-            message += "Головну гіпотезу підтверджено ";
-            //    + riz + "<="+kva;
+            message += "Головну гіпотезу підтверджено \n"
+                + kva + ">="+riz;
         }
         return message;
     }
@@ -2018,11 +2017,11 @@ public class Helper {
         double kva = koefForSmirnovKolmogorovAndAbbe(arr1);
         String message = "Критерій однорідності Смирнова-Колмогорова: \n";
         if (kolAndSm > kva) {
-            message += "Вибірки однорідні ";
-//                    + kolAndSm +">"+kva;
+            message += "Вибірки однорідні \n"
+                    + kva +"<"+kolAndSm;
         } else {
-            message += "Вибірки неоднорідні ";
-//                    + kolAndSm +"<="+kva;
+            message += "Вибірки неоднорідні \n"
+                    + kva +">="+kolAndSm;
         }
         return message;
     }
@@ -2032,11 +2031,11 @@ public class Helper {
         double kva = koefForKriteriiZnakiv(arr1);
         String message = "Критерій знаків: \n";
         if (kriteriiZnakiv >= kva) {
-            message += "Головну гіпотезу спростовано ";
-//                    + kriteriiZnakiv +">="+kva;
+            message += "Головну гіпотезу спростовано \n"
+                    + kva +"<="+kriteriiZnakiv;
         } else {
-            message += "Головну гіпотезу підтверджено ";
-//                    + kriteriiZnakiv +"<"+kva;
+            message += "Головну гіпотезу підтверджено \n"
+                    + kva +">"+kriteriiZnakiv;
         }
         return message;
     }
@@ -2046,11 +2045,11 @@ public class Helper {
         double kva = koefForSmirnovKolmogorovAndAbbe(arr1);
         String message = "Критерій однорідності Аббе: \n";
         if (abbe > kva) {
-            message += "Спостереження є незалежним ";
-//                    + abbe +">"+kva;
+            message += "Спостереження є незалежним \n"
+                    + kva +"<"+abbe;
         } else {
-            message += "Спостереження є залежним ";
-//                    + abbe +"<="+kva;
+            message += "Спостереження є залежним \n"
+                    + kva +"=>"+abbe;
         }
         return message;
     }
@@ -2061,11 +2060,11 @@ public class Helper {
         double kva = koefForBartletAndKohrena(list);
         String message = "Критерій Бартлета:\n";
         if (kva > bart) {
-            message += "Головну гіпотезу спростовано ";
-            //  + "<- " + kva + ">" + bart;
+            message += "Головну гіпотезу спростовано \n"
+               + kva + ">" + bart;
         } else {
-            message += "Головну гіпотезу підтверджено ";
-            //  + "<- " + kva + "<=" + bart;
+            message += "Головну гіпотезу підтверджено \n"
+               + kva + "<=" + bart;
         }
         return message;
     }
@@ -2078,11 +2077,11 @@ public class Helper {
         //f-test:
         String message = "Результати проведення перевірки однорідності множини вибірок: ";
         if (f <= kva) {
-            message += "Нульову гіпотезу підтверджено\n ";
-            //      + f + "<=" + kva;
+            message += "Нульову гіпотезу підтверджено\n "
+                  + kva + "=>" + f;
         } else {
-            message += "Нульову гіпотезу спростовано\n ";
-            //   + f + ">" + kva;
+            message += "Нульову гіпотезу спростовано\n "
+               + kva + "<" + f;
         }
         return message;
     }
@@ -2093,11 +2092,11 @@ public class Helper {
         double kva = koefForBartletAndKohrena(list);
         String message = "Q-критерій Кохрена:\n";
         if (kva > kohren) {
-            message += "Головну гіпотезу спростовано ";
-            //  + "<- " + kva + ">" + kohren;
+            message += "Головну гіпотезу спростовано \n"
+               + kva + ">" + kohren;
         } else {
-            message += "Головну гіпотезу підтверджено ";
-            //  + "<- " + kva + "<=" + kohren;
+            message += "Головну гіпотезу підтверджено \n"
+              + kva + "<=" + kohren;
         }
         return message;
     }
@@ -2105,15 +2104,15 @@ public class Helper {
     static String messageForHKruskalaUolis(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5){
         List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
         List rang = rangRowForSeveral(list);
-        double h = HKruskalaUolis(rang,list.size());
+        double h = HKruskalaUolis((ArrayList<ArrayList>) rang,list.size());
         double kva = koefForBartletAndKohrena(list);
         String message = "Н-критерій (критерій Крускала-Уоліса):\n";
         if (kva >= h) {
-            message += "Головну гіпотезу підтверджено ";
-            //  + "<- " + kva + ">=" + h;
+            message += "Головну гіпотезу підтверджено \n"
+              + kva + ">=" + h;
         } else {
-            message += "Головну гіпотезу спростовано ";
-            //  + "<- " + kva + "<" + h;
+            message += "Головну гіпотезу спростовано \n"
+               + kva + "<" + h;
         }
         return message;
     }

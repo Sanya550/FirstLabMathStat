@@ -41,8 +41,35 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#showVarRowList" text="Варіаційний ряд" />
                   <MenuItem mnemonicParsing="false" onAction="#shownMainCharacteristic" text="Основні характеристики" />
-                  <MenuItem mnemonicParsing="false" onAction="#kriteriiOdnoridnosti" text="Критерії однорідності" />
-                  <MenuItem mnemonicParsing="false" onAction="#rangTable" text="Ранги" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Критерії однорідності">
+               <items>
+                  <Menu mnemonicParsing="false" text="Залежні вибірки">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#tTestForDepens" text="t-test" />
+                        <MenuItem mnemonicParsing="false" onAction="#odnoFactDusAnalyze" text="Однофакторний дисперсійний аналіз" />
+                        <MenuItem mnemonicParsing="false" onAction="#kriteriiZnakiv" text="Критерій знаків" />
+                        <MenuItem mnemonicParsing="false" onAction="#QKriterii" text="Q-критерій Кохрена" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Незалежні вибірки">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Рангові критерії">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#vilkoksona" text="Критерій Вілкоксона" />
+                              <MenuItem mnemonicParsing="false" onAction="#riznSerRangiv" text="Різниці середніх рангів" />
+                              <MenuItem mnemonicParsing="false" onAction="#Hkriterrii" text="H-критерій" />
+                              <MenuItem mnemonicParsing="false" onAction="#rangTable" text="Ранговий варіаційний ряд" />
+                           </items>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#tTestForInDepens" text="t-test" />
+                        <MenuItem mnemonicParsing="false" onAction="#fTest" text="f-test" />
+                        <MenuItem mnemonicParsing="false" onAction="#bartlet" text="Критерій Бартлетта" />
+                        <MenuItem mnemonicParsing="false" onAction="#abbe" text="Критерій Аббе" />
+                        <MenuItem mnemonicParsing="false" onAction="#kolmogorovaSmirnova" text="Колмогорова-Смирнова" />
+                     </items>
+                  </Menu>
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Звичайні графіки">
@@ -87,8 +114,6 @@
                               <Label fx:id="label" layoutX="7.0" layoutY="12.0" text="Класи:" />
                               <Label fx:id="label1" layoutX="7.0" layoutY="42.0" text="Квантиль:" />
                               <Label fx:id="label2" layoutX="6.0" layoutY="76.0" text="Альфа:" />
-                              <CheckBox fx:id="depend" layoutX="140.0" layoutY="12.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="88.0" text="Залежні" />
-                              <CheckBox fx:id="independ" layoutX="140.0" layoutY="42.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="88.0" text="Незалежні" />
                               <CheckBox fx:id="checkBox1" layoutX="3.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="1" />
                               <CheckBox fx:id="checkBox2" layoutX="39.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="2" />
                               <CheckBox fx:id="checkBox3" layoutX="76.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="3" />

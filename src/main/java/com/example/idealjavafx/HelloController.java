@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,10 +59,6 @@ public class HelloController {
     @FXML
     private TableView tableView;
     @FXML
-    private CheckBox depend;
-    @FXML
-    private CheckBox independ;
-    @FXML
     private CheckBox checkBox1;
     @FXML
     private CheckBox checkBox2;
@@ -71,12 +68,6 @@ public class HelloController {
     private CheckBox checkBox4;
     @FXML
     private CheckBox checkBox5;
-
-    @FXML
-    protected void test() {
-        tableView.getItems().clear();
-        tableView.getColumns().clear();
-    }
 
     //звичайні графіки:
     @FXML
@@ -407,8 +398,10 @@ public class HelloController {
         tableView.getColumns().addAll(columnCharacteristic, columnINF, columnForValue, columnSUP, columnForAverage);
     }
 
+    //критерії однорідності
+    //залежні вибірки:
     @FXML
-    protected void kriteriiOdnoridnosti(ActionEvent event) {
+    protected void tTestForDepens(ActionEvent event) {
         List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
@@ -419,28 +412,180 @@ public class HelloController {
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                //vilksona:
-                ArrayList<Double> vilksonArray = Helper.vilksona(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
-                message += "Критерій суми рангів Вілкоксона вибірки 1 = "+vilksonArray.get(0)+"; 2 = "+vilksonArray.get(1) +"\n";
-                //t-test:
-                if (depend.isSelected()) {
-                    if (arr1.size() != arr2.size()) {
-                        JOptionPane.showMessageDialog(null, "Помилка! Різні розміри файлів", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        //f-test:
-                        message += Helper.messageTtestForDepends(arr1, arr2);
-                        JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } else if (independ.isSelected()) {
-                    message += Helper.messageFtestMessage(arr1, arr2);
-                    message += Helper.messageTtestForInDepends(arr1, arr2);
-                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                if (arr1.size() != arr2.size()) {
+                    JOptionPane.showMessageDialog(null, "Помилка! Різні розміри файлів", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Оберіть залежна чи незалежна вибірка", "Warn", JOptionPane.WARNING_MESSAGE);
+                    //f-test:
+                    message += Helper.messageTtestForDepends(arr1, arr2);
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
+    }
 
+    @FXML
+    protected void odnoFactDusAnalyze(ActionEvent event) {
+        String message = "";
+        message += Helper.messageForOdnoFactorniyDuspersniyAnaliz(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    protected void kriteriiZnakiv(ActionEvent event) {
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        if (listOfCheckBox.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            List arr1 = (List) listOfCheckBox.get(0);
+            List arr2 = (List) listOfCheckBox.get(1);
+            String message = "";
+            if (arr1.isEmpty() || arr2.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (arr1.size() != arr2.size()) {
+                    JOptionPane.showMessageDialog(null, "Помилка! Різні розміри файлів", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    //f-test:
+                    message += Helper.messageForKriteriiZnakiv((ArrayList) arr1, (ArrayList) arr2);
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }
+    }
+
+    @FXML
+    protected void QKriterii(ActionEvent event) {
+        String message = "";
+        message += Helper.messageForQKohren(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+    }
+    //незалежні вибірки:
+    @FXML
+    protected void tTestForInDepens(ActionEvent event) {
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        if (listOfCheckBox.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            List arr1 = (List) listOfCheckBox.get(0);
+            List arr2 = (List) listOfCheckBox.get(1);
+            String message = "";
+            if (arr1.isEmpty() || arr2.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                    //f-test:
+                    message += Helper.messageTtestForInDepends(arr1, arr2);
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    @FXML
+    protected void fTest(ActionEvent event){
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        if (listOfCheckBox.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            List arr1 = (List) listOfCheckBox.get(0);
+            List arr2 = (List) listOfCheckBox.get(1);
+            String message = "";
+            if (arr1.isEmpty() || arr2.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                    //f-test:
+                    message += Helper.messageFtestMessage(arr1, arr2);
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    @FXML
+    protected void bartlet(ActionEvent event){
+        String message = "";
+        message += Helper.messageForBartlet(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    protected void abbe(ActionEvent event) {
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        if (listOfCheckBox.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            List arr1 = (List) listOfCheckBox.get(0);
+            List arr2 = (List) listOfCheckBox.get(1);
+            String message = "";
+            if (arr1.isEmpty() || arr2.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                    //f-test:
+                    message += Helper.messageForAbbe((ArrayList) arr1);
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    @FXML
+    protected void kolmogorovaSmirnova(ActionEvent event){
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        if (listOfCheckBox.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            List arr1 = (List) listOfCheckBox.get(0);
+            List arr2 = (List) listOfCheckBox.get(1);
+            String message = "";
+            if (arr1.isEmpty() || arr2.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                    //f-test:
+                    message += Helper.messageForKolmogorovaSmirnova((ArrayList) arr1,(ArrayList) arr2);
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+    //рангові:
+    @FXML
+    protected void vilkoksona(ActionEvent event){
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        if (listOfCheckBox.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            List arr1 = (List) listOfCheckBox.get(0);
+            List arr2 = (List) listOfCheckBox.get(1);
+            String message = "";
+            if (arr1.isEmpty() || arr2.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                    //f-test:
+                    message += Helper.messageForVilksona(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    @FXML
+    protected void riznSerRangiv(ActionEvent event){
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        if (listOfCheckBox.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            List arr1 = (List) listOfCheckBox.get(0);
+            List arr2 = (List) listOfCheckBox.get(1);
+            String message = "";
+            if (arr1.isEmpty() || arr2.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                    //f-test:
+                    message += Helper.messageForRiznSerednihRangiv(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
+                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    @FXML
+    protected void Hkriterrii(ActionEvent event){
+        String message = "";
+        message += Helper.messageForHKruskalaUolis(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
