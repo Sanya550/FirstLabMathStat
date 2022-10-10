@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -31,6 +32,7 @@ public class HelloController {
     static ArrayList arrayListNumber4 = new ArrayList();
     static ArrayList arrayListNumber5 = new ArrayList();
     //
+    static int forFileIndex = 1;
     static Map<Double, Integer> treeMap = new TreeMap();
     static int numberOfClass;
     static double kvantil = 1.96;
@@ -68,6 +70,14 @@ public class HelloController {
     private CheckBox checkBox4;
     @FXML
     private CheckBox checkBox5;
+    @FXML
+    private TextField strModelN;
+    @FXML
+    private TextField strModelM;
+    @FXML
+    private TextField strModelP;
+    @FXML
+    private TextField strModelL;
 
     //звичайні графіки:
     @FXML
@@ -416,7 +426,7 @@ public class HelloController {
                     JOptionPane.showMessageDialog(null, "Помилка! Різні розміри файлів", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     //f-test:
-                    message += Helper.messageTtestForDepends(arr1, arr2);
+                    message += Helper.messageTtestForInDepends(arr1, arr2);
                     JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
@@ -459,6 +469,7 @@ public class HelloController {
         message += Helper.messageForQKohren(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
         JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
     }
+
     //незалежні вибірки:
     @FXML
     protected void tTestForInDepens(ActionEvent event) {
@@ -472,15 +483,15 @@ public class HelloController {
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                    //f-test:
-                    message += Helper.messageTtestForInDepends(arr1, arr2);
-                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                //f-test:
+                message += Helper.messageTtestForInDepends(arr1, arr2);
+                JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
     @FXML
-    protected void fTest(ActionEvent event){
+    protected void fTest(ActionEvent event) {
         List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
@@ -491,15 +502,15 @@ public class HelloController {
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                    //f-test:
-                    message += Helper.messageFtestMessage(arr1, arr2);
-                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                //f-test:
+                message += Helper.messageFtestMessage(arr1, arr2);
+                JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
     @FXML
-    protected void bartlet(ActionEvent event){
+    protected void bartlet(ActionEvent event) {
         String message = "";
         message += Helper.messageForBartlet(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
         JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
@@ -517,15 +528,15 @@ public class HelloController {
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                    //f-test:
-                    message += Helper.messageForAbbe((ArrayList) arr1);
-                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                //f-test:
+                message += Helper.messageForAbbe((ArrayList) arr1);
+                JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
     @FXML
-    protected void kolmogorovaSmirnova(ActionEvent event){
+    protected void kolmogorovaSmirnova(ActionEvent event) {
         List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
@@ -536,15 +547,16 @@ public class HelloController {
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                    //f-test:
-                    message += Helper.messageForKolmogorovaSmirnova((ArrayList) arr1,(ArrayList) arr2);
-                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                //f-test:
+                message += Helper.messageForKolmogorovaSmirnova((ArrayList) arr1, (ArrayList) arr2);
+                JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
+
     //рангові:
     @FXML
-    protected void vilkoksona(ActionEvent event){
+    protected void vilkoksona(ActionEvent event) {
         List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
@@ -555,15 +567,15 @@ public class HelloController {
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                    //f-test:
-                    message += Helper.messageForVilksona(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
-                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                //f-test:
+                message += Helper.messageForVilksona(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
+                JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
     @FXML
-    protected void riznSerRangiv(ActionEvent event){
+    protected void riznSerRangiv(ActionEvent event) {
         List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
@@ -574,15 +586,15 @@ public class HelloController {
             if (arr1.isEmpty() || arr2.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                    //f-test:
-                    message += Helper.messageForRiznSerednihRangiv(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
-                    JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
+                //f-test:
+                message += Helper.messageForRiznSerednihRangiv(Helper.rangRow((ArrayList<Double>) arr1, (ArrayList<Double>) arr2));
+                JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
     @FXML
-    protected void Hkriterrii(ActionEvent event){
+    protected void Hkriterrii(ActionEvent event) {
         String message = "";
         message += Helper.messageForHKruskalaUolis(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
         JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
@@ -675,6 +687,87 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    //моделювання вибірок:
+    @FXML
+    protected void modelNormRozpodil(ActionEvent event) {
+        try {
+            double n = Double.parseDouble(strModelN.getText());
+            double p = Double.parseDouble(strModelP.getText());
+            double m = Double.parseDouble(strModelM.getText());
+            List<Double> list = Helper.returnListForModelNormalRozpodil(m, p, n);
+
+            File dir = null;
+            JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int resp = fc.showOpenDialog(null);
+            if (resp == JFileChooser.APPROVE_OPTION) {
+                dir = fc.getSelectedFile();
+            }
+
+            File file = new File(dir, "norm" + forFileIndex + ".txt");
+            forFileIndex++;
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(file);
+                for (double a : list) {
+                    fw.write(a + "\n");
+                }
+                fw.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (fw != null) {
+                    try {
+                        fw.close();
+                    } catch (IOException ex) {
+                    }
+                }
+            }
+        } catch (Exception exception) {
+            JOptionPane.showMessageDialog(null, "Оберіть вірно параметри N, m та ρ", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    @FXML
+    protected void modelEksponRozpodil(ActionEvent event) {
+        try {
+            double n = Double.parseDouble(strModelN.getText());
+            double l = Double.parseDouble(strModelL.getText());
+            List<Double> list = Helper.returnListForModelEkspontialRozpodil(n, l);
+
+            File dir = null;
+            JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int resp = fc.showOpenDialog(null);
+            if (resp == JFileChooser.APPROVE_OPTION) {
+                dir = fc.getSelectedFile();
+            }
+
+            File file = new File(dir, "eksp" + forFileIndex + ".txt");
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(file);
+                for (double a : list) {
+                    fw.write(a + "\n");
+                }
+                fw.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (fw != null) {
+                    try {
+                        fw.close();
+                    } catch (IOException ex) {
+                    }
+                }
+            }
+        } catch (Exception exception) {
+            JOptionPane.showMessageDialog(null, "Оберіть вірно параметри N та ʎ", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
 

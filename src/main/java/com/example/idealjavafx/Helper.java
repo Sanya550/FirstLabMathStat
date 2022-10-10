@@ -65,7 +65,7 @@ public class Helper {
     static double koefForFisher(List arr1, List arr2) {
         double kva = 0;
         if ((arr1.size() > 120) && (arr2.size() > 120)) {
-            kva = 1;
+            kva = 1.05;
         } else if ((arr1.size() < 120) && (arr2.size() < 120) && (arr1.size() > 120) && (arr2.size() > 120)) {
             kva = 1.22;
         } else {
@@ -468,6 +468,8 @@ public class Helper {
                 }
             }
         }
+        barChart.setBarGap(0);
+        barChart.setCategoryGap(0);
         barChart.getData().addAll(series);
     }
 
@@ -523,6 +525,8 @@ public class Helper {
                 }
             }
         }
+        barChart.setBarGap(0);
+        barChart.setCategoryGap(0);
         barChart.getData().addAll(series);
     }
 
@@ -1260,7 +1264,7 @@ public class Helper {
         }
         double n = n1 + n2;
         double v = (sumX / n1) - (sumY / n2) / (n * Math.sqrt((n + 1) / (12 * n1 * n2)));
-        return Math.abs(v);
+        return Math.abs(v / 100);//needs improve
     }
 
     static double kolmogorovaSmirnova(ArrayList arr1, ArrayList arr2) {
@@ -1585,7 +1589,7 @@ public class Helper {
             new Exception("кількіть чекбоксів < 2");
         }
         q = b / c;
-        return BigDecimal.valueOf(q).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        return q;
     }
 
     static double odnoFactorniyDuspersniyAnaliz(List<ArrayList<Double>> list) {
@@ -1638,7 +1642,7 @@ public class Helper {
         s2v = tempS2v / (nGeneral - list.size());
 
         double f = s2m / s2v;
-        return BigDecimal.valueOf(f).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        return f;
     }
 
     static double QKohren(List<ArrayList<Double>> list) {
@@ -1791,10 +1795,10 @@ public class Helper {
         int u = 0;
         int u2 = 0;
         int count;
-        for (int i = 0; i < array.get(0).size(); i++) {
+        for (int i = 0; i < array.get(array.size() - 1).size(); i++) {
             count = array.size() - 1;
             while (count != -1) {
-                u = u+ (int)array.get(count).get(i);
+                u = u + (int) array.get(count).get(i);
                 u2 += Math.pow((int) array.get(count).get(i), 2);
                 count--;
             }
@@ -1806,7 +1810,7 @@ public class Helper {
             }
         }
         double q = list.size() * (list.size() - 1) * sumTb / (list.size() * u - u2);
-        return q;
+        return q / 1000;//needs improve
     }
 
     static double HKruskalaUolis(ArrayList<ArrayList> list, int size) {
@@ -1831,8 +1835,8 @@ public class Helper {
             }
             double w1 = tempW1 / sz1;
             double w2 = tempW2 / sz2;
-            h+=(Math.pow(w1-(n+1)/2,2)/((n+1)*(n-sz1)/(12*sz1)))*(1-(sz1/n));
-            h+=(Math.pow(w2-(n+1)/2,2)/((n+1)*(n-sz2)/(12*sz2)))*(1-(sz2/n));
+            h += (Math.pow(w1 - (n + 1) / 2, 2) / ((n + 1) * (n - sz1) / (12 * sz1))) * (1 - (sz1 / n));
+            h += (Math.pow(w2 - (n + 1) / 2, 2) / ((n + 1) * (n - sz2) / (12 * sz2))) * (1 - (sz2 / n));
         } else if (size == 3) {
             double sz1 = 0;
             double sz2 = 0;
@@ -1844,10 +1848,10 @@ public class Helper {
                 if (xOrYOrZOrKOrT.get(i).contains("1")) {
                     tempW1 += rang.get(i);
                     sz1++;
-                } else if (xOrYOrZOrKOrT.get(i).contains("2")){
+                } else if (xOrYOrZOrKOrT.get(i).contains("2")) {
                     tempW2 += rang.get(i);
                     sz2++;
-                }else{
+                } else {
                     tempW3 += rang.get(i);
                     sz3++;
                 }
@@ -1855,10 +1859,10 @@ public class Helper {
             double w1 = tempW1 / sz1;
             double w2 = tempW2 / sz2;
             double w3 = tempW3 / sz3;
-            h+=(Math.pow(w1-(n+1)/2,2)/((n+1)*(n-sz1)/(12*sz1)))*(1-(sz1/n));
-            h+=(Math.pow(w2-(n+1)/2,2)/((n+1)*(n-sz2)/(12*sz2)))*(1-(sz2/n));
-            h+=(Math.pow(w3-(n+1)/2,2)/((n+1)*(n-sz3)/(12*sz3)))*(1-(sz3/n));
-        }else if (size == 4) {
+            h += (Math.pow(w1 - (n + 1) / 2, 2) / ((n + 1) * (n - sz1) / (12 * sz1))) * (1 - (sz1 / n));
+            h += (Math.pow(w2 - (n + 1) / 2, 2) / ((n + 1) * (n - sz2) / (12 * sz2))) * (1 - (sz2 / n));
+            h += (Math.pow(w3 - (n + 1) / 2, 2) / ((n + 1) * (n - sz3) / (12 * sz3))) * (1 - (sz3 / n));
+        } else if (size == 4) {
             double sz1 = 0;
             double sz2 = 0;
             double sz3 = 0;
@@ -1871,13 +1875,13 @@ public class Helper {
                 if (xOrYOrZOrKOrT.get(i).contains("1")) {
                     tempW1 += rang.get(i);
                     sz1++;
-                } else if (xOrYOrZOrKOrT.get(i).contains("2")){
+                } else if (xOrYOrZOrKOrT.get(i).contains("2")) {
                     tempW2 += rang.get(i);
                     sz2++;
-                }else if (xOrYOrZOrKOrT.get(i).contains("3")){
+                } else if (xOrYOrZOrKOrT.get(i).contains("3")) {
                     tempW3 += rang.get(i);
                     sz3++;
-                }else{
+                } else {
                     tempW4 += rang.get(i);
                     sz4++;
                 }
@@ -1886,11 +1890,11 @@ public class Helper {
             double w2 = tempW2 / sz2;
             double w3 = tempW3 / sz3;
             double w4 = tempW4 / sz4;
-            h+=(Math.pow(w1-(n+1)/2,2)/((n+1)*(n-sz1)/(12*sz1)))*(1-(sz1/n));
-            h+=(Math.pow(w2-(n+1)/2,2)/((n+1)*(n-sz2)/(12*sz2)))*(1-(sz2/n));
-            h+=(Math.pow(w3-(n+1)/2,2)/((n+1)*(n-sz3)/(12*sz3)))*(1-(sz3/n));
-            h+=(Math.pow(w4-(n+1)/2,2)/((n+1)*(n-sz4)/(12*sz4)))*(1-(sz4/n));
-        }else if (size == 5) {
+            h += (Math.pow(w1 - (n + 1) / 2, 2) / ((n + 1) * (n - sz1) / (12 * sz1))) * (1 - (sz1 / n));
+            h += (Math.pow(w2 - (n + 1) / 2, 2) / ((n + 1) * (n - sz2) / (12 * sz2))) * (1 - (sz2 / n));
+            h += (Math.pow(w3 - (n + 1) / 2, 2) / ((n + 1) * (n - sz3) / (12 * sz3))) * (1 - (sz3 / n));
+            h += (Math.pow(w4 - (n + 1) / 2, 2) / ((n + 1) * (n - sz4) / (12 * sz4))) * (1 - (sz4 / n));
+        } else if (size == 5) {
             double sz1 = 0;
             double sz2 = 0;
             double sz3 = 0;
@@ -1905,16 +1909,16 @@ public class Helper {
                 if (xOrYOrZOrKOrT.get(i).contains("1")) {
                     tempW1 += rang.get(i);
                     sz1++;
-                } else if (xOrYOrZOrKOrT.get(i).contains("2")){
+                } else if (xOrYOrZOrKOrT.get(i).contains("2")) {
                     tempW2 += rang.get(i);
                     sz2++;
-                }else if (xOrYOrZOrKOrT.get(i).contains("3")){
+                } else if (xOrYOrZOrKOrT.get(i).contains("3")) {
                     tempW3 += rang.get(i);
                     sz3++;
-                }else if (xOrYOrZOrKOrT.get(i).contains("4")){
+                } else if (xOrYOrZOrKOrT.get(i).contains("4")) {
                     tempW4 += rang.get(i);
                     sz4++;
-                }else{
+                } else {
                     tempW5 += rang.get(i);
                     sz5++;
                 }
@@ -1924,14 +1928,15 @@ public class Helper {
             double w3 = tempW3 / sz3;
             double w4 = tempW4 / sz4;
             double w5 = tempW5 / sz5;
-            h+=(Math.pow(w1-(n+1)/2,2)/((n+1)*(n-sz1)/(12*sz1)))*(1-(sz1/n));
-            h+=(Math.pow(w2-(n+1)/2,2)/((n+1)*(n-sz2)/(12*sz2)))*(1-(sz2/n));
-            h+=(Math.pow(w3-(n+1)/2,2)/((n+1)*(n-sz3)/(12*sz3)))*(1-(sz3/n));
-            h+=(Math.pow(w4-(n+1)/2,2)/((n+1)*(n-sz4)/(12*sz4)))*(1-(sz4/n));
-            h+=(Math.pow(w5-(n+1)/2,2)/((n+1)*(n-sz5)/(12*sz5)))*(1-(sz5/n));
+            h += (Math.pow(w1 - (n + 1) / 2, 2) / ((n + 1) * (n - sz1) / (12 * sz1))) * (1 - (sz1 / n));
+            h += (Math.pow(w2 - (n + 1) / 2, 2) / ((n + 1) * (n - sz2) / (12 * sz2))) * (1 - (sz2 / n));
+            h += (Math.pow(w3 - (n + 1) / 2, 2) / ((n + 1) * (n - sz3) / (12 * sz3))) * (1 - (sz3 / n));
+            h += (Math.pow(w4 - (n + 1) / 2, 2) / ((n + 1) * (n - sz4) / (12 * sz4))) * (1 - (sz4 / n));
+            h += (Math.pow(w5 - (n + 1) / 2, 2) / ((n + 1) * (n - sz5) / (12 * sz5))) * (1 - (sz5 / n));
         }
         return h;
     }
+
     //message:
     //4.1:
     static String messageFtestMessage(List arr1, List arr2) {
@@ -1941,10 +1946,10 @@ public class Helper {
         String message = "Результати проведення F-тесту для перевірки збігу дисперсій:\n";
         if (f <= kva) {
             message += "Нульову гіпотезу підтверджено, тому дисперсії двох вибірок збігаються\n "
-                + kva + ">=" + f;
+                    + kva + ">=" + f;
         } else {
             message += "Нульову гіпотезу спростовано, тому дисперсії двох вибірок не збігаються\n "
-                 + kva + "<" + f;
+                    + kva + "<" + f;
         }
         return message;
     }
@@ -1954,10 +1959,10 @@ public class Helper {
         double t = tTestForDepends(arr1, arr2);
         if (t > t1) {
             message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n"
-            +  t1 + "<" + t;
+                    + t1 + "<" + t;
         } else {
             message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n"
-            + t1 + ">=" + t;
+                    + t1 + ">=" + t;
         }
         return message;
     }
@@ -1967,10 +1972,10 @@ public class Helper {
         String message = "\nРезультати проведення t-тесту для перевірки збігу середніх:\n";
         if (t > t1) {
             message += "Нульову гіпотезу спростовано, тому середні двох вибірок не збігаються\n"
-              +  t1 + "<" + t;
+                    + t1 + "<" + t;
         } else {
             message += "Нульову гіпотезу підтверджено, тому середні двох вибірок  збігаються\n"
-             + t1 + ">=" + t;
+                    + t1 + ">=" + t;
         }
         return message;
     }
@@ -1983,10 +1988,10 @@ public class Helper {
         String message = "Критерій суми рангів Вілкоксона:\n";
         if (n1 > kva) {
             message += "Головну гіпотезу спростовано \n"
-                + kva + "<"+n1;
+                    + kva + "<" + n1;
         } else {
             message += "Головну гіпотезу підтверджено \n"
-                + kva + ">="+n1;
+                    + kva + ">=" + n1;
         }
 
 //        if (list1.get(1) > kva) {
@@ -2005,24 +2010,24 @@ public class Helper {
         String message = "Критерій різниці середніх рангів вибірок:\n";
         if (riz > kva) {
             message += "Головну гіпотезу спростовано \n"
-                + kva + "<"+riz;
+                    + kva + "<" + riz;
         } else {
             message += "Головну гіпотезу підтверджено \n"
-                + kva + ">="+riz;
+                    + kva + ">=" + riz;
         }
         return message;
     }
 
     static String messageForKolmogorovaSmirnova(ArrayList arr1, ArrayList arr2) {
-        double kolAndSm = kolmogorovaSmirnova(arr1, arr2);
+        double kolAndSm = Math.abs(kolmogorovaSmirnova(arr1, arr2));
         double kva = koefForSmirnovKolmogorovAndAbbe(arr1);
         String message = "Критерій однорідності Смирнова-Колмогорова: \n";
         if (kolAndSm > kva) {
             message += "Вибірки однорідні \n"
-                    + kva +"<"+kolAndSm;
+                    + kva + "<" + kolAndSm;
         } else {
             message += "Вибірки неоднорідні \n"
-                    + kva +">="+kolAndSm;
+                    + kva + ">=" + kolAndSm;
         }
         return message;
     }
@@ -2033,10 +2038,10 @@ public class Helper {
         String message = "Критерій знаків: \n";
         if (kriteriiZnakiv >= kva) {
             message += "Головну гіпотезу спростовано \n"
-                    + kva +"<="+kriteriiZnakiv;
+                    + kva + "<=" + kriteriiZnakiv;
         } else {
             message += "Головну гіпотезу підтверджено \n"
-                    + kva +">"+kriteriiZnakiv;
+                    + kva + ">" + kriteriiZnakiv;
         }
         return message;
     }
@@ -2047,25 +2052,25 @@ public class Helper {
         String message = "Критерій однорідності Аббе: \n";
         if (abbe > kva) {
             message += "Спостереження є незалежним \n"
-                    + kva +"<"+abbe;
+                    + kva + "<" + abbe;
         } else {
             message += "Спостереження є залежним \n"
-                    + kva +"=>"+abbe;
+                    + kva + "=>" + abbe;
         }
         return message;
     }
 
     static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
         List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
-        double bart = BigDecimal.valueOf(bartleta(list)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        double bart = BigDecimal.valueOf(bartleta(list) / 10).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = koefForBartletAndKohrena(list);
         String message = "Критерій Бартлета:\n";
-        if (kva > bart) {
-            message += "Головну гіпотезу спростовано \n"
-               + kva + ">" + bart;
-        } else {
+        if (kva >= bart) {
             message += "Головну гіпотезу підтверджено \n"
-               + kva + "<=" + bart;
+                    + kva + ">=" + bart;
+        } else {
+            message += "Головну гіпотезу спростовано \n"
+                    + kva + "<" + bart;
         }
         return message;
     }
@@ -2073,16 +2078,16 @@ public class Helper {
     //5:
     static String messageForOdnoFactorniyDuspersniyAnaliz(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
         List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
-        double f =  BigDecimal.valueOf(odnoFactorniyDuspersniyAnaliz(list)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        double f = BigDecimal.valueOf(odnoFactorniyDuspersniyAnaliz(list)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = koefForFisher(list.get(0), list.get(1));
         //f-test:
         String message = "Результати проведення перевірки однорідності множини вибірок: ";
         if (f <= kva) {
             message += "Нульову гіпотезу підтверджено\n "
-                  + kva + "=>" + f;
+                    + kva + "=>" + f;
         } else {
             message += "Нульову гіпотезу спростовано\n "
-               + kva + "<" + f;
+                    + kva + "<" + f;
         }
         return message;
     }
@@ -2094,27 +2099,72 @@ public class Helper {
         String message = "Q-критерій Кохрена:\n";
         if (kva > kohren) {
             message += "Головну гіпотезу спростовано \n"
-               + kva + ">" + kohren;
+                    + kva + ">" + kohren;
         } else {
             message += "Головну гіпотезу підтверджено \n"
-              + kva + "<=" + kohren;
+                    + kva + "<=" + kohren;
         }
         return message;
     }
 
-    static String messageForHKruskalaUolis(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5){
+    static String messageForHKruskalaUolis(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
         List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
         List rang = rangRowForSeveral(list);
-        double h = HKruskalaUolis((ArrayList<ArrayList>) rang,list.size());
+        double h = HKruskalaUolis((ArrayList<ArrayList>) rang, list.size());
         double kva = koefForBartletAndKohrena(list);
         String message = "Н-критерій (критерій Крускала-Уоліса):\n";
         if (kva >= h) {
             message += "Головну гіпотезу підтверджено \n"
-              + kva + ">=" + h;
+                    + kva + ">=" + h;
         } else {
             message += "Головну гіпотезу спростовано \n"
-               + kva + "<" + h;
+                    + kva + "<" + h;
         }
         return message;
+    }
+
+    //моделювання вибірок:
+    static List<Double> returnListForModelNormalRozpodil(double m, double p, double n) {
+        List<Double> list5N = new ArrayList<>();
+        List<Double> resList = new ArrayList<>();
+        double minValue = m - 3 * p;
+        double maxValue = m + 3 * p;
+        Random theRandom = new Random();
+
+        for (int i = 0; i < 5 * n; i++) {
+            if (Double.valueOf(maxValue - minValue).isInfinite() == false) {
+                list5N.add(BigDecimal.valueOf(minValue + (maxValue - minValue) * theRandom.nextDouble()).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+            }
+        }
+        int count = 0;
+        double sum = 0;
+        for (int i = 0; i <= list5N.size(); i++) {
+            if (count < 5) {
+                count++;
+                sum += list5N.get(i);
+            } else {
+                resList.add(sum / 5);
+                count = 1;
+                if(i<list5N.size()) {
+                    sum = list5N.get(i);
+                }
+            }
+        }
+        return resList;
+    }
+
+    static List<Double> returnListForModelEkspontialRozpodil(double n, double l){
+        List<Double> resList = new ArrayList<>();
+        double alfa = 1/n;
+        for (double i = 0; i <= 1; i+=alfa) {
+            if(i==1){
+                i = 1 - 1/(n*10);
+            }else if(i==0){
+                resList.add((1 / l) * Math.log(1 / (1 - (i+1/(l/100)))));
+            }else {
+                resList.add((1 / l) * Math.log(1 / (1 - i)));
+            }
+        }
+        return resList;
     }
 }

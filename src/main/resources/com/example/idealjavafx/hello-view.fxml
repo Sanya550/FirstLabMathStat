@@ -13,6 +13,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
    <children>
@@ -47,7 +48,7 @@
                <items>
                   <Menu mnemonicParsing="false" text="Залежні вибірки">
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#tTestForDepens" text="t-test" />
+                        <MenuItem mnemonicParsing="false" onAction="#tTestForDepens" text="Збіг середніх" />
                         <MenuItem mnemonicParsing="false" onAction="#odnoFactDusAnalyze" text="Однофакторний дисперсійний аналіз" />
                         <MenuItem mnemonicParsing="false" onAction="#kriteriiZnakiv" text="Критерій знаків" />
                         <MenuItem mnemonicParsing="false" onAction="#QKriterii" text="Q-критерій Кохрена" />
@@ -63,8 +64,8 @@
                               <MenuItem mnemonicParsing="false" onAction="#rangTable" text="Ранговий варіаційний ряд" />
                            </items>
                         </Menu>
-                        <MenuItem mnemonicParsing="false" onAction="#tTestForInDepens" text="t-test" />
-                        <MenuItem mnemonicParsing="false" onAction="#fTest" text="f-test" />
+                        <MenuItem mnemonicParsing="false" onAction="#tTestForInDepens" text="Збіг середніх" />
+                        <MenuItem mnemonicParsing="false" onAction="#fTest" text="Збіг дисперсій" />
                         <MenuItem mnemonicParsing="false" onAction="#bartlet" text="Критерій Бартлетта" />
                         <MenuItem mnemonicParsing="false" onAction="#abbe" text="Критерій Аббе" />
                         <MenuItem mnemonicParsing="false" onAction="#kolmogorovaSmirnova" text="Колмогорова-Смирнова" />
@@ -93,6 +94,12 @@
                   <MenuItem mnemonicParsing="false" onAction="#cleanAreaChart" text="Очистити" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Моделювання вибірок">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#modelNormRozpodil" text="Нормальний розподіл" />
+                  <MenuItem mnemonicParsing="false" onAction="#modelEksponRozpodil" text="Експоненціальний розподіл" />
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Про програму">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
@@ -119,6 +126,15 @@
                               <CheckBox fx:id="checkBox3" layoutX="76.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="3" />
                               <CheckBox fx:id="checkBox4" layoutX="107.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="27.0" text="4" />
                               <CheckBox fx:id="checkBox5" layoutX="140.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="5" />
+                              <Text layoutX="154.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Параметри для моделювання вибірок:" wrappingWidth="227.13671875" />
+                              <TextField fx:id="strModelN" layoutX="211.0" layoutY="26.0" prefHeight="25.0" prefWidth="38.0" />
+                              <TextField fx:id="strModelM" layoutX="211.0" layoutY="59.0" prefHeight="25.0" prefWidth="38.0" />
+                              <TextField fx:id="strModelP" layoutX="211.0" layoutY="86.0" prefHeight="25.0" prefWidth="38.0" />
+                              <Text layoutX="185.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="N =" />
+                              <Text layoutX="184.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="m =" />
+                              <Text layoutX="185.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ρ =" />
+                              <Text layoutX="185.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" ʎ=" />
+                              <TextField fx:id="strModelL" layoutX="211.0" layoutY="115.0" prefHeight="25.0" prefWidth="38.0" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">
