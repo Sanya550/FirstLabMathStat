@@ -1268,18 +1268,33 @@ public class Helper {
     }
 
     static double kolmogorovaSmirnova(ArrayList arr1, ArrayList arr2) {
+        int t = 8;
         int size1 = arr1.size();
         int size2 = arr2.size();
-        double z = Math.abs(size1 - size2);
-        int Nmin = 0;
-        if (size1 >= size2) {
-            Nmin = size2;
-        } else {
-            Nmin = size1;
+        arr1.sort(Comparator.naturalOrder());
+        arr2.sort(Comparator.naturalOrder());
+
+        double av1 = arr1.stream().mapToDouble(i -> (double) i/size1).sum();
+        double av2 = arr2.stream().mapToDouble(i -> (double) i/size2).sum();
+        double step1 = ((double)arr1.get(size1-1)-(double)arr1.get(0))/t;
+        double step2 = ((double)arr2.get(size1-1)-(double)arr2.get(0))/t;
+        double count1 = arr1.stream().filter(i -> ((double)i>av1-step1)&&((double)i<av1+step1)).count();
+        double count2 = arr2.stream().filter(i -> ((double)i>av2-step2)&&((double)i<av2+step2)).count();
+        double p = 1;
+        if(Math.abs(count1-count2)<(size1+size2)/((size1/10)+(size2/10))){
+            p = 0;
         }
-        double p = 1 - Math.pow(Math.E, -2 * Nmin * Nmin) * (1 - 2 * z / (3 * Math.sqrt(Nmin)) + (2 * Math.pow(z, 2) / (3 * Nmin)) * (1 - 2 * Math.pow(z, 2) / 3) +
-                4 * z / (9 * Math.sqrt(Math.pow(Nmin, 3))) * (0.2 - (19 * Math.pow(z, 2) / 15) + 2 * Math.pow(z, 4) / 3));
-        return (1 - z);
+
+//        double z = Math.abs(1/size1 - 1/size2 + 0.01);
+//        int Nmin = 0;
+//        if (size1 >= size2) {
+//            Nmin = size2;
+//        } else {
+//            Nmin = size1;
+//        }
+//        double p = 1 - Math.pow(Math.E, -2 * Nmin * Nmin) * (1 - 2 * z / (3 * Math.sqrt(Nmin)) + (2 * Math.pow(z, 2) / (3 * Nmin)) * (1 - 2 * Math.pow(z, 2) / 3) +
+//                4 * z / (9 * Math.sqrt(Math.pow(Nmin, 3))) * (0.2 - (19 * Math.pow(z, 2) / 15) + 2 * Math.pow(z, 4) / 3));
+        return (1 - p);
         //2.7
     }
 
@@ -2023,11 +2038,11 @@ public class Helper {
         double kva = koefForSmirnovKolmogorovAndAbbe(arr1);
         String message = "Критерій однорідності Смирнова-Колмогорова: \n";
         if (kolAndSm > kva) {
-            message += "Вибірки однорідні \n"
-                    + kva + "<" + kolAndSm;
+            message += "Вибірки однорідні \n";
+         //           + kva + "<" + kolAndSm;
         } else {
-            message += "Вибірки неоднорідні \n"
-                    + kva + ">=" + kolAndSm;
+            message += "Вибірки неоднорідні \n";
+         //           + kva + ">=" + kolAndSm;
         }
         return message;
     }
@@ -2127,8 +2142,8 @@ public class Helper {
     static List<Double> returnListForModelNormalRozpodil(double m, double p, double n) {
         List<Double> list5N = new ArrayList<>();
         List<Double> resList = new ArrayList<>();
-        double minValue = m - 3 * p;
-        double maxValue = m + 3 * p;
+        double minValue = m - 4 * p;
+        double maxValue = m + 4 * p;
         Random theRandom = new Random();
 
         for (int i = 0; i < 5 * n; i++) {
