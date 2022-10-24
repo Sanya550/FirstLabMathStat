@@ -2,9 +2,7 @@ package com.example.idealjavafx;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -1274,14 +1272,14 @@ public class Helper {
         arr1.sort(Comparator.naturalOrder());
         arr2.sort(Comparator.naturalOrder());
 
-        double av1 = arr1.stream().mapToDouble(i -> (double) i/size1).sum();
-        double av2 = arr2.stream().mapToDouble(i -> (double) i/size2).sum();
-        double step1 = ((double)arr1.get(size1-1)-(double)arr1.get(0))/t;
-        double step2 = ((double)arr2.get(size1-1)-(double)arr2.get(0))/t;
-        double count1 = arr1.stream().filter(i -> ((double)i>av1-step1)&&((double)i<av1+step1)).count();
-        double count2 = arr2.stream().filter(i -> ((double)i>av2-step2)&&((double)i<av2+step2)).count();
+        double av1 = arr1.stream().mapToDouble(i -> (double) i / size1).sum();
+        double av2 = arr2.stream().mapToDouble(i -> (double) i / size2).sum();
+        double step1 = ((double) arr1.get(size1 - 1) - (double) arr1.get(0)) / t;
+        double step2 = ((double) arr2.get(size1 - 1) - (double) arr2.get(0)) / t;
+        double count1 = arr1.stream().filter(i -> ((double) i > av1 - step1) && ((double) i < av1 + step1)).count();
+        double count2 = arr2.stream().filter(i -> ((double) i > av2 - step2) && ((double) i < av2 + step2)).count();
         double p = 1;
-        if(Math.abs(count1-count2)<(size1+size2)/((size1/10)+(size2/10))){
+        if (Math.abs(count1 - count2) < (size1 + size2) / ((size1 / 10) + (size2 / 10))) {
             p = 0;
         }
 
@@ -2039,10 +2037,10 @@ public class Helper {
         String message = "Критерій однорідності Смирнова-Колмогорова: \n";
         if (kolAndSm > kva) {
             message += "Вибірки однорідні \n";
-         //           + kva + "<" + kolAndSm;
+            //           + kva + "<" + kolAndSm;
         } else {
             message += "Вибірки неоднорідні \n";
-         //           + kva + ">=" + kolAndSm;
+            //           + kva + ">=" + kolAndSm;
         }
         return message;
     }
@@ -2160,7 +2158,7 @@ public class Helper {
             } else {
                 resList.add(sum / 5);
                 count = 1;
-                if(i<list5N.size()) {
+                if (i < list5N.size()) {
                     sum = list5N.get(i);
                 }
             }
@@ -2168,18 +2166,70 @@ public class Helper {
         return resList;
     }
 
-    static List<Double> returnListForModelEkspontialRozpodil(double n, double l){
+    static List<Double> returnListForModelEkspontialRozpodil(double n, double l) {
         List<Double> resList = new ArrayList<>();
-        double alfa = 1/n;
-        for (double i = 0; i <= 1; i+=alfa) {
-            if(i==1){
-                i = 1 - 1/(n*10);
-            }else if(i==0){
-                resList.add((1 / l) * Math.log(1 / (1 - (i+1/(l/100)))));
-            }else {
+        double alfa = 1 / n;
+        for (double i = 0; i <= 1; i += alfa) {
+            if (i == 1) {
+                i = 1 - 1 / (n * 10);
+            } else if (i == 0) {
+                resList.add((1 / l) * Math.log(1 / (1 - (i + 1 / (l / 100)))));
+            } else {
                 resList.add((1 / l) * Math.log(1 / (1 - i)));
             }
         }
         return resList;
     }
+
+    //lab4:
+    //Аналіз двовимірних даних:
+    static List<ArrayList> returnTwoListForDvomirnixVibirok(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted,ArrayList<Double> arr3Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ArrayList<Double> arr3NotSorted, ArrayList<Double> listOfVibirok){
+        List<ArrayList> resultList = new ArrayList<>();//2 sorted and 2 not sorted
+        if(listOfVibirok.contains(1)&&listOfVibirok.contains(2)){
+            resultList.add(arr1Sorted);
+            resultList.add(arr2Sorted);
+            resultList.add(arr1NotSorted);
+            resultList.add(arr2NotSorted);
+        }else if(listOfVibirok.contains(1)&&listOfVibirok.contains(3)){
+            resultList.add(arr1Sorted);
+            resultList.add(arr3Sorted);
+            resultList.add(arr1NotSorted);
+            resultList.add(arr3NotSorted);
+        }else if(listOfVibirok.contains(2)&&listOfVibirok.contains(3)){
+            resultList.add(arr2Sorted);
+            resultList.add(arr3Sorted);
+            resultList.add(arr2NotSorted);
+            resultList.add(arr3NotSorted);
+        }
+        return resultList;
+    }
+    static void drawScatterChartForKorilationField(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis, NumberAxis yAxis, ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
+        //clear:
+        scatterChart.getData().clear();
+        scatterChart.layout();
+
+        double numOfClass = (int) Math.pow(arr1Sorted.size(), 1 / 3);
+        if ((int) Math.pow(arr1Sorted.size(), 1 / 3) % 2 == 0){
+            numOfClass = (int) Math.pow(arr1Sorted.size(), 1 / 3) - 1;
+        }
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size()-1)-arr1Sorted.get(0))/numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size()-1)-arr2Sorted.get(0))/numOfClass;
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(arr1Sorted.get(0));
+        xAxis.setUpperBound(arr1Sorted.get(arr1Sorted.size()-1));
+        xAxis.setTickUnit(tickUnitForArr1);
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(arr2Sorted.get(0));
+        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size()-1));
+        yAxis.setTickUnit(tickUnitForArr2);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Кореляційне поле");
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            series.getData().add(new XYChart.Data(arr1NotSorted.get(i), arr2NotSorted.get(i)));
+        }
+        scatterChart.getData().addAll(series);
+    }
+
 }

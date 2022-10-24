@@ -64,6 +64,18 @@ public class HelloController {
     @FXML
     private AreaChart areaChartEmpiritionFunction;
     @FXML
+    private ScatterChart<Number,Number> scatterChartForKorilationField;
+    @FXML
+    private ScatterChart<Number,Number> scatterChartForFrequencyOfHystograma;
+    @FXML
+    private NumberAxis xAxisForScatterChartForKorilationField ;
+    @FXML
+    private NumberAxis yAxisForScatterChartForKorilationField ;
+    @FXML
+    private NumberAxis xAxisForScatterChartForFrequencyOfHystograma ;
+    @FXML
+    private NumberAxis yAxisForScatterChartForFrequencyOfHystograma ;
+    @FXML
     private TableView tableView;
     @FXML
     private CheckBox checkBox1;
@@ -953,5 +965,16 @@ public class HelloController {
 
     }
 
+    //Аналіз двовимірних даних:
+    @FXML
+    protected void scatterChartForKorilationField(ActionEvent event){
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1,arrayListNumber2,arrayListNumber3,withoutSortingArrayListNumber1,withoutSortingArrayListNumber2,withoutSortingArrayListNumber3,listForDvomirnixVibirok);
+        if(listOfLists.size() != 4){
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+        }else {
+            Helper.drawScatterChartForKorilationField(scatterChartForKorilationField,xAxisForScatterChartForKorilationField,yAxisForScatterChartForKorilationField,listOfLists.get(0),listOfLists.get(1),listOfLists.get(2),listOfLists.get(3));
+        }
+
+    }
 
 }
