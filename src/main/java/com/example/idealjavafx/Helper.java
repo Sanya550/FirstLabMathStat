@@ -826,7 +826,7 @@ public class Helper {
         }
     }
 
-    //3:
+    //3.3:
     static double fTest(List arr1, List arr2) {
         //1:
         double sa1 = 0;
@@ -920,7 +920,7 @@ public class Helper {
         return BigDecimal.valueOf(Math.abs(t)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
     }
 
-    //4:
+    //3.4:
     //need update this method if value repeats!!!!
     static ArrayList<ArrayList> rangRow(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         ArrayList<Double> listX = new ArrayList();
@@ -1339,7 +1339,7 @@ public class Helper {
         //2.10
     }
 
-    //5:
+    //3.5:
     static double bartleta(List<ArrayList<Double>> list) {
         double q = 0;
         double b = 0;
@@ -1953,7 +1953,7 @@ public class Helper {
     }
 
     //message:
-    //4.1:
+    //3.4.1:
     static String messageFtestMessage(List arr1, List arr2) {
         double f = fTest(arr1, arr2);
         double kva = koefForFisher(arr1, arr2);
@@ -2090,7 +2090,7 @@ public class Helper {
         return message;
     }
 
-    //5:
+    //3.5:
     static String messageForOdnoFactorniyDuspersniyAnaliz(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
         List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
         double f = BigDecimal.valueOf(odnoFactorniyDuspersniyAnaliz(list)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();

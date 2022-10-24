@@ -27,6 +27,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#chooseFileForNumber3" text="Вибрати файл №3" />
                   <MenuItem mnemonicParsing="false" onAction="#chooseFileForNumber4" text="Вибрати файл №4" />
                   <MenuItem mnemonicParsing="false" onAction="#chooseFileForNumber5" text="Вибрати файл №5" />
+                  <MenuItem mnemonicParsing="false" onAction="#chooseFileForDvovomirnihVibirok" text="Вибрати файл для двомірного зчитування" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Файл">
@@ -36,6 +37,14 @@
                   <MenuItem mnemonicParsing="false" onAction="#changeMenuNumber3" text="№3" />
                   <MenuItem mnemonicParsing="false" onAction="#changeMenuNumber4" text="№4" />
                   <MenuItem mnemonicParsing="false" onAction="#changeMenuNumber5" text="№5" />
+                  <Menu mnemonicParsing="false" text="Двовимірне зчитування">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#readVectorMenuNumber1Plus2" text="№1+2" />
+                        <MenuItem mnemonicParsing="false" onAction="#readVectorMenuNumber1Plus3" text="№1+3" />
+                        <MenuItem mnemonicParsing="false" onAction="#readVectorMenuNumber2Plus3" text="№2+3" />
+                        <MenuItem mnemonicParsing="false" onAction="#readFullMenu" text="Пряме зчинування" />
+                     </items>
+                  </Menu>
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Дані">
