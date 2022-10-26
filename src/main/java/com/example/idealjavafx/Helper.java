@@ -2183,19 +2183,19 @@ public class Helper {
 
     //lab4:
     //Аналіз двовимірних даних:
-    static List<ArrayList> returnTwoListForDvomirnixVibirok(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted,ArrayList<Double> arr3Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ArrayList<Double> arr3NotSorted, ArrayList<Double> listOfVibirok){
+    static List<ArrayList> returnTwoListForDvomirnixVibirok(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr3Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ArrayList<Double> arr3NotSorted, ArrayList<Double> listOfVibirok) {
         List<ArrayList> resultList = new ArrayList<>();//2 sorted and 2 not sorted
-        if(listOfVibirok.contains(1)&&listOfVibirok.contains(2)){
+        if (listOfVibirok.contains(1) && listOfVibirok.contains(2)) {
             resultList.add(arr1Sorted);
             resultList.add(arr2Sorted);
             resultList.add(arr1NotSorted);
             resultList.add(arr2NotSorted);
-        }else if(listOfVibirok.contains(1)&&listOfVibirok.contains(3)){
+        } else if (listOfVibirok.contains(1) && listOfVibirok.contains(3)) {
             resultList.add(arr1Sorted);
             resultList.add(arr3Sorted);
             resultList.add(arr1NotSorted);
             resultList.add(arr3NotSorted);
-        }else if(listOfVibirok.contains(2)&&listOfVibirok.contains(3)){
+        } else if (listOfVibirok.contains(2) && listOfVibirok.contains(3)) {
             resultList.add(arr2Sorted);
             resultList.add(arr3Sorted);
             resultList.add(arr2NotSorted);
@@ -2203,25 +2203,26 @@ public class Helper {
         }
         return resultList;
     }
+
     static void drawScatterChartForKorilationField(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis, NumberAxis yAxis, ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
         //clear:
         scatterChart.getData().clear();
         scatterChart.layout();
 
-        double numOfClass = (int) Math.pow(arr1Sorted.size(), 1 / 3);
-        if ((int) Math.pow(arr1Sorted.size(), 1 / 3) % 2 == 0){
-            numOfClass = (int) Math.pow(arr1Sorted.size(), 1 / 3) - 1;
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
         }
-        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size()-1)-arr1Sorted.get(0))/numOfClass;
-        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size()-1)-arr2Sorted.get(0))/numOfClass;
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
         xAxis.setAutoRanging(false);
         xAxis.setLowerBound(arr1Sorted.get(0));
-        xAxis.setUpperBound(arr1Sorted.get(arr1Sorted.size()-1));
+        xAxis.setUpperBound(arr1Sorted.get(arr1Sorted.size() - 1));
         xAxis.setTickUnit(tickUnitForArr1);
 
         yAxis.setAutoRanging(false);
         yAxis.setLowerBound(arr2Sorted.get(0));
-        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size()-1));
+        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
         yAxis.setTickUnit(tickUnitForArr2);
 
         XYChart.Series series = new XYChart.Series();
@@ -2230,6 +2231,98 @@ public class Helper {
             series.getData().add(new XYChart.Data(arr1NotSorted.get(i), arr2NotSorted.get(i)));
         }
         scatterChart.getData().addAll(series);
+    }
+
+    static void drawScatterChartForFrequencyOfHystograma(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis, NumberAxis yAxis, ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
+        //clear:
+        scatterChart.getData().clear();
+        scatterChart.layout();
+        //const:
+        double range1 = 0.015;
+        double range2 = 0.035;
+        double range3 = 0.045;
+        double range4 = 0.065;
+//
+
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(arr1Sorted.get(0));
+        xAxis.setUpperBound(arr1Sorted.get(arr1Sorted.size() - 1));
+        xAxis.setTickUnit(tickUnitForArr1);
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(arr2Sorted.get(0));
+        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
+        yAxis.setTickUnit(tickUnitForArr2);
+
+        XYChart.Series series1 = new XYChart.Series();
+        XYChart.Series series2 = new XYChart.Series();
+        XYChart.Series series3 = new XYChart.Series();
+        XYChart.Series series4 = new XYChart.Series();
+        XYChart.Series series5 = new XYChart.Series();
+      //  scatterChart.setId("frequency-hysograma-scatter");
+        series1.setName("0-0.015");
+        series2.setName("0.015-0.035");
+        series3.setName("0.035-0.045");
+        series4.setName("0.045-0.065");
+        series5.setName("0.065-0.085");
+
+        double startOfX = arr1Sorted.get(0);
+        double endOfX = arr1Sorted.get(arr1Sorted.size() - 1);
+        int shagX = 0;
+        while (startOfX < endOfX) {
+            endOfX -= tickUnitForArr1;
+            shagX++;
+        }
+        double startOfY = arr2Sorted.get(0);
+        double endOfY = arr2Sorted.get(arr2Sorted.size() - 1);
+        int shagY = 0;
+        while (startOfY < endOfY) {
+            endOfY -= tickUnitForArr2;
+            shagY++;
+        }
+
+        double tempOfFrequency = 0;
+        double rangeStartForX =  arr1Sorted.get(0);
+        double rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+        double rangeStartForY = arr2Sorted.get(0);
+        double rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
+        for (int i = 0; i <= shagY; i++) {//y
+            for (int j = 0; j <= shagX; j++) {//x
+                for (int k = 0; k < arr1NotSorted.size(); k++) {
+                    if (arr1NotSorted.get(k) < rangeEndForX && arr1NotSorted.get(k) > rangeStartForX && arr2NotSorted.get(k) < rangeEndForY && arr2NotSorted.get(k) > rangeStartForY) {
+                        tempOfFrequency++;
+                    }
+                    if (k == arr1NotSorted.size()-1) {
+                        double freq = tempOfFrequency / arr1Sorted.size();
+                        if (freq < range1) {
+                            series1.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                        } else if (freq > range1 && freq < range2) {
+                            series2.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                        } else if (freq > range2 && freq < range3) {
+                            series3.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                        } else if (freq > range3 && freq < range4) {
+                            series4.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                        } else if (freq > range4) {
+                            series5.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                        }
+                        rangeStartForX = rangeEndForX;
+                        rangeEndForX += tickUnitForArr1;
+                        tempOfFrequency = 0;
+                    }
+                }
+            }
+            rangeStartForX =  arr1Sorted.get(0);
+            rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+            rangeStartForY = rangeEndForY;
+            rangeEndForY += tickUnitForArr2;
+        }
+        scatterChart.getData().addAll(series1,series2,series3,series4,series5);
     }
 
 }

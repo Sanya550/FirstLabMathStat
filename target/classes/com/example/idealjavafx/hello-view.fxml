@@ -112,7 +112,8 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Аналіз двовимірних даних">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#scatterChartForKorilationField" text="Кореляційні поля" />
+                  <MenuItem mnemonicParsing="false" onAction="#scatterChartForKorilationField1" text="Кореляційні поля" />
+                  <MenuItem mnemonicParsing="false" onAction="#scatterChartForFrequencyOfHystograma1" text="Гістограма відносних частот" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">

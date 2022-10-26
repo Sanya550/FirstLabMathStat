@@ -967,12 +967,23 @@ public class HelloController {
 
     //Аналіз двовимірних даних:
     @FXML
-    protected void scatterChartForKorilationField(ActionEvent event){
+    protected void scatterChartForKorilationField1(ActionEvent event){
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1,arrayListNumber2,arrayListNumber3,withoutSortingArrayListNumber1,withoutSortingArrayListNumber2,withoutSortingArrayListNumber3,listForDvomirnixVibirok);
         if(listOfLists.size() != 4){
             JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
         }else {
             Helper.drawScatterChartForKorilationField(scatterChartForKorilationField,xAxisForScatterChartForKorilationField,yAxisForScatterChartForKorilationField,listOfLists.get(0),listOfLists.get(1),listOfLists.get(2),listOfLists.get(3));
+        }
+
+    }
+
+    @FXML
+    protected void scatterChartForFrequencyOfHystograma1(ActionEvent event){
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1,arrayListNumber2,arrayListNumber3,withoutSortingArrayListNumber1,withoutSortingArrayListNumber2,withoutSortingArrayListNumber3,listForDvomirnixVibirok);
+        if(listOfLists.size() != 4){
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+        }else {
+            Helper.drawScatterChartForFrequencyOfHystograma(scatterChartForFrequencyOfHystograma,xAxisForScatterChartForFrequencyOfHystograma,yAxisForScatterChartForFrequencyOfHystograma,listOfLists.get(0),listOfLists.get(1),listOfLists.get(2),listOfLists.get(3));
         }
 
     }
