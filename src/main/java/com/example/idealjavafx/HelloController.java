@@ -985,7 +985,12 @@ public class HelloController {
         }else {
             Helper.drawScatterChartForFrequencyOfHystograma(scatterChartForFrequencyOfHystograma,xAxisForScatterChartForFrequencyOfHystograma,yAxisForScatterChartForFrequencyOfHystograma,listOfLists.get(0),listOfLists.get(1),listOfLists.get(2),listOfLists.get(3));
         }
+    }
 
+    @FXML
+    protected void dataForKorilationAnalize(ActionEvent event){
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1,arrayListNumber2,arrayListNumber3,withoutSortingArrayListNumber1,withoutSortingArrayListNumber2,withoutSortingArrayListNumber3,listForDvomirnixVibirok);
+        JOptionPane.showMessageDialog(null, Helper.korilationData(listOfLists.get(2),listOfLists.get(3)), "Кореляційний аналіз", JOptionPane.INFORMATION_MESSAGE);
     }
 
 }

@@ -44,7 +44,7 @@ public class Helper {
         return kva;
     }
 
-    static double koefForVilksonaAndRiznSerednihRangiv(ArrayList<ArrayList> resList) {
+    static double koefForVilksonaAndRiznSerednihRangiv(ArrayList<ArrayList> resList) {//U(1-a)/2
         int a = resList.get(0).size();
         double kva = 0;
         if (a >= 500) {
@@ -2006,14 +2006,6 @@ public class Helper {
             message += "Головну гіпотезу підтверджено \n"
                     + kva + ">=" + n1;
         }
-
-//        if (list1.get(1) > kva) {
-//            message += "Для 2 вибірки спростовано. ";
-//            //    + list1.get(1) + ">"+kva;
-//        } else {
-//            message += "Для 2 вибірки підтверджено. ";
-//            //    + list1.get(1) + "<="+kva;
-//        }
         return message;
     }
 
@@ -2265,7 +2257,7 @@ public class Helper {
         XYChart.Series series3 = new XYChart.Series();
         XYChart.Series series4 = new XYChart.Series();
         XYChart.Series series5 = new XYChart.Series();
-      //  scatterChart.setId("frequency-hysograma-scatter");
+        //  scatterChart.setId("frequency-hysograma-scatter");
         series1.setName("0-0.015");
         series2.setName("0.015-0.035");
         series3.setName("0.035-0.045");
@@ -2288,7 +2280,7 @@ public class Helper {
         }
 
         double tempOfFrequency = 0;
-        double rangeStartForX =  arr1Sorted.get(0);
+        double rangeStartForX = arr1Sorted.get(0);
         double rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
         double rangeStartForY = arr2Sorted.get(0);
         double rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
@@ -2298,18 +2290,18 @@ public class Helper {
                     if (arr1NotSorted.get(k) < rangeEndForX && arr1NotSorted.get(k) > rangeStartForX && arr2NotSorted.get(k) < rangeEndForY && arr2NotSorted.get(k) > rangeStartForY) {
                         tempOfFrequency++;
                     }
-                    if (k == arr1NotSorted.size()-1) {
+                    if (k == arr1NotSorted.size() - 1) {
                         double freq = tempOfFrequency / arr1Sorted.size();
                         if (freq < range1) {
-                            series1.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                            series1.getData().add(new XYChart.Data((rangeStartForX + rangeEndForX) / 2, (rangeStartForY + rangeEndForY) / 2));
                         } else if (freq > range1 && freq < range2) {
-                            series2.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                            series2.getData().add(new XYChart.Data((rangeStartForX + rangeEndForX) / 2, (rangeStartForY + rangeEndForY) / 2));
                         } else if (freq > range2 && freq < range3) {
-                            series3.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                            series3.getData().add(new XYChart.Data((rangeStartForX + rangeEndForX) / 2, (rangeStartForY + rangeEndForY) / 2));
                         } else if (freq > range3 && freq < range4) {
-                            series4.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                            series4.getData().add(new XYChart.Data((rangeStartForX + rangeEndForX) / 2, (rangeStartForY + rangeEndForY) / 2));
                         } else if (freq > range4) {
-                            series5.getData().add(new XYChart.Data((rangeStartForX+rangeEndForX)/2, (rangeStartForY+rangeEndForY)/2));
+                            series5.getData().add(new XYChart.Data((rangeStartForX + rangeEndForX) / 2, (rangeStartForY + rangeEndForY) / 2));
                         }
                         rangeStartForX = rangeEndForX;
                         rangeEndForX += tickUnitForArr1;
@@ -2317,12 +2309,70 @@ public class Helper {
                     }
                 }
             }
-            rangeStartForX =  arr1Sorted.get(0);
+            rangeStartForX = arr1Sorted.get(0);
             rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
             rangeStartForY = rangeEndForY;
             rangeEndForY += tickUnitForArr2;
         }
-        scatterChart.getData().addAll(series1,series2,series3,series4,series5);
+        scatterChart.getData().addAll(series1, series2, series3, series4, series5);
+    }
+
+    static String korilationData(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+        ArrayList<ArrayList> arrOfArr = new ArrayList<>();
+        arrOfArr.add(arr1);
+        arrOfArr.add(arr2);
+        String str = "";
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            sa1 = sa1 + arr1.get(i);
+            sa2 = sa2 + arr2.get(i);
+        }
+        double resultSA1 = sa1 / arr1.size();//x_
+        double resultSA2 = sa2 / arr2.size();//y_
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            dus1 += Math.pow((arr1.get(i) - resultSA1), 2) / ((arr1.size() - 1));
+            dus2 += Math.pow((arr2.get(i) - resultSA2), 2) / ((arr2.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+
+//Коеціцієнт кореляції:
+        double tempResultSA1AndSA2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            tempResultSA1AndSA2 += arr1.get(i) * arr2.get(i);
+        }
+        double resultSA1AndSA2 = tempResultSA1AndSA2 / arr1.size();//xy_
+        double r = (arr1.size() / (arr1.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+        str += "Коеціцієнт кореляції = " + BigDecimal.valueOf(r).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+
+//DC:
+        str += "\nDC = [" + BigDecimal.valueOf(Math.pow(serKva1, 2)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(r * serKva1 * serKva2).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]";
+        str += "\n          [" + BigDecimal.valueOf(r * serKva1 * serKva2).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(Math.pow(serKva2, 2)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]";
+
+//Перевірки значущості оцінки коефіцієнта кореляції:
+        str += "\nПеревірки значущості оцінки коефіцієнта кореляції: ";
+        double t = (r * Math.sqrt(arr1.size() - 2) / Math.sqrt(1 - Math.pow(r, 2)));
+        if (t > t1) {
+            str += "головну гіпотезу спростовано";
+                 //   + t1 + "<" + t;
+        } else {
+            str += "головну гіпотезу підтверджено";
+                 //   + t1 + ">=" + t;
+        }
+
+        //Інтервальне оцінювання коефіцієнта кореляції:
+        double rIntervalDown = r + (r * (1 - Math.pow(r, 2)) / (2 * arr1.size())) - koefForVilksonaAndRiznSerednihRangiv(arrOfArr) * (1 - Math.pow(r, 2)) / (Math.sqrt(arr1.size() - 1));
+        double rIntervalUp = r + (r * (1 - Math.pow(r, 2)) / (2 * arr1.size())) + koefForVilksonaAndRiznSerednihRangiv(arrOfArr) * (1 - Math.pow(r, 2)) / (Math.sqrt(arr1.size() - 1));
+        str += "\nІнтервальне оцінювання коефіцієнта кореляції: [" + BigDecimal.valueOf(rIntervalDown).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(rIntervalUp).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]";
+
+//Перевірка чи різнять статичні коеф. r1 i r2:
+//....
+
+        return str;
     }
 
 }
