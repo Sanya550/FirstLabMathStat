@@ -12,8 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 public class Helper {
     //t const:
@@ -2317,7 +2315,57 @@ public class Helper {
         scatterChart.getData().addAll(series1, series2, series3, series4, series5);
     }
 
-    static String korilationData(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+    static List<Double> variationMatrixData(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted){
+        List<Double> resList = new ArrayList<>();
+
+        double numOfClass = 7;
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
+
+        double startOfX = arr1Sorted.get(0);
+        double endOfX = arr1Sorted.get(arr1Sorted.size() - 1);
+        int shagX = 0;
+        while (startOfX < endOfX) {
+            endOfX -= tickUnitForArr1;
+            shagX++;
+        }
+        double startOfY = arr2Sorted.get(0);
+        double endOfY = arr2Sorted.get(arr2Sorted.size() - 1);
+        int shagY = 0;
+        while (startOfY < endOfY) {
+            endOfY -= tickUnitForArr2;
+            shagY++;
+        }
+
+        double tempOfFrequency = 0;
+        double rangeStartForX = arr1Sorted.get(0);
+        double rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+        double rangeStartForY = arr2Sorted.get(0);
+        double rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
+        for (int i = 0; i < shagY; i++) {//y
+            for (int j = 0; j < shagX; j++) {//x
+                for (int k = 0; k < arr1NotSorted.size(); k++) {
+                    if (arr1NotSorted.get(k) < rangeEndForX && arr1NotSorted.get(k) > rangeStartForX && arr2NotSorted.get(k) < rangeEndForY && arr2NotSorted.get(k) > rangeStartForY) {
+                        tempOfFrequency++;
+                    }
+                    if (k == arr1NotSorted.size() - 1) {
+                        resList.add(BigDecimal.valueOf(tempOfFrequency).setScale(3, BigDecimal.ROUND_CEILING).doubleValue());
+                        rangeStartForX = rangeEndForX;
+                        rangeEndForX += tickUnitForArr1;
+                        tempOfFrequency = 0;
+                    }
+                }
+            }
+            rangeStartForX = arr1Sorted.get(0);
+            rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+            rangeStartForY = rangeEndForY;
+            rangeEndForY += tickUnitForArr2;
+        }
+
+        return resList;
+    }
+
+    static String korilationKoefData(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         ArrayList<ArrayList> arrOfArr = new ArrayList<>();
         arrOfArr.add(arr1);
         arrOfArr.add(arr2);
@@ -2347,7 +2395,7 @@ public class Helper {
         }
         double resultSA1AndSA2 = tempResultSA1AndSA2 / arr1.size();//xy_
         double r = (arr1.size() / (arr1.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
-        str += "Коеціцієнт кореляції = " + BigDecimal.valueOf(r).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        str += "Коефіцієнт кореляції = " + BigDecimal.valueOf(r).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
 
 //DC:
         str += "\nDC = [" + BigDecimal.valueOf(Math.pow(serKva1, 2)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(r * serKva1 * serKva2).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]";
@@ -2358,21 +2406,238 @@ public class Helper {
         double t = (r * Math.sqrt(arr1.size() - 2) / Math.sqrt(1 - Math.pow(r, 2)));
         if (t > t1) {
             str += "головну гіпотезу спростовано";
-                 //   + t1 + "<" + t;
+            //   + t1 + "<" + t;
         } else {
             str += "головну гіпотезу підтверджено";
-                 //   + t1 + ">=" + t;
+            //   + t1 + ">=" + t;
         }
 
         //Інтервальне оцінювання коефіцієнта кореляції:
         double rIntervalDown = r + (r * (1 - Math.pow(r, 2)) / (2 * arr1.size())) - koefForVilksonaAndRiznSerednihRangiv(arrOfArr) * (1 - Math.pow(r, 2)) / (Math.sqrt(arr1.size() - 1));
         double rIntervalUp = r + (r * (1 - Math.pow(r, 2)) / (2 * arr1.size())) + koefForVilksonaAndRiznSerednihRangiv(arrOfArr) * (1 - Math.pow(r, 2)) / (Math.sqrt(arr1.size() - 1));
-        str += "\nІнтервальне оцінювання коефіцієнта кореляції: [" + BigDecimal.valueOf(rIntervalDown).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(rIntervalUp).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]";
-
-//Перевірка чи різнять статичні коеф. r1 i r2:
-//....
-
+        str += "\nІнтервальне оцінювання коефіцієнта кореляції: [" + BigDecimal.valueOf(rIntervalDown).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(rIntervalUp).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]\n";
         return str;
+    }
+
+    static String korilationVidnoshenKoefData(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
+        String resultString = "";
+        double sa = arr2Sorted.stream().mapToDouble(a -> a).average().orElseThrow();
+        double num = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            num = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / num;
+        double start = arr1Sorted.get(0);
+        double end = arr1Sorted.get(0) + tickUnitForArr1;
+
+        double temChisl = 0;
+        double temZnam = 0;
+        List<Double> temList = new ArrayList<>();
+        for (int i = 0; i < num; i++) {
+            for (int j = 0; j < arr2NotSorted.size(); j++) {
+                if (arr1NotSorted.get(j) < end && arr1NotSorted.get(j) > start) {
+                    temList.add(arr2NotSorted.get(j));
+                }
+            }
+            for (int j = 0; j < temList.size(); j++) {
+                temZnam += Math.pow(temList.get(j) - sa, 2);
+            }
+            double saForM = temList.stream().mapToDouble(a -> a).average().orElseThrow();
+            temChisl += temList.size() * Math.pow(saForM - sa, 2);
+            start = end;
+            end += tickUnitForArr1;
+            temList.clear();
+        }
+        double p = temChisl / temZnam;
+        resultString += "Коефіцієнт кореляційного відношення = " + BigDecimal.valueOf(p).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        resultString += "\nПеревірки значущості оцінки коефіцієнта кореляційного відношення: ";
+        double t = (p * Math.sqrt(arr1Sorted.size() - 2) / Math.sqrt(1 - Math.pow(p, 2)));
+        if (t > t1) {
+            resultString += "головну гіпотезу спростовано";
+            //   + t1 + "<" + t;
+        } else {
+            resultString += "головну гіпотезу підтверджено";
+            //   + t1 + ">=" + t;
+        }
+        return resultString;
+    }
+
+    static String rangOfKorilation(ArrayList<Double> notSorted1, ArrayList<Double> notSorted2) {//need updates if elements repeat
+        ArrayList<ArrayList> arrOfArr = new ArrayList<>();
+        arrOfArr.add(notSorted1);
+        arrOfArr.add(notSorted2);
+        String resultString = "";
+        ArrayList<Double> listSortX = new ArrayList();
+        ArrayList<Double> listSortY = new ArrayList();
+        ArrayList<Double> listSortYByValue = new ArrayList();
+        Map<Double, Double> mapSorted = new LinkedHashMap<>();
+        ArrayList<Double> rangX = new ArrayList<>();
+        ArrayList<Double> rangY = new ArrayList<>();
+        ArrayList<ArrayList> resultList = new ArrayList<>();
+
+        for (double a : notSorted1) {
+            listSortX.add(a);
+        }
+        listSortX.sort(Comparator.naturalOrder());
+
+        int indexNot1 = 0;
+        double elSort1;
+        for (int i = 0; i < listSortX.size(); i++) {
+            elSort1 = listSortX.get(i);
+            for (int j = 0; j < notSorted1.size(); j++) {
+                if (notSorted1.get(j) == elSort1) {
+                    indexNot1 = j;
+                    break;
+                }
+            }
+            listSortY.add(notSorted2.get(indexNot1));
+        }
+        for (double a : listSortY) {
+            listSortYByValue.add(a);
+        }
+        listSortYByValue.sort(Comparator.naturalOrder());
+
+
+        for (int i = 0; i < listSortX.size(); i++) {
+            mapSorted.put(listSortX.get(i), listSortY.get(i));
+        }
+
+        double elX = 0;
+        double elY = 0;
+        for (int i = 0; i < listSortX.size(); i++) {
+            rangX.add((double) (i + 1));
+            elX = listSortX.get(i);
+            elY = mapSorted.get(elX);
+            for (int j = 0; j < listSortYByValue.size(); j++) {
+                if (elY == listSortYByValue.get(j)) {
+                    rangY.add((double) (j + 1));
+                    break;
+                }
+            }
+        }
+
+//ранговий коефіцієнта кореляції Спірмена:
+        double sumSpirmen = 0;
+        for (int i = 0; i < rangX.size(); i++) {
+            sumSpirmen += Math.pow(rangX.get(i) - rangY.get(i), 2);
+        }
+        double koefSpirmen = 1 - (6 / (rangX.size() * (Math.pow(rangX.size(), 2) - 1))) * sumSpirmen;
+
+        double t = koefSpirmen * (rangX.size() - 2) / Math.sqrt(1 - Math.pow(koefSpirmen, 2));
+
+        //Інтервальне:
+        double serkvaSpirmen = Math.sqrt((1 - Math.pow(koefSpirmen, 2)) / (rangX.size() - 1));
+        double downSpirmen = koefSpirmen - t1 * serkvaSpirmen;
+        double upSpirmen = koefSpirmen + t1 * serkvaSpirmen;
+
+        resultString += "Ранговий коефіцієнта кореляції Спірмена = " + BigDecimal.valueOf(koefSpirmen).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
+        resultString += "Інтервальне оцінювання кореляції Спірмена [" + BigDecimal.valueOf(downSpirmen).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(upSpirmen).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]\n";
+
+//ранговий коефіцієнта Кендалла:
+        double s = 0;
+        double ri = 0;
+        double rj = 0;
+        for (int i = 0; i < rangY.size() - 1; i++) {
+            ri = rangY.get(i);
+            for (int j = 0; j < rangY.size(); j++) {
+                rj = rangY.get(j);
+                if (ri < rj) {
+                    s++;
+                } else if (ri > rj) {
+                    s--;
+                }
+            }
+        }
+
+        double kvaKendal = koefForVilksonaAndRiznSerednihRangiv(arrOfArr);
+        double koefKendal = 2 * s / (rangX.size() * (rangX.size() - 1));//?
+        double uKendal = 3 * koefKendal * Math.sqrt(rangX.size() * (rangX.size() - 1)) / Math.sqrt(4 * rangX.size() + 10);
+        double serKvaKendal = Math.sqrt((4 * rangX.size() - 10) / (9 * (Math.pow(rangX.size(), 2) - rangX.size())));
+        //Інтервальне:
+        double downKendal = koefKendal - kvaKendal * serKvaKendal;
+        double upKendal = koefKendal + kvaKendal * serKvaKendal;
+
+        resultString += "Ранговий коефіцієнта кореляції Кендалла = " + BigDecimal.valueOf(koefKendal).setScale(5, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
+        resultString += "Інтервальне оцінювання кореляції Кендалла [" + BigDecimal.valueOf(downKendal).setScale(5, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(upKendal).setScale(5, BigDecimal.ROUND_CEILING).doubleValue() + "]\n";
+        if (Math.abs(uKendal) <= kvaKendal) {
+            resultString += "Оцінка ранговий коефіцієнта кореляції Кендалла = не є значущим";
+        } else {
+            resultString += "Оцінка ранговий коефіцієнта кореляції Кендалла = є значущим";
+        }
+        return resultString;
+    }
+
+    static String koefOfSpolTable(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
+        String resultString = "";
+        ArrayList<ArrayList> arrOfArr1 = new ArrayList<>();
+        arrOfArr1.add(arr1Sorted);
+        arrOfArr1.add(arr2Sorted);
+        ArrayList<ArrayList<Double>> arrOfArr2 = new ArrayList<>();
+        arrOfArr2.add(arr1Sorted);
+        arrOfArr2.add(arr2Sorted);
+        double centerX = (arr1Sorted.get(0) + arr1Sorted.get(arr1Sorted.size() - 1)) / 2;
+        double centerY = (arr2Sorted.get(0) + arr2Sorted.get(arr2Sorted.size() - 1)) / 2;
+        double n00 = 0;
+        double n01 = 0;
+        double n10 = 0;
+        double n11 = 0;
+        double elX;
+        double elY;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            elX = arr1NotSorted.get(i);
+            elY = arr2NotSorted.get(i);
+            if (elX < centerX && elY > centerY) {
+                n00++;
+            } else if (elX >= centerX && elY >= centerY) {
+                n01++;
+            } else if (elX <= centerX && elY <= centerY) {
+                n10++;
+            } else if (elX > centerX && elY < centerY) {
+                n11++;
+            }
+        }
+        double n = n10 + n11 + n00 + n01;
+        double m1 = n11 + n01;
+        double m0 = n10 + n00;
+        double n0 = n00 + n01;
+        double n1 = n10 + n11;
+        resultString += "Y/X      0        1\n";
+        resultString += "0      " + n00 + "     " + n01 + "     " + n0 + "\n";
+        resultString += "1      " + n10 + "     " + n11 + "     " + n1 + "\n";
+        resultString += "      " + m0 + "     " + m1 + "     " + n + "\n";
+//Індекс Фехнера:
+        double indexOfFehren = (n00 + n11 - n01 - n10) / n;
+        resultString += "Індекс Фехнера = " + BigDecimal.valueOf(indexOfFehren).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
+//Коефіцієнт сполучень Фі:
+        double fi = (n00 * n11 - n01 * n10) / Math.sqrt(n0 * n1 * m1 * m0);
+        resultString += "Коефіцієнт сполучень Фі = " + BigDecimal.valueOf(fi).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
+        double ksi = n * Math.pow(fi, 2);
+        double kvaFi = koefForBartletAndKohrena(arrOfArr2);
+        if (ksi >= kvaFi) {
+            resultString += "Оцінка коефіцієнта Ф є значущою\n";
+        } else {
+            resultString += "Оцінка коефіцієнта Ф не є значущою\n";
+        }
+//Коефіцієнти зв’язку Юла:
+        double q = (n00 * n11 - n01 * n10) / (n00 * n11 + n01 * n10);
+        double y = (Math.sqrt(n00 * n11) - Math.sqrt(n01 * n10)) / (Math.sqrt(n00 * n11) + Math.sqrt(n01 * n10));
+        double sq = 0.5 * (1 - Math.pow(q, 2)) * Math.sqrt((1 / n00) + (1 / n10) + (1 / n01) + (1 / n11));
+        double sy = 0.25 * (1 - Math.pow(y, 2)) * Math.sqrt((1 / n00) + (1 / n10) + (1 / n01) + (1 / n11));
+        double uq = Math.abs(q / sq);
+        double uy = Math.abs(y / sy);
+        double kvaUla = koefForVilksonaAndRiznSerednihRangiv(arrOfArr1);
+        resultString += "Коефіцієнти зв’язку Юла: Q = " + BigDecimal.valueOf(q).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ", Y = " + BigDecimal.valueOf(y).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
+        if (uq <= kvaUla) {
+            resultString += "Головна гіпотеза Q прийнята; ";
+        } else {
+            resultString += "Головна гіпотеза Q відхилена; ";
+        }
+        if (uy <= kvaUla) {
+            resultString += "Головна гіпотеза Y прийнята; ";
+        } else {
+            resultString += "Головна гіпотеза Y відхилена; ";
+        }
+        return resultString;
     }
 
 }
