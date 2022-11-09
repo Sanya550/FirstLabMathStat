@@ -114,6 +114,12 @@ public class Helper {
         return kva;
     }
 
+    static double fNormDvomRozpodil(double serKvaX, double serKvaY, double r, double resultSaX, double resultSaY, double x, double y) {
+        double f = (1 / (2 * Math.PI * serKvaX * serKvaY * Math.sqrt(1 - Math.pow(r, 2)))) * Math.pow(Math.E, ((-1 / (2 * (1 - r * r))) *
+                (Math.pow(((x - resultSaX) / serKvaX), 2) - 2 * r * ((x - resultSaX) * (y - resultSaY) / (serKvaX * serKvaY)) + Math.pow((y - resultSaY) / serKvaY, 2))));
+        return BigDecimal.valueOf(f).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
+    }
+
     public static Map<Double, Integer> returnMap(ArrayList arrayList) {
         ArrayList arrayList1 = new ArrayList();
         for (int i = 0; i < arrayList.size(); i++) {
@@ -2315,7 +2321,7 @@ public class Helper {
         scatterChart.getData().addAll(series1, series2, series3, series4, series5);
     }
 
-    static List<Double> variationMatrixData(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted){
+    static List<Double> variationMatrixData(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
         List<Double> resList = new ArrayList<>();
 
         double numOfClass = 7;
@@ -2365,6 +2371,260 @@ public class Helper {
         return resList;
     }
 
+    static String firstAnalyze(ArrayList<Double> arr1, ArrayList<Double> arr2) {
+        ArrayList<ArrayList> arrOfArr = new ArrayList<>();
+        arrOfArr.add(arr1);
+        arrOfArr.add(arr2);
+        String str = "";
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            sa1 = sa1 + arr1.get(i);
+            sa2 = sa2 + arr2.get(i);
+        }
+        double resultSA1 = sa1 / arr1.size();//x_
+        double resultSA2 = sa2 / arr2.size();//y_
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            dus1 += Math.pow((arr1.get(i) - resultSA1), 2) / ((arr1.size() - 1));
+            dus2 += Math.pow((arr2.get(i) - resultSA2), 2) / ((arr2.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+        double tempResultSA1AndSA2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            tempResultSA1AndSA2 += arr1.get(i) * arr2.get(i);
+        }
+        double resultSA1AndSA2 = tempResultSA1AndSA2 / arr1.size();//xy_
+        double r = (arr1.size() / (arr1.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+        //DC:дисперсійно-коваріаційна матриця
+        str += "Точкові оцінки:\n";
+        str += "Вектор математичного сподівання:\n";
+        str += "E = (" + BigDecimal.valueOf(resultSA1).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(resultSA2).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ")\n";
+        str += "Дисперсійно-коваріаційна матриця:";
+        str += "\nDC = [" + BigDecimal.valueOf(Math.pow(serKva1, 2)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(r * serKva1 * serKva2).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]";
+        str += "\n          [" + BigDecimal.valueOf(r * serKva1 * serKva2).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(Math.pow(serKva2, 2)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]\n";
+        return str;
+    }
+
+    static String firstAnalyzeAdekv(ArrayList<Double> arr1, ArrayList<Double> arr2){
+        List<ArrayList<Double>> arrOfArr1 = new ArrayList<>();
+        arrOfArr1.add(arr1);
+        arrOfArr1.add(arr2);
+        String str = "";
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            sa1 = sa1 + arr1.get(i);
+            sa2 = sa2 + arr2.get(i);
+        }
+        double resultSA1 = sa1 / arr1.size();//x_
+        double resultSA2 = sa2 / arr2.size();//y_
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            dus1 += Math.pow((arr1.get(i) - resultSA1), 2) / ((arr1.size() - 1));
+            dus2 += Math.pow((arr2.get(i) - resultSA2), 2) / ((arr2.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+        double tempResultSA1AndSA2 = 0;
+        for (int i = 0; i < arr1.size(); i++) {
+            tempResultSA1AndSA2 += arr1.get(i) * arr2.get(i);
+        }
+        double resultSA1AndSA2 = tempResultSA1AndSA2 / arr1.size();//xy_
+        double r = (arr1.size() / (arr1.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+        //оцінки адекватності відтворення двовимірної функції нормального розподілу:
+        List<Double> whenStaticX = new ArrayList<>();
+        List<Double> whenStaticY = new ArrayList<>();
+        double whenStaticXAndY = 0;
+        List<Double> arr1Sorted = new ArrayList<>();
+        List<Double> arr2Sorted = new ArrayList<>();
+        for (double a : arr1) {
+            arr1Sorted.add(a);
+        }
+        for (double a : arr2) {
+            arr2Sorted.add(a);
+        }
+        arr1Sorted.sort(Comparator.naturalOrder());
+        arr2Sorted.sort(Comparator.naturalOrder());
+
+
+        double numOfClass = 7;
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;//hx
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;//hy
+
+        double startOfX = arr1Sorted.get(0);
+        double endOfX = arr1Sorted.get(arr1Sorted.size() - 1);
+        int shagX = 0;
+        while (startOfX < endOfX) {
+            endOfX -= tickUnitForArr1;
+            shagX++;
+        }
+        double startOfY = arr2Sorted.get(0);
+        double endOfY = arr2Sorted.get(arr2Sorted.size() - 1);
+        int shagY = 0;
+        while (startOfY < endOfY) {
+            endOfY -= tickUnitForArr2;
+            shagY++;
+        }
+
+        double tempOfFrequency = 0;
+        double rangeStartForX = arr1Sorted.get(0);
+        double rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+        double rangeStartForY = arr2Sorted.get(0);
+        double rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
+        double pij = 0;
+        double pStars = 0;
+        double xNow = 0;
+        double yNow = 0;
+        double f = 0;
+        for (int i = 0; i < shagY; i++) {//y
+            for (int j = 0; j < shagX; j++) {//x
+                for (int k = 0; k < arr1.size(); k++) {
+                    if (arr1.get(k) < rangeEndForX && arr1.get(k) > rangeStartForX && arr2.get(k) < rangeEndForY && arr2.get(k) > rangeStartForY) {
+                        tempOfFrequency++;
+                    }
+                    if (k == arr1.size() - 1) {
+                        xNow = (rangeEndForX + rangeStartForX) / 2;
+                        yNow = (rangeEndForY + rangeStartForY) / 2;
+                        f = fNormDvomRozpodil(serKva1, serKva2, r, resultSA1, resultSA2, xNow, yNow);
+                        pij = tempOfFrequency;
+                        pStars = f * tickUnitForArr1 * tickUnitForArr2;
+                        if(pij != 0) {
+                            whenStaticXAndY += Math.pow(pij - pStars, 2) / pij;
+                        }
+                        rangeStartForX = rangeEndForX;
+                        rangeEndForX += tickUnitForArr1;
+                        tempOfFrequency = 0;
+                    }
+                }
+            }
+            rangeStartForX = arr1Sorted.get(0);
+            rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+            rangeStartForY = rangeEndForY;
+            rangeEndForY += tickUnitForArr2;
+        }
+
+//static y:
+        tempOfFrequency = 0;
+        rangeStartForX = arr1Sorted.get(0);
+        rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+        rangeStartForY = arr2Sorted.get(0);
+        rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
+        pij = 0;
+        pStars = 0;
+        xNow = 0;
+        yNow = 0;
+        f = 0;
+        double tempSumY = 0;
+        for (int i = 0; i < shagY; i++) {//y
+            for (int j = 0; j < shagX; j++) {//x
+                for (int k = 0; k < arr1.size(); k++) {
+                    if (arr1.get(k) < rangeEndForX && arr1.get(k) > rangeStartForX && arr2.get(k) < rangeEndForY && arr2.get(k) > rangeStartForY) {
+                        tempOfFrequency++;
+                    }
+                    if (k == arr1.size()-1) {
+                        xNow = (rangeEndForX + rangeStartForX) / 2;
+                        yNow = (rangeEndForY + rangeStartForY) / 2;
+                        f = fNormDvomRozpodil(serKva1, serKva2, r, resultSA1, resultSA2, xNow, yNow);
+                        pij = tempOfFrequency;
+                        pStars = f * tickUnitForArr1 * tickUnitForArr2;
+                        if(pij != 0) {
+                        tempSumY += Math.pow(pij - pStars, 2) / pij;}
+                        rangeStartForX = rangeEndForX;
+                        rangeEndForX += tickUnitForArr1;
+                        tempOfFrequency = 0;
+                    }
+                }
+            }
+            whenStaticY.add(tempSumY);
+            tempSumY = 0;
+            rangeStartForX = arr1Sorted.get(0);
+            rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+            rangeStartForY = rangeEndForY;
+            rangeEndForY += tickUnitForArr2;
+        }
+
+//static x:
+        tempOfFrequency = 0;
+        rangeStartForX = arr1Sorted.get(0);
+        rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+        rangeStartForY = arr2Sorted.get(0);
+        rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
+        pij = 0;
+        pStars = 0;
+        xNow = 0;
+        yNow = 0;
+        f = 0;
+        double tempSumX = 0;
+        for (int i = 0; i < shagX; i++) {//y
+            for (int j = 0; j < shagY; j++) {//x
+                for (int k = 0; k < arr1.size(); k++) {
+                    if (arr1.get(k) < rangeEndForX && arr1.get(k) > rangeStartForX && arr2.get(k) < rangeEndForY && arr2.get(k) > rangeStartForY) {
+                        tempOfFrequency++;
+                    }
+                    if (k == arr1.size()-1) {
+                        xNow = (rangeEndForX + rangeStartForX) / 2;
+                        yNow = (rangeEndForY + rangeStartForY) / 2;
+                        f = fNormDvomRozpodil(serKva1, serKva2, r, resultSA1, resultSA2, xNow, yNow);
+                        pij = tempOfFrequency;
+                        pStars = f * tickUnitForArr1 * tickUnitForArr2;
+                        if(pij != 0) {
+                        tempSumX += Math.pow(pij - pStars, 2) / pij;}
+
+                        rangeStartForY = rangeEndForY;
+                        rangeEndForY += tickUnitForArr2;
+                        tempOfFrequency = 0;
+                    }
+                }
+            }
+            whenStaticX.add(tempSumX);
+            tempSumX = 0;
+            rangeStartForY = arr2Sorted.get(0);
+            rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
+            rangeStartForX = rangeEndForX;
+            rangeEndForX += tickUnitForArr1;
+        }
+
+        str += "\nОцінки адекватності відтворення двовимірної функції нормального розподілу: ";
+        double kva = koefForBartletAndKohrena(arrOfArr1);
+        str += "\nЗа змінною y при фіксованій x: ";
+        for (int i = 0; i < whenStaticX.size(); i++) {
+            str += (i + 1) + " = " + BigDecimal.valueOf(whenStaticX.get(i)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
+            if (kva > whenStaticX.get(i)) {
+                str += " (-) \n";
+                //+ kva + ">" + whenStaticX.get(i);
+            } else {
+                str += " (+) \n";
+                //+ kva + "<=" + whenStaticX.get(i);
+            }
+        }
+        str += "За змінною x при фіксованій y: ";
+        for (int i = 0; i < whenStaticY.size(); i++) {
+            str += (i + 1) + " = " + BigDecimal.valueOf(whenStaticY.get(i)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
+            if (kva > whenStaticY.get(i)) {
+                str += " (-) \n";
+                //+ kva + ">" + whenStaticX.get(i);
+            } else {
+                str += " (+) \n";
+                //+ kva + "<=" + whenStaticX.get(i);
+            }
+        }
+        str+="Одночасно за змінними x та y = "+ BigDecimal.valueOf(whenStaticXAndY).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
+        if (kva > whenStaticXAndY) {
+            str += " (-) \n";
+            //+ kva + ">" + whenStaticX.get(i);
+        } else {
+            str += " (+) \n";
+            //+ kva + "<=" + whenStaticX.get(i);
+        }
+        return str;
+    }
+
     static String korilationKoefData(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         ArrayList<ArrayList> arrOfArr = new ArrayList<>();
         arrOfArr.add(arr1);
@@ -2397,19 +2657,16 @@ public class Helper {
         double r = (arr1.size() / (arr1.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
         str += "Коефіцієнт кореляції = " + BigDecimal.valueOf(r).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
 
-//DC:
-        str += "\nDC = [" + BigDecimal.valueOf(Math.pow(serKva1, 2)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(r * serKva1 * serKva2).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]";
-        str += "\n          [" + BigDecimal.valueOf(r * serKva1 * serKva2).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(Math.pow(serKva2, 2)).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]";
 
 //Перевірки значущості оцінки коефіцієнта кореляції:
         str += "\nПеревірки значущості оцінки коефіцієнта кореляції: ";
-        double t = (r * Math.sqrt(arr1.size() - 2) / Math.sqrt(1 - Math.pow(r, 2)));
+        double t = BigDecimal.valueOf((r * Math.sqrt(arr1.size() - 2) / Math.sqrt(1 - Math.pow(r, 2)))).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         if (t > t1) {
-            str += "головну гіпотезу спростовано";
-            //   + t1 + "<" + t;
+            str += "Головну гіпотезу спростовано: "
+                    + t1 + "<" + t;
         } else {
-            str += "головну гіпотезу підтверджено";
-            //   + t1 + ">=" + t;
+            str += "Головну гіпотезу підтверджено: "
+                    + t1 + ">=" + t;
         }
 
         //Інтервальне оцінювання коефіцієнта кореляції:
@@ -2451,13 +2708,13 @@ public class Helper {
         double p = temChisl / temZnam;
         resultString += "Коефіцієнт кореляційного відношення = " + BigDecimal.valueOf(p).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         resultString += "\nПеревірки значущості оцінки коефіцієнта кореляційного відношення: ";
-        double t = (p * Math.sqrt(arr1Sorted.size() - 2) / Math.sqrt(1 - Math.pow(p, 2)));
+        double t = BigDecimal.valueOf((p * Math.sqrt(arr1Sorted.size() - 2) / Math.sqrt(1 - Math.pow(p, 2)))).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         if (t > t1) {
-            resultString += "головну гіпотезу спростовано";
-            //   + t1 + "<" + t;
+            resultString += "Головну гіпотезу спростовано: "
+                    + t1 + "<" + t;
         } else {
-            resultString += "головну гіпотезу підтверджено";
-            //   + t1 + ">=" + t;
+            resultString += "Головну гіпотезу підтверджено: "
+                    + t1 + ">=" + t;
         }
         return resultString;
     }
@@ -2523,7 +2780,7 @@ public class Helper {
         }
         double koefSpirmen = 1 - (6 / (rangX.size() * (Math.pow(rangX.size(), 2) - 1))) * sumSpirmen;
 
-        double t = koefSpirmen * (rangX.size() - 2) / Math.sqrt(1 - Math.pow(koefSpirmen, 2));
+        double t = BigDecimal.valueOf(koefSpirmen * (rangX.size() - 2) / Math.sqrt(1 - Math.pow(koefSpirmen, 2))).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
 
         //Інтервальне:
         double serkvaSpirmen = Math.sqrt((1 - Math.pow(koefSpirmen, 2)) / (rangX.size() - 1));
@@ -2531,7 +2788,14 @@ public class Helper {
         double upSpirmen = koefSpirmen + t1 * serkvaSpirmen;
 
         resultString += "Ранговий коефіцієнта кореляції Спірмена = " + BigDecimal.valueOf(koefSpirmen).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
-        resultString += "Інтервальне оцінювання кореляції Спірмена [" + BigDecimal.valueOf(downSpirmen).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(upSpirmen).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]\n";
+        if (t > t1) {
+            resultString += "Головну гіпотезу спростовано: "
+                    + t1 + "<" + t;
+        } else {
+            resultString += "Головну гіпотезу підтверджено: "
+                    + t1 + ">=" + t;
+        }
+        resultString += "\nІнтервальне оцінювання кореляції Спірмена [" + BigDecimal.valueOf(downSpirmen).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(upSpirmen).setScale(3, BigDecimal.ROUND_CEILING).doubleValue() + "]\n";
 
 //ранговий коефіцієнта Кендалла:
         double s = 0;
@@ -2539,7 +2803,7 @@ public class Helper {
         double rj = 0;
         for (int i = 0; i < rangY.size() - 1; i++) {
             ri = rangY.get(i);
-            for (int j = 0; j < rangY.size(); j++) {
+            for (int j = i + 1; j < rangY.size(); j++) {
                 rj = rangY.get(j);
                 if (ri < rj) {
                     s++;
@@ -2557,7 +2821,7 @@ public class Helper {
         double downKendal = koefKendal - kvaKendal * serKvaKendal;
         double upKendal = koefKendal + kvaKendal * serKvaKendal;
 
-        resultString += "Ранговий коефіцієнта кореляції Кендалла = " + BigDecimal.valueOf(koefKendal).setScale(5, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
+        resultString += "\nРанговий коефіцієнта кореляції Кендалла = " + BigDecimal.valueOf(koefKendal).setScale(5, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
         resultString += "Інтервальне оцінювання кореляції Кендалла [" + BigDecimal.valueOf(downKendal).setScale(5, BigDecimal.ROUND_CEILING).doubleValue() + ", " + BigDecimal.valueOf(upKendal).setScale(5, BigDecimal.ROUND_CEILING).doubleValue() + "]\n";
         if (Math.abs(uKendal) <= kvaKendal) {
             resultString += "Оцінка ранговий коефіцієнта кореляції Кендалла = не є значущим";

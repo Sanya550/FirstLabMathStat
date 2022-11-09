@@ -52,7 +52,6 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#showVarRowList" text="Варіаційний ряд" />
                   <MenuItem mnemonicParsing="false" onAction="#shownMainCharacteristic" text="Основні характеристики" />
-                  <MenuItem mnemonicParsing="false" onAction="#showVarRowMatrix" text="Двовимірний варіаційний ряд" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Критерії однорідності">
@@ -113,9 +112,16 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Аналіз двовимірних даних">
                <items>
+                  <Menu mnemonicParsing="false" text="Первинний статистичний аналіз">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#showVarRowMatrix" text="Двовимірний варіаційний ряд" />
+                        <MenuItem mnemonicParsing="false" onAction="#firstStaticAnalyzeDots" text="Точкові оцінки" />
+                        <MenuItem mnemonicParsing="false" onAction="#firstStaticAnalyzeAdekvat" text="Оцінки адекватності відтворення ф-ії" />
+                     </items>
+                  </Menu>
                   <MenuItem mnemonicParsing="false" onAction="#scatterChartForKorilationField1" text="Кореляційні поля" />
                   <MenuItem mnemonicParsing="false" onAction="#scatterChartForFrequencyOfHystograma1" text="Гістограма відносних частот" />
-                  <MenuItem mnemonicParsing="false" onAction="#dataForKorilationAnalize" text="Кореляційний аналіз" />
+                  <MenuItem mnemonicParsing="false" onAction="#dataForKorilationAnalize" text="Коефіцієнт кореляції" />
                   <MenuItem mnemonicParsing="false" onAction="#dataForLKoefKorilationVidnos" text="Коефіцієнт кореляційного відношення" />
                   <MenuItem mnemonicParsing="false" onAction="#dataForRangKorilation" text="Рангова кореляція" />
                   <MenuItem mnemonicParsing="false" onAction="#dataForSpolTable" text="Коефіцієнти сполучень таблиць" />

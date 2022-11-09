@@ -551,7 +551,7 @@ public class HelloController {
 
         //Creating columns
         TableColumn columnForXAndY = new TableColumn("Y\\X");
-        columnForXAndY.setCellValueFactory(new PropertyValueFactory<VariationMatrix,String>("xAndy"));
+        columnForXAndY.setCellValueFactory(new PropertyValueFactory<VariationMatrix, String>("xAndy"));
         TableColumn columnForX1 = new TableColumn("x1");
         columnForX1.setCellValueFactory(new PropertyValueFactory<>("x1"));
         TableColumn columnForX2 = new TableColumn("x2");
@@ -1068,6 +1068,29 @@ public class HelloController {
     }
 
     //Аналіз двовимірних даних:
+
+    @FXML
+    protected void firstStaticAnalyzeDots(ActionEvent event) {
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        if (listOfLists.size() != 4) {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, Helper.firstAnalyze(listOfLists.get(2), listOfLists.get(3)), "Первинний статистичний аналіз", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }
+
+    @FXML
+    protected void firstStaticAnalyzeAdekvat(ActionEvent event) {
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        if (listOfLists.size() != 4) {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, Helper.firstAnalyzeAdekv(listOfLists.get(2), listOfLists.get(3)), "Первинний статистичний аналіз", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }
+
     @FXML
     protected void scatterChartForKorilationField1(ActionEvent event) {
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
@@ -1092,7 +1115,7 @@ public class HelloController {
     @FXML
     protected void dataForKorilationAnalize(ActionEvent event) {
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
-        JOptionPane.showMessageDialog(null, Helper.korilationKoefData(listOfLists.get(2), listOfLists.get(3)), "Кореляційний аналіз", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, Helper.korilationKoefData(listOfLists.get(2), listOfLists.get(3)), "Коефіцієнт кореляції", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
