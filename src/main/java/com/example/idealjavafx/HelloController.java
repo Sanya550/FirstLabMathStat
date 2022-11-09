@@ -474,108 +474,6 @@ public class HelloController {
     }
 
     @FXML
-    protected void showVarRowMatrix() {
-        tableView.getItems().clear();
-        tableView.getColumns().clear();
-        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
-        ArrayList sort1 = listOfLists.get(0);
-        ArrayList sort2 = listOfLists.get(1);
-        ArrayList notSort1 = listOfLists.get(2);
-        ArrayList notSort2 = listOfLists.get(3);
-        List<Double> listOfVariationData = Helper.variationMatrixData(sort1, sort2, notSort1, notSort2);
-
-        int size = sort1.size();
-        final ObservableList<VariationMatrix> data = FXCollections.observableArrayList();
-        data.add(new VariationMatrix("y1 ",
-                listOfVariationData.get(42) + ", " + listOfVariationData.get(42) / size,
-                listOfVariationData.get(43) + ", " + listOfVariationData.get(43) / size,
-                listOfVariationData.get(44) + ", " + listOfVariationData.get(44) / size,
-                listOfVariationData.get(45) + ", " + listOfVariationData.get(45) / size,
-                listOfVariationData.get(46) + ", " + listOfVariationData.get(46) / size,
-                listOfVariationData.get(47) + ", " + listOfVariationData.get(47) / size,
-                listOfVariationData.get(48) + ", " + listOfVariationData.get(48) / size));//1
-
-        data.add(new VariationMatrix("y2",
-                listOfVariationData.get(35) + ", " + listOfVariationData.get(35) / size,
-                listOfVariationData.get(36) + ", " + listOfVariationData.get(36) / size,
-                listOfVariationData.get(37) + ", " + listOfVariationData.get(37) / size,
-                listOfVariationData.get(38) + ", " + listOfVariationData.get(38) / size,
-                listOfVariationData.get(39) + ", " + listOfVariationData.get(39) / size,
-                listOfVariationData.get(40) + ", " + listOfVariationData.get(40) / size,
-                listOfVariationData.get(41) + ", " + listOfVariationData.get(41) / size));//2
-
-        data.add(new VariationMatrix("y3",
-                listOfVariationData.get(28) + ", " + listOfVariationData.get(28) / size,
-                listOfVariationData.get(29) + ", " + listOfVariationData.get(29) / size,
-                listOfVariationData.get(30) + ", " + listOfVariationData.get(30) / size,
-                listOfVariationData.get(31) + ", " + listOfVariationData.get(31) / size,
-                listOfVariationData.get(32) + ", " + listOfVariationData.get(32) / size,
-                listOfVariationData.get(33) + ", " + listOfVariationData.get(33) / size,
-                listOfVariationData.get(34) + ", " + listOfVariationData.get(34) / size));//3
-
-        data.add(new VariationMatrix("y4",
-                listOfVariationData.get(21) + ", " + listOfVariationData.get(21) / size,
-                listOfVariationData.get(22) + ", " + listOfVariationData.get(22) / size,
-                listOfVariationData.get(23) + ", " + listOfVariationData.get(23) / size,
-                listOfVariationData.get(24) + ", " + listOfVariationData.get(24) / size,
-                listOfVariationData.get(25) + ", " + listOfVariationData.get(25) / size,
-                listOfVariationData.get(26) + ", " + listOfVariationData.get(26) / size,
-                listOfVariationData.get(27) + ", " + listOfVariationData.get(27) / size));//4
-
-        data.add(new VariationMatrix("y5",
-                listOfVariationData.get(14) + ", " + listOfVariationData.get(14) / size,
-                listOfVariationData.get(15) + ", " + listOfVariationData.get(15) / size,
-                listOfVariationData.get(16) + ", " + listOfVariationData.get(16) / size,
-                listOfVariationData.get(17) + ", " + listOfVariationData.get(17) / size,
-                listOfVariationData.get(18) + ", " + listOfVariationData.get(18) / size,
-                listOfVariationData.get(19) + ", " + listOfVariationData.get(19) / size,
-                listOfVariationData.get(20) + ", " + listOfVariationData.get(20) / size));//5
-
-        data.add(new VariationMatrix("y6",
-                listOfVariationData.get(7) + ", " + listOfVariationData.get(7) / size,
-                listOfVariationData.get(8) + ", " + listOfVariationData.get(8) / size,
-                listOfVariationData.get(9) + ", " + listOfVariationData.get(9) / size,
-                listOfVariationData.get(10) + ", " + listOfVariationData.get(10) / size,
-                listOfVariationData.get(11) + ", " + listOfVariationData.get(11) / size,
-                listOfVariationData.get(12) + ", " + listOfVariationData.get(12) / size,
-                listOfVariationData.get(13) + ", " + listOfVariationData.get(13) / size));//6
-
-        data.add(new VariationMatrix("y7",
-                listOfVariationData.get(0) + ", " + listOfVariationData.get(0) / size,
-                listOfVariationData.get(1) + ", " + listOfVariationData.get(1) / size,
-                listOfVariationData.get(2) + ", " + listOfVariationData.get(2) / size,
-                listOfVariationData.get(3) + ", " + listOfVariationData.get(3) / size,
-                listOfVariationData.get(4) + ", " + listOfVariationData.get(4) / size,
-                listOfVariationData.get(5) + ", " + listOfVariationData.get(5) / size,
-                listOfVariationData.get(6) + ", " + listOfVariationData.get(6) / size));//7
-
-        //Creating columns
-        TableColumn columnForXAndY = new TableColumn("Y\\X");
-        columnForXAndY.setCellValueFactory(new PropertyValueFactory<VariationMatrix, String>("xAndy"));
-        TableColumn columnForX1 = new TableColumn("x1");
-        columnForX1.setCellValueFactory(new PropertyValueFactory<>("x1"));
-        TableColumn columnForX2 = new TableColumn("x2");
-        columnForX2.setCellValueFactory(new PropertyValueFactory<>("x2"));
-        TableColumn columnForX3 = new TableColumn("x3");
-        columnForX3.setCellValueFactory(new PropertyValueFactory<>("x3"));
-        TableColumn columnForX4 = new TableColumn("x4");
-        columnForX4.setCellValueFactory(new PropertyValueFactory<>("x4"));
-        TableColumn columnForX5 = new TableColumn("x5");
-        columnForX5.setCellValueFactory(new PropertyValueFactory<>("x5"));
-        TableColumn columnForX6 = new TableColumn("x6");
-        columnForX6.setCellValueFactory(new PropertyValueFactory<>("x6"));
-        TableColumn columnForX7 = new TableColumn("x7");
-        columnForX7.setCellValueFactory(new PropertyValueFactory<>("x7"));
-
-
-        //Adding data to the table
-        tableView.setItems(data);
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tableView.getColumns().addAll(columnForXAndY, columnForX1, columnForX2, columnForX3, columnForX4, columnForX5, columnForX6, columnForX7);
-
-    }
-
-    @FXML
     protected void shownMainCharacteristic(ActionEvent event) {
         tableView.getItems().clear();
         tableView.getColumns().clear();
@@ -1068,6 +966,107 @@ public class HelloController {
     }
 
     //Аналіз двовимірних даних:
+    @FXML
+    protected void showVarRowMatrix() {
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        ArrayList sort1 = listOfLists.get(0);
+        ArrayList sort2 = listOfLists.get(1);
+        ArrayList notSort1 = listOfLists.get(2);
+        ArrayList notSort2 = listOfLists.get(3);
+        List<Double> listOfVariationData = Helper.variationMatrixData(sort1, sort2, notSort1, notSort2);
+
+        int size = sort1.size();
+        final ObservableList<VariationMatrix> data = FXCollections.observableArrayList();
+        data.add(new VariationMatrix("y1 ",
+                listOfVariationData.get(42) + ", " + listOfVariationData.get(42) / size,
+                listOfVariationData.get(43) + ", " + listOfVariationData.get(43) / size,
+                listOfVariationData.get(44) + ", " + listOfVariationData.get(44) / size,
+                listOfVariationData.get(45) + ", " + listOfVariationData.get(45) / size,
+                listOfVariationData.get(46) + ", " + listOfVariationData.get(46) / size,
+                listOfVariationData.get(47) + ", " + listOfVariationData.get(47) / size,
+                listOfVariationData.get(48) + ", " + listOfVariationData.get(48) / size));//1
+
+        data.add(new VariationMatrix("y2",
+                listOfVariationData.get(35) + ", " + listOfVariationData.get(35) / size,
+                listOfVariationData.get(36) + ", " + listOfVariationData.get(36) / size,
+                listOfVariationData.get(37) + ", " + listOfVariationData.get(37) / size,
+                listOfVariationData.get(38) + ", " + listOfVariationData.get(38) / size,
+                listOfVariationData.get(39) + ", " + listOfVariationData.get(39) / size,
+                listOfVariationData.get(40) + ", " + listOfVariationData.get(40) / size,
+                listOfVariationData.get(41) + ", " + listOfVariationData.get(41) / size));//2
+
+        data.add(new VariationMatrix("y3",
+                listOfVariationData.get(28) + ", " + listOfVariationData.get(28) / size,
+                listOfVariationData.get(29) + ", " + listOfVariationData.get(29) / size,
+                listOfVariationData.get(30) + ", " + listOfVariationData.get(30) / size,
+                listOfVariationData.get(31) + ", " + listOfVariationData.get(31) / size,
+                listOfVariationData.get(32) + ", " + listOfVariationData.get(32) / size,
+                listOfVariationData.get(33) + ", " + listOfVariationData.get(33) / size,
+                listOfVariationData.get(34) + ", " + listOfVariationData.get(34) / size));//3
+
+        data.add(new VariationMatrix("y4",
+                listOfVariationData.get(21) + ", " + listOfVariationData.get(21) / size,
+                listOfVariationData.get(22) + ", " + listOfVariationData.get(22) / size,
+                listOfVariationData.get(23) + ", " + listOfVariationData.get(23) / size,
+                listOfVariationData.get(24) + ", " + listOfVariationData.get(24) / size,
+                listOfVariationData.get(25) + ", " + listOfVariationData.get(25) / size,
+                listOfVariationData.get(26) + ", " + listOfVariationData.get(26) / size,
+                listOfVariationData.get(27) + ", " + listOfVariationData.get(27) / size));//4
+
+        data.add(new VariationMatrix("y5",
+                listOfVariationData.get(14) + ", " + listOfVariationData.get(14) / size,
+                listOfVariationData.get(15) + ", " + listOfVariationData.get(15) / size,
+                listOfVariationData.get(16) + ", " + listOfVariationData.get(16) / size,
+                listOfVariationData.get(17) + ", " + listOfVariationData.get(17) / size,
+                listOfVariationData.get(18) + ", " + listOfVariationData.get(18) / size,
+                listOfVariationData.get(19) + ", " + listOfVariationData.get(19) / size,
+                listOfVariationData.get(20) + ", " + listOfVariationData.get(20) / size));//5
+
+        data.add(new VariationMatrix("y6",
+                listOfVariationData.get(7) + ", " + listOfVariationData.get(7) / size,
+                listOfVariationData.get(8) + ", " + listOfVariationData.get(8) / size,
+                listOfVariationData.get(9) + ", " + listOfVariationData.get(9) / size,
+                listOfVariationData.get(10) + ", " + listOfVariationData.get(10) / size,
+                listOfVariationData.get(11) + ", " + listOfVariationData.get(11) / size,
+                listOfVariationData.get(12) + ", " + listOfVariationData.get(12) / size,
+                listOfVariationData.get(13) + ", " + listOfVariationData.get(13) / size));//6
+
+        data.add(new VariationMatrix("y7",
+                listOfVariationData.get(0) + ", " + listOfVariationData.get(0) / size,
+                listOfVariationData.get(1) + ", " + listOfVariationData.get(1) / size,
+                listOfVariationData.get(2) + ", " + listOfVariationData.get(2) / size,
+                listOfVariationData.get(3) + ", " + listOfVariationData.get(3) / size,
+                listOfVariationData.get(4) + ", " + listOfVariationData.get(4) / size,
+                listOfVariationData.get(5) + ", " + listOfVariationData.get(5) / size,
+                listOfVariationData.get(6) + ", " + listOfVariationData.get(6) / size));//7
+
+        //Creating columns
+        TableColumn columnForXAndY = new TableColumn("Y\\X");
+        columnForXAndY.setCellValueFactory(new PropertyValueFactory<VariationMatrix, String>("xAndy"));
+        TableColumn columnForX1 = new TableColumn("x1");
+        columnForX1.setCellValueFactory(new PropertyValueFactory<>("x1"));
+        TableColumn columnForX2 = new TableColumn("x2");
+        columnForX2.setCellValueFactory(new PropertyValueFactory<>("x2"));
+        TableColumn columnForX3 = new TableColumn("x3");
+        columnForX3.setCellValueFactory(new PropertyValueFactory<>("x3"));
+        TableColumn columnForX4 = new TableColumn("x4");
+        columnForX4.setCellValueFactory(new PropertyValueFactory<>("x4"));
+        TableColumn columnForX5 = new TableColumn("x5");
+        columnForX5.setCellValueFactory(new PropertyValueFactory<>("x5"));
+        TableColumn columnForX6 = new TableColumn("x6");
+        columnForX6.setCellValueFactory(new PropertyValueFactory<>("x6"));
+        TableColumn columnForX7 = new TableColumn("x7");
+        columnForX7.setCellValueFactory(new PropertyValueFactory<>("x7"));
+
+
+        //Adding data to the table
+        tableView.setItems(data);
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableView.getColumns().addAll(columnForXAndY, columnForX1, columnForX2, columnForX3, columnForX4, columnForX5, columnForX6, columnForX7);
+
+    }
 
     @FXML
     protected void firstStaticAnalyzeDots(ActionEvent event) {

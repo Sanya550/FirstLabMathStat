@@ -2409,7 +2409,7 @@ public class Helper {
         return str;
     }
 
-    static String firstAnalyzeAdekv(ArrayList<Double> arr1, ArrayList<Double> arr2){
+    static String firstAnalyzeAdekv(ArrayList<Double> arr1, ArrayList<Double> arr2) {
         List<ArrayList<Double>> arrOfArr1 = new ArrayList<>();
         arrOfArr1.add(arr1);
         arrOfArr1.add(arr2);
@@ -2494,7 +2494,7 @@ public class Helper {
                         f = fNormDvomRozpodil(serKva1, serKva2, r, resultSA1, resultSA2, xNow, yNow);
                         pij = tempOfFrequency;
                         pStars = f * tickUnitForArr1 * tickUnitForArr2;
-                        if(pij != 0) {
+                        if (pij != 0) {
                             whenStaticXAndY += Math.pow(pij - pStars, 2) / pij;
                         }
                         rangeStartForX = rangeEndForX;
@@ -2527,14 +2527,15 @@ public class Helper {
                     if (arr1.get(k) < rangeEndForX && arr1.get(k) > rangeStartForX && arr2.get(k) < rangeEndForY && arr2.get(k) > rangeStartForY) {
                         tempOfFrequency++;
                     }
-                    if (k == arr1.size()-1) {
+                    if (k == arr1.size() - 1) {
                         xNow = (rangeEndForX + rangeStartForX) / 2;
                         yNow = (rangeEndForY + rangeStartForY) / 2;
                         f = fNormDvomRozpodil(serKva1, serKva2, r, resultSA1, resultSA2, xNow, yNow);
                         pij = tempOfFrequency;
                         pStars = f * tickUnitForArr1 * tickUnitForArr2;
-                        if(pij != 0) {
-                        tempSumY += Math.pow(pij - pStars, 2) / pij;}
+                        if (pij != 0) {
+                            tempSumY += Math.pow(pij - pStars, 2) / pij;
+                        }
                         rangeStartForX = rangeEndForX;
                         rangeEndForX += tickUnitForArr1;
                         tempOfFrequency = 0;
@@ -2567,14 +2568,15 @@ public class Helper {
                     if (arr1.get(k) < rangeEndForX && arr1.get(k) > rangeStartForX && arr2.get(k) < rangeEndForY && arr2.get(k) > rangeStartForY) {
                         tempOfFrequency++;
                     }
-                    if (k == arr1.size()-1) {
+                    if (k == arr1.size() - 1) {
                         xNow = (rangeEndForX + rangeStartForX) / 2;
                         yNow = (rangeEndForY + rangeStartForY) / 2;
                         f = fNormDvomRozpodil(serKva1, serKva2, r, resultSA1, resultSA2, xNow, yNow);
                         pij = tempOfFrequency;
                         pStars = f * tickUnitForArr1 * tickUnitForArr2;
-                        if(pij != 0) {
-                        tempSumX += Math.pow(pij - pStars, 2) / pij;}
+                        if (pij != 0) {
+                            tempSumX += Math.pow(pij - pStars, 2) / pij;
+                        }
 
                         rangeStartForY = rangeEndForY;
                         rangeEndForY += tickUnitForArr2;
@@ -2614,7 +2616,7 @@ public class Helper {
                 //+ kva + "<=" + whenStaticX.get(i);
             }
         }
-        str+="Одночасно за змінними x та y = "+ BigDecimal.valueOf(whenStaticXAndY).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
+        str += "Одночасно за змінними x та y = " + BigDecimal.valueOf(whenStaticXAndY).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         if (kva > whenStaticXAndY) {
             str += " (-) \n";
             //+ kva + ">" + whenStaticX.get(i);
@@ -2877,7 +2879,7 @@ public class Helper {
         resultString += "Коефіцієнт сполучень Фі = " + BigDecimal.valueOf(fi).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
         double ksi = n * Math.pow(fi, 2);
         double kvaFi = koefForBartletAndKohrena(arrOfArr2);
-        if (ksi >= kvaFi) {
+        if (ksi >= Math.abs(kvaFi)) {
             resultString += "Оцінка коефіцієнта Ф є значущою\n";
         } else {
             resultString += "Оцінка коефіцієнта Ф не є значущою\n";
@@ -2891,15 +2893,249 @@ public class Helper {
         double uy = Math.abs(y / sy);
         double kvaUla = koefForVilksonaAndRiznSerednihRangiv(arrOfArr1);
         resultString += "Коефіцієнти зв’язку Юла: Q = " + BigDecimal.valueOf(q).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ", Y = " + BigDecimal.valueOf(y).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "\n";
-        if (uq <= kvaUla) {
+        if (Math.abs(uq) <= kvaUla) {
             resultString += "Головна гіпотеза Q прийнята; ";
         } else {
             resultString += "Головна гіпотеза Q відхилена; ";
         }
-        if (uy <= kvaUla) {
+        if (Math.abs(uy) <= kvaUla) {
             resultString += "Головна гіпотеза Y прийнята; ";
         } else {
             resultString += "Головна гіпотеза Y відхилена; ";
+        }
+
+        //n * m
+        List<Double> listOfVariationData = Helper.variationMatrixData(arr1Sorted, arr2Sorted, arr2NotSorted, arr2NotSorted);
+        int numberOfClasses = (int) Math.sqrt(listOfVariationData.size());
+        double[][] matr = new double[numberOfClasses][numberOfClasses];
+
+        matr[0][0] = listOfVariationData.get(42);
+        matr[0][1] = listOfVariationData.get(43);
+        matr[0][2] = listOfVariationData.get(44);
+        matr[0][3] = listOfVariationData.get(45);
+        matr[0][4] = listOfVariationData.get(46);
+        matr[0][5] = listOfVariationData.get(47);
+        matr[0][6] = listOfVariationData.get(48);
+
+        matr[1][0] = listOfVariationData.get(35);
+        matr[1][1] = listOfVariationData.get(36);
+        matr[1][2] = listOfVariationData.get(37);
+        matr[1][3] = listOfVariationData.get(38);
+        matr[1][4] = listOfVariationData.get(39);
+        matr[1][5] = listOfVariationData.get(40);
+        matr[1][6] = listOfVariationData.get(41);
+
+        matr[2][0] = listOfVariationData.get(28);
+        matr[2][1] = listOfVariationData.get(29);
+        matr[2][2] = listOfVariationData.get(30);
+        matr[2][3] = listOfVariationData.get(31);
+        matr[2][4] = listOfVariationData.get(32);
+        matr[2][5] = listOfVariationData.get(33);
+        matr[2][6] = listOfVariationData.get(34);
+
+        matr[3][0] = listOfVariationData.get(21);
+        matr[3][1] = listOfVariationData.get(22);
+        matr[3][2] = listOfVariationData.get(23);
+        matr[3][3] = listOfVariationData.get(24);
+        matr[3][4] = listOfVariationData.get(25);
+        matr[3][5] = listOfVariationData.get(26);
+        matr[3][6] = listOfVariationData.get(27);
+
+        matr[4][0] = listOfVariationData.get(14);
+        matr[4][1] = listOfVariationData.get(15);
+        matr[4][2] = listOfVariationData.get(16);
+        matr[4][3] = listOfVariationData.get(17);
+        matr[4][4] = listOfVariationData.get(18);
+        matr[4][5] = listOfVariationData.get(19);
+        matr[4][6] = listOfVariationData.get(20);
+
+        matr[5][0] = listOfVariationData.get(7);
+        matr[5][1] = listOfVariationData.get(8);
+        matr[5][2] = listOfVariationData.get(9);
+        matr[5][3] = listOfVariationData.get(10);
+        matr[5][4] = listOfVariationData.get(11);
+        matr[5][5] = listOfVariationData.get(12);
+        matr[5][6] = listOfVariationData.get(13);
+
+        matr[6][0] = listOfVariationData.get(0);
+        matr[6][1] = listOfVariationData.get(1);
+        matr[6][2] = listOfVariationData.get(2);
+        matr[6][3] = listOfVariationData.get(3);
+        matr[6][4] = listOfVariationData.get(4);
+        matr[6][5] = listOfVariationData.get(5);
+        matr[6][6] = listOfVariationData.get(6);
+
+        double ksiOfTable = 0;
+        double nBig = 0;
+        double nGeneral = 0;
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+                nGeneral += matr[i][j];
+            }
+        }
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+                nBig = matr[i][j] / nGeneral;
+                if(nBig != 0){
+                ksiOfTable += Math.pow(matr[i][j] - nBig, 2) / nBig;}
+            }
+        }
+        if (ksiOfTable >= kvaFi) {
+            resultString += "\nГіпотеза про незалежність Х та Y підтвердилась";
+        } else {
+            resultString += "\nГіпотеза про незалежність Х та Y спростовується";
+        }
+//Коефіцієнт сполучень Пірсона:
+        double c = Math.sqrt(ksiOfTable / (nGeneral + ksiOfTable));
+        resultString += "\nКоефіцієнт сполучень Пірсона = " + BigDecimal.valueOf(c).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        if (Math.abs(c) >= kvaFi) {
+            resultString += "\nГіпотеза коефіцієнт сполучень Пірсона підтвердилась";
+        } else {
+            resultString += "\nГіпотеза коефіцієнт сполучень Пірсона спростовується";
+        }
+
+//Міра зв’язку Кендалла:
+        ArrayList<ArrayList> arrOfArr = new ArrayList<>();
+        arrOfArr.add(arr1NotSorted);
+        arrOfArr.add(arr1NotSorted);
+        double pKendal = 0;
+        double tempSumForInternal = 0;
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+
+                for (int k = i + 1; k < numberOfClasses; k++) {
+                    for (int l = j + 1; l < numberOfClasses; l++) {
+                        tempSumForInternal += matr[k][l];
+                    }
+                }
+                pKendal += matr[i][j] * tempSumForInternal;
+                tempSumForInternal = 0;
+            }
+        }
+
+        double qKendal = 0;
+        tempSumForInternal = 0;
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+
+                for (int k = i + 1; k < numberOfClasses; k++) {
+                    for (int l = 0; l < j - 1; l++) {
+                        tempSumForInternal += matr[k][l];
+                    }
+                }
+                qKendal += matr[i][j] * tempSumForInternal;
+            }
+        }
+
+        double kvaKendal = koefForVilksonaAndRiznSerednihRangiv(arrOfArr);
+        double koefKendalInTable = BigDecimal.valueOf((pKendal - qKendal) / (0.5 * nGeneral * (nGeneral - 1) - nGeneral)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        resultString += "\nМіра зв’язку Кендалла = " + koefKendalInTable;
+        if (Math.abs(koefKendalInTable) <= kvaKendal) {
+            resultString += "\nОцінка міра зв’язку Кендалла = не є значущим";
+        } else {
+            resultString += "\nОцінка міра зв’язку Кендалла = є значущим";
+        }
+//статистика Стюарда:
+        double stuard = 2 * (pKendal - qKendal) * numberOfClasses / ((Math.pow(nGeneral, 2) * (numberOfClasses - 1)));
+        double aStuard2 = 0;
+        tempSumForInternal = 0;
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+
+                for (int k = i + 1; k < numberOfClasses; k++) {
+                    for (int l = j + 1; l < numberOfClasses; l++) {
+                        tempSumForInternal += matr[i][j] * matr[k][l] * matr[k][l];
+                    }
+                }
+            }
+        }
+        aStuard2 += tempSumForInternal;
+        tempSumForInternal = 0;
+
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+
+                for (int k = 0; k < i - 1; k++) {
+                    for (int l = 0; l < j - 1; l++) {
+                        tempSumForInternal += matr[i][j] * matr[k][l] * matr[k][l];
+                    }
+                }
+            }
+        }
+        aStuard2 += tempSumForInternal;
+
+        double bStuard2 = 0;
+        tempSumForInternal = 0;
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+
+                for (int k = i + 1; k < numberOfClasses; k++) {
+                    for (int l = 0; l < j - 1; l++) {
+                        tempSumForInternal += matr[i][j] * matr[k][l] * matr[k][l];
+                    }
+                }
+            }
+        }
+
+        bStuard2 += tempSumForInternal;
+        tempSumForInternal = 0;
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+
+                for (int k = i + 1; k < numberOfClasses; k++) {
+                    for (int l = j + 1; l < numberOfClasses; l++) {
+                        tempSumForInternal += matr[i][j] * matr[k][l] * matr[k][l];
+                    }
+                }
+            }
+        }
+        bStuard2 += tempSumForInternal;
+
+
+        double aStuardAndBStuard = 0;
+        tempSumForInternal = 0;
+        double tempSumForInternalA = 0;
+        double tempSumForInternalB = 0;
+        for (int i = 0; i < numberOfClasses; i++) {
+            for (int j = 0; j < numberOfClasses; j++) {
+
+                for (int k = i + 1; k < numberOfClasses; k++) {
+                    for (int l = j + 1; l < numberOfClasses; l++) {
+                        tempSumForInternalA += matr[k][l];
+                    }
+                }
+
+                for (int k = 0; k < i - 1; k++) {
+                    for (int l = 0; l < j - 1; l++) {
+                        tempSumForInternalA += matr[k][l];
+                    }
+                }
+
+                for (int k = i + 1; k < numberOfClasses; k++) {
+                    for (int l = 0; l < j - 1; l++) {
+                        tempSumForInternalB += matr[k][l];
+                    }
+                }
+
+                for (int k = i + 1; k < numberOfClasses; k++) {
+                    for (int l = j + 1; l < numberOfClasses; l++) {
+                        tempSumForInternalB += matr[k][l];
+                    }
+                }
+                tempSumForInternal += matr[i][j] * tempSumForInternalA * tempSumForInternalB;
+            }
+        }
+        aStuardAndBStuard += tempSumForInternal;
+
+
+        double ozinkaStuard = (2 * numberOfClasses / ((Math.pow(nGeneral, 3)) * (numberOfClasses - 1))) * Math.sqrt(nGeneral * nGeneral * (aStuard2 + bStuard2 - aStuardAndBStuard) - 4 * nGeneral * (pKendal - qKendal));
+        resultString += "\nCтатистика Стюарда = " + BigDecimal.valueOf(stuard).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        if (Math.abs(ozinkaStuard) > t1) {
+            resultString += "\nНульову гіпотезу спростовано\n";
+            // + t1 + "<" + Math.abs(ozinkaStuard);
+        } else {
+            resultString += "\nНульову гіпотезу підтверджено\n";
+            // + t1 + ">=" + Math.abs(ozinkaStuard);
         }
         return resultString;
     }
