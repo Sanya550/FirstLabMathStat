@@ -37,6 +37,11 @@ public class HelloController {
     static ArrayList withoutSortingArrayListNumber1 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber2 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber3 = new ArrayList();
+    //for saving:
+    static ArrayList arrayListNumber1ForSave = new ArrayList();
+    static ArrayList arrayListNumber2ForSave = new ArrayList();
+    static ArrayList withoutSortingArrayListNumber1ForSave = new ArrayList();
+    static ArrayList withoutSortingArrayListNumber2ForSave = new ArrayList();
     //
     static int forFileIndex = 1;
     static int numberOfClass;
@@ -980,67 +985,67 @@ public class HelloController {
         int size = sort1.size();
         final ObservableList<VariationMatrix> data = FXCollections.observableArrayList();
         data.add(new VariationMatrix("y1 ",
-                listOfVariationData.get(42) + ", " + listOfVariationData.get(42) / size,
-                listOfVariationData.get(43) + ", " + listOfVariationData.get(43) / size,
-                listOfVariationData.get(44) + ", " + listOfVariationData.get(44) / size,
-                listOfVariationData.get(45) + ", " + listOfVariationData.get(45) / size,
-                listOfVariationData.get(46) + ", " + listOfVariationData.get(46) / size,
-                listOfVariationData.get(47) + ", " + listOfVariationData.get(47) / size,
-                listOfVariationData.get(48) + ", " + listOfVariationData.get(48) / size));//1
+                listOfVariationData.get(42) + ", " + BigDecimal.valueOf(listOfVariationData.get(42) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(43) + ", " + BigDecimal.valueOf(listOfVariationData.get(43) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(44) + ", " + BigDecimal.valueOf(listOfVariationData.get(44) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(45) + ", " + BigDecimal.valueOf(listOfVariationData.get(45) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(46) + ", " + BigDecimal.valueOf(listOfVariationData.get(46) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(47) + ", " + BigDecimal.valueOf(listOfVariationData.get(47) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(48) + ", " +BigDecimal.valueOf(listOfVariationData.get(48) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//1
 
         data.add(new VariationMatrix("y2",
-                listOfVariationData.get(35) + ", " + listOfVariationData.get(35) / size,
-                listOfVariationData.get(36) + ", " + listOfVariationData.get(36) / size,
-                listOfVariationData.get(37) + ", " + listOfVariationData.get(37) / size,
-                listOfVariationData.get(38) + ", " + listOfVariationData.get(38) / size,
-                listOfVariationData.get(39) + ", " + listOfVariationData.get(39) / size,
-                listOfVariationData.get(40) + ", " + listOfVariationData.get(40) / size,
-                listOfVariationData.get(41) + ", " + listOfVariationData.get(41) / size));//2
+                listOfVariationData.get(35) + ", " + BigDecimal.valueOf(listOfVariationData.get(35) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(36) + ", " + BigDecimal.valueOf(listOfVariationData.get(36) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(37) + ", " + BigDecimal.valueOf(listOfVariationData.get(37) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(38) + ", " + BigDecimal.valueOf(listOfVariationData.get(38) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(39) + ", " + BigDecimal.valueOf(listOfVariationData.get(39) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(40) + ", " + BigDecimal.valueOf(listOfVariationData.get(40) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(41) + ", " + BigDecimal.valueOf(listOfVariationData.get(41) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//2
 
         data.add(new VariationMatrix("y3",
-                listOfVariationData.get(28) + ", " + listOfVariationData.get(28) / size,
-                listOfVariationData.get(29) + ", " + listOfVariationData.get(29) / size,
-                listOfVariationData.get(30) + ", " + listOfVariationData.get(30) / size,
-                listOfVariationData.get(31) + ", " + listOfVariationData.get(31) / size,
-                listOfVariationData.get(32) + ", " + listOfVariationData.get(32) / size,
-                listOfVariationData.get(33) + ", " + listOfVariationData.get(33) / size,
-                listOfVariationData.get(34) + ", " + listOfVariationData.get(34) / size));//3
+                listOfVariationData.get(28) + ", " + BigDecimal.valueOf(listOfVariationData.get(28) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(29) + ", " + BigDecimal.valueOf(listOfVariationData.get(29) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(30) + ", " + BigDecimal.valueOf(listOfVariationData.get(30) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(31) + ", " + BigDecimal.valueOf(listOfVariationData.get(31) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(32) + ", " + BigDecimal.valueOf(listOfVariationData.get(32) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(33) + ", " + BigDecimal.valueOf(listOfVariationData.get(33) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(34) + ", " + BigDecimal.valueOf(listOfVariationData.get(34) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//3
 
         data.add(new VariationMatrix("y4",
-                listOfVariationData.get(21) + ", " + listOfVariationData.get(21) / size,
-                listOfVariationData.get(22) + ", " + listOfVariationData.get(22) / size,
-                listOfVariationData.get(23) + ", " + listOfVariationData.get(23) / size,
-                listOfVariationData.get(24) + ", " + listOfVariationData.get(24) / size,
-                listOfVariationData.get(25) + ", " + listOfVariationData.get(25) / size,
-                listOfVariationData.get(26) + ", " + listOfVariationData.get(26) / size,
-                listOfVariationData.get(27) + ", " + listOfVariationData.get(27) / size));//4
+                listOfVariationData.get(21) + ", " + BigDecimal.valueOf(listOfVariationData.get(21) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(22) + ", " + BigDecimal.valueOf(listOfVariationData.get(22) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(23) + ", " + BigDecimal.valueOf(listOfVariationData.get(23) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(24) + ", " + BigDecimal.valueOf(listOfVariationData.get(24) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(25) + ", " + BigDecimal.valueOf(listOfVariationData.get(25) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(26) + ", " + BigDecimal.valueOf(listOfVariationData.get(26) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(27) + ", " + BigDecimal.valueOf(listOfVariationData.get(27) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//4
 
         data.add(new VariationMatrix("y5",
-                listOfVariationData.get(14) + ", " + listOfVariationData.get(14) / size,
-                listOfVariationData.get(15) + ", " + listOfVariationData.get(15) / size,
-                listOfVariationData.get(16) + ", " + listOfVariationData.get(16) / size,
-                listOfVariationData.get(17) + ", " + listOfVariationData.get(17) / size,
-                listOfVariationData.get(18) + ", " + listOfVariationData.get(18) / size,
-                listOfVariationData.get(19) + ", " + listOfVariationData.get(19) / size,
-                listOfVariationData.get(20) + ", " + listOfVariationData.get(20) / size));//5
+                listOfVariationData.get(14) + ", " + BigDecimal.valueOf(listOfVariationData.get(14) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(15) + ", " + BigDecimal.valueOf(listOfVariationData.get(15) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(16) + ", " + BigDecimal.valueOf(listOfVariationData.get(16) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(17) + ", " + BigDecimal.valueOf(listOfVariationData.get(17) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(18) + ", " + BigDecimal.valueOf(listOfVariationData.get(18) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(19) + ", " + BigDecimal.valueOf(listOfVariationData.get(19) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(20) + ", " + BigDecimal.valueOf(listOfVariationData.get(20) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//5
 
         data.add(new VariationMatrix("y6",
-                listOfVariationData.get(7) + ", " + listOfVariationData.get(7) / size,
-                listOfVariationData.get(8) + ", " + listOfVariationData.get(8) / size,
-                listOfVariationData.get(9) + ", " + listOfVariationData.get(9) / size,
-                listOfVariationData.get(10) + ", " + listOfVariationData.get(10) / size,
-                listOfVariationData.get(11) + ", " + listOfVariationData.get(11) / size,
-                listOfVariationData.get(12) + ", " + listOfVariationData.get(12) / size,
-                listOfVariationData.get(13) + ", " + listOfVariationData.get(13) / size));//6
+                listOfVariationData.get(7) + ", " + BigDecimal.valueOf(listOfVariationData.get(7) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(8) + ", " + BigDecimal.valueOf(listOfVariationData.get(8) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(9) + ", " + BigDecimal.valueOf(listOfVariationData.get(9) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(10) + ", " + BigDecimal.valueOf(listOfVariationData.get(10) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(11) + ", " + BigDecimal.valueOf(listOfVariationData.get(11) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(12) + ", " + BigDecimal.valueOf(listOfVariationData.get(12) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(13) + ", " + BigDecimal.valueOf(listOfVariationData.get(13) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//6
 
         data.add(new VariationMatrix("y7",
-                listOfVariationData.get(0) + ", " + listOfVariationData.get(0) / size,
-                listOfVariationData.get(1) + ", " + listOfVariationData.get(1) / size,
-                listOfVariationData.get(2) + ", " + listOfVariationData.get(2) / size,
-                listOfVariationData.get(3) + ", " + listOfVariationData.get(3) / size,
-                listOfVariationData.get(4) + ", " + listOfVariationData.get(4) / size,
-                listOfVariationData.get(5) + ", " + listOfVariationData.get(5) / size,
-                listOfVariationData.get(6) + ", " + listOfVariationData.get(6) / size));//7
+                listOfVariationData.get(0) + ", " + BigDecimal.valueOf(listOfVariationData.get(0) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(1) + ", " + BigDecimal.valueOf(listOfVariationData.get(1) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(2) + ", " + BigDecimal.valueOf(listOfVariationData.get(2) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(3) + ", " + BigDecimal.valueOf(listOfVariationData.get(3) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(4) + ", " + BigDecimal.valueOf(listOfVariationData.get(4) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(5) + ", " + BigDecimal.valueOf(listOfVariationData.get(5) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
+                listOfVariationData.get(6) + ", " + BigDecimal.valueOf(listOfVariationData.get(6) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//7
 
         //Creating columns
         TableColumn columnForXAndY = new TableColumn("Y\\X");
@@ -1133,6 +1138,64 @@ public class HelloController {
     protected void dataForSpolTable(ActionEvent event) {
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         JOptionPane.showMessageDialog(null, Helper.koefOfSpolTable(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3)), "Коефіцієнти сполучень таблиць", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    //додатково:
+    @FXML
+    protected void additionalForSaving(ActionEvent event) {
+        arrayListNumber1ForSave.clear();
+        arrayListNumber2ForSave.clear();
+        withoutSortingArrayListNumber1ForSave.clear();
+        withoutSortingArrayListNumber2ForSave.clear();
+
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        arrayListNumber1ForSave = listOfLists.get(0);
+        arrayListNumber2ForSave = listOfLists.get(1);
+        withoutSortingArrayListNumber1ForSave = listOfLists.get(2);
+        withoutSortingArrayListNumber2ForSave = listOfLists.get(3);
+        JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    @FXML
+    protected void additionalForReturn(ActionEvent event) {
+        arrayListNumber1.clear();
+        arrayListNumber2.clear();
+        arrayListNumber3.clear();
+        withoutSortingArrayListNumber1.clear();
+        withoutSortingArrayListNumber2.clear();
+        withoutSortingArrayListNumber3.clear();
+        arrayListNumber1 = arrayListNumber1ForSave;
+        arrayListNumber2 = arrayListNumber2ForSave;
+        withoutSortingArrayListNumber1 = withoutSortingArrayListNumber1ForSave;
+        withoutSortingArrayListNumber2 = withoutSortingArrayListNumber2ForSave;
+       if(arrayListNumber1ForSave.isEmpty()||arrayListNumber2ForSave.isEmpty()||withoutSortingArrayListNumber1ForSave.isEmpty()||withoutSortingArrayListNumber2ForSave.isEmpty()) {
+           JOptionPane.showMessageDialog(null, "Error!!!", "Error", JOptionPane.ERROR_MESSAGE);
+       }else {
+           JOptionPane.showMessageDialog(null, "Повернено", "About", JOptionPane.INFORMATION_MESSAGE);
+       }
+    }
+
+
+    @FXML
+    protected void additionalDeleteAnomal(ActionEvent event){
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        ArrayList<ArrayList> resList = Helper.deleteAnomalForAdditional(listOfLists.get(0),listOfLists.get(1),listOfLists.get(2),listOfLists.get(3));
+        arrayListNumber1 = resList.get(0);
+        arrayListNumber2 = resList.get(1);
+        withoutSortingArrayListNumber1 = resList.get(2);
+        withoutSortingArrayListNumber2 = resList.get(3);
+        JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    protected void additionalLogarifm(ActionEvent event){
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        arrayListNumber1 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(0));
+        arrayListNumber2 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(1));
+        withoutSortingArrayListNumber1 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(2));
+        withoutSortingArrayListNumber2 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(3));
+        JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
 }

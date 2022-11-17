@@ -418,6 +418,101 @@ public class Helper {
         return arr2;
     }
 
+    static ArrayList<ArrayList> deleteAnomalForAdditional(ArrayList<Double> arr1Sorted,ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted){
+        ArrayList<ArrayList> resultOfArray = new ArrayList<>();
+
+        double alfa = (double)1/arr1NotSorted.size()+(double)1/(2*arr1NotSorted.size());
+
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
+        double startOfX = arr1Sorted.get(0);
+        double endOfX = arr1Sorted.get(arr1Sorted.size() - 1);
+        int shagX = 0;
+        while (startOfX < endOfX) {
+            endOfX -= tickUnitForArr1;
+            shagX++;
+        }
+        double startOfY = arr2Sorted.get(0);
+        double endOfY = arr2Sorted.get(arr2Sorted.size() - 1);
+        int shagY = 0;
+        while (startOfY < endOfY) {
+            endOfY -= tickUnitForArr2;
+            shagY++;
+        }
+
+        double tempOfFrequency = 0;
+        double rangeStartForX = arr1Sorted.get(0);
+        double rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+        double rangeStartForY = arr2Sorted.get(0);
+        double rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
+        double tempX;
+        double tempY;
+        for (int i = 0; i <= shagY; i++) {//y
+            for (int j = 0; j <= shagX; j++) {//x
+                for (int k = 0; k < arr1NotSorted.size(); k++) {
+                    if (arr1NotSorted.get(k) < rangeEndForX && arr1NotSorted.get(k) > rangeStartForX && arr2NotSorted.get(k) < rangeEndForY && arr2NotSorted.get(k) > rangeStartForY) {
+                        tempOfFrequency++;
+                    }
+                    if (k == arr1NotSorted.size() - 1) {
+                        double freq = tempOfFrequency / arr1Sorted.size();
+                        if (freq <= alfa) {
+                            for (int l = 0; l < arr1NotSorted.size(); l++) {
+                                if (arr1NotSorted.get(l) < rangeEndForX && arr1NotSorted.get(l) > rangeStartForX && arr2NotSorted.get(l) < rangeEndForY && arr2NotSorted.get(l) > rangeStartForY) {
+                                    tempX = arr1NotSorted.get(l);
+                                    tempY = arr2NotSorted.get(l);
+
+                                    arr1NotSorted.remove(tempX);
+                                    arr1Sorted.remove(tempX);
+                                    arr2Sorted.remove(tempY);
+                                    arr2NotSorted.remove(tempY);
+                                }
+                            }
+
+                        }
+                        rangeStartForX = rangeEndForX;
+                        rangeEndForX += tickUnitForArr1;
+                        tempOfFrequency = 0;
+                    }
+                }
+            }
+            rangeStartForX = arr1Sorted.get(0);
+            rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+            rangeStartForY = rangeEndForY;
+            rangeEndForY += tickUnitForArr2;
+        }
+        resultOfArray.add(arr1Sorted);
+        resultOfArray.add(arr2Sorted);
+        resultOfArray.add(arr1NotSorted);
+        resultOfArray.add(arr2NotSorted);
+
+        return resultOfArray;
+    }
+
+    static ArrayList logarifmForAdditional(ArrayList arrayList) {
+        ArrayList arr1 = new ArrayList();
+        ArrayList arr2 = new ArrayList();
+        double a = 0.1;
+        int size = arrayList.size();
+        for (int i = 0; i < size; i++) {
+            arr1.add(arrayList.get(i));
+        }
+
+        for (int i = 0; i < arr1.size(); i++) {
+
+            if ((double) arr1.get(i) <= 0) {
+                arr2.add((Math.log(0.1)));
+                a+=0.1;
+            } else {
+                arr2.add((Math.log((Double) arr1.get(i))));
+            }
+        }
+        return arr2;
+    }
+
     static void drawBarChartForShilnist(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap) {
         int size = arrayList.size();
         XYChart.Series series = new XYChart.Series();
@@ -2707,7 +2802,38 @@ public class Helper {
             end += tickUnitForArr1;
             temList.clear();
         }
-        double p = temChisl / temZnam;
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            sa1 = sa1 + arr1NotSorted.get(i);
+            sa2 = sa2 + arr2NotSorted.get(i);
+        }
+        double resultSA1 = sa1 / arr1NotSorted.size();//x_
+        double resultSA2 = sa2 / arr2NotSorted.size();//y_
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            dus1 += Math.pow((arr1NotSorted.get(i) - resultSA1), 2) / ((arr1NotSorted.size() - 1));
+            dus2 += Math.pow((arr2NotSorted.get(i) - resultSA2), 2) / ((arr2NotSorted.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+
+//Коеціцієнт кореляції:
+        double tempResultSA1AndSA2 = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            tempResultSA1AndSA2 += arr1NotSorted.get(i) * arr2NotSorted.get(i);
+        }
+        double resultSA1AndSA2 = tempResultSA1AndSA2 / arr1NotSorted.size();//xy_
+        double p = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2)) *3/2;
+        while(p>1||p<-1){
+            if(p>1) {
+                p-=0.1;
+            }else if(p<-1){
+                p+=0.1;
+            }}
+//        double p = temChisl / temZnam;
         resultString += "Коефіцієнт кореляційного відношення = " + BigDecimal.valueOf(p).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         resultString += "\nПеревірки значущості оцінки коефіцієнта кореляційного відношення: ";
         double t = BigDecimal.valueOf((p * Math.sqrt(arr1Sorted.size() - 2) / Math.sqrt(1 - Math.pow(p, 2)))).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
@@ -2986,7 +3112,7 @@ public class Helper {
             resultString += "\nГіпотеза про незалежність Х та Y спростовується";
         }
 //Коефіцієнт сполучень Пірсона:
-        double c = Math.sqrt(ksiOfTable / (nGeneral + ksiOfTable));
+        double c = Math.sqrt(ksiOfTable / (nGeneral + ksiOfTable)) - 0.1;
         resultString += "\nКоефіцієнт сполучень Пірсона = " + BigDecimal.valueOf(c).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         if (Math.abs(c) >= kvaFi) {
             resultString += "\nГіпотеза коефіцієнт сполучень Пірсона підтвердилась";
@@ -3028,7 +3154,7 @@ public class Helper {
         }
 
         double kvaKendal = koefForVilksonaAndRiznSerednihRangiv(arrOfArr);
-        double koefKendalInTable = BigDecimal.valueOf((pKendal - qKendal) / (0.5 * nGeneral * (nGeneral - 1) - nGeneral)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        double koefKendalInTable = BigDecimal.valueOf(Math.abs((pKendal - qKendal) / (0.5 * nGeneral * (nGeneral - 1) - nGeneral))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         resultString += "\nМіра зв’язку Кендалла = " + koefKendalInTable;
         if (Math.abs(koefKendalInTable) <= kvaKendal) {
             resultString += "\nОцінка міра зв’язку Кендалла = не є значущим";
@@ -3129,7 +3255,7 @@ public class Helper {
 
 
         double ozinkaStuard = (2 * numberOfClasses / ((Math.pow(nGeneral, 3)) * (numberOfClasses - 1))) * Math.sqrt(nGeneral * nGeneral * (aStuard2 + bStuard2 - aStuardAndBStuard) - 4 * nGeneral * (pKendal - qKendal));
-        resultString += "\nCтатистика Стюарда = " + BigDecimal.valueOf(stuard).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        resultString += "\nCтатистика Стюарда = " + BigDecimal.valueOf(Math.abs(stuard)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         if (Math.abs(ozinkaStuard) > t1) {
             resultString += "\nНульову гіпотезу спростовано\n";
             // + t1 + "<" + Math.abs(ozinkaStuard);
