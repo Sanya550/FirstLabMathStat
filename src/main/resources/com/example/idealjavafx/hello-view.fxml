@@ -137,6 +137,17 @@
                         <MenuItem mnemonicParsing="false" onAction="#additionalForSaving" text="Зберегти" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Регресія">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Лінійна регресія">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionMNK1" text="МНК №1" />
+                              <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionMNK2" text="МНК №2" />
+                              <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionTeula" text="Метод Тейла" />
+                           </items>
+                        </Menu>
+                     </items>
+                  </Menu>
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">
@@ -173,7 +184,9 @@
                               <Text layoutX="184.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="m =" />
                               <Text layoutX="185.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ρ =" />
                               <Text layoutX="185.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" ʎ=" />
-                              <TextField fx:id="strModelL" layoutX="211.0" layoutY="115.0" prefHeight="25.0" prefWidth="38.0" />
+                              <TextField fx:id="strX0ForDovInterval" layoutX="315.0" layoutY="114.0" prefHeight="25.0" prefWidth="54.0" promptText="1000" />
+                              <TextField fx:id="strModelL1" layoutX="211.0" layoutY="115.0" prefHeight="25.0" prefWidth="38.0" />
+                              <Text layoutX="285.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x0 =" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">

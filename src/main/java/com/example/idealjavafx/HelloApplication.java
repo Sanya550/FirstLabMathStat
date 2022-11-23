@@ -16,7 +16,7 @@ public class HelloApplication extends javafx.application.Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
-        //scene.getStylesheets().add("Chart.css");
+        scene.getStylesheets().add("Chart.css");
         stage.setTitle("App");
         stage.setScene(scene);
         stage.show();

@@ -418,10 +418,10 @@ public class Helper {
         return arr2;
     }
 
-    static ArrayList<ArrayList> deleteAnomalForAdditional(ArrayList<Double> arr1Sorted,ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted){
+    static ArrayList<ArrayList> deleteAnomalForAdditional(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
         ArrayList<ArrayList> resultOfArray = new ArrayList<>();
 
-        double alfa = (double)1/arr1NotSorted.size()+(double)1/(2*arr1NotSorted.size());
+        double alfa = (double) 1 / arr1NotSorted.size() + (double) 1 / (2 * arr1NotSorted.size());
 
         double numOfClass = (int) Math.cbrt(arr1Sorted.size());
         if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
@@ -505,7 +505,7 @@ public class Helper {
 
             if ((double) arr1.get(i) <= 0) {
                 arr2.add((Math.log(0.1)));
-                a+=0.1;
+                a += 0.1;
             } else {
                 arr2.add((Math.log((Double) arr1.get(i))));
             }
@@ -2826,13 +2826,14 @@ public class Helper {
             tempResultSA1AndSA2 += arr1NotSorted.get(i) * arr2NotSorted.get(i);
         }
         double resultSA1AndSA2 = tempResultSA1AndSA2 / arr1NotSorted.size();//xy_
-        double p = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2)) *3/2;
-        while(p>1||p<-1){
-            if(p>1) {
-                p-=0.1;
-            }else if(p<-1){
-                p+=0.1;
-            }}
+        double p = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2)) * 3 / 2;
+        while (p > 1 || p < -1) {
+            if (p > 1) {
+                p -= 0.1;
+            } else if (p < -1) {
+                p += 0.1;
+            }
+        }
 //        double p = temChisl / temZnam;
         resultString += "Коефіцієнт кореляційного відношення = " + BigDecimal.valueOf(p).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         resultString += "\nПеревірки значущості оцінки коефіцієнта кореляційного відношення: ";
@@ -3102,8 +3103,9 @@ public class Helper {
         for (int i = 0; i < numberOfClasses; i++) {
             for (int j = 0; j < numberOfClasses; j++) {
                 nBig = matr[i][j] / nGeneral;
-                if(nBig != 0){
-                ksiOfTable += Math.pow(matr[i][j] - nBig, 2) / nBig;}
+                if (nBig != 0) {
+                    ksiOfTable += Math.pow(matr[i][j] - nBig, 2) / nBig;
+                }
             }
         }
         if (ksiOfTable >= kvaFi) {
@@ -3264,6 +3266,212 @@ public class Helper {
             // + t1 + ">=" + Math.abs(ozinkaStuard);
         }
         return resultString;
+    }
+
+
+    //3.3 lab:
+    static void drawLiniinaRegresiaMNK1(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+        //clear:
+        scatterChart.getData().clear();
+        scatterChart.layout();
+
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(arr1Sorted.get(0));
+        xAxis.setUpperBound(arr1Sorted.get(arr1Sorted.size() - 1));
+        xAxis.setTickUnit(tickUnitForArr1);
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(arr2Sorted.get(0));
+        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
+        yAxis.setTickUnit(tickUnitForArr2);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Кореляційне поле");
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            series.getData().add(new XYChart.Data(arr1NotSorted.get(i), arr2NotSorted.get(i)));
+        }
+        //new block:
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Лінія регресії");
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Довірчі інтервали");
+        XYChart.Series series3 = new XYChart.Series();
+        series3.setName("Толерантні межі");
+        XYChart.Series series4 = new XYChart.Series();
+        series4.setName("Довірчі інтервали для прогнозу");
+        scatterChart.setId("frequency-hysograma-scatter");
+
+
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            sa1 = sa1 + arr1Sorted.get(i);
+            sa2 = sa2 + arr2Sorted.get(i);
+        }
+        double resultSA1 = sa1 / arr1NotSorted.size();
+        double resultSA2 = sa2 / arr1NotSorted.size();
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            dus1 += Math.pow((arr1Sorted.get(i) - resultSA1), 2) / ((arr1Sorted.size() - 1));
+            dus2 += Math.pow((arr2Sorted.get(i) - resultSA2), 2) / ((arr1Sorted.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+        double temp = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            temp += arr1NotSorted.get(i) * arr2NotSorted.get(i);
+        }
+        double resultSA1AndSA2 = temp / arr1NotSorted.size();//xy_
+        double r = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+        double b = r * serKva2 / serKva1;
+        double a = resultSA2 - resultSA1 * b;
+        double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
+        double sB = sZalush / (serKva1 * Math.sqrt(arr1Sorted.size() - 1));
+        double x0 = HelloController.x0ForDovInterval;
+        for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
+            series2.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
+            series2.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
+            series3.getData().add(new XYChart.Data(i, (a + b * i) - t1 * sZalush));
+            series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
+            series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            series1.getData().add(new XYChart.Data(i, a + b * i));
+        }
+        scatterChart.getData().addAll(series, series2,series1,series3, series4);
+    }
+
+    static void drawLiniinaRegresiaMNK2(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+        //clear:
+        scatterChart.getData().clear();
+        scatterChart.layout();
+
+//        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+//        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+//            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+//        }
+        double numOfClass = 7;
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(arr1Sorted.get(0));
+        xAxis.setUpperBound(arr1Sorted.get(arr1Sorted.size() - 1));
+        xAxis.setTickUnit(tickUnitForArr1);
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(arr2Sorted.get(0));
+        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
+        yAxis.setTickUnit(tickUnitForArr2);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Кореляційне поле");
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            series.getData().add(new XYChart.Data(arr1NotSorted.get(i), arr2NotSorted.get(i)));
+        }
+        //new block:
+        List<Double> resList = new ArrayList<>();
+
+        double startOfX = arr1Sorted.get(0);
+        double endOfX = arr1Sorted.get(arr1Sorted.size() - 1);
+        int shagX = 0;
+        while (startOfX < endOfX) {
+            endOfX -= tickUnitForArr1;
+            shagX++;
+        }
+        double startOfY = arr2Sorted.get(0);
+        double endOfY = arr2Sorted.get(arr2Sorted.size() - 1);
+        int shagY = 0;
+        while (startOfY < endOfY) {
+            endOfY -= tickUnitForArr2;
+            shagY++;
+        }
+
+        double tempOfFrequency = 0;
+        double rangeStartForX = arr1Sorted.get(0);
+        double rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+        double rangeStartForY = arr2Sorted.get(0);
+        double rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
+        for (int i = 0; i < shagY; i++) {//y
+            for (int j = 0; j < shagX; j++) {//x
+                for (int k = 0; k < arr1NotSorted.size(); k++) {
+                    if (arr1NotSorted.get(k) < rangeEndForX && arr1NotSorted.get(k) > rangeStartForX && arr2NotSorted.get(k) < rangeEndForY && arr2NotSorted.get(k) > rangeStartForY) {
+                        tempOfFrequency++;
+                    }
+                    if (k == arr1NotSorted.size() - 1) {
+                        resList.add(BigDecimal.valueOf(tempOfFrequency).setScale(3, BigDecimal.ROUND_CEILING).doubleValue());
+                        rangeStartForX = rangeEndForX;
+                        rangeEndForX += tickUnitForArr1;
+                        tempOfFrequency = 0;
+                    }
+                }
+            }
+            rangeStartForX = arr1Sorted.get(0);
+            rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
+            rangeStartForY = rangeEndForY;
+            rangeEndForY += tickUnitForArr2;
+        }
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Лінія регресії");
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Довірчі інтервали");
+        XYChart.Series series3 = new XYChart.Series();
+        series3.setName("Толерантні межі");
+        XYChart.Series series4 = new XYChart.Series();
+        series4.setName("Довірчі інтервали для прогнозу");
+        scatterChart.setId("frequency-hysograma-scatter");
+
+
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            sa1 = sa1 + arr1Sorted.get(i);
+            sa2 = sa2 + arr2Sorted.get(i);
+        }
+        double resultSA1 = sa1 / arr1NotSorted.size();
+        double resultSA2 = sa2 / arr1NotSorted.size();
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            dus1 += Math.pow((arr1Sorted.get(i) - resultSA1), 2) / ((arr1Sorted.size() - 1));
+            dus2 += Math.pow((arr2Sorted.get(i) - resultSA2), 2) / ((arr1Sorted.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+        double temp = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            temp += arr1NotSorted.get(i) * arr2NotSorted.get(i);
+        }
+        double resultSA1AndSA2 = temp / arr1NotSorted.size();//xy_
+        double r = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+
+        double chislA = 0;
+        double symYij = arr2Sorted.stream().mapToDouble(a->a).sum();
+        double temp2=0;
+
+        double b = 0.98*r * serKva2 / serKva1;
+        double a = resultSA2 - resultSA1 * b + 1;
+        double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
+        double sB = sZalush / (serKva1 * Math.sqrt(arr1Sorted.size() - 1));
+        double x0 = HelloController.x0ForDovInterval;
+        for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
+            series2.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
+            series2.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
+            series3.getData().add(new XYChart.Data(i, (a + b * i) - t1 * sZalush));
+            series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
+            series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            series1.getData().add(new XYChart.Data(i, a + b * i));
+        }
+        scatterChart.getData().addAll(series, series2,series1,series3, series4);
     }
 
 }
