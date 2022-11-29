@@ -995,7 +995,7 @@ public class HelloController {
                 listOfVariationData.get(45) + ", " + BigDecimal.valueOf(listOfVariationData.get(45) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
                 listOfVariationData.get(46) + ", " + BigDecimal.valueOf(listOfVariationData.get(46) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
                 listOfVariationData.get(47) + ", " + BigDecimal.valueOf(listOfVariationData.get(47) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
-                listOfVariationData.get(48) + ", " +BigDecimal.valueOf(listOfVariationData.get(48) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//1
+                listOfVariationData.get(48) + ", " + BigDecimal.valueOf(listOfVariationData.get(48) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()));//1
 
         data.add(new VariationMatrix("y2",
                 listOfVariationData.get(35) + ", " + BigDecimal.valueOf(listOfVariationData.get(35) / size).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(),
@@ -1173,18 +1173,18 @@ public class HelloController {
         arrayListNumber2 = arrayListNumber2ForSave;
         withoutSortingArrayListNumber1 = withoutSortingArrayListNumber1ForSave;
         withoutSortingArrayListNumber2 = withoutSortingArrayListNumber2ForSave;
-       if(arrayListNumber1ForSave.isEmpty()||arrayListNumber2ForSave.isEmpty()||withoutSortingArrayListNumber1ForSave.isEmpty()||withoutSortingArrayListNumber2ForSave.isEmpty()) {
-           JOptionPane.showMessageDialog(null, "Error!!!", "Error", JOptionPane.ERROR_MESSAGE);
-       }else {
-           JOptionPane.showMessageDialog(null, "Повернено", "About", JOptionPane.INFORMATION_MESSAGE);
-       }
+        if (arrayListNumber1ForSave.isEmpty() || arrayListNumber2ForSave.isEmpty() || withoutSortingArrayListNumber1ForSave.isEmpty() || withoutSortingArrayListNumber2ForSave.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Error!!!", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Повернено", "About", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
 
     @FXML
-    protected void additionalDeleteAnomal(ActionEvent event){
+    protected void additionalDeleteAnomal(ActionEvent event) {
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
-        ArrayList<ArrayList> resList = Helper.deleteAnomalForAdditional(listOfLists.get(0),listOfLists.get(1),listOfLists.get(2),listOfLists.get(3));
+        ArrayList<ArrayList> resList = Helper.deleteAnomalForAdditional(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3));
         arrayListNumber1 = resList.get(0);
         arrayListNumber2 = resList.get(1);
         withoutSortingArrayListNumber1 = resList.get(2);
@@ -1193,7 +1193,7 @@ public class HelloController {
     }
 
     @FXML
-    protected void additionalLogarifm(ActionEvent event){
+    protected void additionalLogarifm(ActionEvent event) {
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         arrayListNumber1 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(0));
         arrayListNumber2 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(1));
@@ -1205,40 +1205,73 @@ public class HelloController {
 
     @FXML
     protected void scatterLineRegressionMNK1(ActionEvent event) {
-        if(!strX0ForDovInterval.getText().isEmpty()) {
+        if (!strX0ForDovInterval.getText().isEmpty()) {
             x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
         }
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         if (listOfLists.size() != 4) {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
         } else {
-            Helper.drawLiniinaRegresiaMNK1(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3),scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+            Helper.drawLiniinaRegresiaMNK1(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
         }
     }
 
     @FXML
     protected void scatterLineRegressionMNK2(ActionEvent event) {
-        if(!strX0ForDovInterval.getText().isEmpty()) {
+        if (!strX0ForDovInterval.getText().isEmpty()) {
             x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
         }
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         if (listOfLists.size() != 4) {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
         } else {
-            Helper.drawLiniinaRegresiaMNK2(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3),scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+            Helper.drawLiniinaRegresiaMNK2(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
         }
     }
 
     @FXML
     protected void scatterLineRegressionTeula(ActionEvent event) {
-        if(!strX0ForDovInterval.getText().isEmpty()) {
+        if (!strX0ForDovInterval.getText().isEmpty()) {
             x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
         }
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         if (listOfLists.size() != 4) {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
         } else {
-            Helper.drawLiniinaRegresiaMNK2(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3),scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+            Helper.drawLiniinaRegresiaTeila(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+        }
+    }
+
+    @FXML
+    protected void findDusperiu(ActionEvent event) {
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        if (listOfLists.size() != 4) {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, Helper.checkDuspersia(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3)), "About", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    @FXML
+    protected void otherDetail(ActionEvent event) {
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        if (listOfLists.size() != 4) {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, Helper.checkOther(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3)), "About", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    @FXML
+    protected void scatterParobolReggression(ActionEvent event) {
+        if (!strX0ForDovInterval.getText().isEmpty()) {
+            x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
+        }
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        if (listOfLists.size() != 4) {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Helper.drawParabolRegresia(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
         }
     }
 }

@@ -70,6 +70,10 @@ public class Helper {
         return kva;
     }
 
+    static double kvantilForDuspersia(List list) {
+        return 11.6;
+    }
+
     //DATA FROM TABLE 3;
     static double koefForBartletAndKohrena(List<ArrayList<Double>> list) {
         double kva = 0;
@@ -3345,7 +3349,8 @@ public class Helper {
             series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
             series1.getData().add(new XYChart.Data(i, a + b * i));
         }
-        scatterChart.getData().addAll(series, series2,series1,series3, series4);
+        scatterChart.getData().addAll(series, series2, series1, series3, series4);
+        JOptionPane.showMessageDialog(null, "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + " + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x");
     }
 
     static void drawLiniinaRegresiaMNK2(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
@@ -3353,11 +3358,11 @@ public class Helper {
         scatterChart.getData().clear();
         scatterChart.layout();
 
-//        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
-//        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
-//            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
-//        }
-        double numOfClass = 7;
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        //      double numOfClass = 7;
         double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
         double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
         xAxis.setAutoRanging(false);
@@ -3378,44 +3383,8 @@ public class Helper {
         //new block:
         List<Double> resList = new ArrayList<>();
 
-        double startOfX = arr1Sorted.get(0);
-        double endOfX = arr1Sorted.get(arr1Sorted.size() - 1);
-        int shagX = 0;
-        while (startOfX < endOfX) {
-            endOfX -= tickUnitForArr1;
-            shagX++;
-        }
-        double startOfY = arr2Sorted.get(0);
-        double endOfY = arr2Sorted.get(arr2Sorted.size() - 1);
-        int shagY = 0;
-        while (startOfY < endOfY) {
-            endOfY -= tickUnitForArr2;
-            shagY++;
-        }
-
-        double tempOfFrequency = 0;
-        double rangeStartForX = arr1Sorted.get(0);
-        double rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
-        double rangeStartForY = arr2Sorted.get(0);
-        double rangeEndForY = arr2Sorted.get(0) + tickUnitForArr2;
-        for (int i = 0; i < shagY; i++) {//y
-            for (int j = 0; j < shagX; j++) {//x
-                for (int k = 0; k < arr1NotSorted.size(); k++) {
-                    if (arr1NotSorted.get(k) < rangeEndForX && arr1NotSorted.get(k) > rangeStartForX && arr2NotSorted.get(k) < rangeEndForY && arr2NotSorted.get(k) > rangeStartForY) {
-                        tempOfFrequency++;
-                    }
-                    if (k == arr1NotSorted.size() - 1) {
-                        resList.add(BigDecimal.valueOf(tempOfFrequency).setScale(3, BigDecimal.ROUND_CEILING).doubleValue());
-                        rangeStartForX = rangeEndForX;
-                        rangeEndForX += tickUnitForArr1;
-                        tempOfFrequency = 0;
-                    }
-                }
-            }
-            rangeStartForX = arr1Sorted.get(0);
-            rangeEndForX = arr1Sorted.get(0) + tickUnitForArr1;
-            rangeStartForY = rangeEndForY;
-            rangeEndForY += tickUnitForArr2;
+        for (double i = (arr1Sorted.get(0) * 2 + tickUnitForArr1) / 2; i < arr1Sorted.get(arr1Sorted.size() - 1); i += tickUnitForArr1) {
+            resList.add(i);
         }
 
         XYChart.Series series1 = new XYChart.Series();
@@ -3453,12 +3422,41 @@ public class Helper {
         double resultSA1AndSA2 = temp / arr1NotSorted.size();//xy_
         double r = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
 
-        double chislA = 0;
-        double symYij = arr2Sorted.stream().mapToDouble(a->a).sum();
-        double temp2=0;
+        List<Integer> mList = new ArrayList<>();
+        double start = arr1Sorted.get(0);
+        double end = arr1Sorted.get(0) + tickUnitForArr1;
+        int counter = 0;
+        for (int i = 0; i < numOfClass; i++) {
+            for (double a : arr1Sorted) {
+                if (a >= start && a < end) {
+                    counter++;
+                }
+            }
+            mList.add(counter);
+            counter = 0;
+            start = end;
+            end += tickUnitForArr1;
+        }
+        double sumYij = arr2Sorted.stream().mapToDouble(a -> a).sum();
+        double MiXi2 = 0;
+        double MiXi = 0;
+        for (int i = 0; i < numOfClass; i++) {
+            MiXi2 += mList.get(i) * Math.pow(resList.get(i), 2);
+            MiXi += mList.get(i) * resList.get(i);
 
-        double b = 0.98*r * serKva2 / serKva1;
-        double a = resultSA2 - resultSA1 * b + 1;
+        }
+        double YijXi = 0;
+        for (int i = 0; i < numOfClass; i++) {
+            for (int j = 0; j < arr2Sorted.size(); j++) {
+                YijXi += resList.get(i) * arr2Sorted.get(j);
+            }
+        }
+
+        double n = arr1Sorted.size();
+        double a = (sumYij * MiXi2 - YijXi * MiXi) / (n * MiXi2 - Math.pow(MiXi, 2));
+        double b = (n * YijXi - sumYij * MiXi) / (n * MiXi2 - Math.pow(MiXi, 2));
+//        double b = (r * serKva2 / serKva1) * 0.98;
+//        double a = resultSA2 - resultSA1 * b;
         double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
         double sB = sZalush / (serKva1 * Math.sqrt(arr1Sorted.size() - 1));
         double x0 = HelloController.x0ForDovInterval;
@@ -3471,7 +3469,344 @@ public class Helper {
             series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
             series1.getData().add(new XYChart.Data(i, a + b * i));
         }
-        scatterChart.getData().addAll(series, series2,series1,series3, series4);
+        scatterChart.getData().addAll(series, series2, series1, series3, series4);
+        JOptionPane.showMessageDialog(null, "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + " + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x");
     }
 
+    static void drawLiniinaRegresiaTeila(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+        //clear:
+        scatterChart.getData().clear();
+        scatterChart.layout();
+
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        //      double numOfClass = 7;
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(arr1Sorted.get(0));
+        xAxis.setUpperBound(arr1Sorted.get(arr1Sorted.size() - 1));
+        xAxis.setTickUnit(tickUnitForArr1);
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(arr2Sorted.get(0));
+        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
+        yAxis.setTickUnit(tickUnitForArr2);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Кореляційне поле");
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            series.getData().add(new XYChart.Data(arr1NotSorted.get(i), arr2NotSorted.get(i)));
+        }
+
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            sa1 = sa1 + arr1Sorted.get(i);
+            sa2 = sa2 + arr2Sorted.get(i);
+        }
+        double resultSA1 = sa1 / arr1NotSorted.size();
+        double resultSA2 = sa2 / arr1NotSorted.size();
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            dus1 += Math.pow((arr1Sorted.get(i) - resultSA1), 2) / ((arr1Sorted.size() - 1));
+            dus2 += Math.pow((arr2Sorted.get(i) - resultSA2), 2) / ((arr1Sorted.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+        double temp = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            temp += arr1NotSorted.get(i) * arr2NotSorted.get(i);
+        }
+        double resultSA1AndSA2 = temp / arr1NotSorted.size();//xy_
+        double r = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Лінія регресії");
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Довірчі інтервали");
+        XYChart.Series series3 = new XYChart.Series();
+        series3.setName("Толерантні межі");
+        XYChart.Series series4 = new XYChart.Series();
+        series4.setName("Довірчі інтервали для прогнозу");
+        scatterChart.setId("frequency-hysograma-scatter");
+
+        List<Double> tempList = new ArrayList<>();
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            for (int j = i + 1; j < arr1NotSorted.size(); j++) {
+                tempList.add((arr2NotSorted.get(j) - arr2NotSorted.get(i)) / (arr1NotSorted.get(j) - arr1NotSorted.get(i)));
+            }
+        }
+
+        double b = tempList.stream().mapToDouble(a -> a).average().orElseThrow();
+        tempList.clear();
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            tempList.add(arr2NotSorted.get(i) - b * arr1NotSorted.get(i));
+        }
+        double a = tempList.stream().mapToDouble(t -> t).average().orElseThrow();
+        double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
+        double sB = sZalush / (serKva1 * Math.sqrt(arr1Sorted.size() - 1));
+        double x0 = HelloController.x0ForDovInterval;
+        for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
+            series2.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
+            series2.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
+            series3.getData().add(new XYChart.Data(i, (a + b * i) - t1 * sZalush));
+            series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
+            series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            series1.getData().add(new XYChart.Data(i, a + b * i));
+        }
+        scatterChart.getData().addAll(series, series2, series1, series3, series4);
+        JOptionPane.showMessageDialog(null, "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + " + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x");
+    }
+
+    static String checkDuspersia(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
+        String message = "";
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        //      double numOfClass = 7;
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        List<Double> resList = new ArrayList<>();
+
+        for (double i = (arr1Sorted.get(0) * 2 + tickUnitForArr1) / 2; i < arr1Sorted.get(arr1Sorted.size() - 1); i += tickUnitForArr1) {
+            resList.add(i);
+        }
+
+        List<Integer> mList = new ArrayList<>();
+        double start = arr1Sorted.get(0);
+        double end = arr1Sorted.get(0) + tickUnitForArr1;
+        int counter = 0;
+        for (int i = 0; i < numOfClass; i++) {
+            for (double a : arr1Sorted) {
+                if (a > start && a < end) {
+                    counter++;
+                }
+            }
+            mList.add(counter);
+            counter = 0;
+            start = end;
+            end += tickUnitForArr1;
+        }
+
+        double n = arr1NotSorted.size();
+        double c = 1 + (1 / (3 * (numOfClass - 1))) * mList.stream().mapToDouble(a -> ((1 / a) - (1 / n))).sum();
+
+        List<Double> listOfS2_y_xi = new ArrayList<>();
+        List<Double> listForY_ = new ArrayList<>();
+        start = arr1Sorted.get(0);
+        end = arr1Sorted.get(0) + tickUnitForArr1;
+        for (int i = 0; i < mList.size(); i++) {
+            for (int j = 0; j < arr1NotSorted.size(); j++) {
+                if (arr1NotSorted.get(j) > start && arr1NotSorted.get(j) < end) {
+                    listForY_.add(arr2NotSorted.get(j));
+                }
+            }
+            listOfS2_y_xi.add(listForY_.stream().mapToDouble(a -> Math.pow(a - listForY_.stream().mapToDouble(s -> s).average().orElseThrow(), 2)).sum() / (mList.get(i) - 1));
+            listForY_.clear();
+            start = end;
+            end += tickUnitForArr1;
+        }
+        double s2 = 0;
+        for (int i = 0; i < mList.size(); i++) {
+            s2 += (mList.get(i) - 1) * listOfS2_y_xi.get(i);
+        }
+        s2 /= (n - mList.size());
+
+        double l = 0;
+        for (int i = 0; i < mList.size(); i++) {
+            l += mList.get(i) * Math.log(listOfS2_y_xi.get(i) / s2);
+        }
+        l /= (-c);
+        double kva = kvantilForDuspersia(arr1NotSorted);
+        if (l > kva) {
+            message += "Головну гіпотезу відхилено: " + kva + " < " + l;
+        } else {
+            message += "Головну гіпотезу прийнято: " + kva + " > " + l;
+        }
+        return message;
+    }
+
+    static String checkOther(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
+        String message = "";
+
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            sa1 = sa1 + arr1Sorted.get(i);
+            sa2 = sa2 + arr2Sorted.get(i);
+        }
+        double resultSA1 = sa1 / arr1NotSorted.size();
+        double resultSA2 = sa2 / arr1NotSorted.size();
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            dus1 += Math.pow((arr1Sorted.get(i) - resultSA1), 2) / ((arr1Sorted.size() - 1));
+            dus2 += Math.pow((arr2Sorted.get(i) - resultSA2), 2) / ((arr1Sorted.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+        double temp = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            temp += arr1NotSorted.get(i) * arr2NotSorted.get(i);
+        }
+        double resultSA1AndSA2 = temp / arr1NotSorted.size();//xy_
+        double r = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+        double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
+
+        //Коефіцієнт детермінації:
+        double koefDetermination = (1 - (Math.pow(sZalush, 2) / dus2)) * 100;
+        message += "Коефіцієнт детермінації = " + BigDecimal.valueOf(koefDetermination).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "%";
+        double f = (Math.pow(sZalush, 2) / dus2);
+        double f1 = koefForFisher(arr1Sorted, arr2Sorted);
+        //Перевірки адекватності відтвореної моделі регресії:
+        message += "\nПеревірки адекватності відтвореної моделі регресії: ";
+        if (f < f1) {
+            message += "\nГіпотезу підтверджено: " + f1 + " > " + BigDecimal.valueOf(f).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        } else {
+            message += "\nГіпотезу відхилено: " + f1 + " < " + BigDecimal.valueOf(f).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+        return message;
+    }
+
+    static void drawParabolRegresia(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+        //clear:
+        scatterChart.getData().clear();
+        scatterChart.layout();
+
+        double numOfClass = (int) Math.cbrt(arr1Sorted.size());
+        if ((int) Math.cbrt(arr1Sorted.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1Sorted.size()) - 1;
+        }
+        //      double numOfClass = 7;
+        double tickUnitForArr1 = (arr1Sorted.get(arr1Sorted.size() - 1) - arr1Sorted.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2Sorted.get(arr2Sorted.size() - 1) - arr2Sorted.get(0)) / numOfClass;
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(arr1Sorted.get(0));
+        xAxis.setUpperBound(arr1Sorted.get(arr1Sorted.size() - 1));
+        xAxis.setTickUnit(tickUnitForArr1);
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(arr2Sorted.get(0));
+        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
+        yAxis.setTickUnit(tickUnitForArr2);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Кореляційне поле");
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            series.getData().add(new XYChart.Data(arr1NotSorted.get(i), arr2NotSorted.get(i)));
+        }
+
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            sa1 = sa1 + arr1Sorted.get(i);
+            sa2 = sa2 + arr2Sorted.get(i);
+        }
+        double resultSA1 = sa1 / arr1NotSorted.size();
+        double resultSA2 = sa2 / arr1NotSorted.size();
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            dus1 += Math.pow((arr1Sorted.get(i) - resultSA1), 2) / ((arr1Sorted.size() - 1));
+            dus2 += Math.pow((arr2Sorted.get(i) - resultSA2), 2) / ((arr1Sorted.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+        double temp = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            temp += arr1NotSorted.get(i) * arr2NotSorted.get(i);
+        }
+        double resultSA1AndSA2 = temp / arr1NotSorted.size();//xy_
+        double r = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Лінія регресії");
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Довірчі інтервали");
+        XYChart.Series series3 = new XYChart.Series();
+        series3.setName("Толерантні межі");
+        XYChart.Series series4 = new XYChart.Series();
+        series4.setName("Довірчі інтервали для прогнозу");
+        scatterChart.setId("frequency-hysograma-scatter");
+
+
+        double x4_ = arr1NotSorted.stream().mapToDouble(x -> Math.pow(x, 4)).average().orElseThrow();
+        double x3_ = arr1NotSorted.stream().mapToDouble(x -> Math.pow(x, 3)).average().orElseThrow();
+        double x2_ = arr1NotSorted.stream().mapToDouble(x -> Math.pow(x, 2)).average().orElseThrow();
+        double x_ = arr1NotSorted.stream().mapToDouble(x -> x).average().orElseThrow();
+        double y_ = arr2NotSorted.stream().mapToDouble(x -> x).average().orElseThrow();
+        double _y_x_ = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            _y_x_ += (Math.pow(arr1NotSorted.get(i), 2) - x2_) * (arr2NotSorted.get(i) - y_);
+        }
+        _y_x_ /= arr1NotSorted.size();
+
+        double b = ((x4_ - Math.pow(x2_, 2)) * r * serKva1 * serKva2 - (x3_ - x2_ * x_) * _y_x_) / (Math.pow(serKva1, 2) * (x4_ - Math.pow(x2_, 2)) - Math.pow((x3_ - x2_ * x_), 2));
+        double c = (Math.pow(serKva1, 2) * _y_x_ - (x3_ - x2_ * x_) * r * serKva1 * serKva2) / (Math.pow(serKva1, 2) * (x4_ - Math.pow(x2_, 2)) - Math.pow((x3_ - x2_ * x_), 2));
+        double a = y_ - b * x_ - c * x2_;
+
+        double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
+        //??
+        List<Double> phi1 = new ArrayList<>();
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            phi1.add(arr1NotSorted.get(i) - x_);
+        }
+
+        List<Double> phi2 = new ArrayList<>();
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            phi2.add(Math.pow(arr1NotSorted.get(i), 2) - ((x3_ - x2_ * x_) / (dus1)) * (arr1NotSorted.get(i) - x_) - x2_);
+        }
+
+        double aForPhi = y_;
+        List<Double> tempList = new ArrayList<>();
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            tempList.add((arr1NotSorted.get(i) - x_) * arr2NotSorted.get(i));
+        }
+        double bForPhi = tempList.stream().mapToDouble(a1 -> a1).average().orElseThrow() / dus1;
+        double cForPhi = 0;
+        temp = 0;
+        for (int i = 0; i < arr2NotSorted.size(); i++) {
+            cForPhi += phi2.get(i) * arr2NotSorted.get(i);
+            temp += Math.pow(phi2.get(i), 2);
+        }
+        cForPhi /= temp;
+
+
+//        double SZAL2 = 0;
+//
+//        double Sa1 = SZAL2 / Math.sqrt(arr1NotSorted.size());
+//        double Sb1 = SZAL2 / (Math.sqrt(arr1NotSorted.size()) * serKva1);
+//        double Sc1 = SZAL2 / (Math.sqrt(arr1NotSorted.size() * phi2 * phi2));
+//        double sY_X = Math.sqrt((SZAL2 * SZAL2 / arr1NotSorted.size()) + Math.pow(Sb1 * phi1, 2) + Math.pow(Sc1 * phi2, 2));
+//        double sY_X0 = Math.sqrt(Math.pow(sZalush, 2) + (1 + 1 / arr1NotSorted.size()) + Math.pow(Sb1 * phi1, 2) + Math.pow(Sc1 * phi2, 2));
+        //??
+//        double x0 = HelloController.x0ForDovInterval;
+//        for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
+//            series2.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * sY_X));
+//            series2.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * sY_X));
+//            series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2));
+//            series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2));
+//            series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * sY_X0));
+//            series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * sY_X0));
+//            series1.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2)));
+//        }
+//        scatterChart.getData().addAll(series, series2, series1, series3, series4);
+
+        //
+        JOptionPane.showMessageDialog(null, "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + " + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x" + BigDecimal.valueOf(c).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x^2");
+    }
 }

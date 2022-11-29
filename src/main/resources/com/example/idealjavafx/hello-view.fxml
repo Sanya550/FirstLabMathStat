@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
    <children>
       <MenuBar layoutX="-14.0" layoutY="2.0" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0">
         <menus>
@@ -144,6 +144,13 @@
                               <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionMNK1" text="МНК №1" />
                               <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionMNK2" text="МНК №2" />
                               <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionTeula" text="Метод Тейла" />
+                              <MenuItem mnemonicParsing="false" onAction="#findDusperiu" text="Дисперсія" />
+                              <MenuItem mnemonicParsing="false" onAction="#otherDetail" text="Інші показники" />
+                           </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Параболічна регресія">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#scatterParobolReggression" text="Параболічна регресія" />
                            </items>
                         </Menu>
                      </items>
