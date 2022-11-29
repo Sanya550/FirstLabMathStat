@@ -3446,17 +3446,22 @@ public class Helper {
 
         }
         double YijXi = 0;
+        double start1 = arr1Sorted.get(0);
+        double end1 = arr1Sorted.get(0)+tickUnitForArr1;
         for (int i = 0; i < numOfClass; i++) {
-            for (int j = 0; j < arr2Sorted.size(); j++) {
-                YijXi += resList.get(i) * arr2Sorted.get(j);
+            for (int j = 0; j < arr2NotSorted.size(); j++) {
+                if(arr1NotSorted.get(j)>start1&&arr1NotSorted.get(j)<end1) {
+                    YijXi += resList.get(i) * arr2NotSorted.get(j);
+                }
             }
+            start1 = end1;
+            end1+=tickUnitForArr1;
         }
 
         double n = arr1Sorted.size();
         double a = (sumYij * MiXi2 - YijXi * MiXi) / (n * MiXi2 - Math.pow(MiXi, 2));
         double b = (n * YijXi - sumYij * MiXi) / (n * MiXi2 - Math.pow(MiXi, 2));
-//        double b = (r * serKva2 / serKva1) * 0.98;
-//        double a = resultSA2 - resultSA1 * b;
+
         double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
         double sB = sZalush / (serKva1 * Math.sqrt(arr1Sorted.size() - 1));
         double x0 = HelloController.x0ForDovInterval;
