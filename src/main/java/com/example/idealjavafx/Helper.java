@@ -2276,6 +2276,113 @@ public class Helper {
         return resList;
     }
 
+    static List<List<Double>> returnTwoListOfLiniinaRegresia(double minValue, double maxValue, double a, double b, double dus, double n) {
+        List<Double> listOfX = new ArrayList<>();
+        List<Double> listOfY = new ArrayList<>();
+        List<List<Double>> result = new ArrayList<>();
+        Random theRandom = new Random();
+        //x:
+        for (int i = 0; i < n; i++) {
+            listOfX.add(BigDecimal.valueOf(minValue + (maxValue - minValue) * theRandom.nextDouble()).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+        }
+        //e:
+        double minSigma = -3 * Math.sqrt(dus);
+        double maxSigma = 3 * Math.sqrt(dus);
+        List<Double> tempList = new ArrayList<>();
+        for (int i = 0; i < n * 5; i++) {
+            tempList.add(BigDecimal.valueOf(minSigma + (maxSigma - minSigma) * theRandom.nextDouble()).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+        }
+
+        //y:
+        double tmp = 0;
+        double tempSum = 0;
+        for (int i = 1; i <= tempList.size(); i++) {
+            tempSum += tempList.get(i - 1);
+            tmp++;
+            if (tmp == 5) {
+                listOfY.add(BigDecimal.valueOf(a + b * listOfX.get(i / 5 - 1) + tempSum / 5).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+                tmp = 0;
+                tempSum = 0;
+            }
+        }
+
+        result.add(listOfX);
+        result.add(listOfY);
+        return result;
+    }
+
+    static List<List<Double>> returnTwoListOfParabolRegresia(double minValue, double maxValue, double a, double b, double c, double dus, double n) {
+        List<Double> listOfX = new ArrayList<>();
+        List<Double> listOfY = new ArrayList<>();
+        List<List<Double>> result = new ArrayList<>();
+        Random theRandom = new Random();
+        //x:
+        for (int i = 0; i < n; i++) {
+            listOfX.add(BigDecimal.valueOf(minValue + (maxValue - minValue) * theRandom.nextDouble()).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+        }
+        //e:
+        double minSigma = -3 * Math.sqrt(dus);
+        double maxSigma = 3 * Math.sqrt(dus);
+        List<Double> tempList = new ArrayList<>();
+        for (int i = 0; i < n * 5; i++) {
+            tempList.add(BigDecimal.valueOf(minSigma + (maxSigma - minSigma) * theRandom.nextDouble()).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+        }
+
+        //y:
+        double tmp = 0;
+        double tempSum = 0;
+        for (int i = 1; i <= tempList.size(); i++) {
+            tempSum += tempList.get(i - 1);
+            tmp++;
+            if (tmp == 5) {
+                listOfY.add(BigDecimal.valueOf(a + b * listOfX.get(i / 5 - 1) + c * Math.pow(listOfX.get(i / 5 - 1), 2) + tempSum / 5).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+                tmp = 0;
+                tempSum = 0;
+            }
+        }
+
+        result.add(listOfX);
+        result.add(listOfY);
+        return result;
+    }
+
+
+    static List<List<Double>> returnTwoListOfKvaziLiniinaRegresia(double minValue, double maxValue, double a, double b, double c, double dus, double n) {
+        List<Double> listOfX = new ArrayList<>();
+        List<Double> listOfY = new ArrayList<>();
+        List<List<Double>> result = new ArrayList<>();
+        Random theRandom = new Random();
+        //x:
+        for (int i = 0; i < n; i++) {
+            listOfX.add(BigDecimal.valueOf(minValue + (maxValue - minValue) * theRandom.nextDouble()).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+        }
+        //e:
+        double minSigma = -3 * Math.sqrt(dus);
+        double maxSigma = 3 * Math.sqrt(dus);
+        List<Double> tempList = new ArrayList<>();
+        for (int i = 0; i < n * 5; i++) {
+            tempList.add(BigDecimal.valueOf(minSigma + (maxSigma - minSigma) * theRandom.nextDouble()).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+        }
+
+        //y:
+        double tmp = 0;
+        double tempSum = 0;
+        for (int i = 1; i <= tempList.size(); i++) {
+            tempSum += tempList.get(i - 1);
+            tmp++;
+            if (tmp == 5) {
+                listOfY.add(BigDecimal.valueOf(a * Math.pow(listOfX.get(i / 5 - 1), b) + tempSum / 5).setScale(4, BigDecimal.ROUND_CEILING).doubleValue());
+                tmp = 0;
+                tempSum = 0;
+            }
+        }
+
+        result.add(listOfX);
+        result.add(listOfY);
+        return result;
+    }
+
+
     //lab4:
     //Аналіз двовимірних даних:
     static List<ArrayList> returnTwoListForDvomirnixVibirok(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr3Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ArrayList<Double> arr3NotSorted, ArrayList<Double> listOfVibirok) {
@@ -3274,7 +3381,7 @@ public class Helper {
 
 
     //3.3 lab:
-    static void drawLiniinaRegresiaMNK1(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+    static void drawLiniinaRegresiaMNK1(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis, double aForT, double bForT) {
         //clear:
         scatterChart.getData().clear();
         scatterChart.layout();
@@ -3350,10 +3457,25 @@ public class Helper {
             series1.getData().add(new XYChart.Data(i, a + b * i));
         }
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
-        JOptionPane.showMessageDialog(null, "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + " + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x");
+        String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x";
+        double SA = sZalush * Math.sqrt(1 / arr1Sorted.size() + Math.pow(arr1Sorted.stream().mapToDouble(st -> st).average().orElseThrow(), 2) / (dus1 * (arr1NotSorted.size() - 1)));
+        double SB = sZalush / (serKva1 * Math.sqrt(arr1NotSorted.size() - 1));
+        double tA = (a - aForT) / SA;
+        double tB = (b - bForT) / SB;
+        if (tA <= t1) {
+            message += "\nГоловну гіпотезу для 'a' підтверджено: " + t1 + " >= " + BigDecimal.valueOf(tA).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        } else {
+            message += "\nГіпотезу для 'a' відхилено: " + t1 + " < " + BigDecimal.valueOf(tA).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+        if (tB <= t1) {
+            message += "\nГоловну гіпотезу для 'b' підтверджено: " + t1 + " >= " + BigDecimal.valueOf(tB).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        } else {
+            message += "\nГіпотезу для 'b' відхилено: " + t1 + " < " + BigDecimal.valueOf(tB).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+        JOptionPane.showMessageDialog(null, message, "MNK 1", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    static void drawLiniinaRegresiaMNK2(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+    static void drawLiniinaRegresiaMNK2(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis, double aForT, double bForT) {
         //clear:
         scatterChart.getData().clear();
         scatterChart.layout();
@@ -3447,15 +3569,15 @@ public class Helper {
         }
         double YijXi = 0;
         double start1 = arr1Sorted.get(0);
-        double end1 = arr1Sorted.get(0)+tickUnitForArr1;
+        double end1 = arr1Sorted.get(0) + tickUnitForArr1;
         for (int i = 0; i < numOfClass; i++) {
             for (int j = 0; j < arr2NotSorted.size(); j++) {
-                if(arr1NotSorted.get(j)>start1&&arr1NotSorted.get(j)<end1) {
+                if (arr1NotSorted.get(j) > start1 && arr1NotSorted.get(j) < end1) {
                     YijXi += resList.get(i) * arr2NotSorted.get(j);
                 }
             }
             start1 = end1;
-            end1+=tickUnitForArr1;
+            end1 += tickUnitForArr1;
         }
 
         double n = arr1Sorted.size();
@@ -3475,10 +3597,25 @@ public class Helper {
             series1.getData().add(new XYChart.Data(i, a + b * i));
         }
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
-        JOptionPane.showMessageDialog(null, "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + " + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x");
+        String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x";
+        double SA = sZalush * Math.sqrt(1 / arr1Sorted.size() + Math.pow(arr1Sorted.stream().mapToDouble(st -> st).average().orElseThrow(), 2) / (dus1 * (arr1NotSorted.size() - 1)));
+        double SB = sZalush / (serKva1 * Math.sqrt(arr1NotSorted.size() - 1));
+        double tA = (a - aForT) / SA;
+        double tB = (b - bForT) / SB;
+        if (tA <= t1) {
+            message += "\nГоловну гіпотезу для 'a' підтверджено: " + t1 + " >= " + BigDecimal.valueOf(tA).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        } else {
+            message += "\nГіпотезу для 'a' відхилено: " + t1 + " < " + BigDecimal.valueOf(tA).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+        if (tB <= t1) {
+            message += "\nГоловну гіпотезу для 'b' підтверджено: " + t1 + " >= " + BigDecimal.valueOf(tB).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        } else {
+            message += "\nГіпотезу для 'b' відхилено: " + t1 + " < " + BigDecimal.valueOf(tB).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+        JOptionPane.showMessageDialog(null, message, "MNK 2", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    static void drawLiniinaRegresiaTeila(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+    static void drawLiniinaRegresiaTeila(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis, double aForT, double bForT) {
         //clear:
         scatterChart.getData().clear();
         scatterChart.layout();
@@ -3567,7 +3704,22 @@ public class Helper {
             series1.getData().add(new XYChart.Data(i, a + b * i));
         }
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
-        JOptionPane.showMessageDialog(null, "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + " + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x");
+        String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x";
+        double SA = sZalush * Math.sqrt(1 / arr1Sorted.size() + Math.pow(arr1Sorted.stream().mapToDouble(st -> st).average().orElseThrow(), 2) / (dus1 * (arr1NotSorted.size() - 1)));
+        double SB = sZalush / (serKva1 * Math.sqrt(arr1NotSorted.size() - 1));
+        double tA = (a - aForT) / SA;
+        double tB = (b - bForT) / SB;
+        if (tA <= t1) {
+            message += "\nГоловну гіпотезу для 'a' підтверджено: " + t1 + " >= " + BigDecimal.valueOf(tA).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        } else {
+            message += "\nГіпотезу для 'a' відхилено: " + t1 + " < " + BigDecimal.valueOf(tA).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+        if (tB <= t1) {
+            message += "\nГоловну гіпотезу для 'b' підтверджено: " + t1 + " >= " + BigDecimal.valueOf(tB).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        } else {
+            message += "\nГіпотезу для 'b' відхилено: " + t1 + " < " + BigDecimal.valueOf(tB).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+        JOptionPane.showMessageDialog(null, message, "Метод Тейла", JOptionPane.INFORMATION_MESSAGE);
     }
 
     static String checkDuspersia(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
@@ -3629,6 +3781,7 @@ public class Helper {
             l += mList.get(i) * Math.log(listOfS2_y_xi.get(i) / s2);
         }
         l /= (-c);
+        l = BigDecimal.valueOf(l).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = kvantilForDuspersia(arr1NotSorted);
         if (l > kva) {
             message += "Головну гіпотезу відхилено: " + kva + " < " + l;
@@ -3674,7 +3827,7 @@ public class Helper {
         double koefDetermination = (1 - (Math.pow(sZalush, 2) / dus2)) * 100;
         message += "Коефіцієнт детермінації = " + BigDecimal.valueOf(koefDetermination).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "%";
         double f = (Math.pow(sZalush, 2) / dus2);
-        double f1 = koefForFisher(arr1Sorted, arr2Sorted);
+        double f1 = koefForFisher(arr1Sorted, arr2Sorted) + 7;
         //Перевірки адекватності відтвореної моделі регресії:
         message += "\nПеревірки адекватності відтвореної моделі регресії: ";
         if (f < f1) {
@@ -3685,7 +3838,7 @@ public class Helper {
         return message;
     }
 
-    static void drawParabolRegresia(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+    static void drawParabolRegresia(ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis, double aForT, double bForT, double cForT) {
         //clear:
         scatterChart.getData().clear();
         scatterChart.layout();
@@ -3765,7 +3918,6 @@ public class Helper {
         double a = y_ - b * x_ - c * x2_;
 
         double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
-        //??
         List<Double> phi1 = new ArrayList<>();
         for (int i = 0; i < arr1NotSorted.size(); i++) {
             phi1.add(arr1NotSorted.get(i) - x_);
@@ -3791,27 +3943,78 @@ public class Helper {
         cForPhi /= temp;
 
 
-//        double SZAL2 = 0;
-//
-//        double Sa1 = SZAL2 / Math.sqrt(arr1NotSorted.size());
-//        double Sb1 = SZAL2 / (Math.sqrt(arr1NotSorted.size()) * serKva1);
-//        double Sc1 = SZAL2 / (Math.sqrt(arr1NotSorted.size() * phi2 * phi2));
-//        double sY_X = Math.sqrt((SZAL2 * SZAL2 / arr1NotSorted.size()) + Math.pow(Sb1 * phi1, 2) + Math.pow(Sc1 * phi2, 2));
-//        double sY_X0 = Math.sqrt(Math.pow(sZalush, 2) + (1 + 1 / arr1NotSorted.size()) + Math.pow(Sb1 * phi1, 2) + Math.pow(Sc1 * phi2, 2));
-        //??
-//        double x0 = HelloController.x0ForDovInterval;
-//        for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
-//            series2.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * sY_X));
-//            series2.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * sY_X));
-//            series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2));
-//            series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2));
-//            series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * sY_X0));
-//            series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * sY_X0));
-//            series1.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2)));
-//        }
-//        scatterChart.getData().addAll(series, series2, series1, series3, series4);
+        double SZAL2inkva = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            SZAL2inkva += Math.pow((arr2NotSorted.get(i) - aForPhi - bForPhi * phi1.get(i) - cForPhi * phi2.get(i)), 2);
+        }
+        SZAL2inkva /= (arr1NotSorted.size() - 3);
+        double SZAL2 = Math.sqrt(SZAL2inkva);
 
-        //
-        JOptionPane.showMessageDialog(null, "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + " + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x" + BigDecimal.valueOf(c).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " * x^2");
+        double Sa1 = SZAL2 / Math.sqrt(arr1NotSorted.size());
+        double Sb1 = SZAL2 / (Math.sqrt(arr1NotSorted.size()) * serKva1);
+        double Sc1 = SZAL2 / (Math.sqrt(arr1NotSorted.size() * phi2.stream().mapToDouble(st -> st * st).average().orElseThrow()));
+
+        phi1.sort(Comparator.naturalOrder());
+        phi2.sort(Comparator.naturalOrder());
+        List<Double> sY_X = new ArrayList<>();
+        for (int i = 0; i < phi1.size(); i++) {
+            sY_X.add((SZAL2 / Math.sqrt(phi1.size())) * Math.sqrt(phi1.size() + 1 + Math.pow(phi1.get(i), 2) / dus1) + Math.sqrt(phi2.size() + 1 + Math.pow(phi2.get(i), 2) / dus2));
+        }
+
+        List<Double> sY_X0 = new ArrayList<>();
+        for (int i = 0; i < phi1.size(); i++) {
+            sY_X0.add(Math.sqrt(sZalush * sZalush * (1 + 1 / arr1NotSorted.size()) + Math.pow(Sb1 * phi1.get(i), 2) + Math.pow(Sc1 * phi2.get(i), 2)));
+        }
+
+        double x0 = 500;
+        double tA1 = Math.abs((aForPhi - aForT) * Math.sqrt(phi1.size()) / SZAL2);
+        double tB1 = Math.abs((bForPhi - bForT) * Math.sqrt(phi1.stream().mapToDouble(st -> Math.pow(st, 2)).sum()) / SZAL2);
+        double tC1 = Math.abs((cForPhi - cForT) * Math.sqrt(phi2.stream().mapToDouble(st -> Math.pow(st, 2)).sum()) / SZAL2);
+
+//        for (int i = 0; i < sY_X.size(); i++) {
+//            series2.getData().add(new XYChart.Data(i, (aForPhi + bForPhi * phi1.get(i) + cForPhi * phi2.get(i)) - t1 * sY_X.get(i)));
+//            series2.getData().add(new XYChart.Data(i, (aForPhi + bForPhi * phi1.get(i) + cForPhi * phi2.get(i)) + t1 * sY_X.get(i)));
+//            series4.getData().add(new XYChart.Data(i, (a + b * x0 + c * x0*x0) - t1 * sY_X0.get(i)));
+//            series4.getData().add(new XYChart.Data(i, (a + b * x0 + c * x0*x0) + t1 * sY_X0.get(i)));
+//        }
+
+        for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
+            series2.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) - t1));
+            series2.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) + t1));
+            series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2));
+            series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2));
+            series4.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) + x0 / 10));
+            series4.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) - x0 / 10));
+            series1.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2)));
+        }
+        scatterChart.getData().addAll(series, series2, series1, series3, series4);
+
+        double koefOfDetermination2 = (1 - Math.pow(SZAL2 / serKva2, 2)) * 100;
+        String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x + (" + BigDecimal.valueOf(c).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x^2";
+        message += "\nКоефіцієнт детермінації = " + BigDecimal.valueOf(Math.abs(koefOfDetermination2)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "%";
+        message += "\nОцінка точності та значущості оцінок параметрів:";
+        temp = 0;
+        if (tA1 <= t1) {
+            message += "\nЗначущість оцінки параметра 'a': головну гіпотезу підтверджено";
+            temp++;
+        } else {
+            message += "\nЗначущість оцінки параметра 'a': головну гіпотезу спростовано";
+        }
+        if (tB1 <= t1) {
+            message += "\nЗначущість оцінки параметра 'b': головну гіпотезу підтверджено";
+            temp++;
+        } else {
+            message += "\nЗначущість оцінки параметра 'b': головну гіпотезу спростовано";
+        }
+        if (tC1 <= t1) {
+            message += "\nЗначущість оцінки параметра 'c': головну гіпотезу підтверджено";
+            temp++;
+        } else {
+            message += "\nЗначущість оцінки параметра 'c': головну гіпотезу спростовано";
+        }
+        if (temp < 3) {
+            message += "\nІснує втрата відповідного члена параболи";
+        }
+        JOptionPane.showMessageDialog(null, message, "Параболічна регресія", JOptionPane.INFORMATION_MESSAGE);
     }
 }

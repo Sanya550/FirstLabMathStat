@@ -55,6 +55,9 @@ public class HelloController {
     static double veiblD = 0.01708;
 
     static double x0ForDovInterval = 1000;
+    static double aForT = 0;
+    static double bForT = 0;
+    static double cForT = 0;
 
     @FXML
     private TextField stringOfNumberOfClasses;
@@ -104,6 +107,18 @@ public class HelloController {
     private TextField strModelP;
     @FXML
     private TextField strModelL;
+    @FXML
+    private TextField aRegressia;
+    @FXML
+    private TextField bRegressia;
+    @FXML
+    private TextField cRegressia;
+    @FXML
+    private TextField minRegressia;
+    @FXML
+    private TextField maxRegressia;
+    @FXML
+    private TextField duspersiaRegressia;
 
     //звичайні графіки:
     @FXML
@@ -974,6 +989,146 @@ public class HelloController {
 
     }
 
+    @FXML
+    protected void modelLiniinaRegresiaRozpodil(ActionEvent event) {
+        try {
+            double n = Double.parseDouble(strModelN.getText());
+            double min = Double.parseDouble(minRegressia.getText());
+            double max = Double.parseDouble(maxRegressia.getText());
+            double a = Double.parseDouble(aRegressia.getText());
+            double b = Double.parseDouble(bRegressia.getText());
+            double dus = Double.parseDouble(duspersiaRegressia.getText());
+            List<List<Double>> listOfXAndY = Helper.returnTwoListOfLiniinaRegresia(min, max, a, b, dus, n);
+            List<Double> listX = listOfXAndY.get(0);
+            List<Double> listY = listOfXAndY.get(1);
+
+            File dir = null;
+            JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int resp = fc.showOpenDialog(null);
+            if (resp == JFileChooser.APPROVE_OPTION) {
+                dir = fc.getSelectedFile();
+            }
+
+            File file = new File(dir, "liniina" + forFileIndex + ".txt");
+            forFileIndex++;
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(file);
+                for (int i = 0; i < listX.size(); i++) {
+                    fw.write(listX.get(i) + "\t" + listY.get(i) + "\n");
+                }
+                fw.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (fw != null) {
+                    try {
+                        fw.close();
+                    } catch (IOException ex) {
+                    }
+                }
+            }
+        } catch (Exception exception) {
+            JOptionPane.showMessageDialog(null, "Оберіть вірно параметри", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    @FXML
+    protected void modelParobolRegresiaRozpodil(ActionEvent event) {
+        try {
+            double n = Double.parseDouble(strModelN.getText());
+            double min = Double.parseDouble(minRegressia.getText());
+            double max = Double.parseDouble(maxRegressia.getText());
+            double a = Double.parseDouble(aRegressia.getText());
+            double b = Double.parseDouble(bRegressia.getText());
+            double c = Double.parseDouble(cRegressia.getText());
+            double dus = Double.parseDouble(duspersiaRegressia.getText());
+            List<List<Double>> listOfXAndY = Helper.returnTwoListOfParabolRegresia(min, max, a, b, c, dus, n);
+            List<Double> listX = listOfXAndY.get(0);
+            List<Double> listY = listOfXAndY.get(1);
+
+            File dir = null;
+            JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int resp = fc.showOpenDialog(null);
+            if (resp == JFileChooser.APPROVE_OPTION) {
+                dir = fc.getSelectedFile();
+            }
+
+            File file = new File(dir, "parabol" + forFileIndex + ".txt");
+            forFileIndex++;
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(file);
+                for (int i = 0; i < listX.size(); i++) {
+                    fw.write(listX.get(i) + "\t" + listY.get(i) + "\n");
+                }
+                fw.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (fw != null) {
+                    try {
+                        fw.close();
+                    } catch (IOException ex) {
+                    }
+                }
+            }
+        } catch (Exception exception) {
+            JOptionPane.showMessageDialog(null, "Оберіть вірно параметри", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    @FXML
+    protected void modelKvaziRegresiaRozpodil(ActionEvent event) {
+        try {
+            double n = Double.parseDouble(strModelN.getText());
+            double min = Double.parseDouble(minRegressia.getText());
+            double max = Double.parseDouble(maxRegressia.getText());
+            double a = Double.parseDouble(aRegressia.getText());
+            double b = Double.parseDouble(bRegressia.getText());
+            double c = Double.parseDouble(cRegressia.getText());
+            double dus = Double.parseDouble(duspersiaRegressia.getText());
+            List<List<Double>> listOfXAndY = Helper.returnTwoListOfKvaziLiniinaRegresia(min, max, a, b, c, dus, n);
+            List<Double> listX = listOfXAndY.get(0);
+            List<Double> listY = listOfXAndY.get(1);
+
+            File dir = null;
+            JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int resp = fc.showOpenDialog(null);
+            if (resp == JFileChooser.APPROVE_OPTION) {
+                dir = fc.getSelectedFile();
+            }
+
+            File file = new File(dir, "kvazi" + forFileIndex + ".txt");
+            forFileIndex++;
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(file);
+                for (int i = 0; i < listX.size(); i++) {
+                    fw.write(listX.get(i) + "\t" + listY.get(i) + "\n");
+                }
+                fw.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (fw != null) {
+                    try {
+                        fw.close();
+                    } catch (IOException ex) {
+                    }
+                }
+            }
+        } catch (Exception exception) {
+            JOptionPane.showMessageDialog(null, "Оберіть вірно параметри", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
     //Аналіз двовимірних даних:
     @FXML
     protected void showVarRowMatrix() {
@@ -1208,11 +1363,17 @@ public class HelloController {
         if (!strX0ForDovInterval.getText().isEmpty()) {
             x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
         }
+        if (!aRegressia.getText().isEmpty()) {
+            aForT = Double.parseDouble(aRegressia.getText());
+        }
+        if (!bRegressia.getText().isEmpty()) {
+            bForT = Double.parseDouble(bRegressia.getText());
+        }
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         if (listOfLists.size() != 4) {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
         } else {
-            Helper.drawLiniinaRegresiaMNK1(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+            Helper.drawLiniinaRegresiaMNK1(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT);
         }
     }
 
@@ -1221,11 +1382,17 @@ public class HelloController {
         if (!strX0ForDovInterval.getText().isEmpty()) {
             x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
         }
+        if (!aRegressia.getText().isEmpty()) {
+            aForT = Double.parseDouble(aRegressia.getText());
+        }
+        if (!bRegressia.getText().isEmpty()) {
+            bForT = Double.parseDouble(bRegressia.getText());
+        }
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         if (listOfLists.size() != 4) {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
         } else {
-            Helper.drawLiniinaRegresiaMNK2(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+            Helper.drawLiniinaRegresiaMNK2(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT);
         }
     }
 
@@ -1234,11 +1401,17 @@ public class HelloController {
         if (!strX0ForDovInterval.getText().isEmpty()) {
             x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
         }
+        if (!aRegressia.getText().isEmpty()) {
+            aForT = Double.parseDouble(aRegressia.getText());
+        }
+        if (!bRegressia.getText().isEmpty()) {
+            bForT = Double.parseDouble(bRegressia.getText());
+        }
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         if (listOfLists.size() != 4) {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
         } else {
-            Helper.drawLiniinaRegresiaTeila(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+            Helper.drawLiniinaRegresiaTeila(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT);
         }
     }
 
@@ -1267,11 +1440,21 @@ public class HelloController {
         if (!strX0ForDovInterval.getText().isEmpty()) {
             x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
         }
+        if (!aRegressia.getText().isEmpty()) {
+            aForT = Double.parseDouble(aRegressia.getText());
+        }
+        if (!bRegressia.getText().isEmpty()) {
+            bForT = Double.parseDouble(bRegressia.getText());
+        }
+        if (!cRegressia.getText().isEmpty()) {
+            cForT = Double.parseDouble(cRegressia.getText());
+        }
+
         List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
         if (listOfLists.size() != 4) {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
         } else {
-            Helper.drawParabolRegresia(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+            Helper.drawParabolRegresia(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT, cForT);
         }
     }
 }
