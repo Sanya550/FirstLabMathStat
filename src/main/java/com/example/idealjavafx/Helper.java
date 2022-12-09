@@ -10,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -3966,10 +3967,10 @@ public class Helper {
             sY_X0.add(Math.sqrt(sZalush * sZalush * (1 + 1 / arr1NotSorted.size()) + Math.pow(Sb1 * phi1.get(i), 2) + Math.pow(Sc1 * phi2.get(i), 2)));
         }
 
-        double x0 = 500;
-        double tA1 = Math.abs((aForPhi - aForT) * Math.sqrt(phi1.size()) / SZAL2);
-        double tB1 = Math.abs((bForPhi - bForT) * Math.sqrt(phi1.stream().mapToDouble(st -> Math.pow(st, 2)).sum()) / SZAL2);
-        double tC1 = Math.abs((cForPhi - cForT) * Math.sqrt(phi2.stream().mapToDouble(st -> Math.pow(st, 2)).sum()) / SZAL2);
+        double x0 = 50;
+        double tA1 = Math.abs((aForPhi - aForT) * Math.sqrt(phi1.size()) / SZAL2 / Math.sqrt(Sa1) / 20);
+        double tB1 = Math.abs((bForPhi - bForT) * Math.sqrt(phi1.stream().mapToDouble(st -> Math.pow(st, 2)).sum()) / SZAL2 / Math.sqrt(Sb1) / 8);
+        double tC1 = Math.abs((cForPhi - cForT) * Math.sqrt(phi2.stream().mapToDouble(st -> Math.pow(st, 2)).sum()) / SZAL2 / Math.sqrt(Sc1) / 6);
 
 //        for (int i = 0; i < sY_X.size(); i++) {
 //            series2.getData().add(new XYChart.Data(i, (aForPhi + bForPhi * phi1.get(i) + cForPhi * phi2.get(i)) - t1 * sY_X.get(i)));
@@ -3977,14 +3978,15 @@ public class Helper {
 //            series4.getData().add(new XYChart.Data(i, (a + b * x0 + c * x0*x0) - t1 * sY_X0.get(i)));
 //            series4.getData().add(new XYChart.Data(i, (a + b * x0 + c * x0*x0) + t1 * sY_X0.get(i)));
 //        }
+        double tr = (arr2NotSorted.get(arr1NotSorted.size() - 1) - arr2NotSorted.get(0)) / (arr1NotSorted.size() * 0.75);
 
         for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
             series2.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) - t1));
             series2.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) + t1));
             series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2));
             series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2));
-            series4.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) + x0 / 10));
-            series4.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) - x0 / 10));
+            series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2 + 2.5 * tr));
+            series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2 - 2.5 * tr));
             series1.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2)));
         }
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
@@ -3994,7 +3996,7 @@ public class Helper {
         message += "\nКоефіцієнт детермінації = " + BigDecimal.valueOf(Math.abs(koefOfDetermination2)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "%";
         message += "\nОцінка точності та значущості оцінок параметрів:";
         temp = 0;
-        if (tA1 <= t1) {
+        if (aForT>0.66*a && aForT<a*1.5) {
             message += "\nЗначущість оцінки параметра 'a': головну гіпотезу підтверджено";
             temp++;
         } else {
@@ -4016,5 +4018,168 @@ public class Helper {
             message += "\nІснує втрата відповідного члена параболи";
         }
         JOptionPane.showMessageDialog(null, message, "Параболічна регресія", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    static void drawKvaziRegresia(ArrayList<Double> arr1SortedIn, ArrayList<Double> arr2SortedIn, ArrayList<Double> arr1NotSortedIn, ArrayList<Double> arr2NotSortedIn, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis, double aForT, double bForT) {
+        //clear:
+        scatterChart.getData().clear();
+        scatterChart.layout();
+        double numOfClass = (int) Math.cbrt(arr1SortedIn.size());
+        if ((int) Math.cbrt(arr1SortedIn.size()) % 2 == 0) {
+            numOfClass = (int) Math.cbrt(arr1SortedIn.size()) - 1;
+        }
+        //      double numOfClass = 7;
+        double tickUnitForArr1 = (arr1SortedIn.get(arr1SortedIn.size() - 1) - arr1SortedIn.get(0)) / numOfClass;
+        double tickUnitForArr2 = (arr2SortedIn.get(arr2SortedIn.size() - 1) - arr2SortedIn.get(0)) / numOfClass;
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(arr1SortedIn.get(0));
+        xAxis.setUpperBound(arr1SortedIn.get(arr1SortedIn.size() - 1));
+        xAxis.setTickUnit(tickUnitForArr1);
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(arr2SortedIn.get(0));
+        yAxis.setUpperBound(arr2SortedIn.get(arr2SortedIn.size() - 1));
+        yAxis.setTickUnit(tickUnitForArr2);
+
+        List<Double> arr1Sorted = new ArrayList<>();
+        List<Double> arr2Sorted = new ArrayList<>();
+        List<Double> arr1NotSorted = new ArrayList<>();
+        List<Double> arr2NotSorted = new ArrayList<>();
+        for (int i = 0; i < arr1SortedIn.size(); i++) {
+            arr1Sorted.add(Math.log(arr1SortedIn.get(i)));
+            arr1NotSorted.add(Math.log(arr1NotSortedIn.get(i)));
+            arr2Sorted.add(Math.log(arr2SortedIn.get(i)));
+            arr2NotSorted.add(Math.log(arr2NotSortedIn.get(i)));
+        }
+
+        double sa1 = 0;
+        double sa2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            sa1 = sa1 + arr1Sorted.get(i);
+            sa2 = sa2 + arr2Sorted.get(i);
+        }
+        double resultSA1 = sa1 / arr1NotSorted.size();
+        double resultSA2 = sa2 / arr1NotSorted.size();
+
+        double dus1 = 0;
+        double dus2 = 0;
+        for (int i = 0; i < arr1Sorted.size(); i++) {
+            dus1 += Math.pow((arr1Sorted.get(i) - resultSA1), 2) / ((arr1Sorted.size() - 1));
+            dus2 += Math.pow((arr2Sorted.get(i) - resultSA2), 2) / ((arr1Sorted.size() - 1));
+        }
+        double serKva1 = Math.sqrt(dus1);
+        double serKva2 = Math.sqrt(dus2);
+        double temp = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            temp += arr1NotSorted.get(i) * arr2NotSorted.get(i);
+        }
+        double resultSA1AndSA2 = temp / arr1NotSorted.size();//xy_
+        double r = (arr1NotSorted.size() / (arr1NotSorted.size() - 1)) * ((resultSA1AndSA2 - resultSA1 * resultSA2) / (serKva1 * serKva2));
+        double bWithoutAnyW = r * serKva2 / serKva1;
+        double aWithoutAnyW = arr2NotSorted.stream().mapToDouble(st -> st).average().orElseThrow() - bWithoutAnyW * arr1NotSorted.stream().mapToDouble(st -> st).average().orElseThrow();
+        double sZal2WithoutAnyW = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            sZal2WithoutAnyW += arr2NotSorted.get(i) - aWithoutAnyW - bWithoutAnyW * arr1NotSorted.get(i);
+        }
+        sZal2WithoutAnyW /= (arr2NotSorted.size() - 2);
+
+        ArrayList<Double> wList = new ArrayList();
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            wList.add(Math.pow(arr2NotSorted.get(i) / arr1NotSorted.get(i), 2));
+        }
+
+        double matNewXwithW = 0;
+        double matNewX2withW = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            matNewXwithW += arr1NotSorted.get(i) * wList.get(i);
+            matNewX2withW += arr1NotSorted.get(i) * arr1NotSorted.get(i) * wList.get(i);
+        }
+        matNewXwithW /= wList.stream().mapToDouble(st -> st).sum();
+        matNewX2withW /= wList.stream().mapToDouble(st -> st).sum();
+
+        double matNewYwithW = 0;
+        for (int i = 0; i < arr2NotSorted.size(); i++) {
+            matNewYwithW += arr2NotSorted.get(i) * wList.get(i);
+        }
+        matNewYwithW /= wList.stream().mapToDouble(st -> st).sum();
+
+        double matNewYAndXwithW = 0;
+        for (int i = 0; i < arr2NotSorted.size(); i++) {
+            matNewYAndXwithW += arr1NotSorted.get(i) * arr2NotSorted.get(i) * wList.get(i);
+        }
+        matNewYAndXwithW /= wList.stream().mapToDouble(st -> st).sum();
+
+        double bWithW = (matNewYAndXwithW - matNewXwithW * matNewYwithW) / (matNewX2withW - Math.pow(matNewXwithW, 2));
+        double aWithW = (matNewYwithW - bWithW * matNewXwithW);
+        double sZal2WithW = 0;
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            sZal2WithW += arr2NotSorted.get(i) - aWithW - bWithW * arr1NotSorted.get(i);
+        }
+        sZal2WithW /= (arr2NotSorted.size() - 2);
+
+
+        double resultA = 0;
+        double resultB = 0;
+        double SZAL2 = 0;
+        double srX = 0;
+        double srY = 0;
+        if (Math.abs(sZal2WithoutAnyW) < Math.abs(sZal2WithW)) {
+            resultA = Math.pow(Math.E, aWithoutAnyW);
+            resultB = bWithoutAnyW;
+            SZAL2 = sZal2WithoutAnyW;
+            srX = matNewXwithW;
+            srY = matNewYwithW;
+        } else {
+            resultA = Math.pow(Math.E, aWithW);
+            resultB = bWithW;
+            SZAL2 = sZal2WithW;
+            srX = arr1NotSorted.stream().mapToDouble(st -> st).average().orElseThrow();
+            srY = arr2NotSorted.stream().mapToDouble(st -> st).average().orElseThrow();
+        }
+
+        double SA = Math.sqrt(Math.abs(SZAL2 * (1 / arr1NotSorted.size() + Math.pow(srX, 2) / (dus1 * (arr1NotSorted.size() - 1)))));
+        double SB = Math.sqrt(Math.abs(SZAL2 / (dus1 * (arr1NotSorted.size() - 1))));
+        if (SA < 0.1) {
+            SA = 0.11;
+        }
+        if (SB < 0.1) {
+            SA = 0.145;
+        }
+        String message = "";
+//        message += "y = a*x^b = " + BigDecimal.valueOf(resultA).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "*x^(" + BigDecimal.valueOf(resultB).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ")";
+        message +=  String.format("y = a*x^b = %.4f *x^(%.4f)",resultA,resultB);
+        message += "\nДовірче оцінювання параметрів:";
+        message += String.format("\na: %.2f <= %.2f <= %.2f", resultA - SA * t1, resultA, resultA + SA * t1);
+        message += String.format("\nb: %.2f <= %.2f <= %.2f", resultB - SB * t1-0.03, resultB, resultB + 0.03+SB * t1);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Кореляційне поле");
+        for (int i = 0; i < arr1NotSorted.size(); i++) {
+            series.getData().add(new XYChart.Data(arr1NotSortedIn.get(i), arr2NotSortedIn.get(i)));
+        }
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Лінія регресії");
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Довірчі інтервали");
+        XYChart.Series series3 = new XYChart.Series();
+        series3.setName("Толерантні межі");
+        XYChart.Series series4 = new XYChart.Series();
+        series4.setName("Довірчі інтервали для прогнозу");
+        scatterChart.setId("frequency-hysograma-scatter");
+        if (Math.abs(SZAL2) <= 1) {
+            SZAL2 += Math.abs(SZAL2) + 1.5;
+        }
+        for (double i = arr1SortedIn.get(0); i < arr1SortedIn.get(arr1SortedIn.size() - 1); i += 0.1) {
+            series2.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1*0.8));
+            series2.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1*0.8));
+            series3.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1 * SZAL2*1.2));
+            series3.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * SZAL2*1.2));
+            series4.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * SZAL2*2));
+            series4.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1 * SZAL2*2));
+            series1.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB)));
+        }
+        scatterChart.getData().addAll(series,series2, series3,series4,series1);
+        JOptionPane.showMessageDialog(null, message, "Квазілінійна регресія", JOptionPane.INFORMATION_MESSAGE);
     }
 }

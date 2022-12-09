@@ -161,6 +161,11 @@
                               <MenuItem mnemonicParsing="false" onAction="#scatterParobolReggression" text="Параболічна регресія" />
                            </items>
                         </Menu>
+                        <Menu mnemonicParsing="false" text="Квазілінійна регресія">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#scatterKvazilininaRegressia" text="Квазілінійна регресія" />
+                           </items>
+                        </Menu>
                      </items>
                   </Menu>
                </items>

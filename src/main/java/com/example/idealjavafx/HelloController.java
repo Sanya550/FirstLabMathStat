@@ -1457,4 +1457,21 @@ public class HelloController {
             Helper.drawParabolRegresia(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT, cForT);
         }
     }
+
+    @FXML
+    protected void scatterKvazilininaRegressia(ActionEvent event){
+        if (!aRegressia.getText().isEmpty()) {
+            aForT = Double.parseDouble(aRegressia.getText());
+        }
+        if (!bRegressia.getText().isEmpty()) {
+            bForT = Double.parseDouble(bRegressia.getText());
+        }
+
+        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        if (listOfLists.size() != 4) {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Helper.drawKvaziRegresia(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT);
+        }
+    }
 }
