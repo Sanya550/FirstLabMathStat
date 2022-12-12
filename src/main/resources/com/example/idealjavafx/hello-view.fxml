@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="951.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="951.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
    <children>
       <MenuBar layoutX="-2.0" layoutY="2.0" prefHeight="26.0" prefWidth="758.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="14.0">
         <menus>
@@ -149,11 +149,9 @@
                      <items>
                         <Menu mnemonicParsing="false" text="Лінійна регресія">
                            <items>
-                              <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionMNK1" text="МНК №1" />
-                              <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionMNK2" text="МНК №2" />
+                              <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionMNK" text="МНК" />
                               <MenuItem mnemonicParsing="false" onAction="#scatterLineRegressionTeula" text="Метод Тейла" />
                               <MenuItem mnemonicParsing="false" onAction="#findDusperiu" text="Дисперсія" />
-                              <MenuItem mnemonicParsing="false" onAction="#otherDetail" text="Інші показники" />
                            </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Параболічна регресія">
@@ -166,6 +164,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#scatterKvazilininaRegressia" text="Квазілінійна регресія" />
                            </items>
                         </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#otherDetail" text="Коеф детермінації" />
                      </items>
                   </Menu>
                </items>
@@ -204,9 +203,7 @@
                               <Text layoutX="184.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="m =" />
                               <Text layoutX="185.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ρ =" />
                               <Text layoutX="185.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" ʎ=" />
-                              <TextField fx:id="strX0ForDovInterval" layoutX="372.0" layoutY="8.0" prefHeight="25.0" prefWidth="54.0" promptText="1000" />
                               <TextField fx:id="strModelL1" layoutX="211.0" layoutY="115.0" prefHeight="25.0" prefWidth="38.0" />
-                              <Text layoutX="342.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x0 =" />
                               <TextField fx:id="bRegressia" layoutX="291.0" layoutY="39.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />
                               <TextField fx:id="aRegressia" layoutX="291.0" layoutY="8.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />
                               <TextField fx:id="cRegressia" layoutX="291.0" layoutY="72.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />

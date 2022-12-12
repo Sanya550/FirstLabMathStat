@@ -3399,8 +3399,6 @@ public class Helper {
         xAxis.setTickUnit(tickUnitForArr1);
 
         yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(arr2Sorted.get(0));
-        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
         yAxis.setTickUnit(tickUnitForArr2);
 
         XYChart.Series series = new XYChart.Series();
@@ -3448,6 +3446,8 @@ public class Helper {
         double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
         double sB = sZalush / (serKva1 * Math.sqrt(arr1Sorted.size() - 1));
         double x0 = HelloController.x0ForDovInterval;
+        double min = (a + b * arr1Sorted.get(0)) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(arr1Sorted.get(0) - resultSA1, 2));
+        double max = (a + b * arr1Sorted.get(0)) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(arr1Sorted.get(0) - resultSA1, 2));
         for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
             series2.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
             series2.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
@@ -3455,8 +3455,16 @@ public class Helper {
             series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
             series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
             series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            if(min>(a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+                min = (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
+            }
+            if(max<(a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+                max = (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
+            }
             series1.getData().add(new XYChart.Data(i, a + b * i));
         }
+        yAxis.setLowerBound(min);
+        yAxis.setUpperBound(max);
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
         String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x";
         double SA = sZalush * Math.sqrt(1 / arr1Sorted.size() + Math.pow(arr1Sorted.stream().mapToDouble(st -> st).average().orElseThrow(), 2) / (dus1 * (arr1NotSorted.size() - 1)));
@@ -3494,8 +3502,6 @@ public class Helper {
         xAxis.setTickUnit(tickUnitForArr1);
 
         yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(arr2Sorted.get(0));
-        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
         yAxis.setTickUnit(tickUnitForArr2);
 
         XYChart.Series series = new XYChart.Series();
@@ -3588,6 +3594,8 @@ public class Helper {
         double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
         double sB = sZalush / (serKva1 * Math.sqrt(arr1Sorted.size() - 1));
         double x0 = HelloController.x0ForDovInterval;
+        double min = (a + b * arr1Sorted.get(0)) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(arr1Sorted.get(0) - resultSA1, 2));
+        double max = (a + b * arr1Sorted.get(0)) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(arr1Sorted.get(0) - resultSA1, 2));
         for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
             series2.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
             series2.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
@@ -3595,8 +3603,17 @@ public class Helper {
             series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
             series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
             series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            if(min>(a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+                min = (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
+            }
+            if(max<(a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+                max = (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
+            }
             series1.getData().add(new XYChart.Data(i, a + b * i));
         }
+        yAxis.setLowerBound(min);
+        yAxis.setUpperBound(max);
+
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
         String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x";
         double SA = sZalush * Math.sqrt(1 / arr1Sorted.size() + Math.pow(arr1Sorted.stream().mapToDouble(st -> st).average().orElseThrow(), 2) / (dus1 * (arr1NotSorted.size() - 1)));
@@ -3685,8 +3702,10 @@ public class Helper {
                 tempList.add((arr2NotSorted.get(j) - arr2NotSorted.get(i)) / (arr1NotSorted.get(j) - arr1NotSorted.get(i)));
             }
         }
+        tempList.sort(Comparator.naturalOrder());
 
-        double b = tempList.stream().mapToDouble(a -> a).average().orElseThrow();
+
+        double b = tempList.get(tempList.size()/2);
         tempList.clear();
         for (int i = 0; i < arr1NotSorted.size(); i++) {
             tempList.add(arr2NotSorted.get(i) - b * arr1NotSorted.get(i));
@@ -3695,6 +3714,8 @@ public class Helper {
         double sZalush = serKva2 * Math.sqrt((1 - r * r) * ((arr1Sorted.size() - 1) / (arr1Sorted.size() - 2)));
         double sB = sZalush / (serKva1 * Math.sqrt(arr1Sorted.size() - 1));
         double x0 = HelloController.x0ForDovInterval;
+        double min = (a + b * arr1Sorted.get(0)) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(arr1Sorted.get(0) - resultSA1, 2));
+        double max = (a + b * arr1Sorted.get(0)) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(arr1Sorted.get(0) - resultSA1, 2));
         for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
             series2.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
             series2.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 / arr1Sorted.size()) + sB * sB * Math.pow(i - resultSA1, 2))));
@@ -3702,8 +3723,16 @@ public class Helper {
             series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
             series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
             series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
+            if(min>(a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+                min = (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
+            }
+            if(max<(a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+                max = (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
+            }
             series1.getData().add(new XYChart.Data(i, a + b * i));
         }
+        yAxis.setLowerBound(min);
+        yAxis.setUpperBound(max);
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
         String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x";
         double SA = sZalush * Math.sqrt(1 / arr1Sorted.size() + Math.pow(arr1Sorted.stream().mapToDouble(st -> st).average().orElseThrow(), 2) / (dus1 * (arr1NotSorted.size() - 1)));
@@ -3857,8 +3886,6 @@ public class Helper {
         xAxis.setTickUnit(tickUnitForArr1);
 
         yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(arr2Sorted.get(0));
-        yAxis.setUpperBound(arr2Sorted.get(arr2Sorted.size() - 1));
         yAxis.setTickUnit(tickUnitForArr2);
 
         XYChart.Series series = new XYChart.Series();
@@ -3978,8 +4005,9 @@ public class Helper {
 //            series4.getData().add(new XYChart.Data(i, (a + b * x0 + c * x0*x0) - t1 * sY_X0.get(i)));
 //            series4.getData().add(new XYChart.Data(i, (a + b * x0 + c * x0*x0) + t1 * sY_X0.get(i)));
 //        }
-        double tr = (arr2NotSorted.get(arr1NotSorted.size() - 1) - arr2NotSorted.get(0)) / (arr1NotSorted.size() * 0.75);
-
+        double tr = ((arr2NotSorted.get(arr1NotSorted.size() - 1) - arr2NotSorted.get(0)) / (arr1NotSorted.size() * 0.75))+1;
+double min = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) - t1;
+double max = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) + t1;
         for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
             series2.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) - t1));
             series2.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) + t1));
@@ -3987,13 +4015,20 @@ public class Helper {
             series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2));
             series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2 + 2.5 * tr));
             series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2 - 2.5 * tr));
+            if(min>(a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2 + 2.5 * tr){
+                min = (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2 + 2.5 * tr;
+            }
+            if(max<(a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2 + 2.5 * tr){
+                max = (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2 + 2.5 * tr;
+            }
             series1.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2)));
         }
+        yAxis.setLowerBound(min-6);
+        yAxis.setUpperBound(max);
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
 
         double koefOfDetermination2 = (1 - Math.pow(SZAL2 / serKva2, 2)) * 100;
         String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x + (" + BigDecimal.valueOf(c).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x^2";
-        message += "\nКоефіцієнт детермінації = " + BigDecimal.valueOf(Math.abs(koefOfDetermination2)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "%";
         message += "\nОцінка точності та значущості оцінок параметрів:";
         temp = 0;
         if (aForT>0.66*a && aForT<a*1.5) {
@@ -4037,8 +4072,6 @@ public class Helper {
         xAxis.setTickUnit(tickUnitForArr1);
 
         yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(arr2SortedIn.get(0));
-        yAxis.setUpperBound(arr2SortedIn.get(arr2SortedIn.size() - 1));
         yAxis.setTickUnit(tickUnitForArr2);
 
         List<Double> arr1Sorted = new ArrayList<>();
@@ -4170,6 +4203,8 @@ public class Helper {
         if (Math.abs(SZAL2) <= 1) {
             SZAL2 += Math.abs(SZAL2) + 1.5;
         }
+        double min = resultA * Math.pow(arr1SortedIn.get(0), resultB) - t1*0.8;
+        double max = resultA * Math.pow(arr1SortedIn.get(0), resultB) + t1*0.8;
         for (double i = arr1SortedIn.get(0); i < arr1SortedIn.get(arr1SortedIn.size() - 1); i += 0.1) {
             series2.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1*0.8));
             series2.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1*0.8));
@@ -4177,8 +4212,16 @@ public class Helper {
             series3.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * SZAL2*1.2));
             series4.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * SZAL2*2));
             series4.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1 * SZAL2*2));
+            if(min>resultA * Math.pow(i, resultB) - t1 * SZAL2*2){
+                min = resultA * Math.pow(i, resultB) - t1 * SZAL2*2;
+            }
+            if(max<resultA * Math.pow(i, resultB) + t1 * SZAL2*2){
+                max = resultA * Math.pow(i, resultB) + t1 * SZAL2*2;
+            }
             series1.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB)));
         }
+        yAxis.setLowerBound(min);
+        yAxis.setUpperBound(max);
         scatterChart.getData().addAll(series,series2, series3,series4,series1);
         JOptionPane.showMessageDialog(null, message, "Квазілінійна регресія", JOptionPane.INFORMATION_MESSAGE);
     }

@@ -66,8 +66,6 @@ public class HelloController {
     @FXML
     private TextField stringOfAlfa;
     @FXML
-    private TextField strX0ForDovInterval;
-    @FXML
     private BarChart barChartFunctionOfShilnist;
     @FXML
     private BarChart barChartEmpiritionFunction;
@@ -1359,10 +1357,7 @@ public class HelloController {
 
 
     @FXML
-    protected void scatterLineRegressionMNK1(ActionEvent event) {
-        if (!strX0ForDovInterval.getText().isEmpty()) {
-            x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
-        }
+    protected void scatterLineRegressionMNK(ActionEvent event) {
         if (!aRegressia.getText().isEmpty()) {
             aForT = Double.parseDouble(aRegressia.getText());
         }
@@ -1377,30 +1372,24 @@ public class HelloController {
         }
     }
 
-    @FXML
-    protected void scatterLineRegressionMNK2(ActionEvent event) {
-        if (!strX0ForDovInterval.getText().isEmpty()) {
-            x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
-        }
-        if (!aRegressia.getText().isEmpty()) {
-            aForT = Double.parseDouble(aRegressia.getText());
-        }
-        if (!bRegressia.getText().isEmpty()) {
-            bForT = Double.parseDouble(bRegressia.getText());
-        }
-        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
-        if (listOfLists.size() != 4) {
-            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
-        } else {
-            Helper.drawLiniinaRegresiaMNK2(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT);
-        }
-    }
+//    @FXML
+//    protected void scatterLineRegressionMNK2(ActionEvent event) {
+//        if (!aRegressia.getText().isEmpty()) {
+//            aForT = Double.parseDouble(aRegressia.getText());
+//        }
+//        if (!bRegressia.getText().isEmpty()) {
+//            bForT = Double.parseDouble(bRegressia.getText());
+//        }
+//        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+//        if (listOfLists.size() != 4) {
+//            JOptionPane.showMessageDialog(null, "Помилка!Спершу виберіть завантажте файл і в розділі 'Файл'->'Двовимірне зчитування' оберіть коректний варіант(перші три опції)", "About", JOptionPane.ERROR_MESSAGE);
+//        } else {
+//            Helper.drawLiniinaRegresiaMNK2(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT);
+//        }
+//    }
 
     @FXML
     protected void scatterLineRegressionTeula(ActionEvent event) {
-        if (!strX0ForDovInterval.getText().isEmpty()) {
-            x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
-        }
         if (!aRegressia.getText().isEmpty()) {
             aForT = Double.parseDouble(aRegressia.getText());
         }
@@ -1437,9 +1426,6 @@ public class HelloController {
 
     @FXML
     protected void scatterParobolReggression(ActionEvent event) {
-        if (!strX0ForDovInterval.getText().isEmpty()) {
-            x0ForDovInterval = Double.parseDouble(strX0ForDovInterval.getText());
-        }
         if (!aRegressia.getText().isEmpty()) {
             aForT = Double.parseDouble(aRegressia.getText());
         }
