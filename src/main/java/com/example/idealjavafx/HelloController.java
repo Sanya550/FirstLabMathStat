@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HelloController {
     static ArrayList arrayList = new ArrayList();
@@ -37,6 +38,8 @@ public class HelloController {
     static ArrayList withoutSortingArrayListNumber1 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber2 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber3 = new ArrayList();
+    static ArrayList withoutSortingArrayListNumber4 = new ArrayList();
+    static ArrayList withoutSortingArrayListNumber5 = new ArrayList();
     //for saving:
     static ArrayList arrayListNumber1ForSave = new ArrayList();
     static ArrayList arrayListNumber2ForSave = new ArrayList();
@@ -232,6 +235,7 @@ public class HelloController {
     @FXML
     protected void chooseFileForNumber1(ActionEvent event) {
         arrayListNumber1.clear();
+        withoutSortingArrayListNumber1.clear();
         JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int ret = fileopen.showDialog(null, "Виберіть текстовий файл");
         File file = fileopen.getSelectedFile();
@@ -249,12 +253,16 @@ public class HelloController {
                 e.printStackTrace();
             }
         }
+        for (int i = 0; i < arrayListNumber1.size(); i++) {
+            withoutSortingArrayListNumber1.add(arrayListNumber1.get(i));
+        }
         arrayListNumber1.sort(Comparator.naturalOrder());
     }
 
     @FXML
     protected void chooseFileForNumber2(ActionEvent event) {
         arrayListNumber2.clear();
+        withoutSortingArrayListNumber2.clear();
         JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int ret = fileopen.showDialog(null, "Виберіть текстовий файл");
         File file = fileopen.getSelectedFile();
@@ -272,12 +280,16 @@ public class HelloController {
                 e.printStackTrace();
             }
         }
+        for (int i = 0; i < arrayListNumber2.size(); i++) {
+            withoutSortingArrayListNumber2.add(arrayListNumber2.get(i));
+        }
         arrayListNumber2.sort(Comparator.naturalOrder());
     }
 
     @FXML
     protected void chooseFileForNumber3(ActionEvent event) {
         arrayListNumber3.clear();
+        withoutSortingArrayListNumber3.clear();
         JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int ret = fileopen.showDialog(null, "Виберіть текстовий файл");
         File file = fileopen.getSelectedFile();
@@ -295,12 +307,16 @@ public class HelloController {
                 e.printStackTrace();
             }
         }
+        for (int i = 0; i < arrayListNumber3.size(); i++) {
+            withoutSortingArrayListNumber3.add(arrayListNumber3.get(i));
+        }
         arrayListNumber3.sort(Comparator.naturalOrder());
     }
 
     @FXML
     protected void chooseFileForNumber4(ActionEvent event) {
         arrayListNumber4.clear();
+        withoutSortingArrayListNumber4.clear();
         JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int ret = fileopen.showDialog(null, "Виберіть текстовий файл");
         File file = fileopen.getSelectedFile();
@@ -318,12 +334,16 @@ public class HelloController {
                 e.printStackTrace();
             }
         }
+        for (int i = 0; i < arrayListNumber4.size(); i++) {
+            withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
+        }
         arrayListNumber4.sort(Comparator.naturalOrder());
     }
 
     @FXML
     protected void chooseFileForNumber5(ActionEvent event) {
         arrayListNumber5.clear();
+        withoutSortingArrayListNumber5.clear();
         JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int ret = fileopen.showDialog(null, "Виберіть текстовий файл");
         File file = fileopen.getSelectedFile();
@@ -340,6 +360,9 @@ public class HelloController {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
+        }
+        for (int i = 0; i < arrayListNumber5.size(); i++) {
+            withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
         }
         arrayListNumber5.sort(Comparator.naturalOrder());
     }
@@ -1459,5 +1482,18 @@ public class HelloController {
         } else {
             Helper.drawKvaziRegresia(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT);
         }
+    }
+
+    //lab5:
+
+    //вивести таблицю:
+    @FXML
+    protected void showInitialTable(){
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+        SecondHelper secondHelper = new SecondHelper();
+        try {
+            secondHelper.showInitialTableHelper(checkBox1,checkBox2,checkBox3,checkBox4,checkBox5,tableView);
+        }catch (IndexOutOfBoundsException e){}
     }
 }

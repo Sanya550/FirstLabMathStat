@@ -1,0 +1,77 @@
+package com.example.idealjavafx;
+
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.io.BufferedReader;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.example.idealjavafx.HelloController.*;
+
+//Helper from 5 lab
+public class SecondHelper {
+
+    public void showInitialTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, TableView tableView) {
+        var list = new ArrayList<ArrayList<Double>>();
+        if (ch1.isSelected()) {
+            list.add(withoutSortingArrayListNumber1);
+        }
+        if (ch2.isSelected()) {
+            list.add(withoutSortingArrayListNumber2);
+        }
+        if (ch3.isSelected()) {
+            list.add(withoutSortingArrayListNumber3);
+        }
+        if (ch4.isSelected()) {
+            list.add(withoutSortingArrayListNumber4);
+        }
+        if (ch5.isSelected()) {
+            list.add(withoutSortingArrayListNumber5);
+        }
+
+        int errorCounter = (int) list.stream().filter(ArrayList::isEmpty).count();
+        if (errorCounter > 0) {
+            JOptionPane.showMessageDialog(null, "Одна чи більше вибірок не існує у файлі", "Помилка", JOptionPane.ERROR_MESSAGE);
+        }
+        list.stream().filter(t -> !t.isEmpty());
+        ArrayList<ArrayList<Double>> data = new ArrayList<>();
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.get(0).size(); i++) {
+                if (list.size() == 1) {
+                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i)));
+                    data.add(row);
+                } else if (list.size() == 2) {
+                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i)));
+                    data.add(row);
+                } else if (list.size() == 3) {
+                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i)));
+                    data.add(row);
+                } else if (list.size() == 4) {
+                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i)));
+                    data.add(row);
+                } else if (list.size() == 5) {
+                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i),list.get(4).get(i)));
+                    data.add(row);
+                }
+            }
+        }
+
+        for (int i = 0; i < data.get(0).size(); i++) {
+            final int colIndex = i;
+            TableColumn<List<Double>, Double> column = new TableColumn<>("Column " + (i + 1));
+            column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(colIndex)));
+            tableView.getColumns().add(column);
+        }
+        tableView.setItems(FXCollections.observableArrayList(data));
+    }
+
+}
