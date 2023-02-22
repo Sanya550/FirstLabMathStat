@@ -17,9 +17,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="951.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="981.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
    <children>
-      <MenuBar layoutX="-9.0" layoutY="1.0" prefHeight="26.0" prefWidth="958.0" AnchorPane.leftAnchor="-9.0" AnchorPane.rightAnchor="2.0">
+      <MenuBar layoutX="-2.0" layoutY="1.0" prefHeight="26.0" prefWidth="951.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0">
         <menus>
           <Menu mnemonicParsing="false" text="Завантажити">
             <items>
@@ -168,6 +168,11 @@
                         <MenuItem mnemonicParsing="false" onAction="#otherDetail" text="Коеф детермінації" />
                      </items>
                   </Menu>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Аналіз багатовимірних даних">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#firstStaticAnalizeForManyVibirok" text="Первинний аналіз" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">

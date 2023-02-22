@@ -7,13 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
-import java.io.BufferedReader;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.example.idealjavafx.HelloController.*;
 
@@ -59,7 +53,7 @@ public class SecondHelper {
                     ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i)));
                     data.add(row);
                 } else if (list.size() == 5) {
-                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i),list.get(4).get(i)));
+                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i), list.get(4).get(i)));
                     data.add(row);
                 }
             }
@@ -74,4 +68,39 @@ public class SecondHelper {
         tableView.setItems(FXCollections.observableArrayList(data));
     }
 
+    public List<List<Double>> defineWhichCheckBoxChecked(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5) {
+        List<List<Double>> resList = new ArrayList<>();
+        if (ch1.isSelected()) {
+            resList.add(arrayListNumber1);
+        }
+        if (ch2.isSelected()) {
+            resList.add(arrayListNumber2);
+        }
+        if (ch3.isSelected()) {
+            resList.add(arrayListNumber3);
+        }
+        if (ch4.isSelected()) {
+            resList.add(arrayListNumber4);
+        }
+        if (ch5.isSelected()) {
+            resList.add(arrayListNumber5);
+        }
+        return resList;
+    }
+
+    //lab5:
+    public String firstStaticAnalizeForManyVibirokHelper(List<List<Double>> list) {
+        String resultString = "Знаходження вектора середніх: \nE = {";
+        for (int i = 0; i < list.size(); i++) {
+            resultString += String.format("%.2f",list.get(i).stream().mapToDouble(a -> a).average().orElseThrow());
+            if (i != list.size() - 1) {
+                resultString += ", ";
+            }
+        }
+        resultString += "}";
+
+
+
+        return resultString;
+    }
 }

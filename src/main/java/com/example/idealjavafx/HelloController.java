@@ -1468,7 +1468,7 @@ public class HelloController {
     }
 
     @FXML
-    protected void scatterKvazilininaRegressia(ActionEvent event){
+    protected void scatterKvazilininaRegressia(ActionEvent event) {
         if (!aRegressia.getText().isEmpty()) {
             aForT = Double.parseDouble(aRegressia.getText());
         }
@@ -1488,12 +1488,22 @@ public class HelloController {
 
     //вивести таблицю:
     @FXML
-    protected void showInitialTable(){
+    protected void showInitialTable() {
         tableView.getItems().clear();
         tableView.getColumns().clear();
         SecondHelper secondHelper = new SecondHelper();
         try {
-            secondHelper.showInitialTableHelper(checkBox1,checkBox2,checkBox3,checkBox4,checkBox5,tableView);
-        }catch (IndexOutOfBoundsException e){}
+            secondHelper.showInitialTableHelper(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, tableView);
+        } catch (IndexOutOfBoundsException e) {
+        }
+    }
+
+    @FXML
+    protected void firstStaticAnalizeForManyVibirok() {
+        SecondHelper secondHelper = new SecondHelper();
+        JOptionPane.showMessageDialog(null, secondHelper.firstStaticAnalizeForManyVibirokHelper(
+                        secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5)),
+                "Первинний статистичний аналіз",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 }
