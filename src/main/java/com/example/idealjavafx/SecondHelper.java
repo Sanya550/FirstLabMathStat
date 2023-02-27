@@ -92,15 +92,62 @@ public class SecondHelper {
     public String firstStaticAnalizeForManyVibirokHelper(List<List<Double>> list) {
         String resultString = "Знаходження вектора середніх: \nE = {";
         for (int i = 0; i < list.size(); i++) {
-            resultString += String.format("%.2f",list.get(i).stream().mapToDouble(a -> a).average().orElseThrow());
+            resultString += String.format("%.2f", MainFunction.matSpodivan(list.get(i)));
             if (i != list.size() - 1) {
                 resultString += ", ";
             }
         }
         resultString += "}";
 
-
-
+        resultString += "\nЗнаходження вектора середньоквадратичних: \nT = {";
+        for (int i = 0; i < list.size(); i++) {
+            resultString += String.format("%.2f", MainFunction.serKva(list.get(i)));
+            if (i != list.size() - 1) {
+                resultString += ", ";
+            }
+        }
+        resultString += "}";
         return resultString;
     }
+
+    public double[][] findDCForDuspKovMatrixForManyVibirok(List<List<Double>> list) {
+        double serKva1;
+        double serKva2;
+        double r;
+        double arrDC[][] = new double[list.size()][list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            serKva1 = MainFunction.serKva(list.get(i));
+            for (int j = 0; j < list.size(); j++) {
+                r = MainFunction.rForKovMatrix(list.get(i), list.get(j));
+                serKva2 = MainFunction.serKva(list.get(j));
+                if (i == j) {
+                    arrDC[i][i] = serKva1 * serKva2;
+                } else {
+                    arrDC[i][j] = serKva1 * serKva2 * r;
+                    arrDC[j][i] = serKva1 * serKva2 * r;
+                }
+            }
+
+        }
+        return arrDC;
+    }
+
+    public double[][] findRForDuspKovMatrixForManyVibirok(List<List<Double>> list) {
+        double r;
+        double arrR[][] = new double[list.size()][list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
+                r = MainFunction.rForKovMatrix(list.get(i), list.get(j));
+                if (i == j) {
+                    arrR[i][i] = 1;
+                } else {
+                    arrR[i][j] = r;
+                    arrR[j][i] = r;
+                }
+            }
+
+        }
+        return arrR;
+    }
+
 }
