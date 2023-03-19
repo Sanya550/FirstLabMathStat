@@ -32,6 +32,7 @@ public class HelloController {
     static ArrayList arrayListNumber3 = new ArrayList();
     static ArrayList arrayListNumber4 = new ArrayList();
     static ArrayList arrayListNumber5 = new ArrayList();
+    static ArrayList arrayListNumber6 = new ArrayList();
     static ArrayList arrayListGeneral = new ArrayList();
     static ArrayList listForDvomirnixVibirok = new ArrayList();
 
@@ -40,6 +41,7 @@ public class HelloController {
     static ArrayList withoutSortingArrayListNumber3 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber4 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber5 = new ArrayList();
+    static ArrayList withoutSortingArrayListNumber6 = new ArrayList();
     //for saving:
     static ArrayList arrayListNumber1ForSave = new ArrayList();
     static ArrayList arrayListNumber2ForSave = new ArrayList();
@@ -100,6 +102,8 @@ public class HelloController {
     private CheckBox checkBox4;
     @FXML
     private CheckBox checkBox5;
+    @FXML
+    private CheckBox checkBox6;
     @FXML
     private TextField strModelN;
     @FXML
@@ -368,6 +372,33 @@ public class HelloController {
     }
 
     @FXML
+    protected void chooseFileForNumber6(ActionEvent event) {
+        arrayListNumber6.clear();
+        withoutSortingArrayListNumber6.clear();
+        JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        fileopen.showDialog(null, "Виберіть текстовий файл");
+        File file = fileopen.getSelectedFile();
+        String s = file.getPath();
+        List<String> listString = new ArrayList<>();
+        try (BufferedReader br = Files.newBufferedReader(Path.of(s))) {
+            listString = br.lines().collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (String stringValue : listString) {
+            try {
+                arrayListNumber6.add(Double.parseDouble(stringValue));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        for (int i = 0; i < arrayListNumber6.size(); i++) {
+            withoutSortingArrayListNumber6.add(arrayListNumber6.get(i));
+        }
+        arrayListNumber6.sort(Comparator.naturalOrder());
+    }
+
+    @FXML
     protected void saveOfMainData(ActionEvent event) {
         try {
             numberOfClass = Integer.parseInt(stringOfNumberOfClasses.getText());
@@ -385,14 +416,6 @@ public class HelloController {
     //файл:
     @FXML
     protected void chooseFileForDvovomirnihVibirok(ActionEvent event) {
-        arrayListNumber1.clear();
-        arrayListNumber2.clear();
-        arrayListNumber3.clear();
-        arrayListGeneral.clear();
-        withoutSortingArrayListNumber1.clear();
-        withoutSortingArrayListNumber2.clear();
-        withoutSortingArrayListNumber3.clear();
-        arrayList.clear();
         JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int ret = fileopen.showDialog(null, "Виберіть текстовий файл");
         File file = fileopen.getSelectedFile();
@@ -488,6 +511,121 @@ public class HelloController {
         arrayList.sort(Comparator.naturalOrder());
     }
 
+    @FXML
+    protected void chooseFileForDvovomirnihVibirok2(ActionEvent event) {
+        JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int ret = fileopen.showDialog(null, "Виберіть текстовий файл");
+        File file = fileopen.getSelectedFile();
+        String s = file.getPath();
+        List<String> listString = new ArrayList<>();
+        try (BufferedReader br = Files.newBufferedReader(Path.of(s))) {
+            listString = br.lines().collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int numberOfColumns = 0;
+        listString = listString.stream().map(String::trim).collect(Collectors.toList());
+        numberOfColumns = (int) listString.get(0).replaceAll("\\s+", " ").chars().filter(c -> c == (int) ' ').count() + 1;
+
+        switch (numberOfColumns) {
+            case 1:
+                for (String stringValue : listString) {
+                    try {
+                        arrayListNumber4.add(Double.parseDouble(stringValue));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+                for (int i = 0; i < arrayListNumber4.size(); i++) {
+                    arrayListGeneral.add(arrayListNumber4.get(i));
+                    arrayList.add(arrayListNumber4.get(i));
+                }
+                break;
+            case 2:
+                int space = 0;
+                for (int i = 0; i < listString.size(); i++) {
+                    for (int j = 0; j < listString.get(i).replaceAll("\\s+", " ").length(); j++) {
+                        if (listString.get(i).replaceAll("\\s+", " ").charAt(j) == ' ') {
+                            space = j;
+                            arrayListNumber4.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, space)));
+                            arrayListNumber5.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(space)));
+                            break;
+                        }
+                    }
+
+                }
+                //adding to general
+                for (int i = 0; i < arrayListNumber4.size(); i++) {
+                    arrayListGeneral.add(arrayListNumber4.get(i));
+                    withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
+                    arrayListGeneral.add(arrayListNumber5.get(i));
+                    withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
+                }
+                for (int i = 0; i < arrayListGeneral.size(); i++) {
+                    arrayList.add(arrayListGeneral.get(i));
+                }
+                arrayListNumber4.sort(Comparator.naturalOrder());
+                arrayListNumber5.sort(Comparator.naturalOrder());
+                break;
+            case 3:
+                List space1 = new ArrayList();
+
+                for (int i = 0; i < listString.size(); i++) {
+                    for (int j = 0; j < listString.get(i).replaceAll("\\s+", " ").length(); j++) {
+                        if (listString.get(i).replaceAll("\\s+", " ").charAt(j) == ' ') {
+                            space1.add(j);
+                            if (space1.size() == 2) {
+                                arrayListNumber4.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, (Integer) space1.get(0))));
+                                arrayListNumber5.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space1.get(0), (Integer) space1.get(1))));
+                                arrayListNumber6.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space1.get(1))));
+                                space1.clear();
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < arrayListNumber4.size(); i++) {
+                    arrayListGeneral.add(arrayListNumber4.get(i));
+                    arrayListGeneral.add(arrayListNumber5.get(i));
+                    arrayListGeneral.add(arrayListNumber6.get(i));
+                    withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
+                    withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
+                    withoutSortingArrayListNumber6.add(arrayListNumber6.get(i));
+                }
+                for (int i = 0; i < arrayListGeneral.size(); i++) {
+                    arrayList.add(arrayListGeneral.get(i));
+                }
+                arrayListNumber4.sort(Comparator.naturalOrder());
+                arrayListNumber5.sort(Comparator.naturalOrder());
+                arrayListNumber6.sort(Comparator.naturalOrder());
+                break;
+            default:
+                System.out.println("Something wrong with this value: numberOfColumns");
+                break;
+        }
+
+        arrayList.sort(Comparator.naturalOrder());
+    }
+    @FXML
+    protected void clearVibirok(){
+        arrayList.clear();
+        arrayListGeneral.clear();
+        arrayListNumber1.clear();
+        arrayListNumber2.clear();
+        arrayListNumber3.clear();
+        arrayListNumber4.clear();
+        arrayListNumber5.clear();
+        arrayListNumber6.clear();
+        withoutSortingArrayListNumber1.clear();
+        withoutSortingArrayListNumber2.clear();
+        withoutSortingArrayListNumber3.clear();
+        withoutSortingArrayListNumber4.clear();
+        withoutSortingArrayListNumber5.clear();
+        withoutSortingArrayListNumber6.clear();
+        JOptionPane.showMessageDialog(null,"Вибірки очишені");
+    }
+
     //дані:
     @FXML
     protected void showVarRowList() {
@@ -580,7 +718,7 @@ public class HelloController {
     //залежні вибірки:
     @FXML
     protected void tTestForDepens(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -602,15 +740,15 @@ public class HelloController {
     }
 
     @FXML
-    protected void odnoFactDusAnalyze(ActionEvent event) {
+    protected void odnoFactDusAnalyze(ActionEvent event) throws Exception {
         String message = "";
-        message += Helper.messageForOdnoFactorniyDuspersniyAnaliz(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        message += Helper.messageForOdnoFactorniyDuspersniyAnaliz(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
     protected void kriteriiZnakiv(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -632,16 +770,16 @@ public class HelloController {
     }
 
     @FXML
-    protected void QKriterii(ActionEvent event) {
+    protected void QKriterii(ActionEvent event) throws Exception {
         String message = "";
-        message += Helper.messageForQKohren(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        message += Helper.messageForQKohren(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
     }
 
     //незалежні вибірки:
     @FXML
     protected void tTestForInDepens(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -660,7 +798,7 @@ public class HelloController {
 
     @FXML
     protected void fTest(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -678,15 +816,15 @@ public class HelloController {
     }
 
     @FXML
-    protected void bartlet(ActionEvent event) {
+    protected void bartlet(ActionEvent event) throws Exception {
         String message = "";
-        message += Helper.messageForBartlet(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        message += Helper.messageForBartlet(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
     protected void abbe(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -705,7 +843,7 @@ public class HelloController {
 
     @FXML
     protected void kolmogorovaSmirnova(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -725,7 +863,7 @@ public class HelloController {
     //рангові:
     @FXML
     protected void vilkoksona(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -744,7 +882,7 @@ public class HelloController {
 
     @FXML
     protected void riznSerRangiv(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -762,15 +900,15 @@ public class HelloController {
     }
 
     @FXML
-    protected void Hkriterrii(ActionEvent event) {
+    protected void Hkriterrii(ActionEvent event) throws Exception {
         String message = "";
-        message += Helper.messageForHKruskalaUolis(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        message += Helper.messageForHKruskalaUolis(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         JOptionPane.showMessageDialog(null, message, "Критерії однорідності", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
     protected void rangTable(ActionEvent event) {
-        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5);
+        List listOfCheckBox = Helper.returnTwoCheckBox(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, arrayListNumber1, arrayListNumber2, arrayListNumber3, arrayListNumber4, arrayListNumber5, arrayListNumber6);
         if (listOfCheckBox.size() != 2) {
             JOptionPane.showMessageDialog(null, "Виберіть два чекбокси", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -852,6 +990,19 @@ public class HelloController {
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №5.Розмір файлу:" + arrayListNumber5.size(), "About", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    protected void changeMenuNumber6(ActionEvent event) {
+        arrayList.clear();
+        for (int i = 0; i < arrayListNumber6.size(); i++) {
+            arrayList.add(arrayListNumber6.get(i));
+        }
+        if (!arrayList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №6.Розмір файлу:" + arrayListNumber6.size(), "About", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
@@ -1493,7 +1644,7 @@ public class HelloController {
         tableView.getColumns().clear();
         SecondHelper secondHelper = new SecondHelper();
         try {
-            secondHelper.showInitialTableHelper(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, tableView);
+            secondHelper.showInitialTableHelper(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, tableView);
         } catch (IndexOutOfBoundsException e) {
         }
     }
@@ -1502,7 +1653,7 @@ public class HelloController {
     protected void firstStaticAnalizeForManyVibirok() {
         SecondHelper secondHelper = new SecondHelper();
         JOptionPane.showMessageDialog(null, secondHelper.firstStaticAnalizeForManyVibirokHelper(
-                        secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5)),
+                        secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6)),
                 "Первинний статистичний аналіз",
                 JOptionPane.INFORMATION_MESSAGE);
     }

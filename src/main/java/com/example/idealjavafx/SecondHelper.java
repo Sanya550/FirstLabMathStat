@@ -14,7 +14,7 @@ import static com.example.idealjavafx.HelloController.*;
 //Helper from 5 lab
 public class SecondHelper {
 
-    public void showInitialTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, TableView tableView) {
+    public void showInitialTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5,CheckBox ch6, TableView tableView) {
         var list = new ArrayList<ArrayList<Double>>();
         if (ch1.isSelected()) {
             list.add(withoutSortingArrayListNumber1);
@@ -31,6 +31,10 @@ public class SecondHelper {
         if (ch5.isSelected()) {
             list.add(withoutSortingArrayListNumber5);
         }
+        if (ch6.isSelected()) {
+            list.add(withoutSortingArrayListNumber6);
+        }
+
 
         int errorCounter = (int) list.stream().filter(ArrayList::isEmpty).count();
         if (errorCounter > 0) {
@@ -55,6 +59,9 @@ public class SecondHelper {
                 } else if (list.size() == 5) {
                     ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i), list.get(4).get(i)));
                     data.add(row);
+                }else if (list.size() == 6) {
+                    ArrayList<Double> row = new ArrayList(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i), list.get(4).get(i), list.get(5)));
+                    data.add(row);
                 }
             }
         }
@@ -68,7 +75,7 @@ public class SecondHelper {
         tableView.setItems(FXCollections.observableArrayList(data));
     }
 
-    public List<List<Double>> defineWhichCheckBoxChecked(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5) {
+    public List<List<Double>> defineWhichCheckBoxChecked(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6) {
         List<List<Double>> resList = new ArrayList<>();
         if (ch1.isSelected()) {
             resList.add(arrayListNumber1);
@@ -84,6 +91,9 @@ public class SecondHelper {
         }
         if (ch5.isSelected()) {
             resList.add(arrayListNumber5);
+        }
+        if (ch6.isSelected()) {
+            resList.add(arrayListNumber6);
         }
         return resList;
     }

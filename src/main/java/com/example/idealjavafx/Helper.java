@@ -739,7 +739,7 @@ public class Helper {
     }
 
     //lab3:
-    static List<ArrayList> returnTwoCheckBox(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
+    static List<ArrayList> returnTwoCheckBox(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5, ArrayList arr6) {
         List<ArrayList> resultList = new ArrayList();
         if (ch1.isSelected() && ch2.isSelected()) {
             resultList.add(arr1);
@@ -781,20 +781,85 @@ public class Helper {
             resultList.add(arr4);
             resultList.add(arr5);
             return resultList;
+        } else if (ch1.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch2.isSelected() && ch6.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch3.isSelected() && ch6.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch4.isSelected() && ch6.isSelected()) {
+            resultList.add(arr4);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
         } else {
             return resultList;
         }
     }
 
-    static List<ArrayList<Double>> returnSeveralCheckBox(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
+    static List<ArrayList<Double>> returnSeveralCheckBox(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5, ArrayList arr6) throws Exception {
         List<ArrayList<Double>> resultList = new ArrayList();
-        //5:
-        if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+        //6:
+        if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected() && ch6.isSelected()) {
             resultList.add(arr1);
             resultList.add(arr2);
             resultList.add(arr3);
             resultList.add(arr4);
             resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
+        }
+        //5:
+        else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch4.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch4.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch1.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch2.isSelected() && ch3.isSelected() && ch4.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            resultList.add(arr6);
             return resultList;
         }
         //4:
@@ -828,9 +893,91 @@ public class Helper {
             resultList.add(arr4);
             resultList.add(arr5);
             return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch4.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr4);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch1.isSelected() && ch2.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch1.isSelected() && ch3.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr3);
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch1.isSelected() && ch4.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch2.isSelected() && ch4.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
+        } else if (ch3.isSelected() && ch4.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
         }
         //3:
-        else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected()) {
+        else if (ch1.isSelected() && ch2.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr2);
+            resultList.add(arr6);
+        } else if (ch1.isSelected() && ch3.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr3);
+            resultList.add(arr6);
+        } else if (ch1.isSelected() && ch4.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr4);
+            resultList.add(arr6);
+        } else if (ch1.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr5);
+            resultList.add(arr6);
+        } else if (ch2.isSelected() && ch3.isSelected() && ch6.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr3);
+            resultList.add(arr6);
+        } else if (ch2.isSelected() && ch4.isSelected() && ch6.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr4);
+            resultList.add(arr6);
+        } else if (ch2.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr5);
+            resultList.add(arr6);
+        } else if (ch3.isSelected() && ch4.isSelected() && ch6.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr4);
+            resultList.add(arr6);
+        } else if (ch3.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr5);
+            resultList.add(arr6);
+        } else if (ch4.isSelected() && ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr4);
+            resultList.add(arr5);
+            resultList.add(arr6);
+        } else if (ch1.isSelected() && ch2.isSelected() && ch3.isSelected()) {
             resultList.add(arr1);
             resultList.add(arr2);
             resultList.add(arr3);
@@ -922,10 +1069,31 @@ public class Helper {
             resultList.add(arr4);
             resultList.add(arr5);
             return resultList;
+        }else if (ch1.isSelected() && ch6.isSelected()) {
+            resultList.add(arr1);
+            resultList.add(arr6);
+            return resultList;
+        }else if (ch2.isSelected() && ch6.isSelected()) {
+            resultList.add(arr2);
+            resultList.add(arr6);
+            return resultList;
+        }else if (ch3.isSelected() && ch6.isSelected()) {
+            resultList.add(arr3);
+            resultList.add(arr6);
+            return resultList;
+        }else if (ch4.isSelected() && ch6.isSelected()) {
+            resultList.add(arr4);
+            resultList.add(arr6);
+            return resultList;
+        }else if (ch5.isSelected() && ch6.isSelected()) {
+            resultList.add(arr5);
+            resultList.add(arr6);
+            return resultList;
         } else {
             JOptionPane.showMessageDialog(null, "Виберіть декілька чекбоксів", "Error", JOptionPane.ERROR_MESSAGE);
             return resultList;
         }
+        return resultList;
     }
 
     //3.3:
@@ -2169,8 +2337,8 @@ public class Helper {
         return message;
     }
 
-    static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
-        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+    static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5,CheckBox ch6, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5, ArrayList arr6) throws Exception {
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5,ch6, arr1, arr2, arr3, arr4, arr5,arr6);
         double bart = BigDecimal.valueOf(bartleta(list) / 10).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = koefForBartletAndKohrena(list);
         String message = "Критерій Бартлета:\n";
@@ -2185,8 +2353,8 @@ public class Helper {
     }
 
     //3.5:
-    static String messageForOdnoFactorniyDuspersniyAnaliz(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
-        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+    static String messageForOdnoFactorniyDuspersniyAnaliz(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5, ArrayList arr6) throws Exception {
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, ch6, arr1, arr2, arr3, arr4, arr5, arr6);
         double f = BigDecimal.valueOf(odnoFactorniyDuspersniyAnaliz(list)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = koefForFisher(list.get(0), list.get(1));
         //f-test:
@@ -2201,8 +2369,8 @@ public class Helper {
         return message;
     }
 
-    static String messageForQKohren(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
-        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+    static String messageForQKohren(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5, ArrayList arr6) throws Exception {
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, ch6, arr1, arr2, arr3, arr4, arr5, arr6);
         double kohren = QKohren(list);
         double kva = koefForBartletAndKohrena(list);
         String message = "Q-критерій Кохрена:\n";
@@ -2216,8 +2384,8 @@ public class Helper {
         return message;
     }
 
-    static String messageForHKruskalaUolis(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5) {
-        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, arr1, arr2, arr3, arr4, arr5);
+    static String messageForHKruskalaUolis(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5, ArrayList arr6) throws Exception {
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, ch6, arr1, arr2, arr3, arr4, arr5, arr6);
         List rang = rangRowForSeveral(list);
         double h = HKruskalaUolis((ArrayList<ArrayList>) rang, list.size());
         double kva = koefForBartletAndKohrena(list);
@@ -3455,10 +3623,10 @@ public class Helper {
             series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
             series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
             series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
-            if(min>(a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+            if (min > (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))) {
                 min = (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
             }
-            if(max<(a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+            if (max < (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))) {
                 max = (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
             }
             series1.getData().add(new XYChart.Data(i, a + b * i));
@@ -3603,10 +3771,10 @@ public class Helper {
             series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
             series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
             series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
-            if(min>(a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+            if (min > (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))) {
                 min = (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
             }
-            if(max<(a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+            if (max < (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))) {
                 max = (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
             }
             series1.getData().add(new XYChart.Data(i, a + b * i));
@@ -3705,7 +3873,7 @@ public class Helper {
         tempList.sort(Comparator.naturalOrder());
 
 
-        double b = tempList.get(tempList.size()/2);
+        double b = tempList.get(tempList.size() / 2);
         tempList.clear();
         for (int i = 0; i < arr1NotSorted.size(); i++) {
             tempList.add(arr2NotSorted.get(i) - b * arr1NotSorted.get(i));
@@ -3723,10 +3891,10 @@ public class Helper {
             series3.getData().add(new XYChart.Data(i, (a + b * i) + t1 * sZalush));
             series4.getData().add(new XYChart.Data(i, (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
             series4.getData().add(new XYChart.Data(i, (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))));
-            if(min>(a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+            if (min > (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))) {
                 min = (a + b * i) - t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
             }
-            if(max<(a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))){
+            if (max < (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2))) {
                 max = (a + b * i) + t1 * Math.sqrt(sZalush * sZalush * (1 + 1 / arr1Sorted.size()) + sB * sB * Math.pow(x0 - resultSA1, 2));
             }
             series1.getData().add(new XYChart.Data(i, a + b * i));
@@ -4005,9 +4173,9 @@ public class Helper {
 //            series4.getData().add(new XYChart.Data(i, (a + b * x0 + c * x0*x0) - t1 * sY_X0.get(i)));
 //            series4.getData().add(new XYChart.Data(i, (a + b * x0 + c * x0*x0) + t1 * sY_X0.get(i)));
 //        }
-        double tr = ((arr2NotSorted.get(arr1NotSorted.size() - 1) - arr2NotSorted.get(0)) / (arr1NotSorted.size() * 0.75))+1;
-double min = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) - t1;
-double max = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) + t1;
+        double tr = ((arr2NotSorted.get(arr1NotSorted.size() - 1) - arr2NotSorted.get(0)) / (arr1NotSorted.size() * 0.75)) + 1;
+        double min = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) - t1;
+        double max = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) + t1;
         for (double i = arr1Sorted.get(0); i < arr1Sorted.get(arr1Sorted.size() - 1); i += 0.1) {
             series2.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) - t1));
             series2.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2) + t1));
@@ -4015,15 +4183,15 @@ double max = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) + t1
             series3.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2));
             series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2 + 2.5 * tr));
             series4.getData().add(new XYChart.Data(i, (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2 - 2.5 * tr));
-            if(min>(a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2 + 2.5 * tr){
+            if (min > (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2 + 2.5 * tr) {
                 min = (a + b * i + c * Math.pow(i, 2)) - t1 * SZAL2 + 2.5 * tr;
             }
-            if(max<(a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2 + 2.5 * tr){
+            if (max < (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2 + 2.5 * tr) {
                 max = (a + b * i + c * Math.pow(i, 2)) + t1 * SZAL2 + 2.5 * tr;
             }
             series1.getData().add(new XYChart.Data(i, a + b * i + c * Math.pow(i, 2)));
         }
-        yAxis.setLowerBound(min-6);
+        yAxis.setLowerBound(min - 6);
         yAxis.setUpperBound(max);
         scatterChart.getData().addAll(series, series2, series1, series3, series4);
 
@@ -4031,7 +4199,7 @@ double max = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) + t1
         String message = "y = " + BigDecimal.valueOf(a).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + " + (" + BigDecimal.valueOf(b).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x + (" + BigDecimal.valueOf(c).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ") * x^2";
         message += "\nОцінка точності та значущості оцінок параметрів:";
         temp = 0;
-        if (aForT>0.66*a && aForT<a*1.5) {
+        if (aForT > 0.66 * a && aForT < a * 1.5) {
             message += "\nЗначущість оцінки параметра 'a': головну гіпотезу підтверджено";
             temp++;
         } else {
@@ -4180,10 +4348,10 @@ double max = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) + t1
         }
         String message = "";
 //        message += "y = a*x^b = " + BigDecimal.valueOf(resultA).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + "*x^(" + BigDecimal.valueOf(resultB).setScale(4, BigDecimal.ROUND_CEILING).doubleValue() + ")";
-        message +=  String.format("y = a*x^b = %.4f *x^(%.4f)",resultA,resultB);
+        message += String.format("y = a*x^b = %.4f *x^(%.4f)", resultA, resultB);
         message += "\nДовірче оцінювання параметрів:";
         message += String.format("\na: %.2f <= %.2f <= %.2f", resultA - SA * t1, resultA, resultA + SA * t1);
-        message += String.format("\nb: %.2f <= %.2f <= %.2f", resultB - SB * t1-0.03, resultB, resultB + 0.03+SB * t1);
+        message += String.format("\nb: %.2f <= %.2f <= %.2f", resultB - SB * t1 - 0.03, resultB, resultB + 0.03 + SB * t1);
 
         XYChart.Series series = new XYChart.Series();
         series.setName("Кореляційне поле");
@@ -4203,26 +4371,26 @@ double max = a + b * arr1Sorted.get(0) + c * Math.pow(arr1Sorted.get(0), 2) + t1
         if (Math.abs(SZAL2) <= 1) {
             SZAL2 += Math.abs(SZAL2) + 1.5;
         }
-        double min = resultA * Math.pow(arr1SortedIn.get(0), resultB) - t1*0.8;
-        double max = resultA * Math.pow(arr1SortedIn.get(0), resultB) + t1*0.8;
+        double min = resultA * Math.pow(arr1SortedIn.get(0), resultB) - t1 * 0.8;
+        double max = resultA * Math.pow(arr1SortedIn.get(0), resultB) + t1 * 0.8;
         for (double i = arr1SortedIn.get(0); i < arr1SortedIn.get(arr1SortedIn.size() - 1); i += 0.1) {
-            series2.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1*0.8));
-            series2.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1*0.8));
-            series3.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1 * SZAL2*1.2));
-            series3.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * SZAL2*1.2));
-            series4.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * SZAL2*2));
-            series4.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1 * SZAL2*2));
-            if(min>resultA * Math.pow(i, resultB) - t1 * SZAL2*2){
-                min = resultA * Math.pow(i, resultB) - t1 * SZAL2*2;
+            series2.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1 * 0.8));
+            series2.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * 0.8));
+            series3.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1 * SZAL2 * 1.2));
+            series3.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * SZAL2 * 1.2));
+            series4.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) + t1 * SZAL2 * 2));
+            series4.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB) - t1 * SZAL2 * 2));
+            if (min > resultA * Math.pow(i, resultB) - t1 * SZAL2 * 2) {
+                min = resultA * Math.pow(i, resultB) - t1 * SZAL2 * 2;
             }
-            if(max<resultA * Math.pow(i, resultB) + t1 * SZAL2*2){
-                max = resultA * Math.pow(i, resultB) + t1 * SZAL2*2;
+            if (max < resultA * Math.pow(i, resultB) + t1 * SZAL2 * 2) {
+                max = resultA * Math.pow(i, resultB) + t1 * SZAL2 * 2;
             }
             series1.getData().add(new XYChart.Data(i, resultA * Math.pow(i, resultB)));
         }
         yAxis.setLowerBound(min);
         yAxis.setUpperBound(max);
-        scatterChart.getData().addAll(series,series2, series3,series4,series1);
+        scatterChart.getData().addAll(series, series2, series3, series4, series1);
         JOptionPane.showMessageDialog(null, message, "Квазілінійна регресія", JOptionPane.INFORMATION_MESSAGE);
     }
 }
