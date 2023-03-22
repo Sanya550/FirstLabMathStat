@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="981.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="981.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
    <children>
       <MenuBar layoutX="-2.0" layoutY="1.0" prefHeight="26.0" prefWidth="951.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0">
         <menus>
@@ -29,7 +29,10 @@
                   <MenuItem mnemonicParsing="false" onAction="#chooseFileForNumber3" text="Вибрати файл №3" />
                   <MenuItem mnemonicParsing="false" onAction="#chooseFileForNumber4" text="Вибрати файл №4" />
                   <MenuItem mnemonicParsing="false" onAction="#chooseFileForNumber5" text="Вибрати файл №5" />
+                  <MenuItem mnemonicParsing="false" onAction="#chooseFileForNumber6" text="Вибрати файл №6" />
                   <MenuItem mnemonicParsing="false" onAction="#chooseFileForDvovomirnihVibirok" text="Вибрати файл для багатовимірного зчитування" />
+                  <MenuItem mnemonicParsing="false" onAction="#chooseFileForDvovomirnihVibirok2" text="Вибрати файл для багатовимірного зчитування 2" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearVibirok" text="Очистити" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Файл">
@@ -39,6 +42,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#changeMenuNumber3" text="№3" />
                   <MenuItem mnemonicParsing="false" onAction="#changeMenuNumber4" text="№4" />
                   <MenuItem mnemonicParsing="false" onAction="#changeMenuNumber5" text="№5" />
+                  <MenuItem mnemonicParsing="false" onAction="#changeMenuNumber6" text="№6" />
                   <Menu mnemonicParsing="false" text="Двовимірне зчитування">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#readVectorMenuNumber1Plus2" text="№1+2" />
@@ -172,7 +176,20 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Аналіз багатовимірних даних">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#firstStaticAnalizeForManyVibirok" text="Первинний аналіз" />
+                  <Menu mnemonicParsing="false" text="Сукупності">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#addSukupnost1" text="Додати сукупність 1" />
+                        <MenuItem mnemonicParsing="false" onAction="#addSukupnost2" text="Додати сукупність 2" />
+                     </items>
+                  </Menu>
+                  <MenuItem mnemonicParsing="false" onAction="#firstStaticAnalizeForManyVibirok" text="Середні" />
+                  <MenuItem mnemonicParsing="false" onAction="#checkParametersOfSukupnists" text="Перевірка збігу параметрів" />
+                  <Menu mnemonicParsing="false" text="Regression">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#dkMatrix" text="ДК матриця" />
+                        <MenuItem mnemonicParsing="false" onAction="#koreliationMatrix" text="Кореляційна матриця" />
+                     </items>
+                  </Menu>
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">
@@ -202,20 +219,20 @@
                               <CheckBox fx:id="checkBox4" layoutX="107.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="27.0" text="4" />
                               <CheckBox fx:id="checkBox5" layoutX="140.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="5" />
                               <Text layoutX="160.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Па-ри для модел." wrappingWidth="101.53669738769531" />
-                              <TextField fx:id="strModelN" layoutX="211.0" layoutY="26.0" prefHeight="25.0" prefWidth="38.0" />
-                              <TextField fx:id="strModelM" layoutX="211.0" layoutY="59.0" prefHeight="25.0" prefWidth="38.0" />
-                              <TextField fx:id="strModelP" layoutX="211.0" layoutY="86.0" prefHeight="25.0" prefWidth="38.0" />
-                              <Text layoutX="185.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="N =" />
-                              <Text layoutX="184.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="m =" />
-                              <Text layoutX="185.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ρ =" />
-                              <Text layoutX="185.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" ʎ=" />
-                              <TextField fx:id="strModelL1" layoutX="211.0" layoutY="115.0" prefHeight="25.0" prefWidth="38.0" />
-                              <TextField fx:id="bRegressia" layoutX="291.0" layoutY="39.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />
-                              <TextField fx:id="aRegressia" layoutX="291.0" layoutY="8.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />
-                              <TextField fx:id="cRegressia" layoutX="291.0" layoutY="72.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />
-                              <Text layoutX="267.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="a =" />
-                              <Text layoutX="266.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="b =" />
-                              <Text layoutX="267.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="c =" />
+                              <TextField fx:id="strModelN" layoutX="224.0" layoutY="27.0" prefHeight="25.0" prefWidth="38.0" />
+                              <TextField fx:id="strModelM" layoutX="224.0" layoutY="59.0" prefHeight="25.0" prefWidth="38.0" />
+                              <TextField fx:id="strModelP" layoutX="224.0" layoutY="86.0" prefHeight="25.0" prefWidth="38.0" />
+                              <Text layoutX="199.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="N =" />
+                              <Text layoutX="199.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="m =" />
+                              <Text layoutX="201.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ρ =" />
+                              <Text layoutX="202.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" ʎ=" />
+                              <TextField fx:id="strModelL1" layoutX="224.0" layoutY="115.0" prefHeight="25.0" prefWidth="38.0" />
+                              <TextField fx:id="bRegressia" layoutX="306.0" layoutY="39.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />
+                              <TextField fx:id="aRegressia" layoutX="306.0" layoutY="9.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />
+                              <TextField fx:id="cRegressia" layoutX="306.0" layoutY="74.0" prefHeight="8.0" prefWidth="30.0" promptText="0" />
+                              <Text layoutX="279.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="a =" />
+                              <Text layoutX="279.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="b =" />
+                              <Text layoutX="279.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="c =" />
                               <TextField fx:id="minRegressia" layoutX="273.0" layoutY="115.0" prefHeight="8.0" prefWidth="30.0" />
                               <TextField fx:id="maxRegressia" layoutX="321.0" layoutY="115.0" prefHeight="8.0" prefWidth="30.0" />
                               <Text layoutX="263.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[" wrappingWidth="7.999987792968568">
@@ -235,6 +252,7 @@
                               </Text>
                               <TextField fx:id="duspersiaRegressia" layoutX="411.0" layoutY="115.0" prefHeight="8.0" prefWidth="30.0" />
                               <Text layoutX="379.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dus = " />
+                              <CheckBox fx:id="checkBox6" layoutX="174.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="6" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">

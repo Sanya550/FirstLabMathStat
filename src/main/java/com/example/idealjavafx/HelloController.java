@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 
 public class HelloController {
     static ArrayList arrayList = new ArrayList();
-    //new block:
     static ArrayList arrayListNumber1 = new ArrayList();
     static ArrayList arrayListNumber2 = new ArrayList();
     static ArrayList arrayListNumber3 = new ArrayList();
@@ -47,7 +46,9 @@ public class HelloController {
     static ArrayList arrayListNumber2ForSave = new ArrayList();
     static ArrayList withoutSortingArrayListNumber1ForSave = new ArrayList();
     static ArrayList withoutSortingArrayListNumber2ForSave = new ArrayList();
-    //
+    //sukupnosti:
+    static ArrayList<List<Double>> sukupnist1 = new ArrayList<>();
+    static ArrayList<List<Double>> sukupnist2 = new ArrayList<>();
     static int forFileIndex = 1;
     static int numberOfClass;
     static double kvantil = 1.96;
@@ -607,8 +608,9 @@ public class HelloController {
 
         arrayList.sort(Comparator.naturalOrder());
     }
+
     @FXML
-    protected void clearVibirok(){
+    protected void clearVibirok() {
         arrayList.clear();
         arrayListGeneral.clear();
         arrayListNumber1.clear();
@@ -623,7 +625,7 @@ public class HelloController {
         withoutSortingArrayListNumber4.clear();
         withoutSortingArrayListNumber5.clear();
         withoutSortingArrayListNumber6.clear();
-        JOptionPane.showMessageDialog(null,"Вибірки очишені");
+        JOptionPane.showMessageDialog(null, "Вибірки очишені");
     }
 
     //дані:
@@ -1656,5 +1658,49 @@ public class HelloController {
                         secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6)),
                 "Первинний статистичний аналіз",
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    //сукупності
+    @FXML
+    protected void addSukupnost1() {
+        sukupnist1.clear();
+        SecondHelper secondHelper = new SecondHelper();
+        sukupnist1 = (ArrayList<List<Double>>) secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №1", "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    protected void addSukupnost2() {
+        sukupnist2.clear();
+        SecondHelper secondHelper = new SecondHelper();
+        sukupnist2 = (ArrayList<List<Double>>) secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №2", "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    //Перевірка збігу параметрів
+    @FXML
+    protected void checkParametersOfSukupnists() {
+        SecondHelper secondHelper = new SecondHelper();
+        JOptionPane.showMessageDialog(null,
+                secondHelper.checkParametersOfSukupnistsHelper(sukupnist1, sukupnist2),
+                "Перевірка збігу параметрів",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    //Багатовимірний кореляційний аналіз
+    //ДК матриця:
+    @FXML
+    protected void dkMatrix() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listForDC = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        secondHelper.showMatrixInTableView(tableView, MainFunction.findDCForDuspKovMatrixForManyVibirok(listForDC));
+    }
+
+    //кореляційна матриця
+    @FXML
+    protected void koreliationMatrix() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listForR = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        secondHelper.showMatrixInTableView(tableView, MainFunction.findRForDuspKovMatrixForManyVibirok(listForR));
     }
 }

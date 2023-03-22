@@ -2,6 +2,7 @@ package com.example.idealjavafx;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,7 +15,7 @@ import static com.example.idealjavafx.HelloController.*;
 //Helper from 5 lab
 public class SecondHelper {
 
-    public void showInitialTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5,CheckBox ch6, TableView tableView) {
+    public void showInitialTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, TableView tableView) {
         var list = new ArrayList<ArrayList<Double>>();
         if (ch1.isSelected()) {
             list.add(withoutSortingArrayListNumber1);
@@ -59,7 +60,7 @@ public class SecondHelper {
                 } else if (list.size() == 5) {
                     ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i), list.get(4).get(i)));
                     data.add(row);
-                }else if (list.size() == 6) {
+                } else if (list.size() == 6) {
                     ArrayList<Double> row = new ArrayList(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i), list.get(4).get(i), list.get(5)));
                     data.add(row);
                 }
@@ -99,6 +100,7 @@ public class SecondHelper {
     }
 
     //lab5:
+    //Первинний статистичний аналіз
     public String firstStaticAnalizeForManyVibirokHelper(List<List<Double>> list) {
         String resultString = "Знаходження вектора середніх: \nE = {";
         for (int i = 0; i < list.size(); i++) {
@@ -120,44 +122,60 @@ public class SecondHelper {
         return resultString;
     }
 
-    public double[][] findDCForDuspKovMatrixForManyVibirok(List<List<Double>> list) {
-        double serKva1;
-        double serKva2;
-        double r;
-        double arrDC[][] = new double[list.size()][list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            serKva1 = MainFunction.serKva(list.get(i));
-            for (int j = 0; j < list.size(); j++) {
-                r = MainFunction.rForKovMatrix(list.get(i), list.get(j));
-                serKva2 = MainFunction.serKva(list.get(j));
-                if (i == j) {
-                    arrDC[i][i] = serKva1 * serKva2;
-                } else {
-                    arrDC[i][j] = serKva1 * serKva2 * r;
-                    arrDC[j][i] = serKva1 * serKva2 * r;
-                }
-            }
 
+    //Перевірка збігу параметрів
+    //todo: needs updates
+    public String checkParametersOfSukupnistsHelper(List<List<Double>> list1, List<List<Double>> list2) {
+        List<ArrayList<Double>> tempList = new ArrayList<>();
+        for (int i = 0; i < list1.size(); i++) {
+            tempList.add((ArrayList<Double>) list1.get(i));
         }
-        return arrDC;
+
+
+        double determinationS0 = MainFunction.findDetermination(MainFunction.findDCForDuspKovMatrixForManyVibirok(list1));
+        double determinationS1 = MainFunction.findDetermination(MainFunction.findDCForDuspKovMatrixForManyVibirok(list2));
+        //todo: //(list1.size() + list2.size()) / 2 = n/2
+        String str = "Рівність двох багатовимірних середніх у разі рівних ДК матриць:\n";
+        double v1 = -(list1.size() + list2.size() - 2 - (list1.size() + list2.size()) / 2)
+                * Math.log(Math.abs(determinationS1 / determinationS0));
+        str += String.format("V = %.2f, ", v1);
+
+        if (Helper.koefForBartletAndKohrena(tempList) >= v1) {
+            str += "нульову гіпотезу підтверджено.\n";
+        } else {
+            str += "нульову гіпотезу відхилено.\n";
+        }
+
+        str += "Збіг ДК матриць:\n";
+        str += "V =   \n";
+
+        str += "Збіг k-вимірних при розбіжності ДК матриць:\n";
+        str += "V =   \n";
+
+
+        return str;
     }
 
-    public double[][] findRForDuspKovMatrixForManyVibirok(List<List<Double>> list) {
-        double r;
-        double arrR[][] = new double[list.size()][list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            for (int j = 0; j < list.size(); j++) {
-                r = MainFunction.rForKovMatrix(list.get(i), list.get(j));
-                if (i == j) {
-                    arrR[i][i] = 1;
-                } else {
-                    arrR[i][j] = r;
-                    arrR[j][i] = r;
-                }
-            }
+    //відображення матриці в TableView
+    public void showMatrixInTableView(TableView tableView, double[][] array) {
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
 
+        int numColumns = array[0].length;
+        for (int i = 0; i < numColumns; i++) {
+            TableColumn<ObservableList<String>, String> column = new TableColumn<>("");
+            final int columnIndex = i;
+            column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(columnIndex)));
+            tableView.getColumns().add(column);
         }
-        return arrR;
+
+        for (int i = 0; i < array.length; i++) {
+            ObservableList<String> row = FXCollections.observableArrayList();
+            for (int j = 0; j < array[i].length; j++) {
+                row.add(String.format("%.2f",array[i][j]));
+            }
+            tableView.getItems().add(row);
+        }
     }
 
 }
