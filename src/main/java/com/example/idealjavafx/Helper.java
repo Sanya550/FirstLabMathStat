@@ -13,6 +13,7 @@ import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Helper {
     //t const:
@@ -495,27 +496,6 @@ public class Helper {
         resultOfArray.add(arr2NotSorted);
 
         return resultOfArray;
-    }
-
-    static ArrayList logarifmForAdditional(ArrayList arrayList) {
-        ArrayList arr1 = new ArrayList();
-        ArrayList arr2 = new ArrayList();
-        double a = 0.1;
-        int size = arrayList.size();
-        for (int i = 0; i < size; i++) {
-            arr1.add(arrayList.get(i));
-        }
-
-        for (int i = 0; i < arr1.size(); i++) {
-
-            if ((double) arr1.get(i) <= 0) {
-                arr2.add((Math.log(0.1)));
-                a += 0.1;
-            } else {
-                arr2.add((Math.log((Double) arr1.get(i))));
-            }
-        }
-        return arr2;
     }
 
     static void drawBarChartForShilnist(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap) {

@@ -1475,59 +1475,50 @@ public class HelloController {
 
     //додатково:
     @FXML
-    protected void additionalForSaving(ActionEvent event) {
-        arrayListNumber1ForSave.clear();
-        arrayListNumber2ForSave.clear();
-        withoutSortingArrayListNumber1ForSave.clear();
-        withoutSortingArrayListNumber2ForSave.clear();
+    protected void additionalForReturn(ActionEvent event) {
+        SecondHelper secondHelper = new SecondHelper();
+        var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        for (int i = 0; i < listOfLists.size(); i++) {
+            ArrayList<Double> currentList = (ArrayList<Double>) listOfLists.get(i);
+            ArrayList<Double> currentWithoutSortedList = (ArrayList<Double>) listOfWithoutSorted.get(i);
+            currentList.clear();
+            currentList.addAll(currentWithoutSortedList);
+            currentList.sort(Comparator.naturalOrder());
+        }
 
-        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
-        arrayListNumber1ForSave = listOfLists.get(0);
-        arrayListNumber2ForSave = listOfLists.get(1);
-        withoutSortingArrayListNumber1ForSave = listOfLists.get(2);
-        withoutSortingArrayListNumber2ForSave = listOfLists.get(3);
-        JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Повернено", "About", JOptionPane.INFORMATION_MESSAGE);
 
     }
 
     @FXML
-    protected void additionalForReturn(ActionEvent event) {
-        arrayListNumber1.clear();
-        arrayListNumber2.clear();
-        arrayListNumber3.clear();
-        withoutSortingArrayListNumber1.clear();
-        withoutSortingArrayListNumber2.clear();
-        withoutSortingArrayListNumber3.clear();
-        arrayListNumber1 = arrayListNumber1ForSave;
-        arrayListNumber2 = arrayListNumber2ForSave;
-        withoutSortingArrayListNumber1 = withoutSortingArrayListNumber1ForSave;
-        withoutSortingArrayListNumber2 = withoutSortingArrayListNumber2ForSave;
-        if (arrayListNumber1ForSave.isEmpty() || arrayListNumber2ForSave.isEmpty() || withoutSortingArrayListNumber1ForSave.isEmpty() || withoutSortingArrayListNumber2ForSave.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Error!!!", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "Повернено", "About", JOptionPane.INFORMATION_MESSAGE);
+    protected void additionalStardantization(){
+        SecondHelper secondHelper = new SecondHelper();
+        var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        for (var list : listOfLists) {
+            double resultSA = MainFunction.matSpodivan(list);
+            double serKva = MainFunction.serKva(list);
+            list.replaceAll(a -> (a - resultSA) / serKva);
         }
+        JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
     @FXML
     protected void additionalDeleteAnomal(ActionEvent event) {
-        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
-        ArrayList<ArrayList> resList = Helper.deleteAnomalForAdditional(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3));
-        arrayListNumber1 = resList.get(0);
-        arrayListNumber2 = resList.get(1);
-        withoutSortingArrayListNumber1 = resList.get(2);
-        withoutSortingArrayListNumber2 = resList.get(3);
+        //Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
+        //todo: need updates!!!!!!!!!!!!!!!
         JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    protected void additionalLogarifm(ActionEvent event) {
-        List<ArrayList> listOfLists = Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
-        arrayListNumber1 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(0));
-        arrayListNumber2 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(1));
-        withoutSortingArrayListNumber1 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(2));
-        withoutSortingArrayListNumber2 = (ArrayList) Helper.logarifmForAdditional(listOfLists.get(3));
+    protected void additionalZsuvAndLogarifm(ActionEvent event) {
+        SecondHelper secondHelper = new SecondHelper();
+        var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        for (var list : listOfLists) {
+            double modulMin = Math.abs(list.get(0));
+            list.replaceAll(a -> Math.log(a + modulMin + 0.01) + modulMin + 0.01);
+        }
         JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 

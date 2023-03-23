@@ -99,6 +99,29 @@ public class SecondHelper {
         return resList;
     }
 
+
+    public List<List<Double>> defineWhichCheckBoxCheckedForWithoutSorted(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6) {
+        List<List<Double>> resList = new ArrayList<>();
+        if (ch1.isSelected()) {
+            resList.add(withoutSortingArrayListNumber1);
+        }
+        if (ch2.isSelected()) {
+            resList.add(withoutSortingArrayListNumber2);
+        }
+        if (ch3.isSelected()) {
+            resList.add(withoutSortingArrayListNumber3);
+        }
+        if (ch4.isSelected()) {
+            resList.add(withoutSortingArrayListNumber4);
+        }
+        if (ch5.isSelected()) {
+            resList.add(withoutSortingArrayListNumber5);
+        }
+        if (ch6.isSelected()) {
+            resList.add(withoutSortingArrayListNumber6);
+        }
+        return resList;
+    }
     //lab5:
     //Первинний статистичний аналіз
     public String firstStaticAnalizeForManyVibirokHelper(List<List<Double>> list) {

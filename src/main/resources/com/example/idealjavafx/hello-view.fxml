@@ -55,6 +55,14 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Дані">
                <items>
+                  <Menu mnemonicParsing="false" text="Додаткові опції">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#additionalZsuvAndLogarifm" text="Зсув і логарифмування" />
+                        <MenuItem mnemonicParsing="false" onAction="#additionalDeleteAnomal" text="Видалення аномальних значень" />
+                        <MenuItem mnemonicParsing="false" onAction="#additionalStardantization" text="Стандартизувати" />
+                        <MenuItem mnemonicParsing="false" onAction="#additionalForReturn" text="Повернути назад" />
+                     </items>
+                  </Menu>
                   <MenuItem mnemonicParsing="false" onAction="#showVarRowList" text="Варіаційний ряд" />
                   <MenuItem mnemonicParsing="false" onAction="#shownMainCharacteristic" text="Основні характеристики" />
                   <MenuItem mnemonicParsing="false" onAction="#showInitialTable" text="Вивести таблицю" />
@@ -138,18 +146,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#dataForLKoefKorilationVidnos" text="Коефіцієнт кореляційного відношення" />
                   <MenuItem mnemonicParsing="false" onAction="#dataForRangKorilation" text="Рангова кореляція" />
                   <MenuItem mnemonicParsing="false" onAction="#dataForSpolTable" text="Коефіцієнти сполучень таблиць" />
-                  <Menu mnemonicParsing="false" text="Додатково">
-                     <items>
-                        <Menu mnemonicParsing="false" text="Додаткові опції">
-                           <items>
-                              <MenuItem mnemonicParsing="false" onAction="#additionalLogarifm" text="Логарифмування" />
-                              <MenuItem mnemonicParsing="false" onAction="#additionalDeleteAnomal" text="Видалення аномальних значень" />
-                              <MenuItem mnemonicParsing="false" onAction="#additionalForReturn" text="Повернути назад" />
-                           </items>
-                        </Menu>
-                        <MenuItem mnemonicParsing="false" onAction="#additionalForSaving" text="Зберегти" />
-                     </items>
-                  </Menu>
                   <Menu mnemonicParsing="false" text="Регресія">
                      <items>
                         <Menu mnemonicParsing="false" text="Лінійна регресія">
