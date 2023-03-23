@@ -3,11 +3,14 @@ package com.example.idealjavafx;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javax.swing.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static com.example.idealjavafx.HelloController.*;
@@ -122,6 +125,7 @@ public class SecondHelper {
         }
         return resList;
     }
+
     //lab5:
     //Первинний статистичний аналіз
     public String firstStaticAnalizeForManyVibirokHelper(List<List<Double>> list) {
@@ -184,7 +188,7 @@ public class SecondHelper {
         tableView.getItems().clear();
         tableView.getColumns().clear();
 
-        int numColumns = array[0].length;
+        int numColumns = array[1].length;
         for (int i = 0; i < numColumns; i++) {
             TableColumn<ObservableList<String>, String> column = new TableColumn<>("");
             final int columnIndex = i;
@@ -195,18 +199,35 @@ public class SecondHelper {
         for (int i = 0; i < array.length; i++) {
             ObservableList<String> row = FXCollections.observableArrayList();
             for (int j = 0; j < array[i].length; j++) {
-                row.add(String.format("%.2f",array[i][j]));
+                row.add(String.format("%.2f", array[i][j]));
             }
             tableView.getItems().add(row);
         }
     }
 
-    public ArrayList<List<Double>> rewriteListsForSukupnist(List<List<Double>> list){
+    public ArrayList<List<Double>> rewriteListsForSukupnist(List<List<Double>> list) {
         var resultList = new ArrayList<List<Double>>();
-        for (List list1: list) {
+        for (List list1 : list) {
             resultList.add(new ArrayList<>(list1));
         }
         return resultList;
+    }
+
+    public double[][] returnArrayForManyVarRow(List<List<Double>> list) {
+        int numberOfClasses = (int) Math.cbrt(list.get(0).size());
+        double array[][] = new double[list.size()][numberOfClasses];
+
+        for (int i = 0; i < list.size(); i++) {
+            double h = (list.get(i).get(list.get(i).size() - 1) - list.get(i).get(0)) / numberOfClasses;
+            double start = list.get(i).get(0);
+            double finish = list.get(i).get(0) + h;
+            for (int j = 0; j < numberOfClasses; j++) {
+                array[i][j] = (start + finish) / 2;
+                start = finish;
+                finish += h;
+            }
+        }
+        return array;
     }
 
 }

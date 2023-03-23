@@ -1489,7 +1489,7 @@ public class HelloController {
     }
 
     @FXML
-    protected void additionalStardantization(){
+    protected void additionalStardantization() {
         SecondHelper secondHelper = new SecondHelper();
         var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         for (var list : listOfLists) {
@@ -1690,5 +1690,13 @@ public class HelloController {
         SecondHelper secondHelper = new SecondHelper();
         var listForR = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         secondHelper.showMatrixInTableView(tableView, MainFunction.findRForDuspKovMatrixForManyVibirok(listForR));
+    }
+
+    //багатовимірний варіаційний ряд
+    @FXML
+    protected void showVarRowForMany() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listForR = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        secondHelper.showMatrixInTableView(tableView, secondHelper.returnArrayForManyVarRow(listForR));
     }
 }
