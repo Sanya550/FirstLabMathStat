@@ -201,4 +201,12 @@ public class SecondHelper {
         }
     }
 
+    public ArrayList<List<Double>> rewriteListsForSukupnist(List<List<Double>> list){
+        var resultList = new ArrayList<List<Double>>();
+        for (List list1: list) {
+            resultList.add(new ArrayList<>(list1));
+        }
+        return resultList;
+    }
+
 }

@@ -41,14 +41,11 @@ public class HelloController {
     static ArrayList withoutSortingArrayListNumber4 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber5 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber6 = new ArrayList();
-    //for saving:
-    static ArrayList arrayListNumber1ForSave = new ArrayList();
-    static ArrayList arrayListNumber2ForSave = new ArrayList();
-    static ArrayList withoutSortingArrayListNumber1ForSave = new ArrayList();
-    static ArrayList withoutSortingArrayListNumber2ForSave = new ArrayList();
+
     //sukupnosti:
     static ArrayList<List<Double>> sukupnist1 = new ArrayList<>();
     static ArrayList<List<Double>> sukupnist2 = new ArrayList<>();
+
     static int forFileIndex = 1;
     static int numberOfClass;
     static double kvantil = 1.96;
@@ -1656,7 +1653,7 @@ public class HelloController {
     protected void addSukupnost1() {
         sukupnist1.clear();
         SecondHelper secondHelper = new SecondHelper();
-        sukupnist1 = (ArrayList<List<Double>>) secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        sukupnist1 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
         JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №1", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -1664,7 +1661,7 @@ public class HelloController {
     protected void addSukupnost2() {
         sukupnist2.clear();
         SecondHelper secondHelper = new SecondHelper();
-        sukupnist2 = (ArrayList<List<Double>>) secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        sukupnist2 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
         JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №2", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
