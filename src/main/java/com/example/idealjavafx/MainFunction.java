@@ -25,7 +25,6 @@ public class MainFunction {
     }
 
     //R для дисперсійно-коваріаційнії матриці
-    //todo: double-check this method
     public static double rForKovMatrix(List<Double> arr1, List<Double> arr2) {
         double tempResultSA1AndSA2 = 0;
         for (int i = 0; i < arr1.size(); i++) {

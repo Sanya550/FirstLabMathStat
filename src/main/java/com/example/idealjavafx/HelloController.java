@@ -8,11 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -21,9 +18,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HelloController {
     static ArrayList arrayList = new ArrayList();
@@ -43,9 +38,18 @@ public class HelloController {
     static ArrayList withoutSortingArrayListNumber5 = new ArrayList();
     static ArrayList withoutSortingArrayListNumber6 = new ArrayList();
 
+    //for saving:
+    static ArrayList savingListNumber1 = new ArrayList();
+    static ArrayList savingListNumber2 = new ArrayList();
+    static ArrayList savingListNumber3 = new ArrayList();
+    static ArrayList savingListNumber4 = new ArrayList();
+    static ArrayList savingListNumber5 = new ArrayList();
+    static ArrayList savingListNumber6 = new ArrayList();
+
     //sukupnosti:
     static ArrayList<List<Double>> sukupnist1 = new ArrayList<>();
     static ArrayList<List<Double>> sukupnist2 = new ArrayList<>();
+    static ArrayList<List<Double>> sukupnist3 = new ArrayList<>();
 
     static int forFileIndex = 1;
     static int numberOfClass;
@@ -438,6 +442,7 @@ public class HelloController {
                 for (String stringValue : listString) {
                     try {
                         arrayListNumber1.add(Double.parseDouble(stringValue));
+                        savingListNumber1.add(Double.parseDouble(stringValue));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
@@ -466,6 +471,8 @@ public class HelloController {
                     withoutSortingArrayListNumber1.add(arrayListNumber1.get(i));
                     arrayListGeneral.add(arrayListNumber2.get(i));
                     withoutSortingArrayListNumber2.add(arrayListNumber2.get(i));
+                    savingListNumber1.add(arrayListNumber2.get(i));
+                    savingListNumber2.add(arrayListNumber2.get(i));
                 }
                 for (int i = 0; i < arrayListGeneral.size(); i++) {
                     arrayList.add(arrayListGeneral.get(i));
@@ -497,6 +504,9 @@ public class HelloController {
                     withoutSortingArrayListNumber1.add(arrayListNumber1.get(i));
                     withoutSortingArrayListNumber2.add(arrayListNumber2.get(i));
                     withoutSortingArrayListNumber3.add(arrayListNumber3.get(i));
+                    savingListNumber1.add(arrayListNumber1.get(i));
+                    savingListNumber2.add(arrayListNumber2.get(i));
+                    savingListNumber3.add(arrayListNumber3.get(i));
                 }
                 for (int i = 0; i < arrayListGeneral.size(); i++) {
                     arrayList.add(arrayListGeneral.get(i));
@@ -561,8 +571,10 @@ public class HelloController {
                 for (int i = 0; i < arrayListNumber4.size(); i++) {
                     arrayListGeneral.add(arrayListNumber4.get(i));
                     withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
+                    savingListNumber4.add(arrayListNumber4.get(i));
                     arrayListGeneral.add(arrayListNumber5.get(i));
                     withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
+                    savingListNumber5.add(arrayListNumber5.get(i));
                 }
                 for (int i = 0; i < arrayListGeneral.size(); i++) {
                     arrayList.add(arrayListGeneral.get(i));
@@ -594,6 +606,9 @@ public class HelloController {
                     withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
                     withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
                     withoutSortingArrayListNumber6.add(arrayListNumber6.get(i));
+                    savingListNumber4.add(arrayListNumber4.get(i));
+                    savingListNumber5.add(arrayListNumber5.get(i));
+                    savingListNumber6.add(arrayListNumber6.get(i));
                 }
                 for (int i = 0; i < arrayListGeneral.size(); i++) {
                     arrayList.add(arrayListGeneral.get(i));
@@ -626,6 +641,12 @@ public class HelloController {
         withoutSortingArrayListNumber4.clear();
         withoutSortingArrayListNumber5.clear();
         withoutSortingArrayListNumber6.clear();
+        savingListNumber1.clear();
+        savingListNumber2.clear();
+        savingListNumber3.clear();
+        savingListNumber4.clear();
+        savingListNumber5.clear();
+        savingListNumber6.clear();
         JOptionPane.showMessageDialog(null, "Вибірки очишені");
     }
 
@@ -936,8 +957,10 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber1(ActionEvent event) {
         arrayList.clear();
+        savingListNumber1.clear();
         for (int i = 0; i < arrayListNumber1.size(); i++) {
             arrayList.add(arrayListNumber1.get(i));
+            arrayList.add(savingListNumber1.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №1. Розмір файлу:" + arrayListNumber1.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -949,8 +972,10 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber2(ActionEvent event) {
         arrayList.clear();
+        savingListNumber2.clear();
         for (int i = 0; i < arrayListNumber2.size(); i++) {
             arrayList.add(arrayListNumber2.get(i));
+            savingListNumber2.add(arrayListNumber2.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №2. Розмір файлу:" + arrayListNumber2.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -962,8 +987,10 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber3(ActionEvent event) {
         arrayList.clear();
+        savingListNumber3.clear();
         for (int i = 0; i < arrayListNumber3.size(); i++) {
             arrayList.add(arrayListNumber3.get(i));
+            savingListNumber3.add(arrayListNumber3.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №3.Розмір файлу:" + arrayListNumber3.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -975,8 +1002,10 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber4(ActionEvent event) {
         arrayList.clear();
+        savingListNumber4.clear();
         for (int i = 0; i < arrayListNumber4.size(); i++) {
             arrayList.add(arrayListNumber4.get(i));
+            savingListNumber4.add(arrayListNumber4.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №4.Розмір файлу:" + arrayListNumber4.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -988,8 +1017,10 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber5(ActionEvent event) {
         arrayList.clear();
+        savingListNumber5.clear();
         for (int i = 0; i < arrayListNumber5.size(); i++) {
             arrayList.add(arrayListNumber5.get(i));
+            savingListNumber5.add(arrayListNumber5.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №5.Розмір файлу:" + arrayListNumber5.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -1001,8 +1032,10 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber6(ActionEvent event) {
         arrayList.clear();
+        savingListNumber6.clear();
         for (int i = 0; i < arrayListNumber6.size(); i++) {
             arrayList.add(arrayListNumber6.get(i));
+            savingListNumber6.add(arrayListNumber6.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №6.Розмір файлу:" + arrayListNumber6.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -1480,11 +1513,15 @@ public class HelloController {
         SecondHelper secondHelper = new SecondHelper();
         var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listOfSaved = secondHelper.defineWhichCheckBoxCheckedForSaved(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         for (int i = 0; i < listOfLists.size(); i++) {
             ArrayList<Double> currentList = (ArrayList<Double>) listOfLists.get(i);
             ArrayList<Double> currentWithoutSortedList = (ArrayList<Double>) listOfWithoutSorted.get(i);
+            ArrayList<Double> currentSaved = (ArrayList<Double>) listOfSaved.get(i);
             currentList.clear();
-            currentList.addAll(currentWithoutSortedList);
+            currentWithoutSortedList.clear();
+            currentWithoutSortedList.addAll(currentSaved);
+            currentList.addAll(currentSaved);
             currentList.sort(Comparator.naturalOrder());
         }
 
@@ -1496,7 +1533,13 @@ public class HelloController {
     protected void additionalStardantization() {
         SecondHelper secondHelper = new SecondHelper();
         var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         for (var list : listOfLists) {
+            double resultSA = MainFunction.matSpodivan(list);
+            double serKva = MainFunction.serKva(list);
+            list.replaceAll(a -> (a - resultSA) / serKva);
+        }
+        for (var list : listOfWithoutSorted) {
             double resultSA = MainFunction.matSpodivan(list);
             double serKva = MainFunction.serKva(list);
             list.replaceAll(a -> (a - resultSA) / serKva);
@@ -1509,8 +1552,12 @@ public class HelloController {
     protected void additionalDeleteAnomal() {
         alfaForAnomalData = Double.parseDouble(anomalStr.getText());
         SecondHelper secondHelper = new SecondHelper();
+        var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         for (var list : listOfLists) {
+            SecondHelper.deleteAnomalValue(list);
+        }
+        for (var list : listOfWithoutSorted) {
             SecondHelper.deleteAnomalValue(list);
         }
         JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
@@ -1520,7 +1567,12 @@ public class HelloController {
     protected void additionalZsuvAndLogarifm(ActionEvent event) {
         SecondHelper secondHelper = new SecondHelper();
         var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         for (var list : listOfLists) {
+            double modulMin = Math.abs(list.get(0));
+            list.replaceAll(a -> Math.log(a + modulMin + 0.01) + modulMin + 0.01);
+        }
+        for (var list : listOfWithoutSorted) {
             double modulMin = Math.abs(list.get(0));
             list.replaceAll(a -> Math.log(a + modulMin + 0.01) + modulMin + 0.01);
         }
@@ -1661,7 +1713,7 @@ public class HelloController {
     protected void addSukupnost1() {
         sukupnist1.clear();
         SecondHelper secondHelper = new SecondHelper();
-        sukupnist1 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
+        sukupnist1 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
         JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №1", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -1669,8 +1721,16 @@ public class HelloController {
     protected void addSukupnost2() {
         sukupnist2.clear();
         SecondHelper secondHelper = new SecondHelper();
-        sukupnist2 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
+        sukupnist2 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
         JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №2", "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    protected void addSukupnost3() {
+        sukupnist3.clear();
+        SecondHelper secondHelper = new SecondHelper();
+        sukupnist3 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
+        JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №3", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
     //Перевірка збігу параметрів
@@ -1688,7 +1748,7 @@ public class HelloController {
     @FXML
     protected void dkMatrix() {
         SecondHelper secondHelper = new SecondHelper();
-        var listForDC = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listForDC = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         secondHelper.showMatrixInTableView(tableView, MainFunction.findDCForDuspKovMatrixForManyVibirok(listForDC));
     }
 
@@ -1696,7 +1756,7 @@ public class HelloController {
     @FXML
     protected void koreliationMatrix() {
         SecondHelper secondHelper = new SecondHelper();
-        var listForR = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listForR = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         secondHelper.showMatrixInTableView(tableView, MainFunction.findRForDuspKovMatrixForManyVibirok(listForR));
     }
 

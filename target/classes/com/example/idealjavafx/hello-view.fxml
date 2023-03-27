@@ -176,6 +176,7 @@
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#addSukupnost1" text="Додати сукупність 1" />
                         <MenuItem mnemonicParsing="false" onAction="#addSukupnost2" text="Додати сукупність 2" />
+                        <MenuItem mnemonicParsing="false" onAction="#addSukupnost3" text="Додати сукупність 3" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Матриці">

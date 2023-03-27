@@ -123,6 +123,29 @@ public class SecondHelper {
         return resList;
     }
 
+    public List<List<Double>> defineWhichCheckBoxCheckedForSaved(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6) {
+        List<List<Double>> resList = new ArrayList<>();
+        if (ch1.isSelected()) {
+            resList.add(savingListNumber1);
+        }
+        if (ch2.isSelected()) {
+            resList.add(savingListNumber2);
+        }
+        if (ch3.isSelected()) {
+            resList.add(savingListNumber3);
+        }
+        if (ch4.isSelected()) {
+            resList.add(savingListNumber4);
+        }
+        if (ch5.isSelected()) {
+            resList.add(savingListNumber5);
+        }
+        if (ch6.isSelected()) {
+            resList.add(savingListNumber6);
+        }
+        return resList;
+    }
+
     //lab5:
     //Первинний статистичний аналіз
     public String firstStaticAnalizeForManyVibirokHelper(List<List<Double>> list) {
@@ -159,6 +182,12 @@ public class SecondHelper {
         double determinationS0 = MainFunction.findDetermination(MainFunction.findDCForDuspKovMatrixForManyVibirok(list1));
         double determinationS1 = MainFunction.findDetermination(MainFunction.findDCForDuspKovMatrixForManyVibirok(list2));
         //todo: //(list1.size() + list2.size()) / 2 = n/2
+        // n - количество выборок
+        // не сортировать
+        //Nd = 500;
+        //x_ = 3 мат сподіван
+        //Xl - 500 штук
+        //xd - матрица из мат спов сукупностей 2 x 3
         String str = "Рівність двох багатовимірних середніх у разі рівних ДК матриць:\n";
         double v1 = -(list1.size() + list2.size() - 2 - (list1.size() + list2.size()) / 2)
                 * Math.log(Math.abs(determinationS1 / determinationS0));
