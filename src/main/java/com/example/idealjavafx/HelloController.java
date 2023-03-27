@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -61,6 +62,7 @@ public class HelloController {
     static double aForT = 0;
     static double bForT = 0;
     static double cForT = 0;
+    static double alfaForAnomalData = 0;
 
     @FXML
     private TextField stringOfNumberOfClasses;
@@ -122,6 +124,8 @@ public class HelloController {
     private TextField maxRegressia;
     @FXML
     private TextField duspersiaRegressia;
+    @FXML
+    private TextField anomalStr;
 
     //звичайні графіки:
     @FXML
@@ -1502,9 +1506,13 @@ public class HelloController {
 
 
     @FXML
-    protected void additionalDeleteAnomal(ActionEvent event) {
-        //Helper.returnTwoListForDvomirnixVibirok(arrayListNumber1, arrayListNumber2, arrayListNumber3, withoutSortingArrayListNumber1, withoutSortingArrayListNumber2, withoutSortingArrayListNumber3, listForDvomirnixVibirok);
-        //todo: need updates!!!!!!!!!!!!!!!
+    protected void additionalDeleteAnomal() {
+        alfaForAnomalData = Double.parseDouble(anomalStr.getText());
+        SecondHelper secondHelper = new SecondHelper();
+        var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        for (var list : listOfLists) {
+            SecondHelper.deleteAnomalValue(list);
+        }
         JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 

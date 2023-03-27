@@ -3,14 +3,11 @@ package com.example.idealjavafx;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javax.swing.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static com.example.idealjavafx.HelloController.*;
@@ -230,4 +227,32 @@ public class SecondHelper {
         return array;
     }
 
+
+    //NOTE: it can hurt on other process
+    public static void deleteAnomalValue(List<Double> list) {
+        var numOfClass = (int) Math.cbrt(list.size());
+        int size = list.size();
+        double lastElement = list.get(size - 1);
+        int frequency = 0;
+        double step = (list.get(size - 1) - list.get(0)) / numOfClass;
+        double start = list.get(0);
+        double end = list.get(0) + step;
+        List<Double> rubish = new ArrayList<>();
+        while (lastElement > start) {
+            for (Double value : list) {
+                if (value >= start && value < end) {
+                    frequency++;
+                    rubish.add(value);
+                }
+            }
+
+            if ((double)frequency/size <= alfaForAnomalData) {
+                list.removeAll(rubish);
+            }
+            start = end;
+            end += step;
+            rubish.clear();
+            frequency = 0;
+        }
+    }
 }

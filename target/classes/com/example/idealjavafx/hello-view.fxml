@@ -178,14 +178,15 @@
                         <MenuItem mnemonicParsing="false" onAction="#addSukupnost2" text="Додати сукупність 2" />
                      </items>
                   </Menu>
-                  <MenuItem mnemonicParsing="false" onAction="#firstStaticAnalizeForManyVibirok" text="Середні" />
-                  <MenuItem mnemonicParsing="false" onAction="#checkParametersOfSukupnists" text="Перевірка збігу параметрів" />
                   <Menu mnemonicParsing="false" text="Матриці">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#dkMatrix" text="ДК матриця" />
                         <MenuItem mnemonicParsing="false" onAction="#koreliationMatrix" text="Кореляційна матриця" />
                      </items>
                   </Menu>
+                  <MenuItem mnemonicParsing="false" onAction="#firstStaticAnalizeForManyVibirok" text="Середні" />
+                  <MenuItem mnemonicParsing="false" onAction="#checkParametersOfSukupnists" text="Перевірка збігу параметрів" />
+                  <MenuItem mnemonicParsing="false" onAction="#showVarRowForMany" text="Багатовимірний варіаційний ряд" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">
@@ -249,6 +250,8 @@
                               <TextField fx:id="duspersiaRegressia" layoutX="411.0" layoutY="115.0" prefHeight="8.0" prefWidth="30.0" />
                               <Text layoutX="379.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dus = " />
                               <CheckBox fx:id="checkBox6" layoutX="174.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="6" />
+                              <Text layoutX="7.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="anomal =" wrappingWidth="53.99999991059303" />
+                              <TextField fx:id="anomalStr" layoutX="61.0" layoutY="137.0" prefHeight="25.0" prefWidth="62.0" text="0.005" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">
