@@ -1749,7 +1749,7 @@ public class HelloController {
     protected void dkMatrix() {
         SecondHelper secondHelper = new SecondHelper();
         var listForDC = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        secondHelper.showMatrixInTableView(tableView, MainFunction.findDCForDuspKovMatrixForManyVibirok(listForDC));
+        secondHelper.showMatrixInTableViewViaArray(tableView, MainFunction.findDCForDuspKovMatrixForManyVibirok(listForDC));
     }
 
     //кореляційна матриця
@@ -1757,14 +1757,21 @@ public class HelloController {
     protected void koreliationMatrix() {
         SecondHelper secondHelper = new SecondHelper();
         var listForR = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        secondHelper.showMatrixInTableView(tableView, MainFunction.findRForDuspKovMatrixForManyVibirok(listForR));
+        secondHelper.showMatrixInTableViewViaArray(tableView, MainFunction.findRForDuspKovMatrixForManyVibirok(listForR));
     }
 
     //багатовимірний варіаційний ряд
     @FXML
     protected void showVarRowForMany() {
         SecondHelper secondHelper = new SecondHelper();
+        var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        secondHelper.showVarRowForManyVibirok(tableView, list);
+    }
+
+    @FXML
+    protected void showTableForMany(){
+        SecondHelper secondHelper = new SecondHelper();
         var listForR = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        secondHelper.showMatrixInTableView(tableView, secondHelper.returnArrayForManyVarRow(listForR));
+        secondHelper.showMatrixInTableViewViaArray(tableView, secondHelper.returnArrayForManyVarRow(listForR));
     }
 }

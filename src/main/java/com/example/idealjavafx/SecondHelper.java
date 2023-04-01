@@ -1,6 +1,7 @@
 package com.example.idealjavafx;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
@@ -8,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javax.swing.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static com.example.idealjavafx.HelloController.*;
@@ -210,7 +212,7 @@ public class SecondHelper {
     }
 
     //відображення матриці в TableView
-    public void showMatrixInTableView(TableView tableView, double[][] array) {
+    public void showMatrixInTableViewViaArray(TableView tableView, double[][] array) {
         tableView.getItems().clear();
         tableView.getColumns().clear();
 
@@ -258,6 +260,7 @@ public class SecondHelper {
 
 
     //NOTE: it can hurt on other process
+    //todo: нужно уровнять(выборки должны быть одного размера)
     public static void deleteAnomalValue(List<Double> list) {
         var numOfClass = (int) Math.cbrt(list.size());
         int size = list.size();
@@ -275,13 +278,367 @@ public class SecondHelper {
                 }
             }
 
-            if ((double)frequency/size <= alfaForAnomalData) {
+            if ((double) frequency / size <= alfaForAnomalData) {
                 list.removeAll(rubish);
             }
             start = end;
             end += step;
             rubish.clear();
             frequency = 0;
+        }
+    }
+
+    public void showVarRowForManyVibirok(TableView tableView, List<List<Double>> list) {
+        int sizeOfList = list.size();
+        int numOfClass = (int) Math.cbrt(list.get(0).size());
+        double array[][] = new double[(int) Math.pow(numOfClass, sizeOfList)][2 + sizeOfList];
+        LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
+        if (sizeOfList == 0 || sizeOfList == 1 || sizeOfList == 2) {
+            JOptionPane.showMessageDialog(null, "Виберіть що найменше три вибірки в багатовимірному режимі", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (sizeOfList == 3) {
+            var sortedListX = new ArrayList<Double>();
+            var sortedListY = new ArrayList<Double>();
+            var sortedListZ = new ArrayList<Double>();
+
+            var dots = new ArrayList<List<Double>>();
+            for (int i = 0; i < list.get(0).size(); i++) {
+                var tempList = new ArrayList<Double>();
+                tempList.add(list.get(0).get(i));
+                tempList.add(list.get(1).get(i));
+                tempList.add(list.get(2).get(i));
+                sortedListX.add(list.get(0).get(i));
+                sortedListY.add(list.get(1).get(i));
+                sortedListZ.add(list.get(2).get(i));
+                dots.add(new ArrayList<>(tempList));
+                tempList.clear();
+            }
+            sortedListX.sort(Comparator.naturalOrder());
+            sortedListY.sort(Comparator.naturalOrder());
+            sortedListZ.sort(Comparator.naturalOrder());
+
+            double stepX = (sortedListX.get(sortedListX.size() - 1) - sortedListX.get(0)) / numOfClass;
+            double stepY = (sortedListY.get(sortedListY.size() - 1) - sortedListY.get(0)) / numOfClass;
+            double stepZ = (sortedListZ.get(sortedListZ.size() - 1) - sortedListZ.get(0)) / numOfClass;
+            double rangeStartForX = sortedListX.get(0);
+            double rangeEndForX = rangeStartForX + stepX;
+            double rangeStartForY = sortedListY.get(0);
+            double rangeEndForY = rangeStartForY + stepY;
+            double rangeStartForZ = sortedListZ.get(0);
+            double rangeEndForZ = rangeStartForZ + stepZ;
+            var tempOfFrequency = 0;
+            for (int x = 0; x < numOfClass; x++) {//x
+                for (int y = 0; y < numOfClass; y++) {//y
+                    for (int z = 0; z < numOfClass; z++) {//z
+                        for (int index = 0; index < dots.size(); index++) {
+                            if (dots.get(index).get(0) < rangeEndForX && dots.get(index).get(0) > rangeStartForX &&
+                                    dots.get(index).get(1) < rangeEndForY && dots.get(index).get(1) > rangeStartForY &&
+                                    dots.get(index).get(2) < rangeEndForZ && dots.get(index).get(2) > rangeStartForZ) {
+                                tempOfFrequency++;
+                            }
+                            if (index == dots.size() - 1) {
+                                //обновляем Z
+                                linkedHashMap.put(String.format("%d, %d, %d", x + 1, y + 1, z + 1), String.format("(%d, %.3f)", tempOfFrequency, (double)tempOfFrequency / sortedListX.size()));
+                                tempOfFrequency = 0;
+                                rangeStartForZ = rangeEndForZ;
+                                rangeEndForZ += stepZ;
+                            }
+                        }
+                    }
+                    //обновляем Y и возвращаем Z
+                    rangeStartForY = rangeEndForY;
+                    rangeEndForY += stepY;
+                    rangeStartForZ = sortedListZ.get(0);
+                    rangeEndForZ = rangeStartForZ + stepZ;
+                }
+                //обновляем X и возвращаем Y
+                rangeStartForX = rangeEndForX;
+                rangeEndForX += stepX;
+                rangeStartForY = sortedListY.get(0);
+                rangeStartForY = rangeStartForY + stepY;
+            }
+        } else if (sizeOfList == 4) {
+            var sortedListK = new ArrayList<Double>();
+            var sortedListX = new ArrayList<Double>();
+            var sortedListY = new ArrayList<Double>();
+            var sortedListZ = new ArrayList<Double>();
+
+            var dots = new ArrayList<List<Double>>();
+            for (int i = 0; i < list.get(0).size(); i++) {
+                var tempList = new ArrayList<Double>();
+                tempList.add(list.get(0).get(i));
+                tempList.add(list.get(1).get(i));
+                tempList.add(list.get(2).get(i));
+                tempList.add(list.get(3).get(i));
+                sortedListK.add(list.get(0).get(i));
+                sortedListX.add(list.get(1).get(i));
+                sortedListY.add(list.get(2).get(i));
+                sortedListZ.add(list.get(3).get(i));
+                dots.add(new ArrayList<>(tempList));
+                tempList.clear();
+            }
+            sortedListK.sort(Comparator.naturalOrder());
+            sortedListX.sort(Comparator.naturalOrder());
+            sortedListY.sort(Comparator.naturalOrder());
+            sortedListZ.sort(Comparator.naturalOrder());
+
+            double stepK = (sortedListK.get(sortedListK.size() - 1) - sortedListK.get(0)) / numOfClass;
+            double stepX = (sortedListX.get(sortedListX.size() - 1) - sortedListX.get(0)) / numOfClass;
+            double stepY = (sortedListY.get(sortedListY.size() - 1) - sortedListY.get(0)) / numOfClass;
+            double stepZ = (sortedListZ.get(sortedListZ.size() - 1) - sortedListZ.get(0)) / numOfClass;
+            double rangeStartForK = sortedListK.get(0);
+            double rangeEndForK = rangeStartForK + stepK;
+            double rangeStartForX = sortedListX.get(0);
+            double rangeEndForX = rangeStartForX + stepX;
+            double rangeStartForY = sortedListY.get(0);
+            double rangeEndForY = rangeStartForY + stepY;
+            double rangeStartForZ = sortedListZ.get(0);
+            double rangeEndForZ = rangeStartForZ + stepZ;
+            var tempOfFrequency = 0;
+            for (int k = 0; k < numOfClass; k++) {//k
+                for (int x = 0; x < numOfClass; x++) {//x
+                    for (int y = 0; y < numOfClass; y++) {//y
+                        for (int z = 0; z < numOfClass; z++) {//z
+                            for (int index = 0; index < dots.size(); index++) {
+                                if (dots.get(index).get(0) < rangeEndForK && dots.get(index).get(0) > rangeStartForK &&
+                                        dots.get(index).get(1) < rangeEndForX && dots.get(index).get(1) > rangeStartForX &&
+                                        dots.get(index).get(2) < rangeEndForY && dots.get(index).get(2) > rangeStartForY &&
+                                        dots.get(index).get(3) < rangeEndForZ && dots.get(index).get(3) > rangeStartForZ) {
+                                    tempOfFrequency++;
+                                }
+                                if (index == dots.size() - 1) {
+                                    //обновляем Z
+                                    linkedHashMap.put(String.format("%d, %d, %d, %d", k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", tempOfFrequency, (double)tempOfFrequency / sortedListX.size()));
+                                    tempOfFrequency = 0;
+                                    rangeStartForZ = rangeEndForZ;
+                                    rangeEndForZ += stepZ;
+                                }
+                            }
+                        }
+                        //обновляем Y и возвращаем Z
+                        rangeStartForY = rangeEndForY;
+                        rangeEndForY += stepY;
+                        rangeStartForZ = sortedListZ.get(0);
+                        rangeEndForZ = rangeStartForZ + stepZ;
+                    }
+                    //обновляем X и возвращаем Y
+                    rangeStartForX = rangeEndForX;
+                    rangeEndForX += stepX;
+                    rangeStartForY = sortedListY.get(0);
+                    rangeStartForY = rangeStartForY + stepY;
+                }
+                rangeStartForK = rangeEndForK;
+                rangeEndForK += stepK;
+                rangeStartForX = sortedListX.get(0);
+                rangeStartForX = rangeStartForX + stepX;
+            }
+        } else if (sizeOfList == 5) {
+            var sortedListP = new ArrayList<Double>();
+            var sortedListK = new ArrayList<Double>();
+            var sortedListX = new ArrayList<Double>();
+            var sortedListY = new ArrayList<Double>();
+            var sortedListZ = new ArrayList<Double>();
+
+            var dots = new ArrayList<List<Double>>();
+            for (int i = 0; i < list.get(0).size(); i++) {
+                var tempList = new ArrayList<Double>();
+                tempList.add(list.get(0).get(i));
+                tempList.add(list.get(1).get(i));
+                tempList.add(list.get(2).get(i));
+                tempList.add(list.get(3).get(i));
+                tempList.add(list.get(4).get(i));
+                sortedListP.add(list.get(0).get(i));
+                sortedListK.add(list.get(1).get(i));
+                sortedListX.add(list.get(2).get(i));
+                sortedListY.add(list.get(3).get(i));
+                sortedListZ.add(list.get(4).get(i));
+                dots.add(new ArrayList<>(tempList));
+                tempList.clear();
+            }
+            sortedListP.sort(Comparator.naturalOrder());
+            sortedListK.sort(Comparator.naturalOrder());
+            sortedListX.sort(Comparator.naturalOrder());
+            sortedListY.sort(Comparator.naturalOrder());
+            sortedListZ.sort(Comparator.naturalOrder());
+
+            double stepP = (sortedListP.get(sortedListP.size() - 1) - sortedListP.get(0)) / numOfClass;
+            double stepK = (sortedListK.get(sortedListK.size() - 1) - sortedListK.get(0)) / numOfClass;
+            double stepX = (sortedListX.get(sortedListX.size() - 1) - sortedListX.get(0)) / numOfClass;
+            double stepY = (sortedListY.get(sortedListY.size() - 1) - sortedListY.get(0)) / numOfClass;
+            double stepZ = (sortedListZ.get(sortedListZ.size() - 1) - sortedListZ.get(0)) / numOfClass;
+            double rangeStartForP = sortedListP.get(0);
+            double rangeEndForP = rangeStartForP + stepP;
+            double rangeStartForK = sortedListK.get(0);
+            double rangeEndForK = rangeStartForK + stepK;
+            double rangeStartForX = sortedListX.get(0);
+            double rangeEndForX = rangeStartForX + stepX;
+            double rangeStartForY = sortedListY.get(0);
+            double rangeEndForY = rangeStartForY + stepY;
+            double rangeStartForZ = sortedListZ.get(0);
+            double rangeEndForZ = rangeStartForZ + stepZ;
+            var tempOfFrequency = 0;
+            for (int p = 0; p < numOfClass; p++) {//p
+                for (int k = 0; k < numOfClass; k++) {//k
+                    for (int x = 0; x < numOfClass; x++) {//x
+                        for (int y = 0; y < numOfClass; y++) {//y
+                            for (int z = 0; z < numOfClass; z++) {//z
+                                for (int index = 0; index < dots.size(); index++) {
+                                    if (dots.get(index).get(0) < rangeEndForP && dots.get(index).get(0) > rangeStartForP &&
+                                            dots.get(index).get(1) < rangeEndForK && dots.get(index).get(1) > rangeStartForK &&
+                                            dots.get(index).get(2) < rangeEndForX && dots.get(index).get(2) > rangeStartForX &&
+                                            dots.get(index).get(3) < rangeEndForY && dots.get(index).get(3) > rangeStartForY &&
+                                            dots.get(index).get(4) < rangeEndForZ && dots.get(index).get(4) > rangeStartForZ) {
+                                        tempOfFrequency++;
+                                    }
+                                    if (index == dots.size() - 1) {
+                                        //обновляем Z
+                                        linkedHashMap.put(String.format("%d, %d, %d, %d, %d",p+1, k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", (double)tempOfFrequency, tempOfFrequency / sortedListX.size()));
+                                        tempOfFrequency = 0;
+                                        rangeStartForZ = rangeEndForZ;
+                                        rangeEndForZ += stepZ;
+                                    }
+                                }
+                            }
+                            //обновляем Y и возвращаем Z
+                            rangeStartForY = rangeEndForY;
+                            rangeEndForY += stepY;
+                            rangeStartForZ = sortedListZ.get(0);
+                            rangeEndForZ = rangeStartForZ + stepZ;
+                        }
+                        //обновляем X и возвращаем Y
+                        rangeStartForX = rangeEndForX;
+                        rangeEndForX += stepX;
+                        rangeStartForY = sortedListY.get(0);
+                        rangeStartForY = rangeStartForY + stepY;
+                    }
+                    rangeStartForK = rangeEndForK;
+                    rangeEndForK += stepK;
+                    rangeStartForX = sortedListX.get(0);
+                    rangeStartForX = rangeStartForX + stepX;
+                }
+                rangeStartForP = rangeEndForP;
+                rangeEndForP += stepP;
+                rangeStartForK = sortedListK.get(0);
+                rangeStartForK = rangeStartForK + stepK;
+            }
+        } else if (sizeOfList == 6) {
+            var sortedListL = new ArrayList<Double>();
+            var sortedListP = new ArrayList<Double>();
+            var sortedListK = new ArrayList<Double>();
+            var sortedListX = new ArrayList<Double>();
+            var sortedListY = new ArrayList<Double>();
+            var sortedListZ = new ArrayList<Double>();
+
+            var dots = new ArrayList<List<Double>>();
+            for (int i = 0; i < list.get(0).size(); i++) {
+                var tempList = new ArrayList<Double>();
+                tempList.add(list.get(0).get(i));
+                tempList.add(list.get(1).get(i));
+                tempList.add(list.get(2).get(i));
+                tempList.add(list.get(3).get(i));
+                tempList.add(list.get(4).get(i));
+                tempList.add(list.get(5).get(i));
+                sortedListL.add(list.get(0).get(i));
+                sortedListP.add(list.get(1).get(i));
+                sortedListK.add(list.get(2).get(i));
+                sortedListX.add(list.get(3).get(i));
+                sortedListY.add(list.get(4).get(i));
+                sortedListZ.add(list.get(5).get(i));
+                dots.add(new ArrayList<>(tempList));
+                tempList.clear();
+            }
+            sortedListL.sort(Comparator.naturalOrder());
+            sortedListP.sort(Comparator.naturalOrder());
+            sortedListK.sort(Comparator.naturalOrder());
+            sortedListX.sort(Comparator.naturalOrder());
+            sortedListY.sort(Comparator.naturalOrder());
+            sortedListZ.sort(Comparator.naturalOrder());
+
+            double stepL = (sortedListL.get(sortedListL.size() - 1) - sortedListL.get(0)) / numOfClass;
+            double stepP = (sortedListP.get(sortedListP.size() - 1) - sortedListP.get(0)) / numOfClass;
+            double stepK = (sortedListK.get(sortedListK.size() - 1) - sortedListK.get(0)) / numOfClass;
+            double stepX = (sortedListX.get(sortedListX.size() - 1) - sortedListX.get(0)) / numOfClass;
+            double stepY = (sortedListY.get(sortedListY.size() - 1) - sortedListY.get(0)) / numOfClass;
+            double stepZ = (sortedListZ.get(sortedListZ.size() - 1) - sortedListZ.get(0)) / numOfClass;
+            double rangeStartForL = sortedListL.get(0);
+            double rangeEndForL = rangeStartForL + stepL;
+            double rangeStartForP = sortedListP.get(0);
+            double rangeEndForP = rangeStartForP + stepP;
+            double rangeStartForK = sortedListK.get(0);
+            double rangeEndForK = rangeStartForK + stepK;
+            double rangeStartForX = sortedListX.get(0);
+            double rangeEndForX = rangeStartForX + stepX;
+            double rangeStartForY = sortedListY.get(0);
+            double rangeEndForY = rangeStartForY + stepY;
+            double rangeStartForZ = sortedListZ.get(0);
+            double rangeEndForZ = rangeStartForZ + stepZ;
+            var tempOfFrequency = 0;
+            for (int l = 0; l < numOfClass; l++) {//l
+                for (int p = 0; p < numOfClass; p++) {//p
+                    for (int k = 0; k < numOfClass; k++) {//k
+                        for (int x = 0; x < numOfClass; x++) {//x
+                            for (int y = 0; y < numOfClass; y++) {//y
+                                for (int z = 0; z < numOfClass; z++) {//z
+                                    for (int index = 0; index < dots.size(); index++) {
+                                        if (dots.get(index).get(0) < rangeEndForL && dots.get(index).get(0) > rangeStartForL &&
+                                                dots.get(index).get(1) < rangeEndForP && dots.get(index).get(1) > rangeStartForP &&
+                                                dots.get(index).get(2) < rangeEndForK && dots.get(index).get(2) > rangeStartForK &&
+                                                dots.get(index).get(3) < rangeEndForX && dots.get(index).get(3) > rangeStartForX &&
+                                                dots.get(index).get(4) < rangeEndForY && dots.get(index).get(4) > rangeStartForY &&
+                                                dots.get(index).get(5) < rangeEndForZ && dots.get(index).get(5) > rangeStartForZ) {
+                                            tempOfFrequency++;
+                                        }
+                                        if (index == dots.size() - 1) {
+                                            //обновляем Z
+                                            linkedHashMap.put(String.format("%d, %d, %d, %d, %d, %d",l+1, p + 1, k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", (double)tempOfFrequency, tempOfFrequency / sortedListX.size()));
+                                            tempOfFrequency = 0;
+                                            rangeStartForZ = rangeEndForZ;
+                                            rangeEndForZ += stepZ;
+                                        }
+                                    }
+                                }
+                                //обновляем Y и возвращаем Z
+                                rangeStartForY = rangeEndForY;
+                                rangeEndForY += stepY;
+                                rangeStartForZ = sortedListZ.get(0);
+                                rangeEndForZ = rangeStartForZ + stepZ;
+                            }
+                            //обновляем X и возвращаем Y
+                            rangeStartForX = rangeEndForX;
+                            rangeEndForX += stepX;
+                            rangeStartForY = sortedListY.get(0);
+                            rangeStartForY += rangeStartForY + stepY;
+                        }
+                        rangeStartForK = rangeEndForK;
+                        rangeEndForK += stepK;
+                        rangeStartForX = sortedListX.get(0);
+                        rangeStartForX = rangeStartForX + stepX;
+                    }
+                    rangeStartForP = rangeEndForP;
+                    rangeEndForP += stepP;
+                    rangeStartForK = sortedListK.get(0);
+                    rangeStartForK = rangeStartForK + stepK;
+                }
+                rangeStartForL = rangeEndForL;
+                rangeEndForL += stepL;
+                rangeStartForP = sortedListP.get(0);
+                rangeStartForP = rangeStartForP + stepP;
+            }
+        }
+
+        //filling table
+        if(!linkedHashMap.isEmpty()) {
+            tableView.getItems().clear();
+            tableView.getColumns().clear();
+
+            TableColumn<Map.Entry<String, String>, String> string1Column = new TableColumn<>("Індекси");
+            string1Column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKey()));
+
+            TableColumn<Map.Entry<String, String>, String> string2Column = new TableColumn<>("Значення(n, p)");
+            string2Column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue()));
+            tableView.getColumns().add(string1Column);
+            tableView.getColumns().add(string2Column);
+            ObservableList<Map.Entry<String, String>> data = FXCollections.observableArrayList(linkedHashMap.entrySet());
+            tableView.setItems(data);
         }
     }
 }
