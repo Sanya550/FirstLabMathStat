@@ -9,13 +9,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javax.swing.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static com.example.idealjavafx.HelloController.*;
 
 //Helper from 5 lab
 public class SecondHelper {
+    private double pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1 = 7.8;//should be deleted
+    private double pohibkaForcheckParametersOfSukupnistsHelperForFirstNum2 = 12.6;//should be deleted
 
     public void showInitialTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, TableView tableView) {
         var list = new ArrayList<ArrayList<Double>>();
@@ -175,40 +176,191 @@ public class SecondHelper {
     //Перевірка збігу параметрів
     //todo: needs updates
     public String checkParametersOfSukupnistsHelper(List<List<Double>> list1, List<List<Double>> list2) {
-        List<ArrayList<Double>> tempList = new ArrayList<>();
-        for (int i = 0; i < list1.size(); i++) {
-            tempList.add((ArrayList<Double>) list1.get(i));
+        if (list1.isEmpty() || list2.isEmpty()) {
+            return "Error! list1 and list2 cannot be empty";
+        } else {
+            String str = checkParametersOfSukupnistsHelperForFirst(list1, list2);
+            str += checkParametersOfSukupnistsHelperForSecondAndThird(list1, list2);
+            return str;
+        }
+    }
+
+    //method for checkParametersOfSukupnistsHelper
+    private String checkParametersOfSukupnistsHelperForFirst(List<List<Double>> list1, List<List<Double>> list2) {
+        int generalN = 2;//quantity of sukupnist
+        double[][] dc0 = MainFunction.findDCForDuspKovMatrixForManyVibirok(list1);
+        double[][] dc1 = MainFunction.findDCForDuspKovMatrixForManyVibirok(list2);
+        double n0 = list1.size();
+        double n1 = list2.size();
+        double s0[][] = new double[dc0.length][dc0.length];
+        double s1[][] = new double[dc1.length][dc1.length];
+
+        for (int i = 0; i < dc0.length; i++) {
+            for (int j = 0; j < dc0.length; j++) {
+                s0[i][j] = findValueForSValue(i, j, dc0, dc1, n0, n1).get(0);
+            }
         }
 
+        for (int i = 0; i < dc1.length; i++) {
+            for (int j = 0; j < dc1.length; j++) {
+                s1[i][j] = findValueForSValue(i, j, dc0, dc1, n0, n1).get(1);
+            }
+        }
 
-        double determinationS0 = MainFunction.findDetermination(MainFunction.findDCForDuspKovMatrixForManyVibirok(list1));
-        double determinationS1 = MainFunction.findDetermination(MainFunction.findDCForDuspKovMatrixForManyVibirok(list2));
-        //todo: //(list1.size() + list2.size()) / 2 = n/2
-        // n - количество выборок
-        // не сортировать
-        //Nd = 500;
-        //x_ = 3 мат сподіван
-        //Xl - 500 штук
-        //xd - матрица из мат спов сукупностей 2 x 3
+        double v = -(n0 + n1 - 2 - generalN) * Math.log(Math.abs(MainFunction.findDetermination(s0) / MainFunction.findDetermination(s1)));
         String str = "Рівність двох багатовимірних середніх у разі рівних ДК матриць:\n";
-        double v1 = -(list1.size() + list2.size() - 2 - (list1.size() + list2.size()) / 2)
-                * Math.log(Math.abs(determinationS1 / determinationS0));
-        str += String.format("V = %.2f, ", v1);
+        str += String.format("V = %.3f, ", Math.abs(v));
 
-        if (Helper.koefForBartletAndKohrena(tempList) >= v1) {
+        if (pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1 >= Math.abs(v)) {
+            str += "нульову гіпотезу підтверджено.\n";
+        } else {
+            str += "нульову гіпотезу відхилено.\n";
+        }
+        return str;
+    }
+
+    //method for checkParametersOfSukupnistsHelper
+    private String checkParametersOfSukupnistsHelperForSecondAndThird(List<List<Double>> list1, List<List<Double>> list2) {
+        int generalN = 2;//quantity of sukupnist
+        List<List<Double>> xl1 = new ArrayList<>();
+        List<List<Double>> xl2 = new ArrayList<>();
+        List<Double> x_d1 = new ArrayList<>();
+        List<Double> x_d2 = new ArrayList<>();
+        int numLists1 = list1.size();
+        int numElements1 = list1.get(0).size();
+        int numLists2 = list2.size();
+        int numElements2 = list2.get(0).size();
+        for (int i = 0; i < numElements1; i++) {
+            xl1.add(new ArrayList<>());
+        }
+        for (int i = 0; i < numElements2; i++) {
+            xl2.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < numLists1; i++) {
+            List<Double> innerList = list1.get(i);
+            for (int j = 0; j < numElements1; j++) {
+                Double element = innerList.get(j);
+                xl1.get(j).add(element);
+            }
+        }
+        for (int i = 0; i < numLists2; i++) {
+            List<Double> innerList = list2.get(i);
+            for (int j = 0; j < numElements2; j++) {
+                Double element = innerList.get(j);
+                xl2.get(j).add(element);
+            }
+        }
+
+        for (int i = 0; i < list1.size(); i++) {
+            x_d1.add(MainFunction.matSpodivan(list1.get(i)));
+        }
+        for (int i = 0; i < list2.size(); i++) {
+            x_d2.add(MainFunction.matSpodivan(list2.get(i)));
+        }
+
+        double sd1[][] = new double[list1.size()][list1.size()];
+        double matrix1[][] = new double[list1.size()][list1.size()];
+        for (int i = 0; i < xl1.size(); i++) {
+            double[][] xlMinusXd = new double[list1.size()][1];
+            for (int j = 0; j < xl1.get(i).size(); j++) {
+                xlMinusXd[j][0] = xl1.get(i).get(j) - x_d1.get(j);
+            }
+            if (i == 0) {
+                matrix1 = MainFunction.multiplyMatrixOnMatrix(xlMinusXd, MainFunction.transposeMatrix(xlMinusXd));
+            } else {
+                var tempMatrix = MainFunction.multiplyMatrixOnMatrix(xlMinusXd, MainFunction.transposeMatrix(xlMinusXd));
+                matrix1 = MainFunction.addingMatrixToMatrix(matrix1, tempMatrix);
+            }
+        }
+        sd1 = MainFunction.multiplyMatrixOnDigit(matrix1, (double) 1 / (list1.get(0).size() - 1));
+
+        double sd2[][] = new double[list2.size()][list2.size()];
+        double matrix2[][] = new double[list2.size()][list2.size()];
+        for (int i = 0; i < xl2.size(); i++) {
+            double[][] xlMinusXd = new double[list2.size()][1];
+            for (int j = 0; j < xl2.get(i).size(); j++) {
+                xlMinusXd[j][0] = xl2.get(i).get(j) - x_d2.get(j);
+            }
+            if (i == 0) {
+                matrix2 = MainFunction.multiplyMatrixOnMatrix(xlMinusXd, MainFunction.transposeMatrix(xlMinusXd));
+            } else {
+                var tempMatrix = MainFunction.multiplyMatrixOnMatrix(xlMinusXd, MainFunction.transposeMatrix(xlMinusXd));
+                matrix2 = MainFunction.addingMatrixToMatrix(matrix2, tempMatrix);
+            }
+        }
+        sd2 = MainFunction.multiplyMatrixOnDigit(matrix2, (double) 1 / (list1.get(0).size() - 1));
+
+
+        double[][] x_d1Array = new double[x_d1.size()][1];
+        double[][] x_d2Array = new double[x_d2.size()][1];
+        for (int i = 0; i < x_d1.size(); i++) {
+            x_d1Array[i][0] = x_d1.get(i);
+        }
+        for (int i = 0; i < x_d2.size(); i++) {
+            x_d2Array[i][0] = x_d2.get(i);
+        }
+        var x_firstPart = MainFunction.getInverseMatrix(MainFunction.addingMatrixToMatrix(
+                MainFunction.multiplyMatrixOnDigit(MainFunction.getInverseMatrix(sd1), list1.get(0).size()),
+                MainFunction.multiplyMatrixOnDigit(MainFunction.getInverseMatrix(sd2), list2.get(0).size())));
+        var x_SecondPart = MainFunction.addingMatrixToMatrix(MainFunction.multiplyMatrixOnMatrix(
+                        MainFunction.multiplyMatrixOnDigit(MainFunction.getInverseMatrix(sd1), list1.get(0).size()), x_d1Array),
+                MainFunction.multiplyMatrixOnMatrix(
+                        MainFunction.multiplyMatrixOnDigit(MainFunction.getInverseMatrix(sd2), list2.get(0).size()), x_d2Array));
+        var x_ = MainFunction.multiplyMatrixOnMatrix(x_firstPart, x_SecondPart);
+        var xdMinusX_1 = MainFunction.subtractMatrix(x_d1Array, x_);
+        var xdMinusX_2 = MainFunction.subtractMatrix(x_d2Array, x_);
+        var v2 = MainFunction.addingMatrixToMatrix(
+                MainFunction.multiplyMatrixOnMatrix(MainFunction.multiplyMatrixOnDigit(MainFunction.transposeMatrix(xdMinusX_1), list1.get(0).size()), MainFunction.multiplyMatrixOnMatrix(MainFunction.getInverseMatrix(sd1), xdMinusX_1)),
+                MainFunction.multiplyMatrixOnMatrix(MainFunction.multiplyMatrixOnDigit(MainFunction.transposeMatrix(xdMinusX_2), list2.get(0).size()), MainFunction.multiplyMatrixOnMatrix(MainFunction.getInverseMatrix(sd2), xdMinusX_2)));
+
+        String str = "Збіг ДК матриць:\n";
+        str += String.format("V = %.3f \n", Math.abs(v2[0][0]));
+        if (pohibkaForcheckParametersOfSukupnistsHelperForFirstNum2 >= Math.abs(v2[0][0])) {
             str += "нульову гіпотезу підтверджено.\n";
         } else {
             str += "нульову гіпотезу відхилено.\n";
         }
 
-        str += "Збіг ДК матриць:\n";
-        str += "V =   \n";
+        double nGeneral = list1.get(0).size() + list2.get(0).size();
+        double s[][] = new double[sd1[0].length][sd1[1].length];
+        s = MainFunction.multiplyMatrixOnDigit(sd1, (list1.get(0).size() - 1));
+        s = MainFunction.addingMatrixToMatrix(s, MainFunction.multiplyMatrixOnDigit(sd2, (list2.get(0).size() - 1)));
+        s = MainFunction.multiplyMatrixOnDigit(s, (double) 1 / (nGeneral - generalN));
 
         str += "Збіг k-вимірних при розбіжності ДК матриць:\n";
-        str += "V =   \n";
-
-
+        var v3 = (list1.get(0).size()-1)/2 *Math.log(MainFunction.findDetermination(s)/MainFunction.findDetermination(sd1))+
+            (list1.get(1).size()-1)/2 *Math.log(MainFunction.findDetermination(s)/MainFunction.findDetermination(sd2));
+        str += String.format("V = %.3f \n", Math.abs(v3));
+        if (pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1 >= Math.abs(v3)) {
+            str += "нульову гіпотезу підтверджено.\n";
+        } else {
+            str += "нульову гіпотезу відхилено.\n";
+        }
         return str;
+    }
+
+    //method for checkParametersOfSukupnistsHelperForFirst
+    private List<Double> findValueForSValue(int i, int j, double[][] dc0, double[][] dc1, double n0, double n1) {
+        double tempXixj = 0;
+        double tempYiYj = 0;
+        double tempXi = 0;
+        double tempXj = 0;
+        double tempYi = 0;
+        double tempYj = 0;
+        for (int l = 0; l < n0; l++) {
+            tempXixj += dc0[i][l] * dc0[j][l];
+            tempXi += dc0[i][l];
+            tempXj += dc0[j][l];
+        }
+        for (int l = 0; l < n1; l++) {
+            tempYiYj += dc1[i][l] * dc1[j][l];
+            tempYi += dc1[i][l];
+            tempYj += dc1[j][l];
+        }
+        double s0 = (tempXixj + tempYiYj - (tempXi + tempYi) * (tempXj + tempYj) / (n0 + n1)) / (n0 + n1 - 2);
+        double s1 = (tempXixj + tempYiYj - tempXi * tempXj / n0 - tempYi * tempYj / n1) / (n0 + n1 - 2);
+        return List.of(s0, s1);
     }
 
     //відображення матриці в TableView
@@ -260,18 +412,17 @@ public class SecondHelper {
 
 
     //NOTE: it can hurt on other process
-    //todo: нужно уровнять(выборки должны быть одного размера)
-    public static void deleteAnomalValue(List<Double> list) {
-        var numOfClass = (int) Math.cbrt(list.size());
-        int size = list.size();
-        double lastElement = list.get(size - 1);
+    public static void deleteAnomalValue(List<List<Double>> listSorted, List<List<Double>> withoutSorted) {
+        var numOfClass = (int) Math.cbrt(listSorted.get(0).size());
+        int size = listSorted.get(0).size();
+        double lastElement = listSorted.get(0).get(size - 1);
         int frequency = 0;
-        double step = (list.get(size - 1) - list.get(0)) / numOfClass;
-        double start = list.get(0);
-        double end = list.get(0) + step;
+        double step = (listSorted.get(0).get(size - 1) - listSorted.get(0).get(0)) / numOfClass;
+        double start = listSorted.get(0).get(0);
+        double end = listSorted.get(0).get(0) + step;
         List<Double> rubish = new ArrayList<>();
         while (lastElement > start) {
-            for (Double value : list) {
+            for (Double value : listSorted.get(0)) {
                 if (value >= start && value < end) {
                     frequency++;
                     rubish.add(value);
@@ -279,13 +430,30 @@ public class SecondHelper {
             }
 
             if ((double) frequency / size <= alfaForAnomalData) {
-                list.removeAll(rubish);
+                listSorted.get(0).removeAll(rubish);
             }
             start = end;
             end += step;
             rubish.clear();
             frequency = 0;
         }
+
+        for (int i = 0; i < withoutSorted.get(0).size(); i++) {
+            if (!listSorted.get(0).contains(withoutSorted.get(0).get(i))) {
+                for (int j = 0; j < withoutSorted.size(); j++) {
+                    withoutSorted.get(j).remove(i);
+                }
+            }
+        }
+
+        for (int i = 0; i < listSorted.size(); i++) {
+            for (int j = 0; j < listSorted.get(i).size(); j++) {
+                if (!withoutSorted.get(i).contains(listSorted.get(i).get(j))) {
+                    listSorted.get(i).remove(j);
+                }
+            }
+        }
+
     }
 
     public void showVarRowForManyVibirok(TableView tableView, List<List<Double>> list) {
@@ -337,7 +505,7 @@ public class SecondHelper {
                             }
                             if (index == dots.size() - 1) {
                                 //обновляем Z
-                                linkedHashMap.put(String.format("%d, %d, %d", x + 1, y + 1, z + 1), String.format("(%d, %.3f)", tempOfFrequency, (double)tempOfFrequency / sortedListX.size()));
+                                linkedHashMap.put(String.format("%d, %d, %d", x + 1, y + 1, z + 1), String.format("(%d, %.3f)", tempOfFrequency, (double) tempOfFrequency / sortedListX.size()));
                                 tempOfFrequency = 0;
                                 rangeStartForZ = rangeEndForZ;
                                 rangeEndForZ += stepZ;
@@ -407,7 +575,7 @@ public class SecondHelper {
                                 }
                                 if (index == dots.size() - 1) {
                                     //обновляем Z
-                                    linkedHashMap.put(String.format("%d, %d, %d, %d", k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", tempOfFrequency, (double)tempOfFrequency / sortedListX.size()));
+                                    linkedHashMap.put(String.format("%d, %d, %d, %d", k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", tempOfFrequency, (double) tempOfFrequency / sortedListX.size()));
                                     tempOfFrequency = 0;
                                     rangeStartForZ = rangeEndForZ;
                                     rangeEndForZ += stepZ;
@@ -491,7 +659,7 @@ public class SecondHelper {
                                     }
                                     if (index == dots.size() - 1) {
                                         //обновляем Z
-                                        linkedHashMap.put(String.format("%d, %d, %d, %d, %d",p+1, k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", (double)tempOfFrequency, tempOfFrequency / sortedListX.size()));
+                                        linkedHashMap.put(String.format("%d, %d, %d, %d, %d", p + 1, k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", (double) tempOfFrequency, tempOfFrequency / sortedListX.size()));
                                         tempOfFrequency = 0;
                                         rangeStartForZ = rangeEndForZ;
                                         rangeEndForZ += stepZ;
@@ -589,7 +757,7 @@ public class SecondHelper {
                                         }
                                         if (index == dots.size() - 1) {
                                             //обновляем Z
-                                            linkedHashMap.put(String.format("%d, %d, %d, %d, %d, %d",l+1, p + 1, k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", (double)tempOfFrequency, tempOfFrequency / sortedListX.size()));
+                                            linkedHashMap.put(String.format("%d, %d, %d, %d, %d, %d", l + 1, p + 1, k + 1, x + 1, y + 1, z + 1), String.format("(%d, %.3f)", (double) tempOfFrequency, tempOfFrequency / sortedListX.size()));
                                             tempOfFrequency = 0;
                                             rangeStartForZ = rangeEndForZ;
                                             rangeEndForZ += stepZ;
@@ -626,7 +794,7 @@ public class SecondHelper {
         }
 
         //filling table
-        if(!linkedHashMap.isEmpty()) {
+        if (!linkedHashMap.isEmpty()) {
             tableView.getItems().clear();
             tableView.getColumns().clear();
 

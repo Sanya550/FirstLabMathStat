@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.io.BufferedReader;
@@ -49,7 +50,7 @@ public class HelloController {
     //sukupnosti:
     static ArrayList<List<Double>> sukupnist1 = new ArrayList<>();
     static ArrayList<List<Double>> sukupnist2 = new ArrayList<>();
-    static ArrayList<List<Double>> sukupnist3 = new ArrayList<>();
+//    static ArrayList<List<Double>> sukupnist3 = new ArrayList<>();
 
     static int forFileIndex = 1;
     static int numberOfClass;
@@ -1554,12 +1555,7 @@ public class HelloController {
         SecondHelper secondHelper = new SecondHelper();
         var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        for (var list : listOfLists) {
-            SecondHelper.deleteAnomalValue(list);
-        }
-        for (var list : listOfWithoutSorted) {
-            SecondHelper.deleteAnomalValue(list);
-        }
+        SecondHelper.deleteAnomalValue(listOfLists, listOfWithoutSorted);
         JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -1725,13 +1721,13 @@ public class HelloController {
         JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №2", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    @FXML
-    protected void addSukupnost3() {
-        sukupnist3.clear();
-        SecondHelper secondHelper = new SecondHelper();
-        sukupnist3 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
-        JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №3", "About", JOptionPane.INFORMATION_MESSAGE);
-    }
+//    @FXML
+//    protected void addSukupnost3() {
+//        sukupnist3.clear();
+//        SecondHelper secondHelper = new SecondHelper();
+//        sukupnist3 = secondHelper.rewriteListsForSukupnist(secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6));
+//        JOptionPane.showMessageDialog(null, "Вибірки були додані до сукупності №3", "About", JOptionPane.INFORMATION_MESSAGE);
+//    }
 
     //Перевірка збігу параметрів
     @FXML
@@ -1769,7 +1765,7 @@ public class HelloController {
     }
 
     @FXML
-    protected void showTableForMany(){
+    protected void showTableForMany() {
         SecondHelper secondHelper = new SecondHelper();
         var listForR = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         secondHelper.showMatrixInTableViewViaArray(tableView, secondHelper.returnArrayForManyVarRow(listForR));

@@ -1,6 +1,10 @@
 package com.example.idealjavafx;
 
 import org.apache.commons.math3.linear.*;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import Jama.Matrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainFunction {
@@ -84,5 +88,85 @@ public class MainFunction {
 
         }
         return arrR;
+    }
+
+    public static double[][] transposeMatrix(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        double[][] transposed = new double[cols][rows];
+
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
+                transposed[i][j] = matrix[j][i];
+            }
+        }
+
+        return transposed;
+    }
+
+    public static double[][] multiplyMatrixOnMatrix(double[][] a, double[][] b){
+        double[][] result = new double[a.length][b[0].length];
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < b[0].length; j++) {
+                for (int k = 0; k < a[0].length; k++) {
+                    result[i][j] += a[i][k] * b[k][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    public static double[][] addingMatrixToMatrix(double[][] a, double[][] b) {
+        double[][] result = new double[a.length][a[0].length];
+        for (int i = 0; i < a.length; i++) {
+            result[i] = Arrays.copyOf(a[i], a[i].length);
+            for (int j = 0; j < a[i].length; j++) {
+                result[i][j] += b[i][j];
+            }
+        }
+        return result;
+    }
+
+    public static double[][] subtractMatrix(double[][] A, double[][] B) {
+        int rows = A.length;
+        int cols = A[0].length;
+
+        if (rows != B.length || cols != B[0].length) {
+            throw new IllegalArgumentException("Matrices must have the same size");
+        }
+        double[][] result = new double[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                result[i][j] = A[i][j] - B[i][j];
+            }
+        }
+
+        return result;
+    }
+
+
+    public static double[][] multiplyMatrixOnDigit(double[][] a, double digit) {
+        double[][] result = new double[a.length][a[0].length];
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[0].length; j++) {
+                result[i][j] = a[i][j] * digit;
+            }
+        }
+        return result;
+    }
+
+
+    public static double[][] getInverseMatrix(double[][] matrix1) {
+        double [][] matr1 = new double[matrix1[0].length][matrix1[1].length];
+        for (int i = 0; i < matrix1[0].length; i++) {
+            for (int j = 0; j < matrix1[1].length; j++) {
+                matr1[i][j] = matrix1[i][j];
+            }
+        }
+        Matrix matrix = new Matrix(matr1);
+        Matrix inverse = matrix.inverse();
+        return inverse.getArray();
     }
 }

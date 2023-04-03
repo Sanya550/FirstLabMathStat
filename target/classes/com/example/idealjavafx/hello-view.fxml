@@ -176,7 +176,6 @@
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#addSukupnost1" text="Додати сукупність 1" />
                         <MenuItem mnemonicParsing="false" onAction="#addSukupnost2" text="Додати сукупність 2" />
-                        <MenuItem mnemonicParsing="false" onAction="#addSukupnost3" text="Додати сукупність 3" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Матриці">
@@ -257,7 +256,7 @@
                               <Text layoutX="379.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dus = " />
                               <CheckBox fx:id="checkBox6" layoutX="174.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="6" />
                               <Text layoutX="7.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="anomal =" wrappingWidth="53.99999991059303" />
-                              <TextField fx:id="anomalStr" layoutX="61.0" layoutY="137.0" prefHeight="25.0" prefWidth="62.0" text="0.005" />
+                              <TextField fx:id="anomalStr" layoutX="61.0" layoutY="137.0" prefHeight="25.0" prefWidth="62.0" text="0.01" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">
