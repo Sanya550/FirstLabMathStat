@@ -1,4 +1,4 @@
-package com.example.idealjavafx;
+package com.example.idealjavafx.models;
 
 import javafx.beans.property.SimpleStringProperty;
 

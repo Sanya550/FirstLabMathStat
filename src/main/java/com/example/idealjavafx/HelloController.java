@@ -1,6 +1,9 @@
 package com.example.idealjavafx;
 
 
+import com.example.idealjavafx.models.MainCharactericticForData;
+import com.example.idealjavafx.models.VariationMatrix;
+import com.example.idealjavafx.models.VariationRowForData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

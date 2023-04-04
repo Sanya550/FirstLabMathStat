@@ -1,4 +1,4 @@
-package com.example.idealjavafx;
+package com.example.idealjavafx.models;
 
 public class VariationRowForData {
     public double number;

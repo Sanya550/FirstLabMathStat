@@ -1,12 +1,16 @@
 package com.example.idealjavafx;
 
+import com.example.idealjavafx.models.DataRowForFullKorilation;
+import com.example.idealjavafx.models.DataRowForPartKorilation;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.swing.*;
 import java.util.*;
@@ -813,8 +817,9 @@ public class SecondHelper {
     //for korilation methods
     public static List<List<Integer>> generatePermutations(int n) {
         List<List<Integer>> result = new ArrayList<>();
-        if (n == 0) {
+        if (n == 1) {
             result.add(new ArrayList<>());
+            result.get(0).add(1);
             return result;
         }
 
@@ -822,16 +827,23 @@ public class SecondHelper {
         int num = n;
 
         for (List<Integer> prevList : prevResult) {
-            for (int i = 0; i <= n; i++) {
+            for (int i = 0; i <= n - 1; i++) {
                 List<Integer> newList = new ArrayList<>(prevList);
                 newList.add(i, num);
-                result.add(newList);
+                if (!result.contains(newList)) {
+                    result.add(newList);
+                }
+            }
+            prevList.add(num);
+            if (!result.contains(prevList)) {
+                result.add(prevList);
             }
         }
 
         return result;
     }
 
+    //todo: need updates(lowValue, highValue, tValue, zna)
     public void showPartKorilation(TableView tableView, List<List<Double>> list) {
         var lisrPermut = generatePermutations(list.size());
         LinkedHashMap<String, Double> linkedHashMap = new LinkedHashMap<>();
@@ -841,11 +853,11 @@ public class SecondHelper {
             }
         } else if (list.size() == 4) {
             for (int i = 0; i < lisrPermut.size(); i++) {
-                linkedHashMap.put(String.format("%d, %d - {%d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3)), MainFunction.getKoefKorilationForFourValue(list.get(lisrPermut.get(i).get(0) - 1), list.get(lisrPermut.get(i).get(1) - 1), list.get(lisrPermut.get(i).get(3) - 1),list.get(lisrPermut.get(i).get(3) - 1)));
+                linkedHashMap.put(String.format("%d, %d - {%d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3)), MainFunction.getKoefKorilationForFourValue(list.get(lisrPermut.get(i).get(0) - 1), list.get(lisrPermut.get(i).get(1) - 1), list.get(lisrPermut.get(i).get(3) - 1), list.get(lisrPermut.get(i).get(3) - 1)));
             }
         } else if (list.size() == 5) {
             for (int i = 0; i < lisrPermut.size(); i++) {
-                linkedHashMap.put(String.format("%d, %d - {%d, %d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3), lisrPermut.get(i).get(4)), MainFunction.getKoefKorilationForFiveValue(list.get(lisrPermut.get(i).get(0) - 1), list.get(lisrPermut.get(i).get(1) - 1), list.get(lisrPermut.get(i).get(3) - 1),list.get(lisrPermut.get(i).get(3) - 1),list.get(lisrPermut.get(i).get(4) - 1)));
+                linkedHashMap.put(String.format("%d, %d - {%d, %d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3), lisrPermut.get(i).get(4)), MainFunction.getKoefKorilationForFiveValue(list.get(lisrPermut.get(i).get(0) - 1), list.get(lisrPermut.get(i).get(1) - 1), list.get(lisrPermut.get(i).get(3) - 1), list.get(lisrPermut.get(i).get(3) - 1), list.get(lisrPermut.get(i).get(4) - 1)));
             }
         } else {
             JOptionPane.showMessageDialog(null, "Виберіть кількість вибірок від 3 до 5", "Error", JOptionPane.ERROR_MESSAGE);
@@ -854,25 +866,97 @@ public class SecondHelper {
         tableView.getItems().clear();
         tableView.getColumns().clear();
 
-//        int numColumns = array[1].length;
-//        for (int i = 0; i < numColumns; i++) {
-//            TableColumn<ObservableList<String>, String> column = new TableColumn<>("");
-//            final int columnIndex = i;
-//            column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(columnIndex)));
-//            tableView.getColumns().add(column);
-//        }
-//
-//        for (int i = 0; i < array.length; i++) {
-//            ObservableList<String> row = FXCollections.observableArrayList();
-//            for (int j = 0; j < array[i].length; j++) {
-//                row.add(String.format("%.2f", array[i][j]));
-//            }
-//            tableView.getItems().add(row);
-//        }
+        TableColumn columnIndex = new TableColumn("Індекси");
+        columnIndex.setCellValueFactory(new PropertyValueFactory<>("index"));
+        TableColumn columnForMinusValue = new TableColumn("Нижня межа");
+        columnForMinusValue.setCellValueFactory(new PropertyValueFactory<>("lowValue"));
+        TableColumn columnForValue = new TableColumn("Значення");
+        columnForValue.setCellValueFactory(new PropertyValueFactory<>("value"));
+        TableColumn columnForPlusValue = new TableColumn("Верхня межа");
+        columnForPlusValue.setCellValueFactory(new PropertyValueFactory<>("highValue"));
+        TableColumn columnForT = new TableColumn("t статистика");
+        columnForT.setCellValueFactory(new PropertyValueFactory<>("tValue"));
+        TableColumn columnForZna = new TableColumn("Значущість");
+        columnForZna.setCellValueFactory(new PropertyValueFactory<>("zna"));
 
+        //Adding data to the table
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableView.getColumns().addAll(columnIndex, columnForMinusValue, columnForValue, columnForPlusValue, columnForT, columnForZna);
+
+        String key = null;
+        double lowValue;
+        double value;
+        double highValue;
+        double tValue;
+        String zna;
+        ObservableList<DataRowForPartKorilation> data = FXCollections.observableArrayList();
+        for (int i = 0; i < lisrPermut.size(); i++) {
+            DataRowForPartKorilation row = new DataRowForPartKorilation();
+            if (lisrPermut.get(i).size() == 3) {
+                key = String.format("%d, %d - %d", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2));
+            } else if (lisrPermut.get(i).size() == 4) {
+                key = String.format("%d, %d - {%d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3));
+            } else if (lisrPermut.get(i).size() == 5) {
+                key = String.format("%d, %d - {%d, %d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3), lisrPermut.get(i).get(4));
+            }
+            value = linkedHashMap.get(key);
+            row.setIndex(key);
+            row.setLowValue(String.format("%.3f", 1.0));
+            row.setValue(String.format("%.3f", value));
+            row.setHighValue(String.format("%.3f", 1.0));
+            row.setTValue(String.format("%.3f", 1.0));
+            row.setZna("+");
+            data.add(row);
+        }
+        tableView.getItems().addAll(data);
     }
 
+    //todo: need updates(fValue,Zna)
     public void showFullKorilation(TableView tableView, List<List<Double>> list) {
+        LinkedHashMap<String, Double> linkedHashMap = new LinkedHashMap<>();
+        for (int i = 0; i < list.size(); i++) {
+            List<List<Double>> sublistBefore = list.subList(0, i);
+            List<List<Double>> sublistAfter = list.subList(i + 1, list.size());
+            List<List<Double>> newList = new ArrayList<>(sublistBefore);
+            newList.addAll(sublistAfter);
+            double r = MainFunction.getMnozhinKoefKorilation(list, newList);
+            linkedHashMap.put(String.format("%d", i + 1), r);
+        }
 
+
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+
+        TableColumn columnIndex = new TableColumn("Індекси");
+        columnIndex.setCellValueFactory(new PropertyValueFactory<>("index"));
+        TableColumn columnForValue = new TableColumn("Значення");
+        columnForValue.setCellValueFactory(new PropertyValueFactory<>("value"));
+        TableColumn columnForF = new TableColumn("f статистика");
+        columnForF.setCellValueFactory(new PropertyValueFactory<>("fValue"));
+        TableColumn columnForZna = new TableColumn("Значущість");
+        columnForZna.setCellValueFactory(new PropertyValueFactory<>("zna"));
+
+        //Adding data to the table
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableView.getColumns().addAll(columnIndex, columnForValue, columnForF, columnForZna);
+
+        String key = null;
+        double value;
+        double fValue;
+        String zna;
+        ObservableList<DataRowForFullKorilation> data = FXCollections.observableArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            DataRowForFullKorilation dataRowForFullKorilation = new DataRowForFullKorilation();
+            key = String.format("%d", i + 1);
+            value = linkedHashMap.get(key);
+            fValue = 1.0;
+            zna = "+";
+            dataRowForFullKorilation.setIndex(key);
+            dataRowForFullKorilation.setValue(String.format("%.3f",value));
+            dataRowForFullKorilation.setFValue(String.format("%.3f",fValue));
+            dataRowForFullKorilation.setZna(zna);
+            data.add(dataRowForFullKorilation);
+        }
+        tableView.getItems().addAll(data);
     }
 }

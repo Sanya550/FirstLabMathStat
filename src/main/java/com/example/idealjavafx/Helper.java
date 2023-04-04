@@ -1,5 +1,6 @@
 package com.example.idealjavafx;
 
+import com.example.idealjavafx.models.RangRowForData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
@@ -10,10 +11,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Helper {
     //t const:
