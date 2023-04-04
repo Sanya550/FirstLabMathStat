@@ -329,8 +329,8 @@ public class SecondHelper {
         s = MainFunction.multiplyMatrixOnDigit(s, (double) 1 / (nGeneral - generalN));
 
         str += "Збіг k-вимірних при розбіжності ДК матриць:\n";
-        var v3 = (list1.get(0).size()-1)/2 *Math.log(MainFunction.findDetermination(s)/MainFunction.findDetermination(sd1))+
-            (list1.get(1).size()-1)/2 *Math.log(MainFunction.findDetermination(s)/MainFunction.findDetermination(sd2));
+        var v3 = (list1.get(0).size() - 1) / 2 * Math.log(MainFunction.findDetermination(s) / MainFunction.findDetermination(sd1)) +
+                (list1.get(1).size() - 1) / 2 * Math.log(MainFunction.findDetermination(s) / MainFunction.findDetermination(sd2));
         str += String.format("V = %.3f \n", Math.abs(v3));
         if (pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1 >= Math.abs(v3)) {
             str += "нульову гіпотезу підтверджено.\n";
@@ -808,5 +808,71 @@ public class SecondHelper {
             ObservableList<Map.Entry<String, String>> data = FXCollections.observableArrayList(linkedHashMap.entrySet());
             tableView.setItems(data);
         }
+    }
+
+    //for korilation methods
+    public static List<List<Integer>> generatePermutations(int n) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (n == 0) {
+            result.add(new ArrayList<>());
+            return result;
+        }
+
+        List<List<Integer>> prevResult = generatePermutations(n - 1);
+        int num = n;
+
+        for (List<Integer> prevList : prevResult) {
+            for (int i = 0; i <= n; i++) {
+                List<Integer> newList = new ArrayList<>(prevList);
+                newList.add(i, num);
+                result.add(newList);
+            }
+        }
+
+        return result;
+    }
+
+    public void showPartKorilation(TableView tableView, List<List<Double>> list) {
+        var lisrPermut = generatePermutations(list.size());
+        LinkedHashMap<String, Double> linkedHashMap = new LinkedHashMap<>();
+        if (list.size() == 3) {
+            for (int i = 0; i < lisrPermut.size(); i++) {
+                linkedHashMap.put(String.format("%d, %d - %d", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2)), MainFunction.getKoefKorilationForThreeValue(list.get(lisrPermut.get(i).get(0) - 1), list.get(lisrPermut.get(i).get(1) - 1), list.get(lisrPermut.get(i).get(2) - 1)));
+            }
+        } else if (list.size() == 4) {
+            for (int i = 0; i < lisrPermut.size(); i++) {
+                linkedHashMap.put(String.format("%d, %d - {%d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3)), MainFunction.getKoefKorilationForFourValue(list.get(lisrPermut.get(i).get(0) - 1), list.get(lisrPermut.get(i).get(1) - 1), list.get(lisrPermut.get(i).get(3) - 1),list.get(lisrPermut.get(i).get(3) - 1)));
+            }
+        } else if (list.size() == 5) {
+            for (int i = 0; i < lisrPermut.size(); i++) {
+                linkedHashMap.put(String.format("%d, %d - {%d, %d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3), lisrPermut.get(i).get(4)), MainFunction.getKoefKorilationForFiveValue(list.get(lisrPermut.get(i).get(0) - 1), list.get(lisrPermut.get(i).get(1) - 1), list.get(lisrPermut.get(i).get(3) - 1),list.get(lisrPermut.get(i).get(3) - 1),list.get(lisrPermut.get(i).get(4) - 1)));
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Виберіть кількість вибірок від 3 до 5", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+
+//        int numColumns = array[1].length;
+//        for (int i = 0; i < numColumns; i++) {
+//            TableColumn<ObservableList<String>, String> column = new TableColumn<>("");
+//            final int columnIndex = i;
+//            column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(columnIndex)));
+//            tableView.getColumns().add(column);
+//        }
+//
+//        for (int i = 0; i < array.length; i++) {
+//            ObservableList<String> row = FXCollections.observableArrayList();
+//            for (int j = 0; j < array[i].length; j++) {
+//                row.add(String.format("%.2f", array[i][j]));
+//            }
+//            tableView.getItems().add(row);
+//        }
+
+    }
+
+    public void showFullKorilation(TableView tableView, List<List<Double>> list) {
+
     }
 }

@@ -1,9 +1,10 @@
 package com.example.idealjavafx;
 
 import org.apache.commons.math3.linear.*;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import Jama.Matrix;
 import org.apache.commons.math3.linear.RealMatrix;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -105,7 +106,7 @@ public class MainFunction {
         return transposed;
     }
 
-    public static double[][] multiplyMatrixOnMatrix(double[][] a, double[][] b){
+    public static double[][] multiplyMatrixOnMatrix(double[][] a, double[][] b) {
         double[][] result = new double[a.length][b[0].length];
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < b[0].length; j++) {
@@ -159,7 +160,7 @@ public class MainFunction {
 
 
     public static double[][] getInverseMatrix(double[][] matrix1) {
-        double [][] matr1 = new double[matrix1[0].length][matrix1[1].length];
+        double[][] matr1 = new double[matrix1[0].length][matrix1[1].length];
         for (int i = 0; i < matrix1[0].length; i++) {
             for (int j = 0; j < matrix1[1].length; j++) {
                 matr1[i][j] = matrix1[i][j];
@@ -168,5 +169,24 @@ public class MainFunction {
         Matrix matrix = new Matrix(matr1);
         Matrix inverse = matrix.inverse();
         return inverse.getArray();
+    }
+
+
+    public static double getKoefKorilationForThreeValue(List<Double> arr1, List<Double> arr2, List<Double> arr3) {
+        double r = (rForKovMatrix(arr1, arr2) - rForKovMatrix(arr1, arr3) * rForKovMatrix(arr2, arr3)) / Math.sqrt((1 - Math.pow(rForKovMatrix(arr1, arr3), 2)) * (1 - Math.pow(rForKovMatrix(arr2, arr3), 2)));
+        return r;
+    }
+
+    public static double getKoefKorilationForFourValue(List<Double> arr1, List<Double> arr2, List<Double> arr3, List<Double> arr4) {
+    double r = (getKoefKorilationForThreeValue(arr1, arr2, arr3) - getKoefKorilationForThreeValue(arr1, arr4,arr3) * getKoefKorilationForThreeValue(arr2, arr4,arr3))/Math.sqrt((1 - Math.pow(getKoefKorilationForThreeValue(arr1, arr4,arr3),2)) * (1 - Math.pow(getKoefKorilationForThreeValue(arr2, arr4,arr3),2)));
+    return r;
+    }
+    public static double getKoefKorilationForFiveValue(List<Double> arr1, List<Double> arr2, List<Double> arr3, List<Double> arr4, List<Double> arr5) {
+    double r = (getKoefKorilationForFourValue(arr1, arr2, arr3, arr4) - getKoefKorilationForFourValue(arr1, arr4,arr3, arr5) * getKoefKorilationForFourValue(arr2, arr4,arr3, arr5))/Math.sqrt((1 - Math.pow(getKoefKorilationForFourValue(arr1, arr4,arr3, arr5),2)) * (1 - Math.pow(getKoefKorilationForFourValue(arr2, arr4,arr3, arr5),2)));
+    return r;
+    }
+
+    public static double getMnozhinKoefKorilation(List<List<Double>> rMatrix, List<List<Double>> rMatrixKK){
+        return Math.sqrt(1- MainFunction.findDetermination(findRForDuspKovMatrixForManyVibirok(rMatrix))/MainFunction.findDetermination(findRForDuspKovMatrixForManyVibirok(rMatrixKK)));
     }
 }

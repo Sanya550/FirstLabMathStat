@@ -190,6 +190,12 @@
                         <MenuItem mnemonicParsing="false" onAction="#showTableForMany" text="Таблиця" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Коефіцієнт кореляції">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#partKorilationForMany" text="Часткові" />
+                        <MenuItem mnemonicParsing="false" onAction="#fullKorilationForMany" text="Множинні" />
+                     </items>
+                  </Menu>
                   <MenuItem mnemonicParsing="false" onAction="#firstStaticAnalizeForManyVibirok" text="Середні" />
                   <MenuItem mnemonicParsing="false" onAction="#checkParametersOfSukupnists" text="Перевірка збігу параметрів" />
                </items>

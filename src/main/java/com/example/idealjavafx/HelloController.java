@@ -1764,10 +1764,27 @@ public class HelloController {
         secondHelper.showVarRowForManyVibirok(tableView, list);
     }
 
+    //вивести дані у виді таблиці
     @FXML
     protected void showTableForMany() {
         SecondHelper secondHelper = new SecondHelper();
         var listForR = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         secondHelper.showMatrixInTableViewViaArray(tableView, secondHelper.returnArrayForManyVarRow(listForR));
+    }
+
+    //часткові кореляції
+    @FXML
+    protected void partKorilationForMany() {
+        SecondHelper secondHelper = new SecondHelper();
+        var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        secondHelper.showPartKorilation(tableView, list);
+    }
+
+    //множинні кореляції
+    @FXML
+    protected void fullKorilationForMany() {
+        SecondHelper secondHelper = new SecondHelper();
+        var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        secondHelper.showFullKorilation(tableView, list);
     }
 }
