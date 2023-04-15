@@ -961,10 +961,8 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber1(ActionEvent event) {
         arrayList.clear();
-        savingListNumber1.clear();
         for (int i = 0; i < arrayListNumber1.size(); i++) {
             arrayList.add(arrayListNumber1.get(i));
-            arrayList.add(savingListNumber1.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №1. Розмір файлу:" + arrayListNumber1.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -976,10 +974,8 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber2(ActionEvent event) {
         arrayList.clear();
-        savingListNumber2.clear();
         for (int i = 0; i < arrayListNumber2.size(); i++) {
             arrayList.add(arrayListNumber2.get(i));
-            savingListNumber2.add(arrayListNumber2.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №2. Розмір файлу:" + arrayListNumber2.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -991,10 +987,8 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber3(ActionEvent event) {
         arrayList.clear();
-        savingListNumber3.clear();
         for (int i = 0; i < arrayListNumber3.size(); i++) {
             arrayList.add(arrayListNumber3.get(i));
-            savingListNumber3.add(arrayListNumber3.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №3.Розмір файлу:" + arrayListNumber3.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -1006,10 +1000,8 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber4(ActionEvent event) {
         arrayList.clear();
-        savingListNumber4.clear();
         for (int i = 0; i < arrayListNumber4.size(); i++) {
             arrayList.add(arrayListNumber4.get(i));
-            savingListNumber4.add(arrayListNumber4.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №4.Розмір файлу:" + arrayListNumber4.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -1021,10 +1013,8 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber5(ActionEvent event) {
         arrayList.clear();
-        savingListNumber5.clear();
         for (int i = 0; i < arrayListNumber5.size(); i++) {
             arrayList.add(arrayListNumber5.get(i));
-            savingListNumber5.add(arrayListNumber5.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №5.Розмір файлу:" + arrayListNumber5.size(), "About", JOptionPane.INFORMATION_MESSAGE);
@@ -1036,10 +1026,8 @@ public class HelloController {
     @FXML
     protected void changeMenuNumber6(ActionEvent event) {
         arrayList.clear();
-        savingListNumber6.clear();
         for (int i = 0; i < arrayListNumber6.size(); i++) {
             arrayList.add(arrayListNumber6.get(i));
-            savingListNumber6.add(arrayListNumber6.get(i));
         }
         if (!arrayList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ви успішно обрали файл №6.Розмір файлу:" + arrayListNumber6.size(), "About", JOptionPane.INFORMATION_MESSAGE);

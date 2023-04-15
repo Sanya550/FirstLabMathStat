@@ -843,7 +843,6 @@ public class SecondHelper {
         return result;
     }
 
-    //todo: need updates(lowValue, highValue, tValue, zna)
     public void showPartKorilation(TableView tableView, List<List<Double>> list) {
         var lisrPermut = generatePermutations(list.size());
         LinkedHashMap<String, Double> linkedHashMap = new LinkedHashMap<>();
@@ -900,18 +899,27 @@ public class SecondHelper {
                 key = String.format("%d, %d - {%d, %d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3), lisrPermut.get(i).get(4));
             }
             value = linkedHashMap.get(key);
+            tValue = value * Math.sqrt(list.get(0).size() - list.size() - 4) / Math.sqrt(1 - Math.pow(value, 2));
+            double u = 3;
+            double v1 = 0.5 * Math.log((1 + value) / (1 - value)) - u/(list.get(0).size()-list.size()-5);
+            double v2 = 0.5 * Math.log((1 + value) / (1 - value)) + u/(list.get(0).size()-list.size()-5);
+            lowValue = (Math.exp(2 * v1) - 1) / (Math.exp(2 * v1) + 1);
+            highValue = (Math.exp(2 * v2) - 1) / (Math.exp(2 * v2) + 1);
             row.setIndex(key);
-            row.setLowValue(String.format("%.3f", 1.0));
+            row.setLowValue(String.format("%.3f", lowValue));
             row.setValue(String.format("%.3f", value));
-            row.setHighValue(String.format("%.3f", 1.0));
-            row.setTValue(String.format("%.3f", 1.0));
-            row.setZna("+");
+            row.setHighValue(String.format("%.3f", highValue));
+            row.setTValue(String.format("%.3f", tValue));
+            if(Helper.t1< Math.abs(tValue)) {
+                row.setZna("+");
+            }else{
+                row.setZna("-");
+            }
             data.add(row);
         }
         tableView.getItems().addAll(data);
     }
 
-    //todo: need updates(fValue,Zna)
     public void showFullKorilation(TableView tableView, List<List<Double>> list) {
         LinkedHashMap<String, Double> linkedHashMap = new LinkedHashMap<>();
         for (int i = 0; i < list.size(); i++) {
@@ -943,17 +951,21 @@ public class SecondHelper {
         String key = null;
         double value;
         double fValue;
-        String zna;
+        String zna = null;
         ObservableList<DataRowForFullKorilation> data = FXCollections.observableArrayList();
         for (int i = 0; i < list.size(); i++) {
             DataRowForFullKorilation dataRowForFullKorilation = new DataRowForFullKorilation();
             key = String.format("%d", i + 1);
             value = linkedHashMap.get(key);
-            fValue = 1.0;
-            zna = "+";
+            fValue = (list.get(0).size()-list.size()-1)/list.size() * value/(1-value);
+            if(fValue>Math.abs(Helper.koefForFisher(list.get(0),list.get(1)))){
+                zna = "+";
+            }else{
+                zna = "-";
+            }
             dataRowForFullKorilation.setIndex(key);
-            dataRowForFullKorilation.setValue(String.format("%.3f",value));
-            dataRowForFullKorilation.setFValue(String.format("%.3f",fValue));
+            dataRowForFullKorilation.setValue(String.format("%.3f", value));
+            dataRowForFullKorilation.setFValue(String.format("%.3f", fValue));
             dataRowForFullKorilation.setZna(zna);
             data.add(dataRowForFullKorilation);
         }
