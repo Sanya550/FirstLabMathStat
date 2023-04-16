@@ -899,7 +899,7 @@ public class SecondHelper {
                 key = String.format("%d, %d - {%d, %d, %d}", lisrPermut.get(i).get(0), lisrPermut.get(i).get(1), lisrPermut.get(i).get(2), lisrPermut.get(i).get(3), lisrPermut.get(i).get(4));
             }
             value = linkedHashMap.get(key);
-            tValue = value * Math.sqrt(list.get(0).size() - list.size() - 4) / Math.sqrt(1 - Math.pow(value, 2));
+            tValue = Math.abs(value * Math.sqrt(list.get(0).size() - list.size() - 4) / Math.sqrt(1 - Math.pow(value, 2)));
             double u = 3;
             double v1 = 0.5 * Math.log((1 + value) / (1 - value)) - u/(list.get(0).size()-list.size()-5);
             double v2 = 0.5 * Math.log((1 + value) / (1 - value)) + u/(list.get(0).size()-list.size()-5);
@@ -910,7 +910,7 @@ public class SecondHelper {
             row.setValue(String.format("%.3f", value));
             row.setHighValue(String.format("%.3f", highValue));
             row.setTValue(String.format("%.3f", tValue));
-            if(Helper.t1< Math.abs(tValue)) {
+            if(Helper.t1> Math.abs(tValue)) {
                 row.setZna("+");
             }else{
                 row.setZna("-");
@@ -957,8 +957,8 @@ public class SecondHelper {
             DataRowForFullKorilation dataRowForFullKorilation = new DataRowForFullKorilation();
             key = String.format("%d", i + 1);
             value = linkedHashMap.get(key);
-            fValue = (list.get(0).size()-list.size()-1)/list.size() * value/(1-value);
-            if(fValue>Math.abs(Helper.koefForFisher(list.get(0),list.get(1)))){
+            fValue = Math.abs((list.get(0).size()-list.size()-1)/list.size() * value/(1-value)/2);//todo ficha (1-value)/2 -> (1-value)
+            if(fValue<Math.abs(Helper.koefForFisher(list.get(0),list.get(1)))){
                 zna = "+";
             }else{
                 zna = "-";
