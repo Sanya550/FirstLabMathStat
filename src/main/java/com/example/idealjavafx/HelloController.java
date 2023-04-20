@@ -519,97 +519,127 @@ public class HelloController {
                 arrayListNumber2.sort(Comparator.naturalOrder());
                 arrayListNumber3.sort(Comparator.naturalOrder());
                 break;
-            default:
-                System.out.println("Something wrong with this value: numberOfColumns");
-                break;
-        }
-
-        arrayList.sort(Comparator.naturalOrder());
-    }
-
-    @FXML
-    protected void chooseFileForDvovomirnihVibirok2(ActionEvent event) {
-        JFileChooser fileopen = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        int ret = fileopen.showDialog(null, "Виберіть текстовий файл");
-        File file = fileopen.getSelectedFile();
-        String s = file.getPath();
-        List<String> listString = new ArrayList<>();
-        try (BufferedReader br = Files.newBufferedReader(Path.of(s))) {
-            listString = br.lines().collect(Collectors.toList());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        int numberOfColumns = 0;
-        listString = listString.stream().map(String::trim).collect(Collectors.toList());
-        numberOfColumns = (int) listString.get(0).replaceAll("\\s+", " ").chars().filter(c -> c == (int) ' ').count() + 1;
-
-        switch (numberOfColumns) {
-            case 1:
-                for (String stringValue : listString) {
-                    try {
-                        arrayListNumber4.add(Double.parseDouble(stringValue));
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                }
-                for (int i = 0; i < arrayListNumber4.size(); i++) {
-                    arrayListGeneral.add(arrayListNumber4.get(i));
-                    arrayList.add(arrayListNumber4.get(i));
-                }
-                break;
-            case 2:
-                int space = 0;
-                for (int i = 0; i < listString.size(); i++) {
-                    for (int j = 0; j < listString.get(i).replaceAll("\\s+", " ").length(); j++) {
-                        if (listString.get(i).replaceAll("\\s+", " ").charAt(j) == ' ') {
-                            space = j;
-                            arrayListNumber4.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, space)));
-                            arrayListNumber5.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(space)));
-                            break;
-                        }
-                    }
-
-                }
-                //adding to general
-                for (int i = 0; i < arrayListNumber4.size(); i++) {
-                    arrayListGeneral.add(arrayListNumber4.get(i));
-                    withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
-                    savingListNumber4.add(arrayListNumber4.get(i));
-                    arrayListGeneral.add(arrayListNumber5.get(i));
-                    withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
-                    savingListNumber5.add(arrayListNumber5.get(i));
-                }
-                for (int i = 0; i < arrayListGeneral.size(); i++) {
-                    arrayList.add(arrayListGeneral.get(i));
-                }
-                arrayListNumber4.sort(Comparator.naturalOrder());
-                arrayListNumber5.sort(Comparator.naturalOrder());
-                break;
-            case 3:
-                List space1 = new ArrayList();
+            case 4:
+                List space2 = new ArrayList();
 
                 for (int i = 0; i < listString.size(); i++) {
                     for (int j = 0; j < listString.get(i).replaceAll("\\s+", " ").length(); j++) {
                         if (listString.get(i).replaceAll("\\s+", " ").charAt(j) == ' ') {
-                            space1.add(j);
-                            if (space1.size() == 2) {
-                                arrayListNumber4.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, (Integer) space1.get(0))));
-                                arrayListNumber5.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space1.get(0), (Integer) space1.get(1))));
-                                arrayListNumber6.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space1.get(1))));
-                                space1.clear();
+                            space2.add(j);
+                            if (space2.size() == 3) {
+                                arrayListNumber1.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, (Integer) space2.get(0))));
+                                arrayListNumber2.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space2.get(0), (Integer) space2.get(1))));
+                                arrayListNumber3.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space2.get(1), (Integer) space2.get(2))));
+                                arrayListNumber4.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space2.get(2))));
+                                space2.clear();
                                 break;
                             }
                         }
                     }
                 }
-                for (int i = 0; i < arrayListNumber4.size(); i++) {
+                for (int i = 0; i < arrayListNumber1.size(); i++) {
+                    arrayListGeneral.add(arrayListNumber1.get(i));
+                    arrayListGeneral.add(arrayListNumber2.get(i));
+                    arrayListGeneral.add(arrayListNumber3.get(i));
+                    arrayListGeneral.add(arrayListNumber4.get(i));
+                    withoutSortingArrayListNumber1.add(arrayListNumber1.get(i));
+                    withoutSortingArrayListNumber2.add(arrayListNumber2.get(i));
+                    withoutSortingArrayListNumber3.add(arrayListNumber3.get(i));
+                    withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
+                    savingListNumber1.add(arrayListNumber1.get(i));
+                    savingListNumber2.add(arrayListNumber2.get(i));
+                    savingListNumber3.add(arrayListNumber3.get(i));
+                    savingListNumber4.add(arrayListNumber4.get(i));
+                }
+                for (int i = 0; i < arrayListGeneral.size(); i++) {
+                    arrayList.add(arrayListGeneral.get(i));
+                }
+                arrayListNumber1.sort(Comparator.naturalOrder());
+                arrayListNumber2.sort(Comparator.naturalOrder());
+                arrayListNumber3.sort(Comparator.naturalOrder());
+                arrayListNumber4.sort(Comparator.naturalOrder());
+                break;
+            case 5:
+                List space3 = new ArrayList();
+
+                for (int i = 0; i < listString.size(); i++) {
+                    for (int j = 0; j < listString.get(i).replaceAll("\\s+", " ").length(); j++) {
+                        if (listString.get(i).replaceAll("\\s+", " ").charAt(j) == ' ') {
+                            space3.add(j);
+                            if (space3.size() == 4) {
+                                arrayListNumber1.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, (Integer) space3.get(0))));
+                                arrayListNumber2.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space3.get(0), (Integer) space3.get(1))));
+                                arrayListNumber3.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space3.get(1), (Integer) space3.get(2))));
+                                arrayListNumber4.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space3.get(2), (Integer) space3.get(3))));
+                                arrayListNumber5.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space3.get(3))));
+                                space3.clear();
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < arrayListNumber1.size(); i++) {
+                    arrayListGeneral.add(arrayListNumber1.get(i));
+                    arrayListGeneral.add(arrayListNumber2.get(i));
+                    arrayListGeneral.add(arrayListNumber3.get(i));
+                    arrayListGeneral.add(arrayListNumber4.get(i));
+                    arrayListGeneral.add(arrayListNumber5.get(i));
+                    withoutSortingArrayListNumber1.add(arrayListNumber1.get(i));
+                    withoutSortingArrayListNumber2.add(arrayListNumber2.get(i));
+                    withoutSortingArrayListNumber3.add(arrayListNumber3.get(i));
+                    withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
+                    withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
+                    savingListNumber1.add(arrayListNumber1.get(i));
+                    savingListNumber2.add(arrayListNumber2.get(i));
+                    savingListNumber3.add(arrayListNumber3.get(i));
+                    savingListNumber4.add(arrayListNumber4.get(i));
+                    savingListNumber5.add(arrayListNumber5.get(i));
+                }
+                for (int i = 0; i < arrayListGeneral.size(); i++) {
+                    arrayList.add(arrayListGeneral.get(i));
+                }
+                arrayListNumber1.sort(Comparator.naturalOrder());
+                arrayListNumber2.sort(Comparator.naturalOrder());
+                arrayListNumber3.sort(Comparator.naturalOrder());
+                arrayListNumber4.sort(Comparator.naturalOrder());
+                arrayListNumber5.sort(Comparator.naturalOrder());
+                break;
+            case 6:
+                List space4 = new ArrayList();
+
+                for (int i = 0; i < listString.size(); i++) {
+                    for (int j = 0; j < listString.get(i).replaceAll("\\s+", " ").length(); j++) {
+                        if (listString.get(i).replaceAll("\\s+", " ").charAt(j) == ' ') {
+                            space4.add(j);
+                            if (space4.size() == 5) {
+                                arrayListNumber1.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, (Integer) space4.get(0))));
+                                arrayListNumber2.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space4.get(0), (Integer) space4.get(1))));
+                                arrayListNumber3.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space4.get(1), (Integer) space4.get(2))));
+                                arrayListNumber4.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space4.get(2), (Integer) space4.get(3))));
+                                arrayListNumber5.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space4.get(3), (Integer) space4.get(4))));
+                                arrayListNumber6.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space4.get(4))));
+                                space4.clear();
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < arrayListNumber1.size(); i++) {
+                    arrayListGeneral.add(arrayListNumber1.get(i));
+                    arrayListGeneral.add(arrayListNumber2.get(i));
+                    arrayListGeneral.add(arrayListNumber3.get(i));
                     arrayListGeneral.add(arrayListNumber4.get(i));
                     arrayListGeneral.add(arrayListNumber5.get(i));
                     arrayListGeneral.add(arrayListNumber6.get(i));
+                    withoutSortingArrayListNumber1.add(arrayListNumber1.get(i));
+                    withoutSortingArrayListNumber2.add(arrayListNumber2.get(i));
+                    withoutSortingArrayListNumber3.add(arrayListNumber3.get(i));
                     withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
                     withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
                     withoutSortingArrayListNumber6.add(arrayListNumber6.get(i));
+                    savingListNumber1.add(arrayListNumber1.get(i));
+                    savingListNumber2.add(arrayListNumber2.get(i));
+                    savingListNumber3.add(arrayListNumber3.get(i));
                     savingListNumber4.add(arrayListNumber4.get(i));
                     savingListNumber5.add(arrayListNumber5.get(i));
                     savingListNumber6.add(arrayListNumber6.get(i));
@@ -617,6 +647,9 @@ public class HelloController {
                 for (int i = 0; i < arrayListGeneral.size(); i++) {
                     arrayList.add(arrayListGeneral.get(i));
                 }
+                arrayListNumber1.sort(Comparator.naturalOrder());
+                arrayListNumber2.sort(Comparator.naturalOrder());
+                arrayListNumber3.sort(Comparator.naturalOrder());
                 arrayListNumber4.sort(Comparator.naturalOrder());
                 arrayListNumber5.sort(Comparator.naturalOrder());
                 arrayListNumber6.sort(Comparator.naturalOrder());
