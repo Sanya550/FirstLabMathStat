@@ -1,6 +1,7 @@
 package com.example.idealjavafx;
 
 
+import com.example.idealjavafx.graphics.Graphics;
 import com.example.idealjavafx.models.MainCharactericticForData;
 import com.example.idealjavafx.models.VariationMatrix;
 import com.example.idealjavafx.models.VariationRowForData;
@@ -1810,5 +1811,32 @@ public class HelloController {
         SecondHelper secondHelper = new SecondHelper();
         var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         secondHelper.showFullKorilation(tableView, list);
+    }
+
+    //візуалізація:
+    //Матриця діаграм розкиду
+    @FXML
+    protected void matrixRozkVizual(){
+
+    }
+
+    //Паралельні координати
+    @FXML
+    protected void paralelKoordinatVizual(){
+        SecondHelper secondHelper = new SecondHelper();
+        var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        Graphics.drawParalelKoordinatVizual(areaChartFunctionOfShilnist, list);
+    }
+
+    //Теплова карта
+    @FXML
+    protected void teplovaMapVizual(){
+
+    }
+
+    //Бульбашкова діаграма
+    @FXML
+    protected void bubbleVizual(){
+
     }
 }
