@@ -3,6 +3,7 @@
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.ScatterChart?>
 <?import javafx.scene.control.CheckBox?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="981.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
    <children>
       <MenuBar layoutX="-2.0" layoutY="1.0" prefHeight="26.0" prefWidth="951.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0">
         <menus>
@@ -280,70 +281,118 @@
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="392.0" prefWidth="733.0" style="-fx-background-color: #fafa;">
-               <children>
-                  <SplitPane dividerPositions="0.6697127937336814" prefHeight="422.0" prefWidth="768.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                        <SplitPane dividerPositions="0.5" prefHeight="420.0" prefWidth="517.0">
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="586.0" prefWidth="981.0" style="-fx-background-color: #fafa;">
+                     <children>
+                        <SplitPane dividerPositions="0.670138888888889" prefHeight="422.0" prefWidth="768.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
+                              <SplitPane dividerPositions="0.5" prefHeight="420.0" prefWidth="517.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                       <children>
+                                          <SplitPane dividerPositions="0.5" layoutX="100.0" layoutY="69.0" orientation="VERTICAL" prefHeight="391.0" prefWidth="342.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <items>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                   <children>
+                                                      <BarChart fx:id="barChartFunctionOfShilnist" layoutX="-125.0" layoutY="-95.0" prefHeight="192.0" prefWidth="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <xAxis>
+                                                          <CategoryAxis side="BOTTOM" />
+                                                        </xAxis>
+                                                        <yAxis>
+                                                          <NumberAxis side="LEFT" />
+                                                        </yAxis>
+                                                      </BarChart>
+                                                   </children>
+                                                </AnchorPane>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                   <children>
+                                                      <BarChart fx:id="barChartEmpiritionFunction" layoutX="-121.0" layoutY="-114.0" prefHeight="191.0" prefWidth="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <xAxis>
+                                                          <CategoryAxis side="BOTTOM" />
+                                                        </xAxis>
+                                                        <yAxis>
+                                                          <NumberAxis side="LEFT" />
+                                                        </yAxis>
+                                                      </BarChart>
+                                                   </children>
+                                                </AnchorPane>
+                                            </items>
+                                          </SplitPane>
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane>
+                                       <children>
+                                          <SplitPane dividerPositions="0.5" layoutX="180.0" layoutY="96.0" orientation="VERTICAL" prefHeight="391.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <items>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                   <children>
+                                                      <AreaChart fx:id="areaChartFunctionOfShilnist" layoutX="-100.0" layoutY="-104.0" prefHeight="192.0" prefWidth="381.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <xAxis>
+                                                          <CategoryAxis side="BOTTOM" />
+                                                        </xAxis>
+                                                        <yAxis>
+                                                          <NumberAxis side="LEFT" />
+                                                        </yAxis>
+                                                      </AreaChart>
+                                                   </children>
+                                                </AnchorPane>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                   <children>
+                                                      <AreaChart fx:id="areaChartEmpiritionFunction" layoutX="-80.0" layoutY="-114.0" prefHeight="191.0" prefWidth="381.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <xAxis>
+                                                          <CategoryAxis side="BOTTOM" />
+                                                        </xAxis>
+                                                        <yAxis>
+                                                          <NumberAxis side="LEFT" />
+                                                        </yAxis>
+                                                      </AreaChart>
+                                                   </children>
+                                                </AnchorPane>
+                                            </items>
+                                          </SplitPane>
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <SplitPane dividerPositions="0.5" layoutX="100.0" layoutY="69.0" orientation="VERTICAL" prefHeight="391.0" prefWidth="342.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <SplitPane dividerPositions="0.5" layoutX="27.0" layoutY="130.0" orientation="VERTICAL" prefHeight="420.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <items>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                              <children>
-                                                <BarChart fx:id="barChartFunctionOfShilnist" layoutX="-125.0" layoutY="-95.0" prefHeight="192.0" prefWidth="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <xAxis>
-                                                    <CategoryAxis side="BOTTOM" />
-                                                  </xAxis>
-                                                  <yAxis>
-                                                    <NumberAxis side="LEFT" />
-                                                  </yAxis>
-                                                </BarChart>
+                                                <ScatterChart fx:id="scatterChartForKorilationField" layoutX="-138.0" layoutY="-97.0" prefHeight="206.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <!--                                            <xAxis>-->
+      <!--                                              <CategoryAxis side="BOTTOM" />-->
+      <!--                                            </xAxis>-->
+      <!--                                            <yAxis>-->
+      <!--                                              <NumberAxis side="LEFT" />-->
+      <!--                                            </yAxis>-->
+                                                    <xAxis>
+                                                        <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForKorilationField" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis fx:id="yAxisForScatterChartForKorilationField" layoutX="10.0" side="LEFT" />
+                                                    </yAxis>
+                                                </ScatterChart>
                                              </children>
                                           </AnchorPane>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                              <children>
-                                                <BarChart fx:id="barChartEmpiritionFunction" layoutX="-121.0" layoutY="-114.0" prefHeight="191.0" prefWidth="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <xAxis>
-                                                    <CategoryAxis side="BOTTOM" />
-                                                  </xAxis>
-                                                  <yAxis>
-                                                    <NumberAxis side="LEFT" />
-                                                  </yAxis>
-                                                </BarChart>
-                                             </children>
-                                          </AnchorPane>
-                                      </items>
-                                    </SplitPane>
-                                 </children>
-                              </AnchorPane>
-                            <AnchorPane>
-                                 <children>
-                                    <SplitPane dividerPositions="0.5" layoutX="180.0" layoutY="96.0" orientation="VERTICAL" prefHeight="391.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <items>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                             <children>
-                                                <AreaChart fx:id="areaChartFunctionOfShilnist" layoutX="-100.0" layoutY="-104.0" prefHeight="192.0" prefWidth="381.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <xAxis>
-                                                    <CategoryAxis side="BOTTOM" />
-                                                  </xAxis>
-                                                  <yAxis>
-                                                    <NumberAxis side="LEFT" />
-                                                  </yAxis>
-                                                </AreaChart>
-                                             </children>
-                                          </AnchorPane>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                             <children>
-                                                <AreaChart fx:id="areaChartEmpiritionFunction" layoutX="-80.0" layoutY="-114.0" prefHeight="191.0" prefWidth="381.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <xAxis>
-                                                    <CategoryAxis side="BOTTOM" />
-                                                  </xAxis>
-                                                  <yAxis>
-                                                    <NumberAxis side="LEFT" />
-                                                  </yAxis>
-                                                </AreaChart>
+                                                <ScatterChart fx:id="scatterChartForFrequencyOfHystograma" prefHeight="206.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <!--                                            <xAxis>-->
+      <!--                                              <CategoryAxis side="BOTTOM" />-->
+      <!--                                            </xAxis>-->
+      <!--                                            <yAxis>-->
+      <!--                                              <NumberAxis side="LEFT" />-->
+      <!--                                            </yAxis>-->
+                                                    <xAxis>
+                                                        <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForFrequencyOfHystograma" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis fx:id="yAxisForScatterChartForFrequencyOfHystograma" layoutX="10.0" side="LEFT" />
+                                                    </yAxis>
+                                                </ScatterChart>
                                              </children>
                                           </AnchorPane>
                                       </items>
@@ -352,54 +401,654 @@
                               </AnchorPane>
                           </items>
                         </SplitPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <SplitPane dividerPositions="0.5" layoutX="27.0" layoutY="130.0" orientation="VERTICAL" prefHeight="420.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                       <children>
-                                          <ScatterChart fx:id="scatterChartForKorilationField" layoutX="-138.0" layoutY="-97.0" prefHeight="206.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-<!--                                            <xAxis>-->
-<!--                                              <CategoryAxis side="BOTTOM" />-->
-<!--                                            </xAxis>-->
-<!--                                            <yAxis>-->
-<!--                                              <NumberAxis side="LEFT" />-->
-<!--                                            </yAxis>-->
-                                              <xAxis>
-                                                  <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForKorilationField" />
-                                              </xAxis>
-                                              <yAxis>
-                                                  <NumberAxis fx:id="yAxisForScatterChartForKorilationField" layoutX="10.0" side="LEFT" />
-                                              </yAxis>
-                                          </ScatterChart>
-                                       </children>
-                                    </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                       <children>
-                                          <ScatterChart fx:id="scatterChartForFrequencyOfHystograma" prefHeight="206.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-<!--                                            <xAxis>-->
-<!--                                              <CategoryAxis side="BOTTOM" />-->
-<!--                                            </xAxis>-->
-<!--                                            <yAxis>-->
-<!--                                              <NumberAxis side="LEFT" />-->
-<!--                                            </yAxis>-->
-                                              <xAxis>
-                                                  <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForFrequencyOfHystograma" />
-                                              </xAxis>
-                                              <yAxis>
-                                                  <NumberAxis fx:id="yAxisForScatterChartForFrequencyOfHystograma" layoutX="10.0" side="LEFT" />
-                                              </yAxis>
-                                          </ScatterChart>
-                                       </children>
-                                    </AnchorPane>
-                                </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
-               </children>
-            </AnchorPane>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="303.0" prefWidth="981.0">
+                     <children>
+                        <SplitPane dividerPositions="0.6139705882352942" layoutX="355.0" layoutY="144.0" prefHeight="356.8" prefWidth="980.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="355.0" prefWidth="503.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.16792452830188678" layoutX="148.0" layoutY="77.0" prefHeight="355.2" prefWidth="592.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <SplitPane dividerPositions="0.19090909090909092" layoutX="-15.0" layoutY="-42.0" orientation="VERTICAL" prefHeight="353.6" prefWidth="113.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <items>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                         <children>
+                                                            <BarChart fx:id="barChartRozkid1" layoutX="-194.0" layoutY="-168.0" prefHeight="47.0" prefWidth="98.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                              <xAxis>
+                                                                <CategoryAxis side="BOTTOM" />
+                                                              </xAxis>
+                                                              <yAxis>
+                                                                <NumberAxis side="LEFT" />
+                                                              </yAxis>
+                                                            </BarChart>
+                                                         </children>
+                                                      </AnchorPane>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                         <children>
+                                                            <SplitPane dividerPositions="0.20785714285714288" layoutX="-24.0" layoutY="-29.0" orientation="VERTICAL" prefHeight="281.6" prefWidth="112.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                              <items>
+                                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                     <children>
+                                                                        <ScatterChart fx:id="scatterChartRozkid21" prefHeight="40.0" prefWidth="96.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                            <xAxis>
+                                                                                <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid21" />
+                                                                            </xAxis>
+                                                                            <yAxis>
+                                                                                <NumberAxis fx:id="yAxisForScatterChartForRozkid21" layoutX="10.0" side="LEFT" />
+                                                                            </yAxis>
+                                                                        </ScatterChart>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                     <children>
+                                                                        <SplitPane dividerPositions="0.23069852941176475" layoutX="-15.0" layoutY="-32.0" orientation="VERTICAL" prefHeight="219.2" prefWidth="110.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                          <items>
+                                                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="47.0" prefWidth="110.0">
+                                                                                 <children>
+                                                                                    <ScatterChart fx:id="scatterChartRozkid31" prefHeight="34.0" prefWidth="94.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                        <xAxis>
+                                                                                            <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid31" />
+                                                                                        </xAxis>
+                                                                                        <yAxis>
+                                                                                            <NumberAxis fx:id="yAxisForScatterChartForRozkid31" layoutX="10.0" side="LEFT" />
+                                                                                        </yAxis>
+                                                                                    </ScatterChart>
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                 <children>
+                                                                                    <SplitPane dividerPositions="0.33210784313725494" layoutY="14.0" orientation="VERTICAL" prefHeight="129.6" prefWidth="108.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                      <items>
+                                                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                             <children>
+                                                                                                <ScatterChart fx:id="scatterChartRozkid41" prefHeight="36.0" prefWidth="92.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                    <xAxis>
+                                                                                                        <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid41" />
+                                                                                                    </xAxis>
+                                                                                                    <yAxis>
+                                                                                                        <NumberAxis fx:id="yAxisForScatterChartForRozkid41" layoutX="10.0" side="LEFT" />
+                                                                                                    </yAxis>
+                                                                                                </ScatterChart>
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                             <children>
+                                                                                                <SplitPane dividerPositions="0.5" layoutX="3.0" layoutY="37.0" orientation="VERTICAL" prefHeight="92.0" prefWidth="107.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                  <items>
+                                                                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <ScatterChart fx:id="scatterChartRozkid51" prefHeight="34.0" prefWidth="90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                <xAxis>
+                                                                                                                    <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid51" />
+                                                                                                                </xAxis>
+                                                                                                                <yAxis>
+                                                                                                                    <NumberAxis fx:id="yAxisForScatterChartForRozkid51" layoutX="10.0" side="LEFT" />
+                                                                                                                </yAxis>
+                                                                                                            </ScatterChart>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <ScatterChart fx:id="scatterChartRozkid61" prefHeight="33.0" prefWidth="90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                <xAxis>
+                                                                                                                    <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid61" />
+                                                                                                                </xAxis>
+                                                                                                                <yAxis>
+                                                                                                                    <NumberAxis fx:id="yAxisForScatterChartForRozkid61" layoutX="10.0" side="LEFT" />
+                                                                                                                </yAxis>
+                                                                                                            </ScatterChart>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                  </items>
+                                                                                                </SplitPane>
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                      </items>
+                                                                                    </SplitPane>
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                          </items>
+                                                                        </SplitPane>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                              </items>
+                                                            </SplitPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </items>
+                                                </SplitPane>
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <SplitPane dividerPositions="0.20630252100840338" layoutX="92.0" layoutY="87.0" prefHeight="353.6" prefWidth="451.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <items>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                         <children>
+                                                            <SplitPane dividerPositions="0.19090909090909092" layoutX="-15.0" layoutY="-42.0" orientation="VERTICAL" prefHeight="353.6" prefWidth="113.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <items>
+                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                     <children>
+                                                                        <Label fx:id="labelKorilation12" prefHeight="47.2" prefWidth="82.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                     <children>
+                                                                        <SplitPane dividerPositions="0.20785714285714288" layoutX="-24.0" layoutY="-29.0" orientation="VERTICAL" prefHeight="281.6" prefWidth="112.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <items>
+                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                 <children>
+                                                                                    <BarChart fx:id="barChartRozkid2" prefHeight="40.0" prefWidth="80.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                      <xAxis>
+                                                                                        <CategoryAxis side="BOTTOM" />
+                                                                                      </xAxis>
+                                                                                      <yAxis>
+                                                                                        <NumberAxis side="LEFT" />
+                                                                                      </yAxis>
+                                                                                    </BarChart>
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                 <children>
+                                                                                    <SplitPane dividerPositions="0.23069852941176475" layoutX="-15.0" layoutY="-32.0" orientation="VERTICAL" prefHeight="219.2" prefWidth="110.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                       <items>
+                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                             <children>
+                                                                                                <ScatterChart fx:id="scatterChartRozkid32" prefHeight="33.0" prefWidth="78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                    <xAxis>
+                                                                                                        <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid32" />
+                                                                                                    </xAxis>
+                                                                                                    <yAxis>
+                                                                                                        <NumberAxis fx:id="yAxisForScatterChartForRozkid32" layoutX="10.0" side="LEFT" />
+                                                                                                    </yAxis>
+                                                                                                </ScatterChart>
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                             <children>
+                                                                                                <SplitPane dividerPositions="0.33210784313725494" layoutY="14.0" orientation="VERTICAL" prefHeight="129.6" prefWidth="108.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                   <items>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <ScatterChart fx:id="scatterChartRozkid42" prefHeight="36.0" prefWidth="76.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                <xAxis>
+                                                                                                                    <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid42" />
+                                                                                                                </xAxis>
+                                                                                                                <yAxis>
+                                                                                                                    <NumberAxis fx:id="yAxisForScatterChartForRozkid42" layoutX="10.0" side="LEFT" />
+                                                                                                                </yAxis>
+                                                                                                            </ScatterChart>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <SplitPane dividerPositions="0.5" layoutX="3.0" layoutY="37.0" orientation="VERTICAL" prefHeight="92.0" prefWidth="107.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                               <items>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <ScatterChart fx:id="scatterChartRozkid52" prefHeight="33.0" prefWidth="74.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                            <xAxis>
+                                                                                                                                <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid52" />
+                                                                                                                            </xAxis>
+                                                                                                                            <yAxis>
+                                                                                                                                <NumberAxis fx:id="yAxisForScatterChartForRozkid52" layoutX="10.0" side="LEFT" />
+                                                                                                                            </yAxis>
+                                                                                                                        </ScatterChart>
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <ScatterChart fx:id="scatterChartRozkid62" prefHeight="33.0" prefWidth="74.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                            <xAxis>
+                                                                                                                                <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid62" />
+                                                                                                                            </xAxis>
+                                                                                                                            <yAxis>
+                                                                                                                                <NumberAxis fx:id="yAxisForScatterChartForRozkid62" layoutX="10.0" side="LEFT" />
+                                                                                                                            </yAxis>
+                                                                                                                        </ScatterChart>
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                               </items>
+                                                                                                            </SplitPane>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                   </items>
+                                                                                                </SplitPane>
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                       </items>
+                                                                                    </SplitPane>
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </items>
+                                                                        </SplitPane>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                               </items>
+                                                            </SplitPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                         <children>
+                                                            <SplitPane dividerPositions="0.2548179871520343" layoutX="56.0" layoutY="96.0" prefHeight="352.0" prefWidth="312.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                              <items>
+                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                                     <children>
+                                                                        <SplitPane dividerPositions="0.19090909090909092" layoutX="-15.0" layoutY="-42.0" orientation="VERTICAL" prefHeight="353.6" prefWidth="113.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <items>
+                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                 <children>
+                                                                                    <Label fx:id="labelKorilation13" layoutX="14.0" layoutY="15.0" prefHeight="47.2" prefWidth="80.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                       <font>
+                                                                                          <Font size="14.0" />
+                                                                                       </font>
+                                                                                    </Label>
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                 <children>
+                                                                                    <SplitPane dividerPositions="0.20785714285714288" layoutX="-24.0" layoutY="-29.0" orientation="VERTICAL" prefHeight="281.6" prefWidth="112.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                       <items>
+                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                             <children>
+                                                                                                <Label fx:id="labelKorilation23" layoutX="6.0" layoutY="4.0" prefHeight="40.0" prefWidth="79.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                             <children>
+                                                                                                <SplitPane dividerPositions="0.23069852941176475" layoutX="-15.0" layoutY="-32.0" orientation="VERTICAL" prefHeight="219.2" prefWidth="110.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                   <items>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <BarChart fx:id="barChartRozkid3" prefHeight="47.2" prefWidth="87.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                              <xAxis>
+                                                                                                                <CategoryAxis side="BOTTOM" />
+                                                                                                              </xAxis>
+                                                                                                              <yAxis>
+                                                                                                                <NumberAxis side="LEFT" />
+                                                                                                              </yAxis>
+                                                                                                            </BarChart>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <SplitPane dividerPositions="0.33210784313725494" layoutY="14.0" orientation="VERTICAL" prefHeight="129.6" prefWidth="108.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                               <items>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <ScatterChart fx:id="scatterChartRozkid43" prefHeight="36.0" prefWidth="73.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                            <xAxis>
+                                                                                                                                <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid43" />
+                                                                                                                            </xAxis>
+                                                                                                                            <yAxis>
+                                                                                                                                <NumberAxis fx:id="yAxisForScatterChartForRozkid43" layoutX="10.0" side="LEFT" />
+                                                                                                                            </yAxis>
+                                                                                                                        </ScatterChart>
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <SplitPane dividerPositions="0.5" layoutX="3.0" layoutY="37.0" orientation="VERTICAL" prefHeight="92.0" prefWidth="107.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                           <items>
+                                                                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                 <children>
+                                                                                                                                    <ScatterChart fx:id="scatterChartRozkid53" prefHeight="33.0" prefWidth="71.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                        <xAxis>
+                                                                                                                                            <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid53" />
+                                                                                                                                        </xAxis>
+                                                                                                                                        <yAxis>
+                                                                                                                                            <NumberAxis fx:id="yAxisForScatterChartForRozkid53" layoutX="10.0" side="LEFT" />
+                                                                                                                                        </yAxis>
+                                                                                                                                    </ScatterChart>
+                                                                                                                                 </children>
+                                                                                                                              </AnchorPane>
+                                                                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                 <children>
+                                                                                                                                    <ScatterChart fx:id="scatterChartRozkid63" prefHeight="33.0" prefWidth="71.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                        <xAxis>
+                                                                                                                                            <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid63" />
+                                                                                                                                        </xAxis>
+                                                                                                                                        <yAxis>
+                                                                                                                                            <NumberAxis fx:id="yAxisForScatterChartForRozkid63" layoutX="10.0" side="LEFT" />
+                                                                                                                                        </yAxis>
+                                                                                                                                    </ScatterChart>
+                                                                                                                                 </children>
+                                                                                                                              </AnchorPane>
+                                                                                                                           </items>
+                                                                                                                        </SplitPane>
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                               </items>
+                                                                                                            </SplitPane>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                   </items>
+                                                                                                </SplitPane>
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                       </items>
+                                                                                    </SplitPane>
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </items>
+                                                                        </SplitPane>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                                     <children>
+                                                                        <SplitPane dividerPositions="0.2748538011695907" layoutX="10.0" layoutY="102.0" prefHeight="350.4" prefWidth="220.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                          <items>
+                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                                                 <children>
+                                                                                    <SplitPane dividerPositions="0.19090909090909092" layoutX="-15.0" layoutY="-42.0" orientation="VERTICAL" prefHeight="353.6" prefWidth="113.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                       <items>
+                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                             <children>
+                                                                                                <Label fx:id="labelKorilation14" layoutX="17.0" layoutY="15.0" />
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                             <children>
+                                                                                                <SplitPane dividerPositions="0.20785714285714288" layoutX="-24.0" layoutY="-29.0" orientation="VERTICAL" prefHeight="281.6" prefWidth="112.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                   <items>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <Label fx:id="labelKorilation24" layoutX="-7.0" layoutY="-1.0" prefHeight="40.0" prefWidth="60.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <SplitPane dividerPositions="0.23069852941176475" layoutX="-15.0" layoutY="-32.0" orientation="VERTICAL" prefHeight="219.2" prefWidth="110.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                               <items>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <Label fx:id="labelKorilation34" layoutX="17.0" layoutY="5.0" />
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <SplitPane dividerPositions="0.33210784313725494" layoutY="14.0" orientation="VERTICAL" prefHeight="129.6" prefWidth="108.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                           <items>
+                                                                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                 <children>
+                                                                                                                                    <BarChart fx:id="barChartRozkid4" prefHeight="50.4" prefWidth="65.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                      <xAxis>
+                                                                                                                                        <CategoryAxis side="BOTTOM" />
+                                                                                                                                      </xAxis>
+                                                                                                                                      <yAxis>
+                                                                                                                                        <NumberAxis side="LEFT" />
+                                                                                                                                      </yAxis>
+                                                                                                                                    </BarChart>
+                                                                                                                                 </children>
+                                                                                                                              </AnchorPane>
+                                                                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                 <children>
+                                                                                                                                    <SplitPane dividerPositions="0.5" layoutX="3.0" layoutY="37.0" orientation="VERTICAL" prefHeight="92.0" prefWidth="107.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                       <items>
+                                                                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                             <children>
+                                                                                                                                                <ScatterChart fx:id="scatterChartRozkid54" prefHeight="33.0" prefWidth="53.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                                    <xAxis>
+                                                                                                                                                        <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid54" />
+                                                                                                                                                    </xAxis>
+                                                                                                                                                    <yAxis>
+                                                                                                                                                        <NumberAxis fx:id="yAxisForScatterChartForRozkid54" layoutX="10.0" side="LEFT" />
+                                                                                                                                                    </yAxis>
+                                                                                                                                                </ScatterChart>
+                                                                                                                                             </children>
+                                                                                                                                          </AnchorPane>
+                                                                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                             <children>
+                                                                                                                                                <ScatterChart fx:id="scatterChartRozkid64" prefHeight="32.0" prefWidth="53.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                                    <xAxis>
+                                                                                                                                                        <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid64" />
+                                                                                                                                                    </xAxis>
+                                                                                                                                                    <yAxis>
+                                                                                                                                                        <NumberAxis fx:id="yAxisForScatterChartForRozkid64" layoutX="10.0" side="LEFT" />
+                                                                                                                                                    </yAxis>
+                                                                                                                                                </ScatterChart>
+                                                                                                                                             </children>
+                                                                                                                                          </AnchorPane>
+                                                                                                                                       </items>
+                                                                                                                                    </SplitPane>
+                                                                                                                                 </children>
+                                                                                                                              </AnchorPane>
+                                                                                                                           </items>
+                                                                                                                        </SplitPane>
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                               </items>
+                                                                                                            </SplitPane>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                   </items>
+                                                                                                </SplitPane>
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                       </items>
+                                                                                    </SplitPane>
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                                                 <children>
+                                                                                    <SplitPane dividerPositions="0.4452479338842976" layoutX="-38.0" layoutY="69.0" prefHeight="348.8" prefWidth="123.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                      <items>
+                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                                                             <children>
+                                                                                                <SplitPane dividerPositions="0.19090909090909092" layoutX="-15.0" layoutY="-42.0" orientation="VERTICAL" prefHeight="353.6" prefWidth="113.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                   <items>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <Label fx:id="labelKorilation15" layoutX="18.0" layoutY="12.0" />
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <SplitPane dividerPositions="0.20785714285714288" layoutX="-24.0" layoutY="-29.0" orientation="VERTICAL" prefHeight="281.6" prefWidth="112.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                               <items>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <Label fx:id="labelKorilation25" layoutX="-11.0" layoutY="5.0" prefHeight="39.2" prefWidth="70.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <SplitPane dividerPositions="0.23069852941176475" layoutX="-15.0" layoutY="-32.0" orientation="VERTICAL" prefHeight="219.2" prefWidth="110.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                           <items>
+                                                                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                 <children>
+                                                                                                                                    <Label fx:id="labelKorilation35" layoutX="16.0" layoutY="8.0" />
+                                                                                                                                 </children>
+                                                                                                                              </AnchorPane>
+                                                                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                 <children>
+                                                                                                                                    <SplitPane dividerPositions="0.33210784313725494" layoutY="14.0" orientation="VERTICAL" prefHeight="129.6" prefWidth="108.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                       <items>
+                                                                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                             <children>
+                                                                                                                                                <Label fx:id="labelKorilation45" layoutX="18.0" layoutY="11.0" prefHeight="36.0" prefWidth="67.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                                                             </children>
+                                                                                                                                          </AnchorPane>
+                                                                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                             <children>
+                                                                                                                                                <SplitPane dividerPositions="0.5" layoutX="3.0" layoutY="37.0" orientation="VERTICAL" prefHeight="92.0" prefWidth="107.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                                   <items>
+                                                                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                                         <children>
+                                                                                                                                                            <BarChart fx:id="barChartRozkid5" prefHeight="48.0" prefWidth="75.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                                              <xAxis>
+                                                                                                                                                                <CategoryAxis side="BOTTOM" />
+                                                                                                                                                              </xAxis>
+                                                                                                                                                              <yAxis>
+                                                                                                                                                                <NumberAxis side="LEFT" />
+                                                                                                                                                              </yAxis>
+                                                                                                                                                            </BarChart>
+                                                                                                                                                         </children>
+                                                                                                                                                      </AnchorPane>
+                                                                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                                         <children>
+                                                                                                                                                            <ScatterChart fx:id="scatterChartRozkid65" prefHeight="32.0" prefWidth="63.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                                                <xAxis>
+                                                                                                                                                                    <NumberAxis side="BOTTOM" fx:id="xAxisForScatterChartForRozkid65" />
+                                                                                                                                                                </xAxis>
+                                                                                                                                                                <yAxis>
+                                                                                                                                                                    <NumberAxis fx:id="yAxisForScatterChartForRozkid65" layoutX="10.0" side="LEFT" />
+                                                                                                                                                                </yAxis>
+                                                                                                                                                            </ScatterChart>
+                                                                                                                                                         </children>
+                                                                                                                                                      </AnchorPane>
+                                                                                                                                                   </items>
+                                                                                                                                                </SplitPane>
+                                                                                                                                             </children>
+                                                                                                                                          </AnchorPane>
+                                                                                                                                       </items>
+                                                                                                                                    </SplitPane>
+                                                                                                                                 </children>
+                                                                                                                              </AnchorPane>
+                                                                                                                           </items>
+                                                                                                                        </SplitPane>
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                               </items>
+                                                                                                            </SplitPane>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                   </items>
+                                                                                                </SplitPane>
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                                                             <children>
+                                                                                                <SplitPane dividerPositions="0.19090909090909092" layoutX="-15.0" layoutY="-42.0" orientation="VERTICAL" prefHeight="353.6" prefWidth="113.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                   <items>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <Label fx:id="labelKorilation16" layoutX="22.0" layoutY="13.0" prefHeight="46.4" prefWidth="90.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                         <children>
+                                                                                                            <SplitPane dividerPositions="0.20785714285714288" layoutX="-24.0" layoutY="-29.0" orientation="VERTICAL" prefHeight="281.6" prefWidth="112.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                               <items>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <Label fx:id="labelKorilation26" layoutX="12.0" layoutY="7.0" prefHeight="39.2" prefWidth="88.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                     <children>
+                                                                                                                        <SplitPane dividerPositions="0.23069852941176475" layoutX="-15.0" layoutY="-32.0" orientation="VERTICAL" prefHeight="219.2" prefWidth="110.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                           <items>
+                                                                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                 <children>
+                                                                                                                                    <Label fx:id="labelKorilation36" layoutX="14.0" layoutY="8.0" prefHeight="33.6" prefWidth="87.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                                                 </children>
+                                                                                                                              </AnchorPane>
+                                                                                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                 <children>
+                                                                                                                                    <SplitPane dividerPositions="0.33210784313725494" layoutY="14.0" orientation="VERTICAL" prefHeight="129.6" prefWidth="108.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                       <items>
+                                                                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                             <children>
+                                                                                                                                                <Label fx:id="labelKorilation46" layoutX="3.0" layoutY="3.0" prefHeight="36.0" prefWidth="85.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                                                             </children>
+                                                                                                                                          </AnchorPane>
+                                                                                                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                             <children>
+                                                                                                                                                <SplitPane dividerPositions="0.5" layoutX="3.0" layoutY="37.0" orientation="VERTICAL" prefHeight="92.0" prefWidth="107.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                                   <items>
+                                                                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                                         <children>
+                                                                                                                                                            <Label fx:id="labelKorilation56" layoutX="30.0" layoutY="10.0" prefHeight="33.6" prefWidth="84.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                                                                         </children>
+                                                                                                                                                      </AnchorPane>
+                                                                                                                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                                                                                                                         <children>
+                                                                                                                                                            <BarChart fx:id="barChartRozkid6" prefHeight="48.0" prefWidth="96.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                                                              <xAxis>
+                                                                                                                                                                <CategoryAxis side="BOTTOM" />
+                                                                                                                                                              </xAxis>
+                                                                                                                                                              <yAxis>
+                                                                                                                                                                <NumberAxis side="LEFT" />
+                                                                                                                                                              </yAxis>
+                                                                                                                                                            </BarChart>
+                                                                                                                                                         </children>
+                                                                                                                                                      </AnchorPane>
+                                                                                                                                                   </items>
+                                                                                                                                                </SplitPane>
+                                                                                                                                             </children>
+                                                                                                                                          </AnchorPane>
+                                                                                                                                       </items>
+                                                                                                                                    </SplitPane>
+                                                                                                                                 </children>
+                                                                                                                              </AnchorPane>
+                                                                                                                           </items>
+                                                                                                                        </SplitPane>
+                                                                                                                     </children>
+                                                                                                                  </AnchorPane>
+                                                                                                               </items>
+                                                                                                            </SplitPane>
+                                                                                                         </children>
+                                                                                                      </AnchorPane>
+                                                                                                   </items>
+                                                                                                </SplitPane>
+                                                                                             </children>
+                                                                                          </AnchorPane>
+                                                                                      </items>
+                                                                                    </SplitPane>
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                          </items>
+                                                                        </SplitPane>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                              </items>
+                                                            </SplitPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </items>
+                                                </SplitPane>
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.5" layoutX="84.0" layoutY="78.0" orientation="VERTICAL" prefHeight="355.2" prefWidth="381.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                <LineChart fx:id="lineChart" layoutX="-42.0" layoutY="-101.0" prefHeight="174.4" prefWidth="380.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <xAxis>
+                                                    <CategoryAxis side="BOTTOM" />
+                                                  </xAxis>
+                                                  <yAxis>
+                                                    <NumberAxis side="LEFT" />
+                                                  </yAxis>
+                                                </LineChart>
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
         </items>
       </SplitPane>
    </children>

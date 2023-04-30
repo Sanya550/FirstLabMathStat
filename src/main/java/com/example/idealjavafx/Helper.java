@@ -497,7 +497,7 @@ public class Helper {
         return resultOfArray;
     }
 
-    static void drawBarChartForShilnist(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap) {
+    public static void drawBarChartForShilnist(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap) {
         int size = arrayList.size();
         XYChart.Series series = new XYChart.Series();
         series.setName("Гістограма");
@@ -555,7 +555,7 @@ public class Helper {
     }
 
 
-    static void drawBarChartForEmpirationFunction(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap) {
+    public static void drawBarChartForEmpirationFunction(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap) {
         int size = arrayList.size();
         XYChart.Series series = new XYChart.Series();
         series.setName("Емпірична функція");
@@ -2554,7 +2554,7 @@ public class Helper {
         return resultList;
     }
 
-    static void drawScatterChartForKorilationField(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis, NumberAxis yAxis, ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
+    public static void drawScatterChartForKorilationField(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis, NumberAxis yAxis, ArrayList<Double> arr1Sorted, ArrayList<Double> arr2Sorted, ArrayList<Double> arr1NotSorted, ArrayList<Double> arr2NotSorted) {
         //clear:
         scatterChart.getData().clear();
         scatterChart.layout();

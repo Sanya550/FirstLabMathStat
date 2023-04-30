@@ -88,6 +88,8 @@ public class HelloController {
     @FXML
     private AreaChart areaChartEmpiritionFunction;
     @FXML
+    private LineChart lineChart;
+    @FXML
     private ScatterChart<Number, Number> scatterChartForKorilationField;
     @FXML
     private ScatterChart<Number, Number> scatterChartForFrequencyOfHystograma;
@@ -135,6 +137,155 @@ public class HelloController {
     private TextField duspersiaRegressia;
     @FXML
     private TextField anomalStr;
+    //діаграма розкиду
+    @FXML
+    private BarChart barChartRozkid1;
+    @FXML
+    private BarChart barChartRozkid2;
+    @FXML
+    private BarChart barChartRozkid3;
+    @FXML
+    private BarChart barChartRozkid4;
+    @FXML
+    private BarChart barChartRozkid5;
+    @FXML
+    private BarChart barChartRozkid6;
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid21;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid21;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid21;
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid31;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid31;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid31;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid32;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid32;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid32;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid41;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid41;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid41;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid42;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid42;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid42;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid43;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid43;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid43;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid51;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid51;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid51;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid52;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid52;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid52;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid53;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid53;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid53;
+
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid54;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid54;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid54;
+
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid61;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid61;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid61;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid62;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid62;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid62;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid63;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid63;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid63;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid64;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid64;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid64;
+
+    @FXML
+    private ScatterChart<Number, Number> scatterChartRozkid65;
+    @FXML
+    private NumberAxis xAxisForScatterChartForRozkid65;
+    @FXML
+    private NumberAxis yAxisForScatterChartForRozkid65;
+
+    @FXML
+    private Label labelKorilation12;
+    @FXML
+    private Label labelKorilation13;
+    @FXML
+    private Label labelKorilation14;
+    @FXML
+    private Label labelKorilation15;
+    @FXML
+    private Label labelKorilation16;
+    @FXML
+    private Label labelKorilation23;
+    @FXML
+    private Label labelKorilation24;
+    @FXML
+    private Label labelKorilation25;
+    @FXML
+    private Label labelKorilation26;
+    @FXML
+    private Label labelKorilation34;
+    @FXML
+    private Label labelKorilation35;
+    @FXML
+    private Label labelKorilation36;
+    @FXML
+    private Label labelKorilation45;
+    @FXML
+    private Label labelKorilation46;
+    @FXML
+    private Label labelKorilation56;
 
     //звичайні графіки:
     @FXML
@@ -1817,7 +1968,17 @@ public class HelloController {
     //Матриця діаграм розкиду
     @FXML
     protected void matrixRozkVizual(){
-
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listSorted = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        Graphics.matrixRozkid(listSorted, listNotSorted, labelKorilation12, labelKorilation13, labelKorilation14, labelKorilation15, labelKorilation16,
+                labelKorilation23,labelKorilation24,labelKorilation25,labelKorilation26,labelKorilation34,labelKorilation35,labelKorilation36,
+                labelKorilation45,labelKorilation46,labelKorilation56, barChartRozkid1, barChartRozkid2, barChartRozkid3, barChartRozkid4, barChartRozkid5,barChartRozkid6,
+                scatterChartRozkid21,scatterChartRozkid31,scatterChartRozkid32,scatterChartRozkid41,scatterChartRozkid42,scatterChartRozkid43,scatterChartRozkid51,
+                scatterChartRozkid52,scatterChartRozkid53,scatterChartRozkid54,scatterChartRozkid61,scatterChartRozkid62,scatterChartRozkid63,scatterChartRozkid64,scatterChartRozkid65,
+                xAxisForScatterChartForRozkid21,yAxisForScatterChartForRozkid21,xAxisForScatterChartForRozkid31,yAxisForScatterChartForRozkid31,xAxisForScatterChartForRozkid32,yAxisForScatterChartForRozkid32,xAxisForScatterChartForRozkid41,yAxisForScatterChartForRozkid41,
+                xAxisForScatterChartForRozkid42,yAxisForScatterChartForRozkid42,xAxisForScatterChartForRozkid43,yAxisForScatterChartForRozkid43,xAxisForScatterChartForRozkid51,yAxisForScatterChartForRozkid51,xAxisForScatterChartForRozkid52,yAxisForScatterChartForRozkid52,xAxisForScatterChartForRozkid53,yAxisForScatterChartForRozkid53,xAxisForScatterChartForRozkid54,yAxisForScatterChartForRozkid54,
+                xAxisForScatterChartForRozkid61,yAxisForScatterChartForRozkid61,xAxisForScatterChartForRozkid62,yAxisForScatterChartForRozkid62,xAxisForScatterChartForRozkid63,yAxisForScatterChartForRozkid63,xAxisForScatterChartForRozkid64,yAxisForScatterChartForRozkid64,xAxisForScatterChartForRozkid65,yAxisForScatterChartForRozkid65);
     }
 
     //Паралельні координати
@@ -1825,7 +1986,7 @@ public class HelloController {
     protected void paralelKoordinatVizual(){
         SecondHelper secondHelper = new SecondHelper();
         var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        Graphics.drawParalelKoordinatVizual(areaChartFunctionOfShilnist, list);
+        Graphics.drawParalelKoordinatVizual(lineChart, list);
     }
 
     //Теплова карта
