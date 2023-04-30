@@ -154,17 +154,4 @@ public class Graphics {
             JOptionPane.showMessageDialog(null, "Виберіть мінімум 3 вибірки", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    private static void drawScatterChartForKorilationFieldForRozkid(ScatterChart<Number, Number> scatterChart, List<Double> arr1NotSorted, List<Double> arr2NotSorted) {
-        //clear:
-        scatterChart.getData().clear();
-        scatterChart.layout();
-
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Кореляційне поле");
-        for (int i = 0; i < arr1NotSorted.size(); i++) {
-            series.getData().add(new XYChart.Data(arr1NotSorted.get(i), arr2NotSorted.get(i)));
-        }
-        scatterChart.getData().addAll(series);
-    }
 }
