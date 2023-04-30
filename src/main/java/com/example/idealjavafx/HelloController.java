@@ -90,9 +90,15 @@ public class HelloController {
     @FXML
     private LineChart lineChart;
     @FXML
+    private BubbleChart bubbleChart;
+    @FXML
     private ScatterChart<Number, Number> scatterChartForKorilationField;
     @FXML
     private ScatterChart<Number, Number> scatterChartForFrequencyOfHystograma;
+    @FXML
+    private NumberAxis xAxisForBubbleChart;
+    @FXML
+    private NumberAxis yAxisForBubbleChart;
     @FXML
     private NumberAxis xAxisForScatterChartForKorilationField;
     @FXML
@@ -162,100 +168,84 @@ public class HelloController {
     private NumberAxis xAxisForScatterChartForRozkid31;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid31;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid32;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid32;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid32;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid41;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid41;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid41;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid42;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid42;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid42;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid43;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid43;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid43;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid51;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid51;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid51;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid52;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid52;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid52;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid53;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid53;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid53;
-
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid54;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid54;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid54;
-
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid61;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid61;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid61;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid62;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid62;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid62;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid63;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid63;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid63;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid64;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid64;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid64;
-
     @FXML
     private ScatterChart<Number, Number> scatterChartRozkid65;
     @FXML
     private NumberAxis xAxisForScatterChartForRozkid65;
     @FXML
     private NumberAxis yAxisForScatterChartForRozkid65;
-
     @FXML
     private Label labelKorilation12;
     @FXML
@@ -1992,12 +1982,17 @@ public class HelloController {
     //Теплова карта
     @FXML
     protected void teplovaMapVizual(){
-
+        SecondHelper secondHelper = new SecondHelper();
+        var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        Graphics.heatMap(list,scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
     }
 
     //Бульбашкова діаграма
     @FXML
     protected void bubbleVizual(){
-
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listSorted = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        Graphics.bubbleDiagram(listNotSorted, listSorted, bubbleChart, xAxisForBubbleChart,yAxisForBubbleChart);
     }
 }

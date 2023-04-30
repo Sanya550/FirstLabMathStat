@@ -178,7 +178,6 @@ public class SecondHelper {
 
 
     //Перевірка збігу параметрів
-    //todo: needs updates
     public String checkParametersOfSukupnistsHelper(List<List<Double>> list1, List<List<Double>> list2) {
         if (list1.isEmpty() || list2.isEmpty()) {
             return "Error! list1 and list2 cannot be empty";
@@ -957,7 +956,7 @@ public class SecondHelper {
             DataRowForFullKorilation dataRowForFullKorilation = new DataRowForFullKorilation();
             key = String.format("%d", i + 1);
             value = linkedHashMap.get(key);
-            fValue = Math.abs((list.get(0).size()-list.size()-1)/list.size() * value/(1-value)/2);//todo ficha (1-value)/2 -> (1-value)
+            fValue = Math.abs((list.get(0).size()-list.size()-1)/list.size() * value/(1-value)/2);
             if(fValue<Math.abs(Helper.koefForFisher(list.get(0),list.get(1)))){
                 zna = "+";
             }else{
