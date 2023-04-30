@@ -207,6 +207,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#bubbleVizual" text="Бульбашкова діаграма" />
                      </items>
                   </Menu>
+                  <MenuItem mnemonicParsing="false" onAction="#liniinaRegresiaForMany" text="Лінійна регресія" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">

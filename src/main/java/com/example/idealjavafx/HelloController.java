@@ -1954,26 +1954,34 @@ public class HelloController {
         secondHelper.showFullKorilation(tableView, list);
     }
 
+    //Лінійна регресія
+    @FXML
+    protected void liniinaRegresiaForMany() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        Graphics.diagnosticDiagram(listNotSorted, scatterChartForFrequencyOfHystograma, xAxisForScatterChartForFrequencyOfHystograma, yAxisForScatterChartForFrequencyOfHystograma);
+    }
+
     //візуалізація:
     //Матриця діаграм розкиду
     @FXML
-    protected void matrixRozkVizual(){
+    protected void matrixRozkVizual() {
         SecondHelper secondHelper = new SecondHelper();
         var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         var listSorted = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         Graphics.matrixRozkid(listSorted, listNotSorted, labelKorilation12, labelKorilation13, labelKorilation14, labelKorilation15, labelKorilation16,
-                labelKorilation23,labelKorilation24,labelKorilation25,labelKorilation26,labelKorilation34,labelKorilation35,labelKorilation36,
-                labelKorilation45,labelKorilation46,labelKorilation56, barChartRozkid1, barChartRozkid2, barChartRozkid3, barChartRozkid4, barChartRozkid5,barChartRozkid6,
-                scatterChartRozkid21,scatterChartRozkid31,scatterChartRozkid32,scatterChartRozkid41,scatterChartRozkid42,scatterChartRozkid43,scatterChartRozkid51,
-                scatterChartRozkid52,scatterChartRozkid53,scatterChartRozkid54,scatterChartRozkid61,scatterChartRozkid62,scatterChartRozkid63,scatterChartRozkid64,scatterChartRozkid65,
-                xAxisForScatterChartForRozkid21,yAxisForScatterChartForRozkid21,xAxisForScatterChartForRozkid31,yAxisForScatterChartForRozkid31,xAxisForScatterChartForRozkid32,yAxisForScatterChartForRozkid32,xAxisForScatterChartForRozkid41,yAxisForScatterChartForRozkid41,
-                xAxisForScatterChartForRozkid42,yAxisForScatterChartForRozkid42,xAxisForScatterChartForRozkid43,yAxisForScatterChartForRozkid43,xAxisForScatterChartForRozkid51,yAxisForScatterChartForRozkid51,xAxisForScatterChartForRozkid52,yAxisForScatterChartForRozkid52,xAxisForScatterChartForRozkid53,yAxisForScatterChartForRozkid53,xAxisForScatterChartForRozkid54,yAxisForScatterChartForRozkid54,
-                xAxisForScatterChartForRozkid61,yAxisForScatterChartForRozkid61,xAxisForScatterChartForRozkid62,yAxisForScatterChartForRozkid62,xAxisForScatterChartForRozkid63,yAxisForScatterChartForRozkid63,xAxisForScatterChartForRozkid64,yAxisForScatterChartForRozkid64,xAxisForScatterChartForRozkid65,yAxisForScatterChartForRozkid65);
+                labelKorilation23, labelKorilation24, labelKorilation25, labelKorilation26, labelKorilation34, labelKorilation35, labelKorilation36,
+                labelKorilation45, labelKorilation46, labelKorilation56, barChartRozkid1, barChartRozkid2, barChartRozkid3, barChartRozkid4, barChartRozkid5, barChartRozkid6,
+                scatterChartRozkid21, scatterChartRozkid31, scatterChartRozkid32, scatterChartRozkid41, scatterChartRozkid42, scatterChartRozkid43, scatterChartRozkid51,
+                scatterChartRozkid52, scatterChartRozkid53, scatterChartRozkid54, scatterChartRozkid61, scatterChartRozkid62, scatterChartRozkid63, scatterChartRozkid64, scatterChartRozkid65,
+                xAxisForScatterChartForRozkid21, yAxisForScatterChartForRozkid21, xAxisForScatterChartForRozkid31, yAxisForScatterChartForRozkid31, xAxisForScatterChartForRozkid32, yAxisForScatterChartForRozkid32, xAxisForScatterChartForRozkid41, yAxisForScatterChartForRozkid41,
+                xAxisForScatterChartForRozkid42, yAxisForScatterChartForRozkid42, xAxisForScatterChartForRozkid43, yAxisForScatterChartForRozkid43, xAxisForScatterChartForRozkid51, yAxisForScatterChartForRozkid51, xAxisForScatterChartForRozkid52, yAxisForScatterChartForRozkid52, xAxisForScatterChartForRozkid53, yAxisForScatterChartForRozkid53, xAxisForScatterChartForRozkid54, yAxisForScatterChartForRozkid54,
+                xAxisForScatterChartForRozkid61, yAxisForScatterChartForRozkid61, xAxisForScatterChartForRozkid62, yAxisForScatterChartForRozkid62, xAxisForScatterChartForRozkid63, yAxisForScatterChartForRozkid63, xAxisForScatterChartForRozkid64, yAxisForScatterChartForRozkid64, xAxisForScatterChartForRozkid65, yAxisForScatterChartForRozkid65);
     }
 
     //Паралельні координати
     @FXML
-    protected void paralelKoordinatVizual(){
+    protected void paralelKoordinatVizual() {
         SecondHelper secondHelper = new SecondHelper();
         var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         Graphics.drawParalelKoordinatVizual(lineChart, list);
@@ -1981,18 +1989,18 @@ public class HelloController {
 
     //Теплова карта
     @FXML
-    protected void teplovaMapVizual(){
+    protected void teplovaMapVizual() {
         SecondHelper secondHelper = new SecondHelper();
         var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        Graphics.heatMap(list,scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+        Graphics.heatMap(list, scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
     }
 
     //Бульбашкова діаграма
     @FXML
-    protected void bubbleVizual(){
+    protected void bubbleVizual() {
         SecondHelper secondHelper = new SecondHelper();
         var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         var listSorted = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        Graphics.bubbleDiagram(listNotSorted, listSorted, bubbleChart, xAxisForBubbleChart,yAxisForBubbleChart);
+        Graphics.bubbleDiagram(listNotSorted, listSorted, bubbleChart, xAxisForBubbleChart, yAxisForBubbleChart);
     }
 }
