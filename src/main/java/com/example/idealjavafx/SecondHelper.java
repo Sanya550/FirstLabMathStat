@@ -900,8 +900,8 @@ public class SecondHelper {
             value = linkedHashMap.get(key);
             tValue = Math.abs(value * Math.sqrt(list.get(0).size() - list.size() - 4) / Math.sqrt(1 - Math.pow(value, 2)));
             double u = 3;
-            double v1 = 0.5 * Math.log((1 + value) / (1 - value)) - u/(list.get(0).size()-list.size()-5);
-            double v2 = 0.5 * Math.log((1 + value) / (1 - value)) + u/(list.get(0).size()-list.size()-5);
+            double v1 = 0.5 * Math.log((1 + value) / (1 - value)) - u / (list.get(0).size() - list.size() - 5);
+            double v2 = 0.5 * Math.log((1 + value) / (1 - value)) + u / (list.get(0).size() - list.size() - 5);
             lowValue = (Math.exp(2 * v1) - 1) / (Math.exp(2 * v1) + 1);
             highValue = (Math.exp(2 * v2) - 1) / (Math.exp(2 * v2) + 1);
             row.setIndex(key);
@@ -909,9 +909,9 @@ public class SecondHelper {
             row.setValue(String.format("%.3f", value));
             row.setHighValue(String.format("%.3f", highValue));
             row.setTValue(String.format("%.3f", tValue));
-            if(Helper.t1> Math.abs(tValue)) {
+            if (Helper.t1 > Math.abs(tValue)) {
                 row.setZna("+");
-            }else{
+            } else {
                 row.setZna("-");
             }
             data.add(row);
@@ -956,10 +956,10 @@ public class SecondHelper {
             DataRowForFullKorilation dataRowForFullKorilation = new DataRowForFullKorilation();
             key = String.format("%d", i + 1);
             value = linkedHashMap.get(key);
-            fValue = Math.abs((list.get(0).size()-list.size()-1)/list.size() * value/(1-value)/2);
-            if(fValue<Math.abs(Helper.koefForFisher(list.get(0),list.get(1)))){
+            fValue = Math.abs((list.get(0).size() - list.size() - 1) / list.size() * value / (1 - value) / 2);
+            if (fValue < Math.abs(Helper.koefForFisher(list.get(0), list.get(1)))) {
                 zna = "+";
-            }else{
+            } else {
                 zna = "-";
             }
             dataRowForFullKorilation.setIndex(key);
