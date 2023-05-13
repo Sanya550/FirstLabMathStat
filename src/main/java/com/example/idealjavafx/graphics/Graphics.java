@@ -2,6 +2,8 @@ package com.example.idealjavafx.graphics;
 
 import com.example.idealjavafx.Helper;
 import com.example.idealjavafx.MainFunction;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.chart.NumberAxis;
@@ -162,104 +164,6 @@ public class Graphics {
         }
     }
 
-    //теплова карта
-    //todo: needs updates
-    public static void heatMap(List<List<Double>> list, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
-        //clear:
-        scatterChart.getData().clear();
-        scatterChart.layout();
-        xAxis.setAutoRanging(false);
-        xAxis.setLowerBound(0);
-        xAxis.setUpperBound(list.size());
-        xAxis.setTickUnit(1);
-
-        yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(0);
-        yAxis.setUpperBound(list.get(0).size());
-        yAxis.setTickUnit(1);
-
-        double max = list.get(0).get(0);
-        double min = list.get(0).get(0);
-
-        for (List<Double> sublist : list) {
-            for (Double value : sublist) {
-                if (value > max) {
-                    max = value;
-                }
-                if (value < min) {
-                    min = value;
-                }
-            }
-        }
-
-        double iteration = (max - min) / 5;
-        double first = min + iteration;
-        double second = first + iteration;
-        double third = second + iteration;
-        double fourth = third + iteration;
-
-        // создаем цвета
-        Color darkBlue = Color.rgb(0, 119, 190); // темно-синий
-        Color lightBlue = Color.rgb(52, 152, 219); // светло-синий
-        Color skyBlue = Color.rgb(127, 179, 213); // голубой
-        Color lightSkyBlue = Color.rgb(184, 216, 228); // светло-голубой
-        Color whiteBlue = Color.rgb(234, 244, 252); // белый синий
-
-        double cellWidth = xAxis.getWidth() / xAxis.getTickUnit();
-        double cellHeight = yAxis.getHeight() / yAxis.getTickUnit();
-
-// create a custom node with the cell width and height
-        Rectangle node1 = new Rectangle(cellWidth, cellHeight);
-        Rectangle node2 = new Rectangle(cellWidth, cellHeight);
-        Rectangle node3 = new Rectangle(cellWidth, cellHeight);
-        Rectangle node4 = new Rectangle(cellWidth, cellHeight);
-        Rectangle node5 = new Rectangle(cellWidth, cellHeight);
-        node1.setFill(whiteBlue);
-        node2.setFill(lightSkyBlue);
-        node3.setFill(skyBlue);
-        node4.setFill(lightBlue);
-        node5.setFill(darkBlue);
-
-        XYChart.Series series1 = new XYChart.Series();
-        XYChart.Series series2 = new XYChart.Series();
-        XYChart.Series series3 = new XYChart.Series();
-        XYChart.Series series4 = new XYChart.Series();
-        XYChart.Series series5 = new XYChart.Series();
-        //  scatterChart.setId("frequency-hysograma-scatter");
-        series1.setName(String.format("%.2f - %.2f", min, first));
-        series2.setName(String.format("%.2f - %.2f", first, second));
-        series3.setName(String.format("%.2f - %.2f", second, third));
-        series4.setName(String.format("%.2f - %.2f", third, fourth));
-        series5.setName(String.format("%.2f - %.2f", fourth, max));
-
-        series1.setNode(node1);
-        series2.setNode(node2);
-        series3.setNode(node3);
-        series4.setNode(node4);
-        series5.setNode(node5);
-
-        for (int x = 0; x < list.size(); x++) {
-            for (int y = 0; y < list.get(x).size(); y++) {
-                double dataValue = list.get(x).get(y);
-                if (dataValue <= first) {
-                    series1.getData().add(new XYChart.Data((x + 1) / 2, (y + 1) / 2));
-                } else if (dataValue <= second) {
-                    series2.getData().add(new XYChart.Data((x + 1) / 2, (y + 1) / 2));
-                } else if (dataValue <= third) {
-                    series3.getData().add(new XYChart.Data((x + 1) / 2, (y + 1) / 2));
-                } else if (dataValue <= fourth) {
-                    series4.getData().add(new XYChart.Data((x + 1) / 2, (y + 1) / 2));
-                } else {
-                    series5.getData().add(new XYChart.Data((x + 1) / 2, (y + 1) / 2));
-                }
-            }
-        }
-        scatterChart.getData().addAll(series1);
-        scatterChart.getData().addAll(series2);
-        scatterChart.getData().addAll(series3);
-        scatterChart.getData().addAll(series4);
-        scatterChart.getData().addAll(series5);
-    }
 
     //бульбашкова діаграма
     public static void bubbleDiagram(List<List<Double>> listNotSorted, List<List<Double>> listSorted, BubbleChart bubbleChart, NumberAxis xAxis, NumberAxis yAxis) {
@@ -269,12 +173,12 @@ public class Graphics {
             bubbleChart.getData().clear();
             bubbleChart.layout();
             xAxis.setAutoRanging(false);
-            xAxis.setLowerBound(listSorted.get(0).get(0));
-            xAxis.setUpperBound(listSorted.get(0).get(listSorted.get(0).size() - 1));
+            xAxis.setLowerBound(listSorted.get(0).get(0)-10);
+            xAxis.setUpperBound(listSorted.get(0).get(listSorted.get(0).size() - 1)+10);
 
             yAxis.setAutoRanging(false);
-            yAxis.setLowerBound(listSorted.get(1).get(0));
-            yAxis.setUpperBound(listSorted.get(1).get(listSorted.get(1).size() - 1));
+            yAxis.setLowerBound(listSorted.get(1).get(0)-10);
+            yAxis.setUpperBound(listSorted.get(1).get(listSorted.get(1).size() - 1)+10);
 
             XYChart.Series series = new XYChart.Series();
             series.setName("Бульбашкова діграма");
@@ -287,6 +191,8 @@ public class Graphics {
 
     //лінійна регресія
     public static void diagnosticDiagram(List<List<Double>> listNotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+        scatterChart.getData().clear();
+        scatterChart.layout();
         if (listNotSorted.size() != 3) {
             JOptionPane.showMessageDialog(null, "Кількість ознак має бути 3", "Error!", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -309,7 +215,8 @@ public class Graphics {
             x1x2_ /= listNotSorted.get(0).size();
             x1_2 /= listNotSorted.get(0).size();
             x2_2 /= listNotSorted.get(0).size();
-
+            x1_y /= listNotSorted.get(0).size();
+            x2_y /= listNotSorted.get(0).size();
             var triangleGeneral = new double[3][3];
             triangleGeneral[0][0] = 1;
             triangleGeneral[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
@@ -344,15 +251,15 @@ public class Graphics {
             triangle1[2][2] = x2_2;
 
             var triangle2 = new double[3][3];
-            triangle1[0][0] = 1;
-            triangle1[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
-            triangle1[0][2] = MainFunction.matSpodivan(listNotSorted.get(2));
-            triangle1[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
-            triangle1[1][1] = x1_2;
-            triangle1[1][2] = x1_y;
-            triangle1[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
-            triangle1[2][1] = x1x2_;
-            triangle1[2][2] = x2_y;
+            triangle2[0][0] = 1;
+            triangle2[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
+            triangle2[0][2] = MainFunction.matSpodivan(listNotSorted.get(2));
+            triangle2[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
+            triangle2[1][1] = x1_2;
+            triangle2[1][2] = x1_y;
+            triangle2[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
+            triangle2[2][1] = x1x2_;
+            triangle2[2][2] = x2_y;
 
             double a0 = MainFunction.findDetermination(triangle0) / MainFunction.findDetermination(triangleGeneral);
             double a1 = MainFunction.findDetermination(triangle1) / MainFunction.findDetermination(triangleGeneral);

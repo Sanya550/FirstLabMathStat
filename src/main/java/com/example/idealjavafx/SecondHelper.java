@@ -6,10 +6,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.swing.*;
@@ -153,6 +150,15 @@ public class SecondHelper {
         return resList;
     }
 
+    public List<List<Double>> permutaionOfListsForRegressia(List<List<Double>> list, int intLinReg ){
+        if (intLinReg == 1){
+            return List.of(list.get(1),list.get(2),list.get(0));
+        }else if(intLinReg == 2){
+            return List.of(list.get(0),list.get(2),list.get(1));
+        } else {
+            return list;
+        }
+    }
     //lab5:
     //Первинний статистичний аналіз
     public String firstStaticAnalizeForManyVibirokHelper(List<List<Double>> list) {
@@ -969,5 +975,11 @@ public class SecondHelper {
             data.add(dataRowForFullKorilation);
         }
         tableView.getItems().addAll(data);
+    }
+
+    public String dataForManyLiniianaRegressia(List<List<Double>> list) {
+            String str = "";
+            str += MainFunction.getKoefKorilationForThreeValue(list.get(0),list.get(1),list.get(2));
+            return str;
     }
 }

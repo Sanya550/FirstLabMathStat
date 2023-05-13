@@ -1,10 +1,13 @@
 package com.example.idealjavafx;
 
 
+import com.example.idealjavafx.graphics.Glif;
 import com.example.idealjavafx.graphics.Graphics;
+import com.example.idealjavafx.graphics.HeatMapVisualization;
 import com.example.idealjavafx.models.MainCharactericticForData;
 import com.example.idealjavafx.models.VariationMatrix;
 import com.example.idealjavafx.models.VariationRowForData;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -276,6 +280,8 @@ public class HelloController {
     private Label labelKorilation46;
     @FXML
     private Label labelKorilation56;
+    @FXML
+    private TextField indexOfManyRegresia;
 
     //звичайні графіки:
     @FXML
@@ -1758,7 +1764,7 @@ public class HelloController {
         }
     }
 
-//    @FXML
+    //    @FXML
 //    protected void scatterLineRegressionMNK2(ActionEvent event) {
 //        if (!aRegressia.getText().isEmpty()) {
 //            aForT = Double.parseDouble(aRegressia.getText());
@@ -1773,7 +1779,6 @@ public class HelloController {
 //            Helper.drawLiniinaRegresiaMNK2(listOfLists.get(0), listOfLists.get(1), listOfLists.get(2), listOfLists.get(3), scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, aForT, bForT);
 //        }
 //    }
-
     @FXML
     protected void scatterLineRegressionTeula(ActionEvent event) {
         if (!aRegressia.getText().isEmpty()) {
@@ -1956,10 +1961,34 @@ public class HelloController {
 
     //Лінійна регресія
     @FXML
-    protected void liniinaRegresiaForMany() {
+    protected void diagnosticDiagramVizual() {
         SecondHelper secondHelper = new SecondHelper();
         var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        Graphics.diagnosticDiagram(listNotSorted, scatterChartForFrequencyOfHystograma, xAxisForScatterChartForFrequencyOfHystograma, yAxisForScatterChartForFrequencyOfHystograma);
+        int intLinReg = Integer.parseInt(indexOfManyRegresia.getText());
+        if (listNotSorted.size() != 3) {
+            JOptionPane.showMessageDialog(null, "Кількість вибірок має бути 3", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (intLinReg < 1 || intLinReg > 3) {
+            JOptionPane.showMessageDialog(null, "Y має бути від 1 до 3", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Graphics.diagnosticDiagram(secondHelper.permutaionOfListsForRegressia(listNotSorted,intLinReg), scatterChartForFrequencyOfHystograma, xAxisForScatterChartForFrequencyOfHystograma, yAxisForScatterChartForFrequencyOfHystograma);
+        }
+    }
+
+    @FXML
+    protected void characteristicForManyLiniinaRegresia() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        int intLinReg = Integer.parseInt(indexOfManyRegresia.getText());
+        if (listNotSorted.size() != 3) {
+            JOptionPane.showMessageDialog(null, "Кількість вибірок має бути 3", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (intLinReg < 1 || intLinReg > 3) {
+            JOptionPane.showMessageDialog(null, "Y має бути від 1 до 3", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            secondHelper.dataForManyLiniianaRegressia(secondHelper.permutaionOfListsForRegressia(listNotSorted,intLinReg));
+            JOptionPane.showMessageDialog(null, secondHelper.dataForManyLiniianaRegressia(secondHelper.permutaionOfListsForRegressia(listNotSorted,intLinReg)), "Лінійна регресія", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+
     }
 
     //візуалізація:
@@ -1992,7 +2021,7 @@ public class HelloController {
     protected void teplovaMapVizual() {
         SecondHelper secondHelper = new SecondHelper();
         var list = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        Graphics.heatMap(list, scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField);
+        HeatMapVisualization.launchHeatMapVisualization(list);
     }
 
     //Бульбашкова діаграма
@@ -2002,5 +2031,18 @@ public class HelloController {
         var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         var listSorted = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         Graphics.bubbleDiagram(listNotSorted, listSorted, bubbleChart, xAxisForBubbleChart, yAxisForBubbleChart);
+    }
+
+    //Гліф
+    @FXML
+    protected void glifVizual() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listSorted = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listSorted.size() == 2) {
+            Glif.launchGlifVisualization(List.of(listSorted.get(0), listSorted.get(1), listNotSorted.get(0), listNotSorted.get(1)));
+        } else {
+            JOptionPane.showMessageDialog(null, "Кількість ознак має дорівнювати 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

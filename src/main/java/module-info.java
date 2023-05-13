@@ -11,4 +11,8 @@ module com.example.idealjavafx {
     exports com.example.idealjavafx;
     exports com.example.idealjavafx.models;
     opens com.example.idealjavafx.models to javafx.fxml;
+
+
+    exports com.example.idealjavafx.graphics to javafx.graphics;
+    requires javafx.graphics;
 }
