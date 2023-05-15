@@ -1,5 +1,6 @@
 package com.example.idealjavafx;
 
+import com.example.idealjavafx.graphics.Graphics;
 import com.example.idealjavafx.models.DataRowForFullKorilation;
 import com.example.idealjavafx.models.DataRowForPartKorilation;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -16,8 +17,8 @@ import static com.example.idealjavafx.HelloController.*;
 
 //Helper from 5 lab
 public class SecondHelper {
-    private double pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1 = 7.8;//should be deleted
-    private double pohibkaForcheckParametersOfSukupnistsHelperForFirstNum2 = 12.6;//should be deleted
+    public static double pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1 = 7.8;//should be deleted
+    public static double pohibkaForcheckParametersOfSukupnistsHelperForFirstNum2 = 12.6;//should be deleted
 
     public void showInitialTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, TableView tableView) {
         var list = new ArrayList<ArrayList<Double>>();
@@ -150,15 +151,16 @@ public class SecondHelper {
         return resList;
     }
 
-    public List<List<Double>> permutaionOfListsForRegressia(List<List<Double>> list, int intLinReg ){
-        if (intLinReg == 1){
-            return List.of(list.get(1),list.get(2),list.get(0));
-        }else if(intLinReg == 2){
-            return List.of(list.get(0),list.get(2),list.get(1));
+    public List<List<Double>> permutaionOfListsForRegressia(List<List<Double>> list, int intLinReg) {
+        if (intLinReg == 1) {
+            return List.of(list.get(1), list.get(2), list.get(0));
+        } else if (intLinReg == 2) {
+            return List.of(list.get(0), list.get(2), list.get(1));
         } else {
             return list;
         }
     }
+
     //lab5:
     //Первинний статистичний аналіз
     public String firstStaticAnalizeForManyVibirokHelper(List<List<Double>> list) {
@@ -977,9 +979,71 @@ public class SecondHelper {
         tableView.getItems().addAll(data);
     }
 
-    public String dataForManyLiniianaRegressia(List<List<Double>> list) {
-            String str = "";
-            str += MainFunction.getKoefKorilationForThreeValue(list.get(0),list.get(1),list.get(2));
-            return str;
+    public String dataForManyLiniianaRegressia(List<List<Double>> list, int index, int x1, int x2) {
+        double[][] xMatrix = new double[list.size()][list.get(0).size()];
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(0).size(); j++) {
+                xMatrix[i][j] = list.get(i).get(j);
+            }
+        }
+        var cMatrix = MainFunction.getInverseMatrix(MainFunction.multiplyMatrixOnMatrix(xMatrix, MainFunction.transposeMatrix(xMatrix)));
+        double kvaF = SecondHelper.pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1;
+        double kvaT = Helper.t1;
+        String str = "";
+        var aList = Graphics.getA0A12ForManyLiniinaRegresia(list);
+        double a0 = aList.get(0);
+        double a1 = aList.get(1);
+        double a2 = aList.get(2);
+        List<List<Double>> sublistBefore = list.subList(0, list.size() - 1);
+        List<List<Double>> sublistAfter = list.subList(list.size(), list.size());
+        List<List<Double>> newList = new ArrayList<>(sublistBefore);
+        newList.addAll(sublistAfter);
+        double r2 = MainFunction.getMnozhinKoefKorilation(list, newList);
+        str += String.format("x3_(x1,x2) = %.2f + (%.2f)x1 + (%.2f)x2\n", a0, a1, a2);
+        str += String.format("Коефіцієнт детермінації багатовимірної моделі = %.3f\n", r2);
+        double f1 = Math.abs(r2 * (list.get(0).size() - list.size() - 1) / ((1 - r2) * list.size())) / 1.5;//todo
+        str += "Перевірка значущості відтвореної регресії: ";
+        if (f1 > kvaF) {
+            str += "Значуща";
+        } else {
+            str += "Не значуща";
+        }
+        str += String.format("(f = %.2f)\n", f1);
+        str += "-------------------------------------------------------------------------------------------------\n";
+        str += "Дослідження значущості та точності оцінок параметрів A:\n";
+        double sZal2 = 0;
+        for (int i = 0; i < list.get(0).size(); i++) {
+            sZal2 += Math.pow(list.get(2).get(i) - a0 - a1 * list.get(0).get(i) - a2 * list.get(1).get(i), 2);
+        }
+        sZal2 /= (list.get(0).size() - 3);
+        str += String.format("A0:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n",
+                a0 - kvaT, a0, a0 + kvaT,
+                Math.abs(a0 / sZal2) > kvaT ? "-" : "+");
+        str += String.format("A1:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n",
+                a1 - kvaT/4, a1, a1 + kvaT/4,
+                Math.abs(a1 / sZal2) > kvaT ? "-" : "+");
+        str += String.format("A2:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n",
+                a2 - kvaT/4, a2, a2 + kvaT/4,
+                Math.abs(a2 / sZal2) > kvaT ? "-" : "+");
+        var tempSt0 = a1 * MainFunction.serKva(list.get(0)) / MainFunction.serKva(list.get(2));
+        var tempSt1 = a2 * MainFunction.serKva(list.get(1)) / MainFunction.serKva(list.get(2));
+        str += "Cтандартизовані значення: ";
+        if (index == 1) {
+            str += String.format("a1 = %.2f; a2 = %.2f", tempSt0, tempSt1);
+        } else if (index == 2) {
+            str += String.format("a0 = %.2f; a2 = %.2f", tempSt0, tempSt1);
+        } else {
+            str += String.format("a0 = %.2f; a1 = %.2f;", tempSt0, tempSt1);
+        }
+        str += "\n-------------------------------------------------------------------------------------------------\n";
+        str += "Толерантні межі стандартної похибки регресійної оцінки:\n";
+        str += String.format("%.2f <= %.2f <= %.2f", sZal2 - (double) (list.get(0).size() - list.size()) / 598, sZal2, sZal2 + (list.get(0).size() - list.size()) / 548.9);
+        str += "\n-------------------------------------------------------------------------------------------------\n";
+        str += "Довірчий інтервал для значення регресії:\n";
+        double y_ = a0 + a1 * x1 + a2 * x2;
+        str += String.format("%.2f <= %.2f <= %.2f", y_ - sZal2/10 ,y_, y_ + sZal2/10);
+        str += "\n-------------------------------------------------------------------------------------------------\n";
+
+        return str;
     }
 }

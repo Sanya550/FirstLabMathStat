@@ -27,9 +27,10 @@ public class Graphics {
         List<List<Double>> listWithRightData = new ArrayList<>();
         for (int i = 0; i < list1.size(); i++) {
             double max = list1.get(i).stream().mapToDouble(a -> a).max().orElseThrow();
+            double min = list1.get(i).stream().mapToDouble(a -> a).min().orElseThrow();
             List<Double> tempList = new ArrayList<>();
             for (int j = 0; j < list1.get(i).size(); j++) {
-                tempList.add(list1.get(i).get(j) / max);
+                tempList.add((list1.get(i).get(j) - min) / (max - min));
             }
             listWithRightData.add(tempList);
         }
@@ -173,12 +174,12 @@ public class Graphics {
             bubbleChart.getData().clear();
             bubbleChart.layout();
             xAxis.setAutoRanging(false);
-            xAxis.setLowerBound(listSorted.get(0).get(0)-10);
-            xAxis.setUpperBound(listSorted.get(0).get(listSorted.get(0).size() - 1)+10);
+            xAxis.setLowerBound(listSorted.get(0).get(0) - 10);
+            xAxis.setUpperBound(listSorted.get(0).get(listSorted.get(0).size() - 1) + 10);
 
             yAxis.setAutoRanging(false);
-            yAxis.setLowerBound(listSorted.get(1).get(0)-10);
-            yAxis.setUpperBound(listSorted.get(1).get(listSorted.get(1).size() - 1)+10);
+            yAxis.setLowerBound(listSorted.get(1).get(0) - 10);
+            yAxis.setUpperBound(listSorted.get(1).get(listSorted.get(1).size() - 1) + 10);
 
             XYChart.Series series = new XYChart.Series();
             series.setName("Бульбашкова діграма");
@@ -200,83 +201,25 @@ public class Graphics {
             xAxis.setUpperBound(listNotSorted.get(2).stream().mapToDouble(a -> a).max().orElseThrow());
             xAxis.setLabel("y");
             yAxis.setLabel("ɛ");
-            double x1_2 = 0;
-            double x2_2 = 0;
-            double x1_y = 0;
-            double x2_y = 0;
-            double x1x2_ = 0;
-            for (int i = 0; i < listNotSorted.get(0).size(); i++) {
-                x1x2_ += listNotSorted.get(0).get(i) * listNotSorted.get(1).get(i);
-                x1_2 += Math.pow(listNotSorted.get(0).get(i), 2);
-                x2_2 += Math.pow(listNotSorted.get(1).get(i), 2);
-                x1_y += listNotSorted.get(0).get(i) * listNotSorted.get(2).get(i);
-                x2_y += listNotSorted.get(1).get(i) * listNotSorted.get(2).get(i);
-            }
-            x1x2_ /= listNotSorted.get(0).size();
-            x1_2 /= listNotSorted.get(0).size();
-            x2_2 /= listNotSorted.get(0).size();
-            x1_y /= listNotSorted.get(0).size();
-            x2_y /= listNotSorted.get(0).size();
-            var triangleGeneral = new double[3][3];
-            triangleGeneral[0][0] = 1;
-            triangleGeneral[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
-            triangleGeneral[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
-            triangleGeneral[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
-            triangleGeneral[1][1] = x1_2;
-            triangleGeneral[1][2] = x1x2_;
-            triangleGeneral[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
-            triangleGeneral[2][1] = x1x2_;
-            triangleGeneral[2][2] = x2_2;
 
-            var triangle0 = new double[3][3];
-            triangle0[0][0] = MainFunction.matSpodivan(listNotSorted.get(2));
-            triangle0[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
-            triangle0[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
-            triangle0[1][0] = x1_y;
-            triangle0[1][1] = x1_2;
-            triangle0[1][2] = x1x2_;
-            triangle0[2][0] = x2_y;
-            triangle0[2][1] = x1x2_;
-            triangle0[2][2] = x2_2;
-
-            var triangle1 = new double[3][3];
-            triangle1[0][0] = 1;
-            triangle1[0][1] = MainFunction.matSpodivan(listNotSorted.get(2));
-            triangle1[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
-            triangle1[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
-            triangle1[1][1] = x1_y;
-            triangle1[1][2] = x1x2_;
-            triangle1[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
-            triangle1[2][1] = x2_y;
-            triangle1[2][2] = x2_2;
-
-            var triangle2 = new double[3][3];
-            triangle2[0][0] = 1;
-            triangle2[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
-            triangle2[0][2] = MainFunction.matSpodivan(listNotSorted.get(2));
-            triangle2[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
-            triangle2[1][1] = x1_2;
-            triangle2[1][2] = x1_y;
-            triangle2[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
-            triangle2[2][1] = x1x2_;
-            triangle2[2][2] = x2_y;
-
-            double a0 = MainFunction.findDetermination(triangle0) / MainFunction.findDetermination(triangleGeneral);
-            double a1 = MainFunction.findDetermination(triangle1) / MainFunction.findDetermination(triangleGeneral);
-            double a2 = MainFunction.findDetermination(triangle2) / MainFunction.findDetermination(triangleGeneral);
+            var l = getA0A12ForManyLiniinaRegresia(listNotSorted);
+            double a0 = l.get(0);
+            double a1 = l.get(1);
+            double a2 = l.get(2);
 
             double minYAxis = listNotSorted.get(2).get(0) - a0 - a1 * listNotSorted.get(0).get(0) + a2 * listNotSorted.get(1).get(0);
-            double maxYAxis = listNotSorted.get(2).get(0) - a0 - a1 * listNotSorted.get(0).get(0) + a2 * listNotSorted.get(1).get(0);;
+            double maxYAxis = listNotSorted.get(2).get(0) - a0 - a1 * listNotSorted.get(0).get(0) + a2 * listNotSorted.get(1).get(0);
+            ;
             XYChart.Series series1 = new XYChart.Series();
             series1.setName("Діагностична діаграма");
             for (int i = 0; i < listNotSorted.get(2).size(); i++) {
                 double temp = a1 * listNotSorted.get(0).get(i) + a2 * listNotSorted.get(1).get(i);
                 double eps = listNotSorted.get(2).get(i) - a0 - temp;
                 series1.getData().add(new XYChart.Data(listNotSorted.get(2).get(i), eps));
-                if (eps<minYAxis){
+                if (eps < minYAxis) {
                     minYAxis = eps;
                 }
-                if (eps>maxYAxis){
+                if (eps > maxYAxis) {
                     maxYAxis = eps;
                 }
             }
@@ -284,5 +227,73 @@ public class Graphics {
             yAxis.setUpperBound(maxYAxis);
             scatterChart.getData().addAll(series1);
         }
+    }
+
+    public static List<Double> getA0A12ForManyLiniinaRegresia(List<List<Double>> listNotSorted) {
+        double x1_2 = 0;
+        double x2_2 = 0;
+        double x1_y = 0;
+        double x2_y = 0;
+        double x1x2_ = 0;
+        for (int i = 0; i < listNotSorted.get(0).size(); i++) {
+            x1x2_ += listNotSorted.get(0).get(i) * listNotSorted.get(1).get(i);
+            x1_2 += Math.pow(listNotSorted.get(0).get(i), 2);
+            x2_2 += Math.pow(listNotSorted.get(1).get(i), 2);
+            x1_y += listNotSorted.get(0).get(i) * listNotSorted.get(2).get(i);
+            x2_y += listNotSorted.get(1).get(i) * listNotSorted.get(2).get(i);
+        }
+        x1x2_ /= listNotSorted.get(0).size();
+        x1_2 /= listNotSorted.get(0).size();
+        x2_2 /= listNotSorted.get(0).size();
+        x1_y /= listNotSorted.get(0).size();
+        x2_y /= listNotSorted.get(0).size();
+        var triangleGeneral = new double[3][3];
+        triangleGeneral[0][0] = 1;
+        triangleGeneral[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangleGeneral[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangleGeneral[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangleGeneral[1][1] = x1_2;
+        triangleGeneral[1][2] = x1x2_;
+        triangleGeneral[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangleGeneral[2][1] = x1x2_;
+        triangleGeneral[2][2] = x2_2;
+
+        var triangle0 = new double[3][3];
+        triangle0[0][0] = MainFunction.matSpodivan(listNotSorted.get(2));
+        triangle0[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangle0[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangle0[1][0] = x1_y;
+        triangle0[1][1] = x1_2;
+        triangle0[1][2] = x1x2_;
+        triangle0[2][0] = x2_y;
+        triangle0[2][1] = x1x2_;
+        triangle0[2][2] = x2_2;
+
+        var triangle1 = new double[3][3];
+        triangle1[0][0] = 1;
+        triangle1[0][1] = MainFunction.matSpodivan(listNotSorted.get(2));
+        triangle1[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangle1[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangle1[1][1] = x1_y;
+        triangle1[1][2] = x1x2_;
+        triangle1[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangle1[2][1] = x2_y;
+        triangle1[2][2] = x2_2;
+
+        var triangle2 = new double[3][3];
+        triangle2[0][0] = 1;
+        triangle2[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangle2[0][2] = MainFunction.matSpodivan(listNotSorted.get(2));
+        triangle2[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangle2[1][1] = x1_2;
+        triangle2[1][2] = x1_y;
+        triangle2[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangle2[2][1] = x1x2_;
+        triangle2[2][2] = x2_y;
+
+        double a0 = MainFunction.findDetermination(triangle0) / MainFunction.findDetermination(triangleGeneral);
+        double a1 = MainFunction.findDetermination(triangle1) / MainFunction.findDetermination(triangleGeneral);
+        double a2 = MainFunction.findDetermination(triangle2) / MainFunction.findDetermination(triangleGeneral);
+        return List.of(a0, a1, a2);
     }
 }

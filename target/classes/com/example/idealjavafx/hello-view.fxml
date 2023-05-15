@@ -282,13 +282,18 @@
                                                                 <Font size="23.0" />
                                                             </font>
                                                         </Text>
-                                                        <TextField fx:id="duspersiaRegressia" layoutX="411.0" layoutY="115.0" prefHeight="8.0" prefWidth="30.0" />
-                                                        <Text layoutX="379.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dus = " />
+                                                        <TextField fx:id="duspersiaRegressia" layoutX="288.0" layoutY="150.0" prefHeight="8.0" prefWidth="30.0" />
+                                                        <Text layoutX="250.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dus = " />
                                                         <CheckBox fx:id="checkBox6" layoutX="174.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="6" />
                                                         <Text layoutX="7.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="anomal =" wrappingWidth="53.99999991059303" />
                                                         <TextField fx:id="anomalStr" layoutX="61.0" layoutY="137.0" prefHeight="25.0" prefWidth="62.0" text="0.01" />
-                                          <Text layoutX="146.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y(лінійна баг регресія) = " wrappingWidth="148.99999991059303" />
-                                          <TextField fx:id="indexOfManyRegresia" layoutX="288.0" layoutY="146.0" prefHeight="8.0" prefWidth="30.0" text="3" />
+                                          <Text layoutX="393.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y =" wrappingWidth="34.99999991059303" />
+                                          <TextField fx:id="indexOfManyRegresia" layoutX="413.0" layoutY="62.0" prefHeight="8.0" prefWidth="30.0" text="1" />
+                                          <Text layoutX="393.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Лінійна багатовимірна регресія" wrappingWidth="101.53669738769531" />
+                                          <Text layoutX="393.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X1 =" wrappingWidth="26.999999910593033" />
+                                          <Text layoutX="393.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X2 =" wrappingWidth="26.999999910593033" />
+                                          <TextField layoutX="419.0" layoutY="95.0" prefHeight="8.0" prefWidth="30.0" text="1" fx:id="x1ForManyRegr" />
+                                          <TextField layoutX="419.0" layoutY="123.0" prefHeight="8.0" prefWidth="30.0" text="1" fx:id="x2ForManyRegr" />
                                                     </children>
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">

@@ -282,7 +282,10 @@ public class HelloController {
     private Label labelKorilation56;
     @FXML
     private TextField indexOfManyRegresia;
-
+    @FXML
+    private TextField x1ForManyRegr;
+    @FXML
+    private TextField x2ForManyRegr;
     //звичайні графіки:
     @FXML
     protected void barChartSimpleGraph(ActionEvent event) {
@@ -1983,9 +1986,10 @@ public class HelloController {
             JOptionPane.showMessageDialog(null, "Кількість вибірок має бути 3", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (intLinReg < 1 || intLinReg > 3) {
             JOptionPane.showMessageDialog(null, "Y має бути від 1 до 3", "Error", JOptionPane.ERROR_MESSAGE);
+        }else if(x1ForManyRegr.getText().isEmpty() || x2ForManyRegr.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, " Поля x1ForManyRegr і x2ForManyRegr мають бути заповнені", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            secondHelper.dataForManyLiniianaRegressia(secondHelper.permutaionOfListsForRegressia(listNotSorted,intLinReg));
-            JOptionPane.showMessageDialog(null, secondHelper.dataForManyLiniianaRegressia(secondHelper.permutaionOfListsForRegressia(listNotSorted,intLinReg)), "Лінійна регресія", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, secondHelper.dataForManyLiniianaRegressia(secondHelper.permutaionOfListsForRegressia(listNotSorted,intLinReg), intLinReg, Integer.parseInt(x1ForManyRegr.getText()), Integer.parseInt(x2ForManyRegr.getText())), "Лінійна регресія", JOptionPane.INFORMATION_MESSAGE);
         }
 
 

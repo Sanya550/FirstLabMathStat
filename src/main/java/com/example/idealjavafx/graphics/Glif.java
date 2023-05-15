@@ -69,8 +69,6 @@ public class Glif extends Application {
         double second = first + interval;
         double third = second + interval;
 
-        Label label1 = new Label(String.format("Minimum average(white) = %.2f",0));
-        Label label2 = new Label(String.format("Max average(black) = %.2f",(max+third)/2));
         GridPane gridPane = createHeatMap(list);
         gridPane.setPadding(new Insets(10));
 
@@ -79,8 +77,6 @@ public class Glif extends Application {
 
         // Add the gradient rectangle to the grid
         gridPane.add(gradientRectangle, 11, 0);
-        gridPane.add(label1,11,1);
-        gridPane.add(label2,11,2);
         primaryStage.setScene(new Scene(gridPane));
         primaryStage.show();
     }
