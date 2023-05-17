@@ -171,6 +171,54 @@ public class MainFunction {
         return inverse.getArray();
     }
 
+    public static double[][] minusVectorFromMatrix(double[][] matrix, double[][] vector) {
+        //Note double[][] vector = double[0][matrix.length]
+        int rows = matrix.length;
+        int columns = matrix[0].length;
+
+        double[][] result = new double[rows][columns];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                result[i][j] = matrix[i][j] - vector[0][i];
+            }
+        }
+
+        return result;
+    }
+
+    //матриця мінус число
+    public static double[][] minusNumberFromMatrix(double[][] matrix, double number) {
+        int rows = matrix.length;
+        int columns = matrix[0].length;
+
+        double[][] result = new double[rows][columns];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                result[i][j] = matrix[i][j] - number;
+            }
+        }
+
+        return result;
+    }
+
+    //матриця плюс число
+    public static double[][] plusNumberFromMatrix(double[][] matrix, double number) {
+        int rows = matrix.length;
+        int columns = matrix[0].length;
+
+        double[][] result = new double[rows][columns];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                result[i][j] = matrix[i][j] + number;
+            }
+        }
+
+        return result;
+    }
+
 
     public static double getKoefKorilationForThreeValue(List<Double> arr1, List<Double> arr2, List<Double> arr3) {
         double r = (rForKovMatrix(arr1, arr2) - rForKovMatrix(arr1, arr3) * rForKovMatrix(arr2, arr3)) / Math.sqrt((1 - Math.pow(rForKovMatrix(arr1, arr3), 2)) * (1 - Math.pow(rForKovMatrix(arr2, arr3), 2)));

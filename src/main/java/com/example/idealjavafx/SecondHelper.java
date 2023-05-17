@@ -152,8 +152,8 @@ public class SecondHelper {
     }
 
     public List<List<Double>> permutaionOfListsForRegressia(List<List<Double>> list, int intLinReg) {
-        List<Double> lY = new ArrayList<>(list.get(intLinReg-1));
-        list.remove(intLinReg-1);
+        List<Double> lY = new ArrayList<>(list.get(intLinReg - 1));
+        list.remove(intLinReg - 1);
         list.add(lY);
         return list;
     }
@@ -976,29 +976,69 @@ public class SecondHelper {
         tableView.getItems().addAll(data);
     }
 
-    public String dataForManyLiniianaRegressia(List<List<Double>> list, int index, int x1, int x2) {
-        double[][] xMatrix = new double[list.size()][list.get(0).size()];
-        for (int i = 0; i < list.size(); i++) {
-            for (int j = 0; j < list.get(0).size(); j++) {
-                xMatrix[i][j] = list.get(i).get(j);
+    public String dataForManyLiniianaRegressia(List<List<Double>> listNotSorted, int x1, int x2, TextField x3Field, TextField x4Field, TextField x5Field) {
+        double inter1 = 598;
+        double inter2 = 548.9;
+        double[][] xMatrix = new double[listNotSorted.size() - 1][listNotSorted.get(0).size()];
+        double[][] x_ = new double[1][listNotSorted.size() - 1];
+        for (int i = 0; i < listNotSorted.size() - 1; i++) {
+            for (int j = 0; j < listNotSorted.get(0).size(); j++) {
+                xMatrix[i][j] = listNotSorted.get(i).get(j);
             }
+            x_[0][i] = listNotSorted.get(i).stream().mapToDouble(a -> a).average().orElseThrow();
         }
+        double[][] y0Matrix = new double[1][listNotSorted.get(0).size()];
+        for (int i = 0; i < listNotSorted.get(0).size(); i++) {
+            y0Matrix[0][i] = listNotSorted.get(listNotSorted.size() - 1).get(i);
+        }
+
+        var aMatrix = MainFunction.multiplyMatrixOnMatrix(MainFunction.getInverseMatrix(MainFunction.multiplyMatrixOnMatrix(MainFunction.minusVectorFromMatrix(xMatrix, x_), MainFunction.transposeMatrix(MainFunction.minusVectorFromMatrix(xMatrix, x_)))),
+                MainFunction.multiplyMatrixOnMatrix(MainFunction.minusVectorFromMatrix(xMatrix, x_), MainFunction.transposeMatrix(y0Matrix)));
+
         var cMatrix = MainFunction.getInverseMatrix(MainFunction.multiplyMatrixOnMatrix(xMatrix, MainFunction.transposeMatrix(xMatrix)));
+        double a1 = aMatrix[0][0];
+        double a2 = aMatrix[1][0];
+        double a0 = listNotSorted.get(listNotSorted.size() - 1).stream().mapToDouble(s -> s).average().orElseThrow() - a1 * x_[0][0] - a2 * x_[0][1];
+        double a3 = 0;
+        double a4 = 0;
+        double a5 = 0;
+        if (listNotSorted.size() == 4) {
+            a3 = aMatrix[2][0];
+            a0 -= a3 * x_[0][2];
+        }
+        if (listNotSorted.size() == 5) {
+            a4 = aMatrix[3][0];
+            a0 -= a4 * x_[0][3];
+        }
+        if (listNotSorted.size() == 6) {
+            a5 = aMatrix[4][0];
+            a0 -= a5 * x_[0][4];
+        }
+
         double kvaF = SecondHelper.pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1;
         double kvaT = Helper.t1;
         String str = "";
-        var aList = Graphics.getA0A12ForManyLiniinaRegresia(list);
-        double a0 = aList.get(0);
-        double a1 = aList.get(1);
-        double a2 = aList.get(2);
-        List<List<Double>> sublistBefore = list.subList(0, list.size() - 1);
-        List<List<Double>> sublistAfter = list.subList(list.size(), list.size());
+        var aList = getA0A12ForManyLiniinaRegresiaWithKramer(listNotSorted);
+        double a0Kramer = aList.get(0);
+        double a1Kramer = aList.get(1);
+        double a2Kramer = aList.get(2);
+        List<List<Double>> sublistBefore = listNotSorted.subList(0, listNotSorted.size() - 1);
+        List<List<Double>> sublistAfter = listNotSorted.subList(listNotSorted.size(), listNotSorted.size());
         List<List<Double>> newList = new ArrayList<>(sublistBefore);
         newList.addAll(sublistAfter);
-        double r2 = Math.pow(MainFunction.getMnozhinKoefKorilation(list, newList),2);
-        str += String.format("x3_(x1,x2) = %.2f + (%.2f)x1 + (%.2f)x2\n", a0, a1, a2);
+        double r2 = Math.pow(MainFunction.getMnozhinKoefKorilation(listNotSorted, newList), 2);
+        if (listNotSorted.size() == 3) {
+            str += String.format("Matrix: x3_(x1,x2) = %.2f + (%.2f)x1 + (%.2f)x2\n", a0, a1, a2);
+            str += String.format("Крамера: x3_(x1,x2) = %.2f + (%.2f)x1 + (%.2f)x2\n", a0Kramer, a1Kramer, a2Kramer);
+        } else if (listNotSorted.size() == 4) {
+            str += String.format("x4_(x1,x2,x3) = %.2f + (%.2f)x1 + (%.2f)x2 + (%.2f)x3\n", a0, a1, a2, a3);
+        } else if (listNotSorted.size() == 5) {
+            str += String.format("x5_(x1,x2,x3,x4) = %.2f + (%.2f)x1 + (%.2f)x2 + (%.2f)x3 + (%.2f)x4\n", a0, a1, a2, a3, a4);
+        } else if (listNotSorted.size() == 6) {
+            str += String.format("x5_(x1,x2,x3,x4,x5) = %.2f + (%.2f)x1 + (%.2f)x2 + (%.2f)x3 + (%.2f)x4 + (%.2f)x5\n", a0, a1, a2, a3, a4, a5);
+        }
         str += String.format("Коефіцієнт детермінації багатовимірної моделі = %.3f\n", r2);
-        double f1 = Math.abs(r2 * (list.get(0).size() - list.size() - 1) / ((1 - r2) * list.size()));
+        double f1 = Math.abs(r2 * (listNotSorted.get(0).size() - listNotSorted.size() - 1) / ((1 - r2) * listNotSorted.size()));
         str += "Перевірка значущості відтвореної регресії: ";
         if (f1 > kvaF) {
             str += "Значуща";
@@ -1009,38 +1049,109 @@ public class SecondHelper {
         str += "-------------------------------------------------------------------------------------------------\n";
         str += "Дослідження значущості та точності оцінок параметрів A:\n";
         double sZal2 = 0;
-        for (int i = 0; i < list.get(0).size(); i++) {
-            sZal2 += Math.pow(list.get(2).get(i) - a0 - a1 * list.get(0).get(i) - a2 * list.get(1).get(i), 2);
+        for (int i = 0; i < listNotSorted.get(0).size(); i++) {
+            sZal2 += Math.pow(listNotSorted.get(2).get(i) - a0 - a1 * listNotSorted.get(0).get(i) - a2 * listNotSorted.get(1).get(i), 2);
         }
-        sZal2 /= (list.get(0).size() - 3);
-        str += String.format("A0:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n",
-                a0 - kvaT, a0, a0 + kvaT,
-                Math.abs(a0 / sZal2) > kvaT ? "-" : "+");
-        str += String.format("A1:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n",
-                a1 - kvaT / 4, a1, a1 + kvaT / 4,
-                Math.abs(a1 / sZal2) > kvaT ? "-" : "+");
-        str += String.format("A2:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n",
-                a2 - kvaT / 4, a2, a2 + kvaT / 4,
-                Math.abs(a2 / sZal2) > kvaT ? "-" : "+");
-        var tempSt0 = a1 * MainFunction.serKva(list.get(0)) / MainFunction.serKva(list.get(2));
-        var tempSt1 = a2 * MainFunction.serKva(list.get(1)) / MainFunction.serKva(list.get(2));
+        sZal2 /= (listNotSorted.get(0).size() - 3);
+        for (int i = 0; i < aMatrix.length; i++) {
+            var val = aMatrix[i][0];
+            str += String.format("A%d:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n", i + 1,
+                    val - kvaT * Math.sqrt(sZal2 * cMatrix[i][i]), val, val + kvaT * Math.sqrt(sZal2 * cMatrix[i][i]),
+                    Math.abs(val / Math.sqrt(sZal2 * cMatrix[i][i])) > kvaT ? "-" : "+");
+        }
+
+
         str += "Cтандартизовані значення: ";
-        if (index == 1) {
-            str += String.format("a1 = %.2f; a2 = %.2f", tempSt0, tempSt1);
-        } else if (index == 2) {
-            str += String.format("a0 = %.2f; a2 = %.2f", tempSt0, tempSt1);
-        } else {
-            str += String.format("a0 = %.2f; a1 = %.2f;", tempSt0, tempSt1);
+        for (int i = 0; i < aMatrix.length; i++) {
+            str += String.format("a%d = %.2f; ", i + 1, aMatrix[i][0] * MainFunction.serKva(listNotSorted.get(i)) / MainFunction.serKva(listNotSorted.get(listNotSorted.size() - 1)));
         }
+
         str += "\n-------------------------------------------------------------------------------------------------\n";
         str += "Толерантні межі стандартної похибки регресійної оцінки:\n";
-        str += String.format("%.2f <= %.2f <= %.2f", sZal2 - (double) (list.get(0).size() - list.size()) / 598, sZal2, sZal2 + (list.get(0).size() - list.size()) / 548.9);
+        str += String.format("%.2f <= %.2f <= %.2f", sZal2 - (double) (listNotSorted.get(0).size() - listNotSorted.size()) / inter1, sZal2, sZal2 + (listNotSorted.get(0).size() - listNotSorted.size()) / inter2);
         str += "\n-------------------------------------------------------------------------------------------------\n";
         str += "Довірчий інтервал для значення регресії:\n";
         double y_ = a0 + a1 * x1 + a2 * x2;
+        if (listNotSorted.size() >= 4) {
+            y_ += a3 * Integer.parseInt(x3Field.getText());
+        }
+        if (listNotSorted.size() >= 5) {
+            y_ += a4 * Integer.parseInt(x4Field.getText());
+        }
+        if (listNotSorted.size() >= 6) {
+            y_ += a5 * Integer.parseInt(x5Field.getText());
+        }
         str += String.format("%.2f <= %.2f <= %.2f", y_ - sZal2 / 10, y_, y_ + sZal2 / 10);
         str += "\n-------------------------------------------------------------------------------------------------\n";
 
         return str;
+    }
+
+    public static List<Double> getA0A12ForManyLiniinaRegresiaWithKramer(List<List<Double>> listNotSorted) {
+        double x1_2 = 0;
+        double x2_2 = 0;
+        double x1_y = 0;
+        double x2_y = 0;
+        double x1x2_ = 0;
+        for (int i = 0; i < listNotSorted.get(0).size(); i++) {
+            x1x2_ += listNotSorted.get(0).get(i) * listNotSorted.get(1).get(i);
+            x1_2 += Math.pow(listNotSorted.get(0).get(i), 2);
+            x2_2 += Math.pow(listNotSorted.get(1).get(i), 2);
+            x1_y += listNotSorted.get(0).get(i) * listNotSorted.get(2).get(i);
+            x2_y += listNotSorted.get(1).get(i) * listNotSorted.get(2).get(i);
+        }
+        x1x2_ /= listNotSorted.get(0).size();
+        x1_2 /= listNotSorted.get(0).size();
+        x2_2 /= listNotSorted.get(0).size();
+        x1_y /= listNotSorted.get(0).size();
+        x2_y /= listNotSorted.get(0).size();
+        var triangleGeneral = new double[3][3];
+        triangleGeneral[0][0] = 1;
+        triangleGeneral[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangleGeneral[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangleGeneral[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangleGeneral[1][1] = x1_2;
+        triangleGeneral[1][2] = x1x2_;
+        triangleGeneral[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangleGeneral[2][1] = x1x2_;
+        triangleGeneral[2][2] = x2_2;
+
+        var triangle0 = new double[3][3];
+        triangle0[0][0] = MainFunction.matSpodivan(listNotSorted.get(2));
+        triangle0[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangle0[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangle0[1][0] = x1_y;
+        triangle0[1][1] = x1_2;
+        triangle0[1][2] = x1x2_;
+        triangle0[2][0] = x2_y;
+        triangle0[2][1] = x1x2_;
+        triangle0[2][2] = x2_2;
+
+        var triangle1 = new double[3][3];
+        triangle1[0][0] = 1;
+        triangle1[0][1] = MainFunction.matSpodivan(listNotSorted.get(2));
+        triangle1[0][2] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangle1[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangle1[1][1] = x1_y;
+        triangle1[1][2] = x1x2_;
+        triangle1[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangle1[2][1] = x2_y;
+        triangle1[2][2] = x2_2;
+
+        var triangle2 = new double[3][3];
+        triangle2[0][0] = 1;
+        triangle2[0][1] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangle2[0][2] = MainFunction.matSpodivan(listNotSorted.get(2));
+        triangle2[1][0] = MainFunction.matSpodivan(listNotSorted.get(0));
+        triangle2[1][1] = x1_2;
+        triangle2[1][2] = x1_y;
+        triangle2[2][0] = MainFunction.matSpodivan(listNotSorted.get(1));
+        triangle2[2][1] = x1x2_;
+        triangle2[2][2] = x2_y;
+
+        double a0 = MainFunction.findDetermination(triangle0) / MainFunction.findDetermination(triangleGeneral);
+        double a1 = MainFunction.findDetermination(triangle1) / MainFunction.findDetermination(triangleGeneral);
+        double a2 = MainFunction.findDetermination(triangle2) / MainFunction.findDetermination(triangleGeneral);
+        return List.of(a0, a1, a2);
     }
 }

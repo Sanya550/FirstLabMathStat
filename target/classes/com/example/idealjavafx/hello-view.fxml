@@ -36,6 +36,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#chooseFileForNumber6" text="Вибрати файл №6" />
                         <MenuItem mnemonicParsing="false" onAction="#chooseFileForDvovomirnihVibirok" text="Вибрати файл для багатовимірного зчитування" />
                         <MenuItem mnemonicParsing="false" onAction="#clearVibirok" text="Очистити" />
+                  <MenuItem mnemonicParsing="false" onAction="#quantityOfLists" text="Дізнатись кількість ознак" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Файл">
@@ -294,6 +295,12 @@
                                           <Text layoutX="393.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X2 =" wrappingWidth="26.999999910593033" />
                                           <TextField layoutX="419.0" layoutY="95.0" prefHeight="8.0" prefWidth="30.0" text="1" fx:id="x1ForManyRegr" />
                                           <TextField layoutX="419.0" layoutY="123.0" prefHeight="8.0" prefWidth="30.0" text="1" fx:id="x2ForManyRegr" />
+                                          <TextField layoutX="487.0" layoutY="63.0" prefHeight="8.0" prefWidth="30.0" text="1" fx:id="x3ForManyRegr" />
+                                          <TextField layoutX="487.0" layoutY="90.0" prefHeight="8.0" prefWidth="30.0" text="1" fx:id="x4ForManyRegr" />
+                                          <TextField layoutX="487.0" layoutY="121.0" prefHeight="8.0" prefWidth="30.0" text="1" fx:id="x5ForManyRegr" />
+                                          <Text layoutX="460.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X3 =" wrappingWidth="26.999999910593033" />
+                                          <Text layoutX="460.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X4 =" wrappingWidth="26.999999910593033" />
+                                          <Text layoutX="460.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X5 =" wrappingWidth="26.999999910593033" />
                                                     </children>
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">
