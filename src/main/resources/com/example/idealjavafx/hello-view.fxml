@@ -288,7 +288,7 @@
                                                         <Text layoutX="7.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="anomal =" wrappingWidth="53.99999991059303" />
                                                         <TextField fx:id="anomalStr" layoutX="61.0" layoutY="137.0" prefHeight="25.0" prefWidth="62.0" text="0.01" />
                                           <Text layoutX="393.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y =" wrappingWidth="34.99999991059303" />
-                                          <TextField fx:id="indexOfManyRegresia" layoutX="413.0" layoutY="62.0" prefHeight="8.0" prefWidth="30.0" text="1" />
+                                          <TextField fx:id="indexOfManyRegresia" layoutX="419.0" layoutY="64.0" prefHeight="8.0" prefWidth="30.0" text="1" />
                                           <Text layoutX="393.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Лінійна багатовимірна регресія" wrappingWidth="101.53669738769531" />
                                           <Text layoutX="393.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X1 =" wrappingWidth="26.999999910593033" />
                                           <Text layoutX="393.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X2 =" wrappingWidth="26.999999910593033" />

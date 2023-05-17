@@ -152,13 +152,10 @@ public class SecondHelper {
     }
 
     public List<List<Double>> permutaionOfListsForRegressia(List<List<Double>> list, int intLinReg) {
-        if (intLinReg == 1) {
-            return List.of(list.get(1), list.get(2), list.get(0));
-        } else if (intLinReg == 2) {
-            return List.of(list.get(0), list.get(2), list.get(1));
-        } else {
-            return list;
-        }
+        List<Double> lY = new ArrayList<>(list.get(intLinReg-1));
+        list.remove(intLinReg-1);
+        list.add(lY);
+        return list;
     }
 
     //lab5:
@@ -998,10 +995,10 @@ public class SecondHelper {
         List<List<Double>> sublistAfter = list.subList(list.size(), list.size());
         List<List<Double>> newList = new ArrayList<>(sublistBefore);
         newList.addAll(sublistAfter);
-        double r2 = MainFunction.getMnozhinKoefKorilation(list, newList);
+        double r2 = Math.pow(MainFunction.getMnozhinKoefKorilation(list, newList),2);
         str += String.format("x3_(x1,x2) = %.2f + (%.2f)x1 + (%.2f)x2\n", a0, a1, a2);
         str += String.format("Коефіцієнт детермінації багатовимірної моделі = %.3f\n", r2);
-        double f1 = Math.abs(r2 * (list.get(0).size() - list.size() - 1) / ((1 - r2) * list.size())) / 1.5;//todo
+        double f1 = Math.abs(r2 * (list.get(0).size() - list.size() - 1) / ((1 - r2) * list.size()));
         str += "Перевірка значущості відтвореної регресії: ";
         if (f1 > kvaF) {
             str += "Значуща";
@@ -1020,10 +1017,10 @@ public class SecondHelper {
                 a0 - kvaT, a0, a0 + kvaT,
                 Math.abs(a0 / sZal2) > kvaT ? "-" : "+");
         str += String.format("A1:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n",
-                a1 - kvaT/4, a1, a1 + kvaT/4,
+                a1 - kvaT / 4, a1, a1 + kvaT / 4,
                 Math.abs(a1 / sZal2) > kvaT ? "-" : "+");
         str += String.format("A2:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n",
-                a2 - kvaT/4, a2, a2 + kvaT/4,
+                a2 - kvaT / 4, a2, a2 + kvaT / 4,
                 Math.abs(a2 / sZal2) > kvaT ? "-" : "+");
         var tempSt0 = a1 * MainFunction.serKva(list.get(0)) / MainFunction.serKva(list.get(2));
         var tempSt1 = a2 * MainFunction.serKva(list.get(1)) / MainFunction.serKva(list.get(2));
@@ -1041,7 +1038,7 @@ public class SecondHelper {
         str += "\n-------------------------------------------------------------------------------------------------\n";
         str += "Довірчий інтервал для значення регресії:\n";
         double y_ = a0 + a1 * x1 + a2 * x2;
-        str += String.format("%.2f <= %.2f <= %.2f", y_ - sZal2/10 ,y_, y_ + sZal2/10);
+        str += String.format("%.2f <= %.2f <= %.2f", y_ - sZal2 / 10, y_, y_ + sZal2 / 10);
         str += "\n-------------------------------------------------------------------------------------------------\n";
 
         return str;

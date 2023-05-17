@@ -4,6 +4,7 @@ import com.example.idealjavafx.Helper;
 import com.example.idealjavafx.MainFunction;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.chart.NumberAxis;
@@ -209,13 +210,13 @@ public class Graphics {
 
             double minYAxis = listNotSorted.get(2).get(0) - a0 - a1 * listNotSorted.get(0).get(0) + a2 * listNotSorted.get(1).get(0);
             double maxYAxis = listNotSorted.get(2).get(0) - a0 - a1 * listNotSorted.get(0).get(0) + a2 * listNotSorted.get(1).get(0);
-            ;
+
             XYChart.Series series1 = new XYChart.Series();
             series1.setName("Діагностична діаграма");
             for (int i = 0; i < listNotSorted.get(2).size(); i++) {
                 double temp = a1 * listNotSorted.get(0).get(i) + a2 * listNotSorted.get(1).get(i);
                 double eps = listNotSorted.get(2).get(i) - a0 - temp;
-                series1.getData().add(new XYChart.Data(listNotSorted.get(2).get(i), eps));
+                series1.getData().add(new XYChart.Data(listNotSorted.get(2).get(i), eps/10));
                 if (eps < minYAxis) {
                     minYAxis = eps;
                 }

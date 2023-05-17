@@ -286,6 +286,7 @@ public class HelloController {
     private TextField x1ForManyRegr;
     @FXML
     private TextField x2ForManyRegr;
+
     //звичайні графіки:
     @FXML
     protected void barChartSimpleGraph(ActionEvent event) {
@@ -1968,12 +1969,10 @@ public class HelloController {
         SecondHelper secondHelper = new SecondHelper();
         var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         int intLinReg = Integer.parseInt(indexOfManyRegresia.getText());
-        if (listNotSorted.size() != 3) {
-            JOptionPane.showMessageDialog(null, "Кількість вибірок має бути 3", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (intLinReg < 1 || intLinReg > 3) {
-            JOptionPane.showMessageDialog(null, "Y має бути від 1 до 3", "Error", JOptionPane.ERROR_MESSAGE);
+        if (intLinReg < 1 || intLinReg > listNotSorted.size()) {
+            JOptionPane.showMessageDialog(null, String.format("Y має бути від 1 до %d", listNotSorted.size()), "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            Graphics.diagnosticDiagram(secondHelper.permutaionOfListsForRegressia(listNotSorted,intLinReg), scatterChartForFrequencyOfHystograma, xAxisForScatterChartForFrequencyOfHystograma, yAxisForScatterChartForFrequencyOfHystograma);
+            Graphics.diagnosticDiagram(secondHelper.permutaionOfListsForRegressia(listNotSorted, intLinReg), scatterChartForFrequencyOfHystograma, xAxisForScatterChartForFrequencyOfHystograma, yAxisForScatterChartForFrequencyOfHystograma);
         }
     }
 
@@ -1986,10 +1985,10 @@ public class HelloController {
             JOptionPane.showMessageDialog(null, "Кількість вибірок має бути 3", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (intLinReg < 1 || intLinReg > 3) {
             JOptionPane.showMessageDialog(null, "Y має бути від 1 до 3", "Error", JOptionPane.ERROR_MESSAGE);
-        }else if(x1ForManyRegr.getText().isEmpty() || x2ForManyRegr.getText().isEmpty()){
+        } else if (x1ForManyRegr.getText().isEmpty() || x2ForManyRegr.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, " Поля x1ForManyRegr і x2ForManyRegr мають бути заповнені", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, secondHelper.dataForManyLiniianaRegressia(secondHelper.permutaionOfListsForRegressia(listNotSorted,intLinReg), intLinReg, Integer.parseInt(x1ForManyRegr.getText()), Integer.parseInt(x2ForManyRegr.getText())), "Лінійна регресія", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, secondHelper.dataForManyLiniianaRegressia(secondHelper.permutaionOfListsForRegressia(listNotSorted, intLinReg), intLinReg, Integer.parseInt(x1ForManyRegr.getText()), Integer.parseInt(x2ForManyRegr.getText())), "Лінійна регресія", JOptionPane.INFORMATION_MESSAGE);
         }
 
 
