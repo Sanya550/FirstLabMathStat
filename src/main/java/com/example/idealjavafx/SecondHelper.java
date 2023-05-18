@@ -1057,7 +1057,7 @@ public class SecondHelper {
             var val = aMatrix[i][0];
             str += String.format("A%d:\nІнтервальна оцінка параметра: %.2f <= %.2f <= %.2f\nЗначущість: %s\n", i + 1,
                     val - kvaT * Math.sqrt(sZal2 * cMatrix[i][i]), val, val + kvaT * Math.sqrt(sZal2 * cMatrix[i][i]),
-                    Math.abs(val / Math.sqrt(sZal2 * cMatrix[i][i])) > kvaT ? "-" : "+");
+                    Math.abs(val / Math.sqrt(sZal2 * cMatrix[i][i])) < kvaT ? "-" : "+");
         }
 
 
