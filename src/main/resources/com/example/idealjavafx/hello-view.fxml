@@ -219,11 +219,20 @@
                   </Menu>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Про програму">
+                <Menu mnemonicParsing="false" text="Компонентний та факторний аналіз">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
+                  <MenuItem mnemonicParsing="false" onAction="#centeruvan" text="Центрування" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToNezhalezhniSystemOfKoordinat" text="Перейти до незалежної системи координат" />
+                  <MenuItem mnemonicParsing="false" onAction="#returnToInitialSystemOfKoordinat" text="Повернутись до початкової системи координат" />
+                        <MenuItem mnemonicParsing="false" onAction="#resultMGK" text="Результати МГК" />
+                  <MenuItem mnemonicParsing="false" onAction="#brokenStickGraph" text="Графік &quot;зламаної тростини&quot;" />
                     </items>
                 </Menu>
+            <Menu mnemonicParsing="false" text="Про програму">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
+               </items>
+            </Menu>
             </menus>
         </MenuBar>
     </top>
@@ -301,6 +310,9 @@
                                           <Text layoutX="460.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X3 =" wrappingWidth="26.999999910593033" />
                                           <Text layoutX="460.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X4 =" wrappingWidth="26.999999910593033" />
                                           <Text layoutX="460.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X5 =" wrappingWidth="26.999999910593033" />
+                                          <TextField fx:id="returnInitialTextField" layoutX="613.0" layoutY="26.0" prefHeight="8.0" prefWidth="30.0" text="3" />
+                                          <Text layoutX="538.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="МГК:" />
+                                          <Text layoutX="538.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="По першим:" wrappingWidth="74.798095703125" />
                                                     </children>
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="300.0">

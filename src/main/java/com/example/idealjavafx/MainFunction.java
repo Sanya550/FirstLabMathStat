@@ -237,4 +237,34 @@ public class MainFunction {
     public static double getMnozhinKoefKorilation(List<List<Double>> rMatrix, List<List<Double>> rMatrixKK){
         return Math.sqrt(1- MainFunction.findDetermination(findRForDuspKovMatrixForManyVibirok(rMatrix))/MainFunction.findDetermination(findRForDuspKovMatrixForManyVibirok(rMatrixKK)));
     }
+
+    //пошук власних векторів за методом Якобі-Гаусса
+    public static List<RealVector> getVlasniiVectors(double[][] matrixData) {
+        RealMatrix matrix = MatrixUtils.createRealMatrix(matrixData);
+        EigenDecomposition eigenDecomposition = new EigenDecomposition(matrix);
+
+        int n = matrixData.length;
+        List<RealVector> eigenVectors = new ArrayList<>(n);
+
+        for (int i = 0; i < n; i++) {
+            eigenVectors.add(eigenDecomposition.getEigenvector(i));
+        }
+
+        return eigenVectors;
+    }
+
+    //пошук власних чисел за методом Якобі-Гаусса
+    public static List<Double> getVlasniiValues(double[][] matrixData) {
+        RealMatrix matrix = MatrixUtils.createRealMatrix(matrixData);
+        EigenDecomposition eigenDecomposition = new EigenDecomposition(matrix);
+
+        int n = matrixData.length;
+        List<Double> eigenValues = new ArrayList<>(n);
+
+        for (int i = 0; i < n; i++) {
+            eigenValues.add(eigenDecomposition.getRealEigenvalue(i));
+        }
+
+        return eigenValues;
+    }
 }

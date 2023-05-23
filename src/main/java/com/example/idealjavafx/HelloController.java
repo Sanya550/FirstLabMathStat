@@ -16,6 +16,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import org.apache.commons.math3.linear.RealVector;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -27,6 +28,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public class HelloController {
@@ -59,6 +61,9 @@ public class HelloController {
     static ArrayList<List<Double>> sukupnist1 = new ArrayList<>();
     static ArrayList<List<Double>> sukupnist2 = new ArrayList<>();
 //    static ArrayList<List<Double>> sukupnist3 = new ArrayList<>();
+
+    public static List<RealVector> vlasniiVektors = new ArrayList<>();
+    public static List<Double> vlasniiValues = new ArrayList<>();
 
     static int forFileIndex = 1;
     static int numberOfClass;
@@ -292,6 +297,8 @@ public class HelloController {
     private TextField x4ForManyRegr;
     @FXML
     private TextField x5ForManyRegr;
+    @FXML
+    private TextField returnInitialTextField;
 
     //звичайні графіки:
     @FXML
@@ -842,6 +849,8 @@ public class HelloController {
         savingListNumber4.clear();
         savingListNumber5.clear();
         savingListNumber6.clear();
+        vlasniiVektors.clear();
+        vlasniiValues.clear();
         JOptionPane.showMessageDialog(null, "Вибірки очишені");
     }
 
@@ -1781,6 +1790,23 @@ public class HelloController {
         JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    @FXML
+    protected void centeruvan() {
+        SecondHelper secondHelper = new SecondHelper();
+//        var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        for (var list : listOfLists) {
+//            double resultSA = MainFunction.matSpodivan(list);
+//            list.replaceAll(a -> (a - resultSA));
+//        }
+//        for (var list : listOfWithoutSorted) {
+//            double resultSA = MainFunction.matSpodivan(list);
+//            list.replaceAll(a -> (a - resultSA));
+//        }
+        SecondHelper.centruvanVl(listOfWithoutSorted);
+        JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     @FXML
     protected void scatterLineRegressionMNK(ActionEvent event) {
@@ -2073,5 +2099,77 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, "Кількість ознак має дорівнювати 2", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    //lab6:
+    //Компонентний та факторний аналіз
+    @FXML
+    protected void resultMGK() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        SecondHelper.getMGKMatrix(tableView, secondHelper.centruvanData(listNotSorted));
+    }
+
+    @FXML
+    protected void brokenStickGraph() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        Graphics.brokenStickVizual(lineChart, secondHelper.centruvanData(listNotSorted));
+    }
+
+    @FXML
+    protected void goToNezhalezhniSystemOfKoordinat() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listSorted = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var newNotSortedList = secondHelper.goToNezhalezhniSystemOfKoordinatHelper(listNotSorted);
+
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            var staticList = listNotSorted.get(i);
+            var newStaticList = newNotSortedList.get(i);
+            Collections.copy(staticList, newStaticList);
+        }
+
+        var tempList = new ArrayList<List<Double>>();
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            var l = new ArrayList(listNotSorted.get(i));
+            l.sort(Comparator.naturalOrder());
+            tempList.add(l);
+        }
+
+        for (int i = 0; i < tempList.size(); i++) {
+            var staticList = listSorted.get(i);
+            var newStaticList = tempList.get(i);
+            Collections.copy(staticList, newStaticList);
+        }
+        JOptionPane.showMessageDialog(null, "Збережено", "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    protected void returnToInitialSystemOfKoordinat() {
+        SecondHelper secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var listSorted = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var newNotSortedList = secondHelper.returnToInitialSystemOfKoordinatHelper(listNotSorted, Integer.parseInt(returnInitialTextField.getText()));
+
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            var staticList = listNotSorted.get(i);
+            var newStaticList = newNotSortedList.get(i);
+            Collections.copy(staticList, newStaticList);
+        }
+
+        var tempList = new ArrayList<List<Double>>();
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            var l = new ArrayList(listNotSorted.get(i));
+            l.sort(Comparator.naturalOrder());
+            tempList.add(l);
+        }
+
+        for (int i = 0; i < tempList.size(); i++) {
+            var staticList = listSorted.get(i);
+            var newStaticList = tempList.get(i);
+            Collections.copy(staticList, newStaticList);
+        }
+        JOptionPane.showMessageDialog(null, "Збережено", "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 }

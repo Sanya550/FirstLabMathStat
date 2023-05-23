@@ -1,7 +1,9 @@
 package com.example.idealjavafx.graphics;
 
+import com.example.idealjavafx.HelloController;
 import com.example.idealjavafx.Helper;
 import com.example.idealjavafx.MainFunction;
+import com.example.idealjavafx.SecondHelper;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -262,5 +264,27 @@ public class Graphics {
         yAxis.setLowerBound(minYAxis);
         yAxis.setUpperBound(maxYAxis);
         scatterChart.getData().addAll(series1);
+    }
+
+    //графік зламаної тростини
+    public static void brokenStickVizual(LineChart lineChart, List<List<Double>> listNotSorted){
+        lineChart.getData().clear();
+        lineChart.layout();
+//        double[][] matrixForInitialDC = new double[listNotSorted.size()][listNotSorted.get(0).size()];
+//        for (int i = 0; i < listNotSorted.size(); i++) {
+//            for (int j = 0; j < listNotSorted.get(0).size(); j++) {
+//                matrixForInitialDC[i][j] = listNotSorted.get(i).get(j);
+//            }
+//        }
+//
+//        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
+//                (double) 1 / listNotSorted.get(0).size());
+//        var vlasniiValues = MainFunction.getVlasniiValues(dcMatrix);
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Графік зламаної тростини");
+        for (int i = 0; i < HelloController.vlasniiValues.size(); i++) {
+                series1.getData().add(new XYChart.Data(String.valueOf(i + 1), HelloController.vlasniiValues.get(i)));
+        }
+        lineChart.getData().addAll(series1);
     }
 }

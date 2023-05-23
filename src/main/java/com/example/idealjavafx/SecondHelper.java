@@ -1,6 +1,7 @@
 package com.example.idealjavafx;
 
 import com.example.idealjavafx.graphics.Graphics;
+import com.example.idealjavafx.models.DataForTableView;
 import com.example.idealjavafx.models.DataRowForFullKorilation;
 import com.example.idealjavafx.models.DataRowForPartKorilation;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -9,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.commons.math3.linear.RealVector;
 
 import javax.swing.*;
 import java.util.*;
@@ -419,7 +421,7 @@ public class SecondHelper {
     }
 
 
-    //NOTE: it can hurt on other process
+    //NOTE: it can hurt other process
     public static void deleteAnomalValue(List<List<Double>> listSorted, List<List<Double>> withoutSorted) {
         var numOfClass = (int) Math.cbrt(listSorted.get(0).size());
         int size = listSorted.get(0).size();
@@ -1153,5 +1155,341 @@ public class SecondHelper {
         double a1 = MainFunction.findDetermination(triangle1) / MainFunction.findDetermination(triangleGeneral);
         double a2 = MainFunction.findDetermination(triangle2) / MainFunction.findDetermination(triangleGeneral);
         return List.of(a0, a1, a2);
+    }
+
+    //MGK:
+    public static void getMGKMatrix(TableView tableView, List<List<Double>> listNotSorted) {
+        List<List<Double>> list1 = new ArrayList<>();
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            list1.add(new ArrayList<>(listNotSorted.get(i)));
+        }
+        for (var list : list1) {
+            double resultSA = MainFunction.matSpodivan(list);
+            list.replaceAll(a -> (a - resultSA));
+        }
+
+        double[][] matrixForInitialDC = new double[list1.size()][list1.get(0).size()];
+        for (int i = 0; i < list1.size(); i++) {
+            for (int j = 0; j < list1.get(0).size(); j++) {
+                matrixForInitialDC[i][j] = list1.get(i).get(j);
+            }
+        }
+
+        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
+                (double) 1 / listNotSorted.get(0).size());
+        var vlasniiVektors = MainFunction.getVlasniiVectors(dcMatrix);
+        var vlasniiValues = MainFunction.getVlasniiValues(dcMatrix);
+        double sumOfVlasCh = vlasniiValues.stream().mapToDouble(a -> a).sum();
+        var napriam = new ArrayList<Double>();
+        var nakop = new ArrayList<Double>();
+        double temp = 0;
+        for (int i = 0; i < vlasniiValues.size(); i++) {
+            temp += vlasniiValues.get(i);
+            nakop.add((temp / sumOfVlasCh) * 100);
+            napriam.add((vlasniiValues.get(i) / sumOfVlasCh) * 100);
+        }
+
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+        ObservableList<DataForTableView> data = FXCollections.observableArrayList();
+        TableColumn columnForCharacteristic = new TableColumn(" ");
+        columnForCharacteristic.setCellValueFactory(new PropertyValueFactory<>("characterisctic"));
+        TableColumn columnForValue1 = new TableColumn("x'1");
+        columnForValue1.setCellValueFactory(new PropertyValueFactory<>("value1"));
+        TableColumn columnForValue2 = new TableColumn("x'2");
+        columnForValue2.setCellValueFactory(new PropertyValueFactory<>("value2"));
+        tableView.getColumns().addAll(columnForCharacteristic, columnForValue1, columnForValue2);
+        if (vlasniiValues.size() >= 3) {
+            TableColumn columnForValue3 = new TableColumn("x'3");
+            columnForValue3.setCellValueFactory(new PropertyValueFactory<>("value3"));
+            tableView.getColumns().addAll(columnForValue3);
+        }
+        if (vlasniiValues.size() >= 4) {
+            TableColumn columnForValue4 = new TableColumn("x'4");
+            columnForValue4.setCellValueFactory(new PropertyValueFactory<>("value4"));
+            tableView.getColumns().addAll(columnForValue4);
+        }
+        if (vlasniiValues.size() >= 5) {
+            TableColumn columnForValue5 = new TableColumn("x'5");
+            columnForValue5.setCellValueFactory(new PropertyValueFactory<>("value5"));
+            tableView.getColumns().addAll(columnForValue5);
+        }
+        if (vlasniiValues.size() == 6) {
+            TableColumn columnForValue6 = new TableColumn("x'6");
+            columnForValue6.setCellValueFactory(new PropertyValueFactory<>("value6"));
+            tableView.getColumns().addAll(columnForValue6);
+        }
+        if (vlasniiValues.size() < 2) {
+            JOptionPane.showMessageDialog(null, "Кількість вибірок має бути від 2 до 6", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (vlasniiValues.size() == 2) {
+            for (int i = 0; i < vlasniiVektors.size(); i++) {
+                DataForTableView rowData = new DataForTableView();
+                rowData.setCharacterisctic(String.format("x%d", i));
+                rowData.setValue1(String.format("%.2f", vlasniiVektors.get(0).getEntry(i)));
+                rowData.setValue2(String.format("%.2f", vlasniiVektors.get(1).getEntry(i)));
+                data.add(rowData);
+            }
+            DataForTableView rowData1 = new DataForTableView();
+            rowData1.setCharacterisctic("Власні числа");
+            rowData1.setValue1(String.format("%.2f", vlasniiValues.get(0)));
+            rowData1.setValue2(String.format("%.2f", vlasniiValues.get(1)));
+            data.add(rowData1);
+
+            DataForTableView rowDataNp = new DataForTableView();
+            rowDataNp.setCharacterisctic("% на напрям");
+            rowDataNp.setValue1(String.format("%.2f", napriam.get(0)));
+            rowDataNp.setValue2(String.format("%.2f", napriam.get(1)));
+            data.add(rowDataNp);
+
+            DataForTableView rowDataNk = new DataForTableView();
+            rowDataNk.setCharacterisctic("Накопичений % ");
+            rowDataNk.setValue1(String.format("%.2f", nakop.get(0)));
+            rowDataNk.setValue2(String.format("%.2f", nakop.get(1)));
+            data.add(rowDataNk);
+        } else if (vlasniiValues.size() == 3) {
+            for (int i = 0; i < vlasniiVektors.size(); i++) {
+                DataForTableView rowData = new DataForTableView();
+                rowData.setCharacterisctic(String.format("x%d", i));
+                rowData.setValue1(String.format("%.2f", vlasniiVektors.get(0).getEntry(i)));
+                rowData.setValue2(String.format("%.2f", vlasniiVektors.get(1).getEntry(i)));
+                rowData.setValue3(String.format("%.2f", vlasniiVektors.get(2).getEntry(i)));
+                data.add(rowData);
+            }
+            DataForTableView rowData1 = new DataForTableView();
+            rowData1.setCharacterisctic("Власні числа");
+            rowData1.setValue1(String.format("%.2f", vlasniiValues.get(0)));
+            rowData1.setValue2(String.format("%.2f", vlasniiValues.get(1)));
+            rowData1.setValue3(String.format("%.2f", vlasniiValues.get(2)));
+            data.add(rowData1);
+
+            DataForTableView rowDataNp = new DataForTableView();
+            rowDataNp.setCharacterisctic("% на напрям");
+            rowDataNp.setValue1(String.format("%.2f", napriam.get(0)));
+            rowDataNp.setValue2(String.format("%.2f", napriam.get(1)));
+            rowDataNp.setValue3(String.format("%.2f", napriam.get(2)));
+            data.add(rowDataNp);
+
+            DataForTableView rowDataNk = new DataForTableView();
+            rowDataNk.setCharacterisctic("Накопичений % ");
+            rowDataNk.setValue1(String.format("%.2f", nakop.get(0)));
+            rowDataNk.setValue2(String.format("%.2f", nakop.get(1)));
+            rowDataNk.setValue3(String.format("%.2f", nakop.get(2)));
+            data.add(rowDataNk);
+        } else if (vlasniiValues.size() == 4) {
+            for (int i = 0; i < vlasniiVektors.size(); i++) {
+                DataForTableView rowData = new DataForTableView();
+                rowData.setCharacterisctic(String.format("x%d", i));
+                rowData.setValue1(String.format("%.2f", vlasniiVektors.get(0).getEntry(i)));
+                rowData.setValue2(String.format("%.2f", vlasniiVektors.get(1).getEntry(i)));
+                rowData.setValue3(String.format("%.2f", vlasniiVektors.get(2).getEntry(i)));
+                rowData.setValue4(String.format("%.2f", vlasniiVektors.get(3).getEntry(i)));
+                data.add(rowData);
+            }
+            DataForTableView rowData1 = new DataForTableView();
+            rowData1.setCharacterisctic("Власні числа");
+            rowData1.setValue1(String.format("%.2f", vlasniiValues.get(0)));
+            rowData1.setValue2(String.format("%.2f", vlasniiValues.get(1)));
+            rowData1.setValue3(String.format("%.2f", vlasniiValues.get(2)));
+            rowData1.setValue4(String.format("%.2f", vlasniiValues.get(3)));
+            data.add(rowData1);
+
+            DataForTableView rowDataNp = new DataForTableView();
+            rowDataNp.setCharacterisctic("% на напрям");
+            rowDataNp.setValue1(String.format("%.2f", napriam.get(0)));
+            rowDataNp.setValue2(String.format("%.2f", napriam.get(1)));
+            rowDataNp.setValue3(String.format("%.2f", napriam.get(2)));
+            rowDataNp.setValue4(String.format("%.2f", napriam.get(3)));
+            data.add(rowDataNp);
+
+            DataForTableView rowDataNk = new DataForTableView();
+            rowDataNk.setCharacterisctic("Накопичений % ");
+            rowDataNk.setValue1(String.format("%.2f", nakop.get(0)));
+            rowDataNk.setValue2(String.format("%.2f", nakop.get(1)));
+            rowDataNk.setValue3(String.format("%.2f", nakop.get(2)));
+            rowDataNk.setValue4(String.format("%.2f", nakop.get(3)));
+            data.add(rowDataNk);
+        } else if (vlasniiValues.size() == 5) {
+            for (int i = 0; i < vlasniiVektors.size(); i++) {
+                DataForTableView rowData = new DataForTableView();
+                rowData.setCharacterisctic(String.format("x%d", i));
+                rowData.setValue1(String.format("%.2f", vlasniiVektors.get(0).getEntry(i)));
+                rowData.setValue2(String.format("%.2f", vlasniiVektors.get(1).getEntry(i)));
+                rowData.setValue3(String.format("%.2f", vlasniiVektors.get(2).getEntry(i)));
+                rowData.setValue4(String.format("%.2f", vlasniiVektors.get(3).getEntry(i)));
+                rowData.setValue5(String.format("%.2f", vlasniiVektors.get(4).getEntry(i)));
+                data.add(rowData);
+            }
+            DataForTableView rowData1 = new DataForTableView();
+            rowData1.setCharacterisctic("Власні числа");
+            rowData1.setValue1(String.format("%.2f", vlasniiValues.get(0)));
+            rowData1.setValue2(String.format("%.2f", vlasniiValues.get(1)));
+            rowData1.setValue3(String.format("%.2f", vlasniiValues.get(2)));
+            rowData1.setValue4(String.format("%.2f", vlasniiValues.get(3)));
+            rowData1.setValue5(String.format("%.2f", vlasniiValues.get(4)));
+            data.add(rowData1);
+
+            DataForTableView rowDataNp = new DataForTableView();
+            rowDataNp.setCharacterisctic("% на напрям");
+            rowDataNp.setValue1(String.format("%.2f", napriam.get(0)));
+            rowDataNp.setValue2(String.format("%.2f", napriam.get(1)));
+            rowDataNp.setValue3(String.format("%.2f", napriam.get(2)));
+            rowDataNp.setValue4(String.format("%.2f", napriam.get(3)));
+            rowDataNp.setValue5(String.format("%.2f", napriam.get(4)));
+            data.add(rowDataNp);
+
+            DataForTableView rowDataNk = new DataForTableView();
+            rowDataNk.setCharacterisctic("Накопичений % ");
+            rowDataNk.setValue1(String.format("%.2f", nakop.get(0)));
+            rowDataNk.setValue2(String.format("%.2f", nakop.get(1)));
+            rowDataNk.setValue3(String.format("%.2f", nakop.get(2)));
+            rowDataNk.setValue4(String.format("%.2f", nakop.get(3)));
+            rowDataNk.setValue5(String.format("%.2f", nakop.get(4)));
+            data.add(rowDataNk);
+        } else if (vlasniiValues.size() == 6) {
+            for (int i = 0; i < vlasniiVektors.size(); i++) {
+                DataForTableView rowData = new DataForTableView();
+                rowData.setCharacterisctic(String.format("x%d", i));
+                rowData.setValue1(String.format("%.2f", vlasniiVektors.get(0).getEntry(i)));
+                rowData.setValue2(String.format("%.2f", vlasniiVektors.get(1).getEntry(i)));
+                rowData.setValue3(String.format("%.2f", vlasniiVektors.get(2).getEntry(i)));
+                rowData.setValue4(String.format("%.2f", vlasniiVektors.get(3).getEntry(i)));
+                rowData.setValue5(String.format("%.2f", vlasniiVektors.get(4).getEntry(i)));
+                rowData.setValue6(String.format("%.2f", vlasniiVektors.get(5).getEntry(i)));
+                data.add(rowData);
+            }
+            DataForTableView rowData1 = new DataForTableView();
+            rowData1.setCharacterisctic("Власні числа");
+            rowData1.setValue1(String.format("%.2f", vlasniiValues.get(0)));
+            rowData1.setValue2(String.format("%.2f", vlasniiValues.get(1)));
+            rowData1.setValue3(String.format("%.2f", vlasniiValues.get(2)));
+            rowData1.setValue4(String.format("%.2f", vlasniiValues.get(3)));
+            rowData1.setValue5(String.format("%.2f", vlasniiValues.get(4)));
+            rowData1.setValue6(String.format("%.2f", vlasniiValues.get(5)));
+            data.add(rowData1);
+
+            DataForTableView rowDataNp = new DataForTableView();
+            rowDataNp.setCharacterisctic("% на напрям");
+            rowDataNp.setValue1(String.format("%.2f", napriam.get(0)));
+            rowDataNp.setValue2(String.format("%.2f", napriam.get(1)));
+            rowDataNp.setValue3(String.format("%.2f", napriam.get(2)));
+            rowDataNp.setValue4(String.format("%.2f", napriam.get(3)));
+            rowDataNp.setValue5(String.format("%.2f", napriam.get(4)));
+            rowDataNp.setValue6(String.format("%.2f", napriam.get(5)));
+            data.add(rowDataNp);
+
+            DataForTableView rowDataNk = new DataForTableView();
+            rowDataNk.setCharacterisctic("Накопичений % ");
+            rowDataNk.setValue1(String.format("%.2f", nakop.get(0)));
+            rowDataNk.setValue2(String.format("%.2f", nakop.get(1)));
+            rowDataNk.setValue3(String.format("%.2f", nakop.get(2)));
+            rowDataNk.setValue4(String.format("%.2f", nakop.get(3)));
+            rowDataNk.setValue5(String.format("%.2f", nakop.get(4)));
+            rowDataNk.setValue6(String.format("%.2f", nakop.get(5)));
+            data.add(rowDataNk);
+        }
+        tableView.getItems().addAll(data);
+    }
+
+    public List<List<Double>> goToNezhalezhniSystemOfKoordinatHelper(List<List<Double>> listNotSorted) {
+//        double[][] matrixForInitialDC = new double[listNotSorted.size()][listNotSorted.get(0).size()];
+//        for (int i = 0; i < listNotSorted.size(); i++) {
+//            for (int j = 0; j < listNotSorted.get(0).size(); j++) {
+//                matrixForInitialDC[i][j] = listNotSorted.get(i).get(j);
+//            }
+//        }
+//
+//        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
+//                (double) 1 / listNotSorted.get(0).size());
+//        HelloController.vlasniiVektors = MainFunction.getVlasniiVectors(dcMatrix);
+
+        var resultMatrix = new double[listNotSorted.size()][listNotSorted.get(0).size()];
+
+        for (int j = 0; j < listNotSorted.get(0).size(); j++) {
+            double temp = 0.0;
+            for (int k = 0; k < listNotSorted.size(); k++) {
+
+                for (int i = 0; i < listNotSorted.size(); i++) {
+                    temp += HelloController.vlasniiVektors.get(k).getEntry(i) * listNotSorted.get(i).get(j);
+                    if (i == listNotSorted.size() - 1) {
+                        resultMatrix[k][j] = temp;
+                        temp = 0;
+                    }
+                }
+            }
+        }
+
+        List<List<Double>> resList = new ArrayList<>();
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            var tempList = new ArrayList<Double>();
+            for (int j = 0; j < listNotSorted.get(0).size(); j++) {
+                tempList.add(resultMatrix[i][j]);
+            }
+            resList.add(tempList);
+        }
+        return resList;
+    }
+
+    public List<List<Double>> returnToInitialSystemOfKoordinatHelper(List<List<Double>> listNotSorted, int num) {
+        var resultMatrix = new double[listNotSorted.size()][listNotSorted.get(0).size()];
+
+        for (int j = 0; j < listNotSorted.get(0).size(); j++) {
+            double temp = 0.0;
+            for (int k = 0; k < listNotSorted.size(); k++) {
+
+                for (int i = 0; i < num; i++) {
+                    temp += vlasniiVektors.get(i).getEntry(k) * listNotSorted.get(i).get(j);
+                    if (i == num - 1) {
+                        resultMatrix[k][j] = temp;
+                        temp = 0;
+                    }
+                }
+            }
+        }
+
+        List<List<Double>> resList = new ArrayList<>();
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            var tempList = new ArrayList<Double>();
+            for (int j = 0; j < listNotSorted.get(0).size(); j++) {
+                tempList.add(resultMatrix[i][j]);
+            }
+            resList.add(tempList);
+        }
+        return resList;
+    }
+
+    public static void centruvanVl(List<List<Double>> listNotSorted){
+        List<List<Double>> list1 = new ArrayList<>();
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            list1.add(new ArrayList<>(listNotSorted.get(i)));
+        }
+        for (var list : list1) {
+            double resultSA = MainFunction.matSpodivan(list);
+            list.replaceAll(a -> (a - resultSA));
+        }
+        double[][] matrixForInitialDC = new double[list1.size()][list1.get(0).size()];
+        for (int i = 0; i < list1.size(); i++) {
+            for (int j = 0; j < list1.get(0).size(); j++) {
+                matrixForInitialDC[i][j] = list1.get(i).get(j);
+            }
+        }
+
+        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
+                (double) 1 / listNotSorted.get(0).size());
+        vlasniiVektors = MainFunction.getVlasniiVectors(dcMatrix);
+        vlasniiValues = MainFunction.getVlasniiValues(dcMatrix);
+    }
+
+    public List<List<Double>> centruvanData(List<List<Double>> listNotSorted){
+        List<List<Double>> list1 = new ArrayList<>();
+        for (int i = 0; i < listNotSorted.size(); i++) {
+            list1.add(new ArrayList<>(listNotSorted.get(i)));
+        }
+        for (var list : list1) {
+            double resultSA = MainFunction.matSpodivan(list);
+            list.replaceAll(a -> (a - resultSA));
+        }
+        return list1;
     }
 }
