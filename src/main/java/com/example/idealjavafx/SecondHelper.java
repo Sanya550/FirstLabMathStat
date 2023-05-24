@@ -43,43 +43,69 @@ public class SecondHelper {
             list.add(withoutSortingArrayListNumber6);
         }
 
-
         int errorCounter = (int) list.stream().filter(ArrayList::isEmpty).count();
         if (errorCounter > 0) {
             JOptionPane.showMessageDialog(null, "Одна чи більше вибірок не існує у файлі", "Помилка", JOptionPane.ERROR_MESSAGE);
         }
         list.stream().filter(t -> !t.isEmpty());
-        ArrayList<ArrayList<Double>> data = new ArrayList<>();
+        ObservableList<DataForTableView> data = FXCollections.observableArrayList();
+
         if (!list.isEmpty()) {
             for (int i = 0; i < list.get(0).size(); i++) {
-                if (list.size() == 1) {
-                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i)));
-                    data.add(row);
-                } else if (list.size() == 2) {
-                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i)));
-                    data.add(row);
-                } else if (list.size() == 3) {
-                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i)));
-                    data.add(row);
-                } else if (list.size() == 4) {
-                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i)));
-                    data.add(row);
-                } else if (list.size() == 5) {
-                    ArrayList<Double> row = new ArrayList<>(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i), list.get(4).get(i)));
-                    data.add(row);
-                } else if (list.size() == 6) {
-                    ArrayList<Double> row = new ArrayList(Arrays.asList(list.get(0).get(i), list.get(1).get(i), list.get(2).get(i), list.get(3).get(i), list.get(4).get(i), list.get(5)));
-                    data.add(row);
+                var row = new DataForTableView();
+                if (list.size() >= 1) {
+                    row.setCharacterisctic(String.format("%.2f",list.get(0).get(i)));
                 }
+                if (list.size() >= 2) {
+                    row.setValue1(String.format("%.2f",list.get(1).get(i)));
+                }
+                if (list.size() >= 3) {
+                    row.setValue2(String.format("%.2f",list.get(2).get(i)));
+                }
+                if (list.size() >= 4) {
+                    row.setValue3(String.format("%.2f",list.get(3).get(i)));
+                }
+                if (list.size() >= 5) {
+                    row.setValue4(String.format("%.2f",list.get(3).get(i)));
+                }
+                if (list.size() >= 6) {
+                    row.setValue5(String.format("%.2f",list.get(5).get(i)));
+                }
+                data.add(row);
             }
         }
 
-        for (int i = 0; i < data.get(0).size(); i++) {
-            final int colIndex = i;
-            TableColumn<List<Double>, Double> column = new TableColumn<>("Column " + (i + 1));
-            column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(colIndex)));
-            tableView.getColumns().add(column);
+        if (list.size() >= 1) {
+            TableColumn columnForCharacteristic = new TableColumn("Column1");
+            columnForCharacteristic.setCellValueFactory(new PropertyValueFactory<>("characterisctic"));
+            tableView.getColumns().addAll(columnForCharacteristic);
         }
+        if (list.size() >= 2) {
+            TableColumn columnForValue1 = new TableColumn("Column2");
+            columnForValue1.setCellValueFactory(new PropertyValueFactory<>("value1"));
+            tableView.getColumns().addAll(columnForValue1);
+        }
+        if (list.size() >= 2) {
+            TableColumn columnForValue2 = new TableColumn("Column3");
+            columnForValue2.setCellValueFactory(new PropertyValueFactory<>("value2"));
+            tableView.getColumns().addAll(columnForValue2);
+        }
+        if (list.size() >= 4) {
+            TableColumn columnForValue3 = new TableColumn("Column4");
+            columnForValue3.setCellValueFactory(new PropertyValueFactory<>("value3"));
+            tableView.getColumns().addAll(columnForValue3);
+        }
+        if (list.size() >= 5) {
+            TableColumn columnForValue4 = new TableColumn("Column5");
+            columnForValue4.setCellValueFactory(new PropertyValueFactory<>("value4"));
+            tableView.getColumns().addAll(columnForValue4);
+        }
+        if (list.size() >= 6) {
+            TableColumn columnForValue5 = new TableColumn("Column6");
+            columnForValue5.setCellValueFactory(new PropertyValueFactory<>("value5"));
+            tableView.getColumns().addAll(columnForValue5);
+        }
+
         tableView.setItems(FXCollections.observableArrayList(data));
     }
 
@@ -1159,26 +1185,26 @@ public class SecondHelper {
 
     //MGK:
     public static void getMGKMatrix(TableView tableView, List<List<Double>> listNotSorted) {
-        List<List<Double>> list1 = new ArrayList<>();
-        for (int i = 0; i < listNotSorted.size(); i++) {
-            list1.add(new ArrayList<>(listNotSorted.get(i)));
-        }
-        for (var list : list1) {
-            double resultSA = MainFunction.matSpodivan(list);
-            list.replaceAll(a -> (a - resultSA));
-        }
-
-        double[][] matrixForInitialDC = new double[list1.size()][list1.get(0).size()];
-        for (int i = 0; i < list1.size(); i++) {
-            for (int j = 0; j < list1.get(0).size(); j++) {
-                matrixForInitialDC[i][j] = list1.get(i).get(j);
-            }
-        }
-
-        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
-                (double) 1 / listNotSorted.get(0).size());
-        var vlasniiVektors = MainFunction.getVlasniiVectors(dcMatrix);
-        var vlasniiValues = MainFunction.getVlasniiValues(dcMatrix);
+//        List<List<Double>> list1 = new ArrayList<>();
+//        for (int i = 0; i < listNotSorted.size(); i++) {
+//            list1.add(new ArrayList<>(listNotSorted.get(i)));
+//        }
+//        for (var list : list1) {
+//            double resultSA = MainFunction.matSpodivan(list);
+//            list.replaceAll(a -> (a - resultSA));
+//        }
+//
+//        double[][] matrixForInitialDC = new double[list1.size()][list1.get(0).size()];
+//        for (int i = 0; i < list1.size(); i++) {
+//            for (int j = 0; j < list1.get(0).size(); j++) {
+//                matrixForInitialDC[i][j] = list1.get(i).get(j);
+//            }
+//        }
+//
+//        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
+//                (double) 1 / listNotSorted.get(0).size());
+//        var vlasniiVektors = MainFunction.getVlasniiVectors(dcMatrix);
+//        var vlasniiValues = MainFunction.getVlasniiValues(dcMatrix);
         double sumOfVlasCh = vlasniiValues.stream().mapToDouble(a -> a).sum();
         var napriam = new ArrayList<Double>();
         var nakop = new ArrayList<Double>();
@@ -1393,17 +1419,6 @@ public class SecondHelper {
     }
 
     public List<List<Double>> goToNezhalezhniSystemOfKoordinatHelper(List<List<Double>> listNotSorted) {
-//        double[][] matrixForInitialDC = new double[listNotSorted.size()][listNotSorted.get(0).size()];
-//        for (int i = 0; i < listNotSorted.size(); i++) {
-//            for (int j = 0; j < listNotSorted.get(0).size(); j++) {
-//                matrixForInitialDC[i][j] = listNotSorted.get(i).get(j);
-//            }
-//        }
-//
-//        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
-//                (double) 1 / listNotSorted.get(0).size());
-//        HelloController.vlasniiVektors = MainFunction.getVlasniiVectors(dcMatrix);
-
         var resultMatrix = new double[listNotSorted.size()][listNotSorted.get(0).size()];
 
         for (int j = 0; j < listNotSorted.get(0).size(); j++) {
