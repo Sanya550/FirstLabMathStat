@@ -14,6 +14,7 @@ import org.apache.commons.math3.linear.RealVector;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.idealjavafx.HelloController.*;
 
@@ -54,22 +55,22 @@ public class SecondHelper {
             for (int i = 0; i < list.get(0).size(); i++) {
                 var row = new DataForTableView();
                 if (list.size() >= 1) {
-                    row.setCharacterisctic(String.format("%.2f",list.get(0).get(i)));
+                    row.setCharacterisctic(String.format("%.2f", list.get(0).get(i)));
                 }
                 if (list.size() >= 2) {
-                    row.setValue1(String.format("%.2f",list.get(1).get(i)));
+                    row.setValue1(String.format("%.2f", list.get(1).get(i)));
                 }
                 if (list.size() >= 3) {
-                    row.setValue2(String.format("%.2f",list.get(2).get(i)));
+                    row.setValue2(String.format("%.2f", list.get(2).get(i)));
                 }
                 if (list.size() >= 4) {
-                    row.setValue3(String.format("%.2f",list.get(3).get(i)));
+                    row.setValue3(String.format("%.2f", list.get(3).get(i)));
                 }
                 if (list.size() >= 5) {
-                    row.setValue4(String.format("%.2f",list.get(3).get(i)));
+                    row.setValue4(String.format("%.2f", list.get(3).get(i)));
                 }
                 if (list.size() >= 6) {
-                    row.setValue5(String.format("%.2f",list.get(5).get(i)));
+                    row.setValue5(String.format("%.2f", list.get(5).get(i)));
                 }
                 data.add(row);
             }
@@ -1474,7 +1475,7 @@ public class SecondHelper {
         return resList;
     }
 
-    public static void centruvanVl(List<List<Double>> listNotSorted){
+    public static void centruvanVl(List<List<Double>> listNotSorted) {
         List<List<Double>> list1 = new ArrayList<>();
         for (int i = 0; i < listNotSorted.size(); i++) {
             list1.add(new ArrayList<>(listNotSorted.get(i)));
@@ -1496,7 +1497,7 @@ public class SecondHelper {
         vlasniiValues = MainFunction.getVlasniiValues(dcMatrix);
     }
 
-    public List<List<Double>> centruvanData(List<List<Double>> listNotSorted){
+    public List<List<Double>> centruvanData(List<List<Double>> listNotSorted) {
         List<List<Double>> list1 = new ArrayList<>();
         for (int i = 0; i < listNotSorted.size(); i++) {
             list1.add(new ArrayList<>(listNotSorted.get(i)));
@@ -1507,4 +1508,21 @@ public class SecondHelper {
         }
         return list1;
     }
+
+    //Лінійне розноманіття
+    public String getFormulaForLiniinaRoznomanitia(List<List<Double>> list) {
+        if (list.size() != 3) {
+            return "Error: Size must be 3";
+        } else {
+            double koefForX1 = (list.get(1).get(1) - list.get(1).get(0)) * (list.get(2).get(2) - list.get(2).get(0))
+                    - (list.get(2).get(1) - list.get(2).get(0)) * (list.get(1).get(2) - list.get(1).get(0));
+            double koefForX2 = (list.get(0).get(2) - list.get(0).get(0)) * (list.get(2).get(1) - list.get(2).get(0))
+                    - (list.get(0).get(1) - list.get(0).get(0)) * (list.get(2).get(2) - list.get(2).get(0));
+            double koefForX3 = (list.get(0).get(1) - list.get(0).get(0)) * (list.get(1).get(2) - list.get(1).get(0))
+                    - (list.get(1).get(1) - list.get(1).get(0)) * (list.get(0).get(2) - list.get(0).get(0));
+            return String.format("%.3f * x1 + (%.3f) * x2 + 1.0 * x3 + (%.3f)", koefForX1/koefForX3, koefForX2/koefForX3,
+                    (-list.get(0).get(0) * koefForX1 - list.get(1).get(0) * koefForX2 - list.get(2).get(0) * koefForX3)/koefForX3);
+        }
+    }
+
 }

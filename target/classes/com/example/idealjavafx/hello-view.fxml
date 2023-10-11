@@ -219,7 +219,7 @@
                   </Menu>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Компонентний та факторний аналіз">
+                <Menu mnemonicParsing="false" text="Компонентний аналіз">
                     <items>
                   <MenuItem mnemonicParsing="false" onAction="#centeruvan" text="Центрування" />
                   <MenuItem mnemonicParsing="false" onAction="#goToNezhalezhniSystemOfKoordinat" text="Перейти до незалежної системи координат" />
@@ -228,6 +228,15 @@
                   <MenuItem mnemonicParsing="false" onAction="#brokenStickGraph" text="Графік &quot;зламаної тростини&quot;" />
                     </items>
                 </Menu>
+            <Menu mnemonicParsing="false" text="Факторний аналіз">
+               <items>
+                  <Menu mnemonicParsing="false" text="Лінійне розноманіття">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#liniinaRoznomanitia" text="Лінійне розноманіття" />
+                     </items>
+                  </Menu>
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Про програму">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />

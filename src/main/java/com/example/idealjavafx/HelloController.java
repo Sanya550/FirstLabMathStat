@@ -2037,7 +2037,7 @@ public class HelloController {
         SecondHelper secondHelper = new SecondHelper();
         var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         int intLinReg = Integer.parseInt(indexOfManyRegresia.getText());
-        if (intLinReg < 1 || intLinReg > listNotSorted.size() - 1) {
+        if (intLinReg < 1 || intLinReg > listNotSorted.size()) {
             JOptionPane.showMessageDialog(null, "Y має бути від 1 до 3", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (x1ForManyRegr.getText().isEmpty() || x2ForManyRegr.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, " Поля x1ForManyRegr і x2ForManyRegr мають бути заповнені", "Error", JOptionPane.ERROR_MESSAGE);
@@ -2171,5 +2171,17 @@ public class HelloController {
             Collections.copy(staticList, newStaticList);
         }
         JOptionPane.showMessageDialog(null, "Збережено", "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    public  void liniinaRoznomanitia() {
+        var secondHelper = new SecondHelper();
+        int intLinReg = Integer.parseInt(indexOfManyRegresia.getText());
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (intLinReg < 1 || intLinReg > listNotSorted.size()) {
+            JOptionPane.showMessageDialog(null, "Y має бути від 1 до 3", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, secondHelper.getFormulaForLiniinaRoznomanitia(secondHelper.permutaionOfListsForRegressia(listNotSorted, intLinReg)), "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }
