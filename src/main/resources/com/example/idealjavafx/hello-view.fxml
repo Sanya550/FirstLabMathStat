@@ -101,27 +101,31 @@
                         </Menu>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Звичайні графіки">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#barChartSimpleGraph" text="Звичайний графік" />
-                        <MenuItem mnemonicParsing="false" onAction="#barChartAnomalGraph" text="Вилучання аномальних значень" />
-                        <MenuItem mnemonicParsing="false" onAction="#barChartStandartizationGraph" text="Стандартизувати" />
-                        <MenuItem mnemonicParsing="false" onAction="#barChartZsuvAndLogarifmGraph" text="Зсув і логарифмування" />
-                        <MenuItem mnemonicParsing="false" onAction="#barChartAnomalPlusZsuvAndLogarifmGraph" text="Аномальні + зсув" />
-                        <MenuItem mnemonicParsing="false" onAction="#barChartAnomalPlusStandartizationGraph" text="Аномальні + стандартизувати" />
-                        <MenuItem mnemonicParsing="false" onAction="#cleanBarCharts" text="Очистити" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Складні графіки">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#areaChartEksponetial" text="Експоненціальний" />
-                        <MenuItem mnemonicParsing="false" onAction="#areaChartLaplasa" text="Лапласа" />
-                        <MenuItem mnemonicParsing="false" onAction="#areaChartNorm" text="Нормальний" />
-                        <MenuItem mnemonicParsing="false" onAction="#areaChartRivnomirniy" text="Рівномірний" />
-                        <MenuItem mnemonicParsing="false" onAction="#areaChartVeibula" text="Вейбулла" />
-                        <MenuItem mnemonicParsing="false" onAction="#cleanAreaChart" text="Очистити" />
-                    </items>
-                </Menu>
+            <Menu mnemonicParsing="false" text="Графіки">
+               <items>
+                      <Menu mnemonicParsing="false" text="Звичайні графіки">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#barChartSimpleGraph" text="Звичайний графік" />
+                              <MenuItem mnemonicParsing="false" onAction="#barChartAnomalGraph" text="Вилучання аномальних значень" />
+                              <MenuItem mnemonicParsing="false" onAction="#barChartStandartizationGraph" text="Стандартизувати" />
+                              <MenuItem mnemonicParsing="false" onAction="#barChartZsuvAndLogarifmGraph" text="Зсув і логарифмування" />
+                              <MenuItem mnemonicParsing="false" onAction="#barChartAnomalPlusZsuvAndLogarifmGraph" text="Аномальні + зсув" />
+                              <MenuItem mnemonicParsing="false" onAction="#barChartAnomalPlusStandartizationGraph" text="Аномальні + стандартизувати" />
+                              <MenuItem mnemonicParsing="false" onAction="#cleanBarCharts" text="Очистити" />
+                          </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Складні графіки">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#areaChartEksponetial" text="Експоненціальний" />
+                              <MenuItem mnemonicParsing="false" onAction="#areaChartLaplasa" text="Лапласа" />
+                              <MenuItem mnemonicParsing="false" onAction="#areaChartNorm" text="Нормальний" />
+                              <MenuItem mnemonicParsing="false" onAction="#areaChartRivnomirniy" text="Рівномірний" />
+                              <MenuItem mnemonicParsing="false" onAction="#areaChartVeibula" text="Вейбулла" />
+                              <MenuItem mnemonicParsing="false" onAction="#cleanAreaChart" text="Очистити" />
+                          </items>
+                      </Menu>
+               </items>
+            </Menu>
                 <Menu mnemonicParsing="false" text="Моделювання вибірок">
                     <items>
                         <Menu mnemonicParsing="false" text="Регресія">
@@ -219,20 +223,30 @@
                   </Menu>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Компонентний аналіз">
+                <Menu mnemonicParsing="false" text="Компонентний і факторний аналіз">
                     <items>
-                  <MenuItem mnemonicParsing="false" onAction="#centeruvan" text="Центрування" />
-                  <MenuItem mnemonicParsing="false" onAction="#goToNezhalezhniSystemOfKoordinat" text="Перейти до незалежної системи координат" />
-                  <MenuItem mnemonicParsing="false" onAction="#returnToInitialSystemOfKoordinat" text="Повернутись до початкової системи координат" />
-                        <MenuItem mnemonicParsing="false" onAction="#resultMGK" text="Результати МГК" />
-                  <MenuItem mnemonicParsing="false" onAction="#brokenStickGraph" text="Графік &quot;зламаної тростини&quot;" />
-                    </items>
-                </Menu>
-            <Menu mnemonicParsing="false" text="Факторний аналіз">
-               <items>
                   <Menu mnemonicParsing="false" text="Лінійне розноманіття">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#liniinaRoznomanitia" text="Лінійне розноманіття" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Компонентний аналіз">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#centeruvan" text="Центрування" />
+                        <MenuItem mnemonicParsing="false" onAction="#goToNezhalezhniSystemOfKoordinat" text="Перейти до незалежної системи координат" />
+                        <MenuItem mnemonicParsing="false" onAction="#returnToInitialSystemOfKoordinat" text="Повернутись до початкової системи координат" />
+                              <MenuItem mnemonicParsing="false" onAction="#resultMGK" text="Результати МГК" />
+                        <MenuItem mnemonicParsing="false" onAction="#brokenStickGraph" text="Графік &quot;зламаної тростини&quot;" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Факторний аналіз" />
+                    </items>
+                </Menu>
+            <Menu mnemonicParsing="false" text="AI">
+               <items>
+                  <Menu mnemonicParsing="false" text="Lab2">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
                      </items>
                   </Menu>
                </items>
