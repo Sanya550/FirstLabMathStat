@@ -1186,26 +1186,6 @@ public class SecondHelper {
 
     //MGK:
     public static void getMGKMatrix(TableView tableView, List<List<Double>> listNotSorted) {
-//        List<List<Double>> list1 = new ArrayList<>();
-//        for (int i = 0; i < listNotSorted.size(); i++) {
-//            list1.add(new ArrayList<>(listNotSorted.get(i)));
-//        }
-//        for (var list : list1) {
-//            double resultSA = MainFunction.matSpodivan(list);
-//            list.replaceAll(a -> (a - resultSA));
-//        }
-//
-//        double[][] matrixForInitialDC = new double[list1.size()][list1.get(0).size()];
-//        for (int i = 0; i < list1.size(); i++) {
-//            for (int j = 0; j < list1.get(0).size(); j++) {
-//                matrixForInitialDC[i][j] = list1.get(i).get(j);
-//            }
-//        }
-//
-//        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
-//                (double) 1 / listNotSorted.get(0).size());
-//        var vlasniiVektors = MainFunction.getVlasniiVectors(dcMatrix);
-//        var vlasniiValues = MainFunction.getVlasniiValues(dcMatrix);
         double sumOfVlasCh = vlasniiValues.stream().mapToDouble(a -> a).sum();
         var napriam = new ArrayList<Double>();
         var nakop = new ArrayList<Double>();

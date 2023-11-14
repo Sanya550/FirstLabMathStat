@@ -3,21 +3,12 @@ package com.example.idealjavafx.graphics;
 import com.example.idealjavafx.HelloController;
 import com.example.idealjavafx.Helper;
 import com.example.idealjavafx.MainFunction;
-import com.example.idealjavafx.SecondHelper;
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-import java.util.List;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 //Note: here locate graphics started from lab5
@@ -270,16 +261,6 @@ public class Graphics {
     public static void brokenStickVizual(LineChart lineChart, List<List<Double>> listNotSorted){
         lineChart.getData().clear();
         lineChart.layout();
-//        double[][] matrixForInitialDC = new double[listNotSorted.size()][listNotSorted.get(0).size()];
-//        for (int i = 0; i < listNotSorted.size(); i++) {
-//            for (int j = 0; j < listNotSorted.get(0).size(); j++) {
-//                matrixForInitialDC[i][j] = listNotSorted.get(i).get(j);
-//            }
-//        }
-//
-//        var dcMatrix = MainFunction.multiplyMatrixOnDigit(MainFunction.multiplyMatrixOnMatrix(matrixForInitialDC, MainFunction.transposeMatrix(matrixForInitialDC)),
-//                (double) 1 / listNotSorted.get(0).size());
-//        var vlasniiValues = MainFunction.getVlasniiValues(dcMatrix);
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Графік зламаної тростини");
         for (int i = 0; i < HelloController.vlasniiValues.size(); i++) {

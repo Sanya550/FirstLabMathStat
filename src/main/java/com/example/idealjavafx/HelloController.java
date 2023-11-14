@@ -4,6 +4,7 @@ package com.example.idealjavafx;
 import com.example.idealjavafx.graphics.Glif;
 import com.example.idealjavafx.graphics.Graphics;
 import com.example.idealjavafx.graphics.HeatMapVisualization;
+import com.example.idealjavafx.logicHelper.FactorHelper;
 import com.example.idealjavafx.models.MainCharactericticForData;
 import com.example.idealjavafx.models.VariationMatrix;
 import com.example.idealjavafx.models.VariationRowForData;
@@ -2183,5 +2184,13 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, secondHelper.getFormulaForLiniinaRoznomanitia(secondHelper.permutaionOfListsForRegressia(listNotSorted, intLinReg)), "Info", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    @FXML
+    public void matrixFactor() {
+        var secondHelper = new SecondHelper();
+        var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        var matrixResult = new FactorHelper().findMatrixOfFactorDisplay(listNotSorted);
+        JOptionPane.showMessageDialog(null, matrixResult, "Матриця факторного відображення", JOptionPane.INFORMATION_MESSAGE);
     }
 }

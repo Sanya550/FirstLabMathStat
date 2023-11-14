@@ -267,4 +267,16 @@ public class MainFunction {
 
         return eigenValues;
     }
+
+    //List<RealVector> to array[][]
+    public static double[][] convectListOfRealVectorsToRwoDimensionArray(List<RealVector> resultVectors){
+        int numRows = resultVectors.size();
+        int numCols = resultVectors.get(0).getDimension();
+        double[][] doubleArray = new double[numRows][numCols];
+        for (int i = 0; i < numRows; i++) {
+            RealVector realVector = resultVectors.get(i);
+            doubleArray[i] = realVector.toArray();
+        }
+        return doubleArray;
+    }
 }

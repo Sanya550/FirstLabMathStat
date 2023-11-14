@@ -239,7 +239,10 @@
                         <MenuItem mnemonicParsing="false" onAction="#brokenStickGraph" text="Графік &quot;зламаної тростини&quot;" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Факторний аналіз" />
+                  <Menu mnemonicParsing="false" text="Факторний аналіз">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#matrixFactor" text="Матриця факторного відображення" />
+                     </items></Menu>
                     </items>
                 </Menu>
             <Menu mnemonicParsing="false" text="AI">
