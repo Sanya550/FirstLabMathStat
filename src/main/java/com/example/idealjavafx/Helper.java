@@ -2459,7 +2459,7 @@ public class Helper {
         return result;
     }
 
-    static List<List<Double>> returnTwoListOfParabolRegresia(double minValue, double maxValue, double a, double b, double c, double dus, double n) {
+    public static List<List<Double>> returnTwoListOfParabolRegresia(double minValue, double maxValue, double a, double b, double c, double dus, double n) {
         List<Double> listOfX = new ArrayList<>();
         List<Double> listOfY = new ArrayList<>();
         List<List<Double>> result = new ArrayList<>();

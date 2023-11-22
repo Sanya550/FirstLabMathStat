@@ -1,6 +1,7 @@
 package com.example.idealjavafx;
 
 
+import com.example.idealjavafx.ai.AILab2;
 import com.example.idealjavafx.graphics.Glif;
 import com.example.idealjavafx.graphics.Graphics;
 import com.example.idealjavafx.graphics.HeatMapVisualization;
@@ -8,7 +9,6 @@ import com.example.idealjavafx.logicHelper.FactorHelper;
 import com.example.idealjavafx.models.MainCharactericticForData;
 import com.example.idealjavafx.models.VariationMatrix;
 import com.example.idealjavafx.models.VariationRowForData;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import org.apache.commons.math3.linear.RealVector;
 
 import javax.swing.*;
@@ -29,7 +28,6 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public class HelloController {
@@ -2175,7 +2173,7 @@ public class HelloController {
     }
 
     @FXML
-    public  void liniinaRoznomanitia() {
+    public void liniinaRoznomanitia() {
         var secondHelper = new SecondHelper();
         int intLinReg = Integer.parseInt(indexOfManyRegresia.getText());
         var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
@@ -2192,5 +2190,30 @@ public class HelloController {
         var listNotSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         var matrixResult = new FactorHelper().findMatrixOfFactorDisplay(listNotSorted);
         JOptionPane.showMessageDialog(null, matrixResult, "Матриця факторного відображення", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    //AI:
+    @FXML
+    public void findZalForNotPerehresne() {
+        double n = Double.parseDouble(strModelN.getText());
+        double min = Double.parseDouble(minRegressia.getText());
+        double max = Double.parseDouble(maxRegressia.getText());
+        double a = Double.parseDouble(aRegressia.getText());
+        double b = Double.parseDouble(bRegressia.getText());
+        double c = Double.parseDouble(cRegressia.getText());
+        double dus = Double.parseDouble(duspersiaRegressia.getText());
+        new AILab2().resultTableSZalForNotPerehresne(n, min, max, a, b, c, dus, tableView, lineChart);
+    }
+
+    @FXML
+    public void findZalForPerehresne() {
+        double n = Double.parseDouble(strModelN.getText());
+        double min = Double.parseDouble(minRegressia.getText());
+        double max = Double.parseDouble(maxRegressia.getText());
+        double a = Double.parseDouble(aRegressia.getText());
+        double b = Double.parseDouble(bRegressia.getText());
+        double c = Double.parseDouble(cRegressia.getText());
+        double dus = Double.parseDouble(duspersiaRegressia.getText());
+        new AILab2().resultTableSZalForPerehresne(n, min, max, a, b, c, dus, tableView, lineChart);
     }
 }

@@ -247,9 +247,10 @@
                 </Menu>
             <Menu mnemonicParsing="false" text="AI">
                <items>
-                  <Menu mnemonicParsing="false" text="Lab2">
+                  <Menu mnemonicParsing="false" text="Навчання на прикладі оцінки регресії">
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
+                        <MenuItem mnemonicParsing="false" onAction="#findZalForNotPerehresne" text="Звичайне" />
+                        <MenuItem mnemonicParsing="false" onAction="#findZalForPerehresne" text="Перехресне" />
                      </items>
                   </Menu>
                </items>
