@@ -263,7 +263,7 @@ public class FactorHelper {
             r++;
         }
 
-        result += "напр% ";
+        result += "нп% ";
         double[] dataV = new double[quantityOfFactors];
 
         var sumVl = 0d;
@@ -276,17 +276,17 @@ public class FactorHelper {
         }
 
         for (int i = 0; i < dataV.length; i++) {
-            result += String.format("  %.2f", dataV[i]);
+            result += String.format("    %.2f", dataV[i]);
         }
 
-        result += "\nнакоп% ";
+        result += "\nнк% ";
         int st1 = 1;
         for (int i = 0; i < dataV.length; i++) {
             var temp = 0d;
             for (int j = 0; j < st1; j++) {
                 temp += dataV[j];
             }
-            result += String.format("  %.2f", temp);
+            result += String.format("    %.2f", temp);
             st1++;
         }
         return result;
