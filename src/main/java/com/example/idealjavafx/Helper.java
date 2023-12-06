@@ -167,16 +167,16 @@ public class Helper {
     }
 
     static ArrayList<Double> data() {
-        ArrayList arrayList1 = HelloController.arrayList;
+        ArrayList arrayList1 = new ArrayList(HelloController.currentArrayList);
         int size = arrayList1.size();
         double alpha1 = HelloController.alfa;
         double kvantil1 = HelloController.kvantil;
 
         List<Double> list = new ArrayList();
-        Set<String> set = new HashSet<>(arrayList1); //удаление дубликатов
-        arrayList1.clear();
-        arrayList1.addAll(set);
-        arrayList1.sort(Comparator.naturalOrder());
+//        Set<String> set = new HashSet<>(arrayList1); //удаление дубликатов
+//        arrayList1.clear();
+//        arrayList1.addAll(set);
+//        arrayList1.sort(Comparator.naturalOrder());
         ArrayList arr1 = new ArrayList();
         ArrayList arr2 = new ArrayList();
         for (int i = 0; i < arrayList1.size(); i++) {
@@ -190,7 +190,7 @@ public class Helper {
         //---------------------------------->>>>>>>>>>>>>>>>
         //среднее арифметичне:
         double sa = 0;
-        for (int i = 0; i < size - 2; i++) {
+        for (int i = 0; i < arr1.size() - 2; i++) {
             if (!arr1.isEmpty()) {
                 sa = sa + (double) arr1.get(i);
             }
@@ -201,7 +201,7 @@ public class Helper {
         //Зсунене:
         double dusZs = 0;
         double summ = 0;
-        for (int j = 0; j < size - 2; j++) {
+        for (int j = 0; j < arr1.size(); j++) {
             summ = summ + Math.pow((double) arr1.get(j), 2);
         }
         dusZs = summ / size - Math.pow(resultSA, 2);
@@ -225,7 +225,7 @@ public class Helper {
         //Асиметрія:
         //зсунена
         double asimetriaZs = 0;
-        for (int i2 = 0; i2 < size - 2; i2++) {
+        for (int i2 = 0; i2 < arr1.size(); i2++) {
             asimetriaZs += Math.pow(((double) arr1.get(i2) - resultSA), 3) / (size * Math.pow(Math.sqrt(dus), 3));
         }
         asimetriaZs = BigDecimal.valueOf(asimetriaZs).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();

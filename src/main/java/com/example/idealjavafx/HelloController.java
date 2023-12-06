@@ -2,6 +2,7 @@ package com.example.idealjavafx;
 
 
 import com.example.idealjavafx.ai.AILab2;
+import com.example.idealjavafx.ai.Klastarization;
 import com.example.idealjavafx.graphics.Glif;
 import com.example.idealjavafx.graphics.Graphics;
 import com.example.idealjavafx.graphics.HeatMapVisualization;
@@ -31,6 +32,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class HelloController {
+    static ArrayList currentArrayList = new ArrayList();
     static ArrayList arrayList = new ArrayList();
     static ArrayList arrayListNumber1 = new ArrayList();
     static ArrayList arrayListNumber2 = new ArrayList();
@@ -887,7 +889,7 @@ public class HelloController {
     protected void shownMainCharacteristic(ActionEvent event) {
         tableView.getItems().clear();
         tableView.getColumns().clear();
-        ArrayList arrayList1 = arrayList;
+        ArrayList arrayList1 = new ArrayList(currentArrayList);
         int size = arrayList1.size();
         List<Double> list = Helper.data();
         double kvantil1 = kvantil;
@@ -908,21 +910,21 @@ public class HelloController {
         q10 = BigDecimal.valueOf(q10).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
 
         final ObservableList<MainCharactericticForData> data = FXCollections.observableArrayList(
-                new MainCharactericticForData("Середнє арифметичне", list.get(0) - q1, list.get(0), list.get(0) + q1, BigDecimal.valueOf(list.get(3) / Math.sqrt(size)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()),
-                new MainCharactericticForData("Дисперсія незсунена", list.get(1) - q2, (double) list.get(1), list.get(1) + q2, BigDecimal.valueOf((list.get(2) / Math.sqrt(2 * size))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()),
-                new MainCharactericticForData("Дисперсія зсунена", 0, list.get(2), 0, 0),
-                new MainCharactericticForData("Середнє квадратичне", BigDecimal.valueOf(list.get(3) - q3).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(), list.get(3), list.get(3) + q3, BigDecimal.valueOf(list.get(3) / Math.sqrt(2 * size)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()),
-                new MainCharactericticForData("Усічене  середнє", 0, list.get(4), 0, 0),
-                new MainCharactericticForData("Асиметрія незсунена", list.get(5) - q5, list.get(5), list.get(5) + q5, BigDecimal.valueOf(Math.sqrt((double) 6 * (size - 2) / ((size + 1) * (size + 3)))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()),
-                new MainCharactericticForData("Асиметрія зсунена", 0, list.get(6), 0, 0),
-                new MainCharactericticForData("Ексцес незсунений", list.get(7) - q7, list.get(7), list.get(7) + q7, BigDecimal.valueOf((24.0 / size) * (1 - (225.0 / (15 * size + 124)))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()),
-                new MainCharactericticForData("Ексцес зсунений", 0, list.get(8), 0, 0),
-                new MainCharactericticForData("Контрексцес", list.get(9) - q9, list.get(9), BigDecimal.valueOf(list.get(9) + q9).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(), BigDecimal.valueOf(Math.sqrt(list.get(8) / (29 * size)) * Math.pow(Math.pow(Math.abs((1 + Math.pow((double) list.get(8), 2))), 3), 0.25)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()),
-                new MainCharactericticForData("Пірсона", (double) list.get(10) - q10, list.get(10), BigDecimal.valueOf((double) list.get(10) + q10).setScale(4, BigDecimal.ROUND_CEILING).doubleValue(), BigDecimal.valueOf((double) list.get(10) * (Math.sqrt((1 + 2 * Math.pow((double) list.get(10), 2)) / (2 * size)))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()),
-                new MainCharactericticForData("MED", 0, list.get(11), 0, 0),
-                new MainCharactericticForData("MAD", 0, list.get(12), 0, 0),
-                new MainCharactericticForData("Непараметричний коефіцієнт варіації", 0, list.get(13), 0, 0),
-                new MainCharactericticForData("MED Уолша", 0, list.get(14), 0, 0)
+                new MainCharactericticForData("Середнє арифметичне", Double.parseDouble(String.format("%.3f", list.get(0) - q1)), Double.parseDouble(String.format("%.3f", list.get(0))), Double.parseDouble(String.format("%.3f", list.get(0) + q1)), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf(list.get(3) / Math.sqrt(size)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()))),
+                new MainCharactericticForData("Дисперсія незсунена", Double.parseDouble(String.format("%.3f", list.get(1) - q2)), Double.parseDouble(String.format("%.3f", list.get(1))), Double.parseDouble(String.format("%.3f", list.get(1) + q2)), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf((list.get(2) / Math.sqrt(2 * size))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()))),
+                new MainCharactericticForData("Дисперсія зсунена", 0, Double.parseDouble(String.format("%.3f", list.get(2))), 0, 0),
+                new MainCharactericticForData("Середнє квадратичне", Double.parseDouble(String.format("%.3f", BigDecimal.valueOf(list.get(3) - q3).setScale(4, BigDecimal.ROUND_CEILING).doubleValue())), Double.parseDouble(String.format("%.3f", list.get(3))), Double.parseDouble(String.format("%.3f", list.get(3) + q3)), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf(list.get(3) / Math.sqrt(2 * size)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()))),
+                new MainCharactericticForData("Усічене  середнє", 0, Double.parseDouble(String.format("%.3f", list.get(4))), 0, 0),
+                new MainCharactericticForData("Асиметрія незсунена", Double.parseDouble(String.format("%.3f", list.get(5) - q5)), Double.parseDouble(String.format("%.3f", list.get(5))), Double.parseDouble(String.format("%.3f", list.get(5) + q5)), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf(Math.sqrt((double) 6 * (size - 2) / ((size + 1) * (size + 3)))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()))),
+                new MainCharactericticForData("Асиметрія зсунена", 0, Double.parseDouble(String.format("%.3f", list.get(6))), 0, 0),
+                new MainCharactericticForData("Ексцес незсунений", Double.parseDouble(String.format("%.3f", list.get(7) - q7)), Double.parseDouble(String.format("%.3f", list.get(7))), Double.parseDouble(String.format("%.3f", list.get(7) + q7)), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf((24.0 / size) * (1 - (225.0 / (15 * size + 124)))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()))),
+                new MainCharactericticForData("Ексцес зсунений", 0, Double.parseDouble(String.format("%.3f", list.get(8))), 0, 0),
+                new MainCharactericticForData("Контрексцес", Double.parseDouble(String.format("%.3f", list.get(9) - q9)), Double.parseDouble(String.format("%.3f", list.get(9))), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf(list.get(9) + q9).setScale(4, BigDecimal.ROUND_CEILING).doubleValue())), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf(Math.sqrt(list.get(8) / (29 * size)) * Math.pow(Math.pow(Math.abs((1 + Math.pow((double) list.get(8), 2))), 3), 0.25)).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()))),
+                new MainCharactericticForData("Пірсона", Double.parseDouble(String.format("%.3f", list.get(10) - q10)), Double.parseDouble(String.format("%.3f", list.get(10))), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf((double) list.get(10) + q10).setScale(4, BigDecimal.ROUND_CEILING).doubleValue())), Double.parseDouble(String.format("%.3f", BigDecimal.valueOf((double) list.get(10) * (Math.sqrt((1 + 2 * Math.pow((double) list.get(10), 2)) / (2 * size)))).setScale(4, BigDecimal.ROUND_CEILING).doubleValue()))),
+                new MainCharactericticForData("MED", 0, Double.parseDouble(String.format("%.3f", list.get(11))), 0, 0),
+                new MainCharactericticForData("MAD", 0, Double.parseDouble(String.format("%.3f", list.get(12))), 0, 0),
+                new MainCharactericticForData("Непараметричний коефіцієнт варіації", 0, Double.parseDouble(String.format("%.3f", list.get(13))), 0, 0),
+                new MainCharactericticForData("MED Уолша", 0, Double.parseDouble(String.format("%.3f", list.get(14))), 0, 0)
         );
 
         TableColumn columnCharacteristic = new TableColumn("Характеристика");
@@ -1152,6 +1154,8 @@ public class HelloController {
     //Про програму:
     @FXML
     protected void aboutMenu(ActionEvent event) {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        new Klastarization().findKlasterization(listNotSorted,3 );
         String message = "Program created by Oleksandr Pyvovar";
         JOptionPane.showMessageDialog(null, message, "About", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -1183,6 +1187,7 @@ public class HelloController {
     //файл
     @FXML
     protected void changeMenuNumber1(ActionEvent event) {
+        currentArrayList.clear();
         arrayList.clear();
         for (int i = 0; i < arrayListNumber1.size(); i++) {
             arrayList.add(arrayListNumber1.get(i));
@@ -1192,10 +1197,12 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
+        currentArrayList = new ArrayList(withoutSortingArrayListNumber1);
     }
 
     @FXML
     protected void changeMenuNumber2(ActionEvent event) {
+        currentArrayList.clear();
         arrayList.clear();
         for (int i = 0; i < arrayListNumber2.size(); i++) {
             arrayList.add(arrayListNumber2.get(i));
@@ -1205,10 +1212,12 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
+        currentArrayList = new ArrayList(withoutSortingArrayListNumber2);
     }
 
     @FXML
     protected void changeMenuNumber3(ActionEvent event) {
+        currentArrayList.clear();
         arrayList.clear();
         for (int i = 0; i < arrayListNumber3.size(); i++) {
             arrayList.add(arrayListNumber3.get(i));
@@ -1218,10 +1227,12 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
+        currentArrayList = new ArrayList(withoutSortingArrayListNumber3);
     }
 
     @FXML
     protected void changeMenuNumber4(ActionEvent event) {
+        currentArrayList.clear();
         arrayList.clear();
         for (int i = 0; i < arrayListNumber4.size(); i++) {
             arrayList.add(arrayListNumber4.get(i));
@@ -1231,10 +1242,12 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
+        currentArrayList = new ArrayList(withoutSortingArrayListNumber4);
     }
 
     @FXML
     protected void changeMenuNumber5(ActionEvent event) {
+        currentArrayList.clear();
         arrayList.clear();
         for (int i = 0; i < arrayListNumber5.size(); i++) {
             arrayList.add(arrayListNumber5.get(i));
@@ -1244,10 +1257,12 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
+        currentArrayList = new ArrayList(withoutSortingArrayListNumber5);
     }
 
     @FXML
     protected void changeMenuNumber6(ActionEvent event) {
+        currentArrayList.clear();
         arrayList.clear();
         for (int i = 0; i < arrayListNumber6.size(); i++) {
             arrayList.add(arrayListNumber6.get(i));
@@ -1257,6 +1272,7 @@ public class HelloController {
         } else {
             JOptionPane.showMessageDialog(null, "Помилка!Спершу завантажте файл", "About", JOptionPane.ERROR_MESSAGE);
         }
+        currentArrayList = new ArrayList(withoutSortingArrayListNumber6);
     }
 
     //двовимірні вибірки:

@@ -67,7 +67,7 @@ public class SecondHelper {
                     row.setValue3(String.format("%.2f", list.get(3).get(i)));
                 }
                 if (list.size() >= 5) {
-                    row.setValue4(String.format("%.2f", list.get(3).get(i)));
+                    row.setValue4(String.format("%.2f", list.get(4).get(i)));
                 }
                 if (list.size() >= 6) {
                     row.setValue5(String.format("%.2f", list.get(5).get(i)));
