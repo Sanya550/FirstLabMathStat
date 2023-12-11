@@ -498,117 +498,12 @@ public class Helper {
     }
 
     public static void drawBarChartForShilnist(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap) {
-        int size = arrayList.size();
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Гістограма");
-        ArrayList arr = new ArrayList();
-        for (int i = 0; i < arrayList.size(); i++) {
-            arr.add(arrayList.get(i));
-        }
-        double h = ((double) arr.get(arr.size() - 1) - (double) arr.get(0)) / (double) numberOfClass;
-        double averageForColumn = 0;
-        double start = 0;
-        double finish = 0;
-        double sumFrequency = 0;
-        ArrayList<Double> rubish = new ArrayList<>();
-        boolean flag = false;
-
-
-        for (int i = 0; i < numberOfClass; i = i + 1) {
-            try {
-                start = (double) arr.get(0);
-                finish = start + h;
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("Shil");
-            }
-            for (int j = 0; j < arr.size(); j++) {
-
-                if ((start <= (double) arr.get(j)) && ((double) arr.get(j) < finish) && (!rubish.contains((double) arr.get(j)))) {
-
-                    sumFrequency = sumFrequency + (int) treeMap.get(arr.get(j));
-
-                    rubish.add((double) arr.get(j));
-                    averageForColumn = BigDecimal.valueOf((finish + start) / 2).setScale(1, BigDecimal.ROUND_CEILING).doubleValue();
-                    if (arr.get(j) == arr.get(arr.size() - 1)) {
-                        flag = true;
-                    }
-                } else {
-                    flag = true;
-                }
-                if ((rubish.size() != 0) && (flag == true)) {
-                    double frequency = sumFrequency / size;
-                    String rowKey = String.valueOf(i + 1);
-                    String columnKey = String.valueOf(averageForColumn);
-                    series.getData().add(new XYChart.Data(columnKey, frequency));
-                    sumFrequency = 0;
-                    arr.removeAll(rubish);
-                    rubish.removeAll(rubish);
-                    j = arr.size();
-                    flag = false;
-
-                }
-            }
-        }
-        barChart.setBarGap(0);
-        barChart.setCategoryGap(0);
-        barChart.getData().addAll(series);
+        drawBarChartForShilnistOrEmpiration(barChart, numberOfClass, arrayList, treeMap, true);
     }
 
 
     public static void drawBarChartForEmpirationFunction(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap) {
-        int size = arrayList.size();
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Емпірична функція");
-        ArrayList arr = new ArrayList();
-        for (int i = 0; i < arrayList.size(); i++) {
-            arr.add(arrayList.get(i));
-        }
-        double h = ((double) arr.get(arr.size() - 1) - (double) arr.get(0)) / (double) numberOfClass;
-        double averageForColumn = 0;
-        double start = 0;
-        double finish = 0;
-        double sumFrequency = 0;
-        ArrayList<Double> rubish = new ArrayList<>();
-        boolean flag = false;
-
-
-        for (int i = 0; i < numberOfClass; i = i + 1) {
-            try {
-                start = (double) arr.get(0);
-                finish = start + h;
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("Emp");
-            }
-            for (int j = 0; j < arr.size(); j++) {
-
-                if ((start <= (double) arr.get(j)) && ((double) arr.get(j) < finish) && (!rubish.contains((double) arr.get(j)))) {
-
-                    sumFrequency = sumFrequency + (int) treeMap.get(arr.get(j));
-
-                    rubish.add((double) arr.get(j));
-                    averageForColumn = BigDecimal.valueOf((finish + start) / 2).setScale(1, BigDecimal.ROUND_CEILING).doubleValue();
-                    if (arr.get(j) == arr.get(arr.size() - 1)) {
-                        flag = true;
-                    }
-                } else {
-                    flag = true;
-                }
-                if ((rubish.size() != 0) && (flag == true)) {
-                    double frequency = sumFrequency / size;
-                    String rowKey = String.valueOf(i + 1);
-                    String columnKey = String.valueOf(averageForColumn);
-                    series.getData().add(new XYChart.Data(columnKey, frequency));
-                    arr.removeAll(rubish);
-                    rubish.removeAll(rubish);
-                    j = arr.size();
-                    flag = false;
-
-                }
-            }
-        }
-        barChart.setBarGap(0);
-        barChart.setCategoryGap(0);
-        barChart.getData().addAll(series);
+        drawBarChartForShilnistOrEmpiration(barChart, numberOfClass, arrayList, treeMap, false);
     }
 
     static void drawAreaChartForShilnist(AreaChart areaChart, int numberOfClass, ArrayList arrayList, double kva, double dus) {
@@ -1048,23 +943,23 @@ public class Helper {
             resultList.add(arr4);
             resultList.add(arr5);
             return resultList;
-        }else if (ch1.isSelected() && ch6.isSelected()) {
+        } else if (ch1.isSelected() && ch6.isSelected()) {
             resultList.add(arr1);
             resultList.add(arr6);
             return resultList;
-        }else if (ch2.isSelected() && ch6.isSelected()) {
+        } else if (ch2.isSelected() && ch6.isSelected()) {
             resultList.add(arr2);
             resultList.add(arr6);
             return resultList;
-        }else if (ch3.isSelected() && ch6.isSelected()) {
+        } else if (ch3.isSelected() && ch6.isSelected()) {
             resultList.add(arr3);
             resultList.add(arr6);
             return resultList;
-        }else if (ch4.isSelected() && ch6.isSelected()) {
+        } else if (ch4.isSelected() && ch6.isSelected()) {
             resultList.add(arr4);
             resultList.add(arr6);
             return resultList;
-        }else if (ch5.isSelected() && ch6.isSelected()) {
+        } else if (ch5.isSelected() && ch6.isSelected()) {
             resultList.add(arr5);
             resultList.add(arr6);
             return resultList;
@@ -2316,8 +2211,8 @@ public class Helper {
         return message;
     }
 
-    static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5,CheckBox ch6, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5, ArrayList arr6) throws Exception {
-        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5,ch6, arr1, arr2, arr3, arr4, arr5,arr6);
+    static String messageForBartlet(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, ArrayList arr1, ArrayList arr2, ArrayList arr3, ArrayList arr4, ArrayList arr5, ArrayList arr6) throws Exception {
+        List<ArrayList<Double>> list = returnSeveralCheckBox(ch1, ch2, ch3, ch4, ch5, ch6, arr1, arr2, arr3, arr4, arr5, arr6);
         double bart = BigDecimal.valueOf(bartleta(list) / 10).setScale(4, BigDecimal.ROUND_CEILING).doubleValue();
         double kva = koefForBartletAndKohrena(list);
         String message = "Критерій Бартлета:\n";
@@ -4371,5 +4266,44 @@ public class Helper {
         yAxis.setUpperBound(max);
         scatterChart.getData().addAll(series, series2, series3, series4, series1);
         JOptionPane.showMessageDialog(null, message, "Квазілінійна регресія", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private static void drawBarChartForShilnistOrEmpiration(BarChart barChart, int numberOfClass, ArrayList arrayList, TreeMap treeMap, boolean isHystograma) {
+
+        XYChart.Series series = new XYChart.Series();
+        if (isHystograma){
+            series.setName("Гістограма");
+        }else {
+            series.setName("Емпірична функція");
+        }
+        double h = ((double) arrayList.get(arrayList.size() - 1) - (double) arrayList.get(0)) / ((double) numberOfClass);
+        double averageForColumn ;
+        double start = (double) arrayList.get(0);
+        double finish = 0;
+
+        var set = new HashSet<>(new ArrayList<>(arrayList));
+        var arrWithoutDuplicates = new ArrayList<>(set);
+
+        int sumFrequency = 0;
+        for (int i = 0; i < numberOfClass; i++) {
+            if (isHystograma) {
+                sumFrequency = 0;
+            }
+            finish = start + h;
+            averageForColumn = BigDecimal.valueOf((finish + start) / 2).setScale(1, BigDecimal.ROUND_CEILING).doubleValue();
+            for (int j = 0; j < arrWithoutDuplicates.size(); j++) {
+                if ((start <= (double) arrWithoutDuplicates.get(j)) && ((double) arrWithoutDuplicates.get(j) < finish)) {
+                    sumFrequency += (int) treeMap.get(arrWithoutDuplicates.get(j));
+                }
+            }
+            if (i == numberOfClass-1) {
+                sumFrequency += (int) treeMap.get(arrWithoutDuplicates.get(arrWithoutDuplicates.size() - 1));
+            }
+            series.getData().add(new XYChart.Data(String.valueOf(averageForColumn), (double)sumFrequency/arrayList.size()));
+            start = finish;
+        }
+        barChart.setBarGap(0);
+        barChart.setCategoryGap(0);
+        barChart.getData().addAll(series);
     }
 }

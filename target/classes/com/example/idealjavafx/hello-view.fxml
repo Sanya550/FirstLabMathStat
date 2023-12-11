@@ -253,6 +253,22 @@
                         <MenuItem mnemonicParsing="false" onAction="#findZalForPerehresne" text="Перехресне" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Класифікація">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Агломеративний метод">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#graphAglomirative" text="Кластера" />
+                              <MenuItem mnemonicParsing="false" onAction="#gradeQualityAglomirative" text="Оцінка якості" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="K-середніх">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#graphKAverage" text="Кластера" />
+                              <MenuItem mnemonicParsing="false" text="Оцінка якості" />
+                           </items>
+                        </Menu>
+                     </items>
+                  </Menu>
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">

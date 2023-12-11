@@ -1154,8 +1154,6 @@ public class HelloController {
     //Про програму:
     @FXML
     protected void aboutMenu(ActionEvent event) {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        new Klastarization().findKlasterization(listNotSorted,3 );
         String message = "Program created by Oleksandr Pyvovar";
         JOptionPane.showMessageDialog(null, message, "About", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -2231,5 +2229,28 @@ public class HelloController {
         double c = Double.parseDouble(cRegressia.getText());
         double dus = Double.parseDouble(duspersiaRegressia.getText());
         new AILab2().resultTableSZalForPerehresne(n, min, max, a, b, c, dus, tableView, lineChart);
+    }
+
+    //кластеризація
+    @FXML
+    public void graphKAverage(){
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        new Klastarization().graphicKlasterizationForKAverage(scatterChartForKorilationField,  xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
+    }
+
+    @FXML
+    public void graphAglomirative(){
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        new Klastarization().graphicKlasterizationForAglomirative(scatterChartForKorilationField,  xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
+    }
+
+    @FXML
+    public void gradeQualityAglomirative(){
+
+    }
+
+    @FXML
+    public void gradeQualityKAverage(){
+
     }
 }
