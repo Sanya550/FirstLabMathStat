@@ -253,7 +253,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#findZalForPerehresne" text="Перехресне" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Класифікація">
+                  <Menu mnemonicParsing="false" text="Кластерізація">
                      <items>
                         <Menu mnemonicParsing="false" text="Агломеративний метод">
                           <items>
@@ -264,9 +264,17 @@
                         <Menu mnemonicParsing="false" text="K-середніх">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#graphKAverage" text="Кластера" />
-                              <MenuItem mnemonicParsing="false" text="Оцінка якості" />
+                              <MenuItem mnemonicParsing="false" onAction="#gradeQualityKAverage" text="Оцінка якості" />
                            </items>
                         </Menu>
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Класифікація">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#methodNeighbourSimple" text="Метод найближчого сусіда" />
+                        <MenuItem mnemonicParsing="false" onAction="#methodNeighbourModification" text="Модифікаційний метод" />
+                        <MenuItem mnemonicParsing="false" onAction="#methodKClosestNeighbour" text="Метод К найближчих сусідів" />
+                        <MenuItem mnemonicParsing="false" onAction="#logisticRegression" text="Логістична регресія" />
                      </items>
                   </Menu>
                </items>

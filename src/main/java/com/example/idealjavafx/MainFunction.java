@@ -7,6 +7,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainFunction {
     //матиматичне сподівання
@@ -27,6 +28,15 @@ public class MainFunction {
     //середнє квадратичне
     public static double serKva(List<Double> arr1) {
         return Math.sqrt(duspersia(arr1));
+    }
+
+    //сігмойда:
+    public static double[] sigmoid(double[] arr1) {
+        double[] sigma = new double[arr1.length];
+        for (int i = 0; i < arr1.length; i++) {
+            sigma[i] = (double) 1 / (1 + Math.pow(Math.E, -arr1[i]));
+        }
+        return sigma;
     }
 
     //R для дисперсійно-коваріаційнії матриці
@@ -187,6 +197,68 @@ public class MainFunction {
         return result;
     }
 
+    public static double[] subtractVectors(double[] vector1, double[] vector2) {
+        if (vector1.length != vector2.length) {
+            throw new IllegalArgumentException("Vectors must have the same length for subtraction.");
+        }
+
+        int length = vector1.length;
+        double[] result = new double[length];
+
+        for (int i = 0; i < length; i++) {
+            result[i] = vector1[i] - vector2[i];
+        }
+
+        return result;
+    }
+
+    public static double[] addingVectors(double[] vector1, double[] vector2) {
+        if (vector1.length != vector2.length) {
+            throw new IllegalArgumentException("Vectors must have the same length for addition.");
+        }
+
+        int length = vector1.length;
+        double[] result = new double[length];
+
+        for (int i = 0; i < length; i++) {
+            result[i] = vector1[i] + vector2[i];
+        }
+
+        return result;
+    }
+
+    public static double[] multiplyMatrixOnVector(double[][] matrix, double[] vector) {
+        int matrixRows = matrix.length;
+        int matrixCols = matrix[0].length;
+
+        if (matrixCols != vector.length) {
+            throw new IllegalArgumentException("Number of columns in the matrix must be equal to the length of the vector.");
+        }
+
+        double[] result = new double[matrixRows];
+
+        for (int i = 0; i < matrixRows; i++) {
+            double sum = 0.0;
+            for (int j = 0; j < matrixCols; j++) {
+                sum += matrix[i][j] * vector[j];
+            }
+            result[i] = sum;
+        }
+
+        return result;
+    }
+
+    public static double[] multiplyVectorOnDigit(double[] vector, double scalar) {
+        int length = vector.length;
+        double[] result = new double[length];
+
+        for (int i = 0; i < length; i++) {
+            result[i] = vector[i] * scalar;
+        }
+
+        return result;
+    }
+
     //матриця мінус число
     public static double[][] minusNumberFromMatrix(double[][] matrix, double number) {
         int rows = matrix.length;
@@ -226,16 +298,17 @@ public class MainFunction {
     }
 
     public static double getKoefKorilationForFourValue(List<Double> arr1, List<Double> arr2, List<Double> arr3, List<Double> arr4) {
-    double r = (getKoefKorilationForThreeValue(arr1, arr2, arr3) - getKoefKorilationForThreeValue(arr1, arr4,arr3) * getKoefKorilationForThreeValue(arr2, arr4,arr3))/Math.sqrt((1 - Math.pow(getKoefKorilationForThreeValue(arr1, arr4,arr3),2)) * (1 - Math.pow(getKoefKorilationForThreeValue(arr2, arr4,arr3),2)));
-    return r;
-    }
-    public static double getKoefKorilationForFiveValue(List<Double> arr1, List<Double> arr2, List<Double> arr3, List<Double> arr4, List<Double> arr5) {
-    double r = (getKoefKorilationForFourValue(arr1, arr2, arr3, arr4) - getKoefKorilationForFourValue(arr1, arr4,arr3, arr5) * getKoefKorilationForFourValue(arr2, arr4,arr3, arr5))/Math.sqrt((1 - Math.pow(getKoefKorilationForFourValue(arr1, arr4,arr3, arr5),2)) * (1 - Math.pow(getKoefKorilationForFourValue(arr2, arr4,arr3, arr5),2)));
-    return r;
+        double r = (getKoefKorilationForThreeValue(arr1, arr2, arr3) - getKoefKorilationForThreeValue(arr1, arr4, arr3) * getKoefKorilationForThreeValue(arr2, arr4, arr3)) / Math.sqrt((1 - Math.pow(getKoefKorilationForThreeValue(arr1, arr4, arr3), 2)) * (1 - Math.pow(getKoefKorilationForThreeValue(arr2, arr4, arr3), 2)));
+        return r;
     }
 
-    public static double getMnozhinKoefKorilation(List<List<Double>> rMatrix, List<List<Double>> rMatrixKK){
-        return Math.sqrt(1- MainFunction.findDetermination(findRForDuspKovMatrixForManyVibirok(rMatrix))/MainFunction.findDetermination(findRForDuspKovMatrixForManyVibirok(rMatrixKK)));
+    public static double getKoefKorilationForFiveValue(List<Double> arr1, List<Double> arr2, List<Double> arr3, List<Double> arr4, List<Double> arr5) {
+        double r = (getKoefKorilationForFourValue(arr1, arr2, arr3, arr4) - getKoefKorilationForFourValue(arr1, arr4, arr3, arr5) * getKoefKorilationForFourValue(arr2, arr4, arr3, arr5)) / Math.sqrt((1 - Math.pow(getKoefKorilationForFourValue(arr1, arr4, arr3, arr5), 2)) * (1 - Math.pow(getKoefKorilationForFourValue(arr2, arr4, arr3, arr5), 2)));
+        return r;
+    }
+
+    public static double getMnozhinKoefKorilation(List<List<Double>> rMatrix, List<List<Double>> rMatrixKK) {
+        return Math.sqrt(1 - MainFunction.findDetermination(findRForDuspKovMatrixForManyVibirok(rMatrix)) / MainFunction.findDetermination(findRForDuspKovMatrixForManyVibirok(rMatrixKK)));
     }
 
     //пошук власних векторів за методом Якобі-Гаусса
@@ -269,7 +342,7 @@ public class MainFunction {
     }
 
     //List<RealVector> to array[][]
-    public static double[][] convectListOfRealVectorsToRwoDimensionArray(List<RealVector> resultVectors){
+    public static double[][] convectListOfRealVectorsToRwoDimensionArray(List<RealVector> resultVectors) {
         int numRows = resultVectors.size();
         int numCols = resultVectors.get(0).getDimension();
         double[][] doubleArray = new double[numRows][numCols];

@@ -2,6 +2,7 @@ package com.example.idealjavafx;
 
 
 import com.example.idealjavafx.ai.AILab2;
+import com.example.idealjavafx.ai.Klasification;
 import com.example.idealjavafx.ai.Klastarization;
 import com.example.idealjavafx.graphics.Glif;
 import com.example.idealjavafx.graphics.Graphics;
@@ -2233,24 +2234,51 @@ public class HelloController {
 
     //кластеризація
     @FXML
-    public void graphKAverage(){
+    public void graphKAverage() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        new Klastarization().graphicKlasterizationForKAverage(scatterChartForKorilationField,  xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
+        new Klastarization().graphicKlasterizationForKAverage(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
     }
 
     @FXML
-    public void graphAglomirative(){
+    public void graphAglomirative() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        new Klastarization().graphicKlasterizationForAglomirative(scatterChartForKorilationField,  xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
+        new Klastarization().graphicKlasterizationForAglomirative(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
     }
 
     @FXML
-    public void gradeQualityAglomirative(){
-
+    public void gradeQualityAglomirative() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        JOptionPane.showMessageDialog(null, new Klastarization().getKlasterizationGradeOfKlastersForAglomirative(listNotSorted), "Оцінка якості кластеризації", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    public void gradeQualityKAverage(){
+    public void gradeQualityKAverage() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        JOptionPane.showMessageDialog(null, new Klastarization().getKlasterizationGradeOfKlastersForKAverage(listNotSorted), "Оцінка якості кластеризації", JOptionPane.INFORMATION_MESSAGE);
+    }
 
+    //класифікація:
+    @FXML
+    public void methodNeighbourSimple(){
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        new Klasification().methodNeighbourhoodSimple(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
+    }
+
+    @FXML
+    public void methodNeighbourModification(){
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        new Klasification().methodNeighbourhoodModification(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
+    }
+
+    @FXML
+    public void methodKClosestNeighbour(){
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        new Klasification().methodNeighbourhoodForKQuantity(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
+    }
+
+    @FXML
+    public void logisticRegression(){
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        new Klasification().logisticRegression(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.idealjavafx.ai;
 
+import com.example.idealjavafx.MainFunction;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
@@ -21,6 +22,41 @@ public class Klastarization {
     public void graphicKlasterizationForAglomirative(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis, NumberAxis yAxis, List<List<Double>> listOfLists) {
         findKlasterizationGraph(scatterChart, xAxis, yAxis, listOfLists, true);
     }
+
+    public String getKlasterizationGradeOfKlastersForKAverage(List<List<Double>> listOfLists) {
+        return findKlasterizationGradeOfKlasters(listOfLists, false);
+    }
+
+    public String getKlasterizationGradeOfKlastersForAglomirative(List<List<Double>> listOfLists) {
+        return findKlasterizationGradeOfKlasters(listOfLists, true);
+    }
+
+    private String findKlasterizationGradeOfKlasters(List<List<Double>> listOfLists, boolean isAglomerative) {
+        var quantityOfKlasterization = Integer.parseInt(JOptionPane.showInputDialog("Введіть к-сть кластерів"));
+        var listOfIndexesInput = Arrays.stream(JOptionPane.showInputDialog("Введіть два числа(№ ознак) через пробіл(наприклад: 1 2)").trim().split(" ")).map(v -> Integer.parseInt(v) - 1).collect(Collectors.toList());
+        var typeOfMethodInput = Integer.parseInt(JOptionPane.showInputDialog("Оберіть метрику(Введіть число від 1 до 4):" +
+                "\n1-Евклідова,\n2-Манхетенська,\n3-Чебишова,\n4-Мехаланобіса"));
+
+        var dotsMap = new LinkedHashMap<Integer, ArrayList<Double>>();
+        var dotsList = new ArrayList<List<Double>>();
+        for (int i = 0; i < listOfLists.get(0).size(); i++) {
+            var tempList = new ArrayList<Double>();
+            for (int j = 0; j < listOfLists.size(); j++) {
+                tempList.add(listOfLists.get(j).get(i));
+            }
+            dotsMap.put(i, tempList);
+            dotsList.add(tempList);
+        }
+
+        List<List<Integer>> klasterixationIndexes;
+        if (isAglomerative) {
+            klasterixationIndexes = getKlastarizationListsByAglomirativeMethod(dotsList, quantityOfKlasterization, typeOfMethodInput);
+        } else {
+            klasterixationIndexes = getKlastarizationListsByKAverage(dotsList, quantityOfKlasterization, typeOfMethodInput);
+        }
+        return gradeOfKlasters(klasterixationIndexes, listOfLists, dotsList, typeOfMethodInput, listOfIndexesInput);
+    }
+
 
     private void findKlasterizationGraph(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis, NumberAxis yAxis, List<List<Double>> listOfLists, boolean isAglomerative) {
         var quantityOfKlasterization = Integer.parseInt(JOptionPane.showInputDialog("Введіть к-сть кластерів"));
@@ -119,9 +155,9 @@ public class Klastarization {
             var indexes = getIndexesOfMinValue(distanceMatrix);
             distanceMatrix = refactorIndexesFromMatrix(distanceMatrix, indexes);
             for (int i = 0; i < listOfKlasters.size(); i++) {
-                if (listOfKlasters.get(i).contains(indexes.get(0)-1)) {
+                if (listOfKlasters.get(i).contains(indexes.get(0) - 1)) {
                     for (int j = 0; j < listOfKlasters.size(); j++) {
-                        if (listOfKlasters.get(j).contains(indexes.get(1)-1)) {
+                        if (listOfKlasters.get(j).contains(indexes.get(1) - 1)) {
                             var klasterForUnite = new ArrayList<Integer>(new ArrayList(listOfKlasters.get(j)));
                             for (int k = 0; k < klasterForUnite.size(); k++) {
                                 listOfKlasters.get(i).add(klasterForUnite.get(k));
@@ -161,38 +197,6 @@ public class Klastarization {
                 }
             }
         }
-//        var row = 0;
-//        var column = 0;
-//        //filling new matrix without indexes
-//        for (int i = 0; i < oldMatrix.length; i++) {
-//            if (indexes.contains(i)) {
-//                continue;
-//            } else {
-//                for (int j = 0; j < oldMatrix.length; j++) {
-//                    if (indexes.contains(j)) {
-//                        continue;
-//                    } else {
-//                        matrix[row][column] = oldMatrix[i][j];
-//                        column++;
-//                    }
-//                }
-//                column = 0;
-//                row++;
-//            }
-//        }
-//        //filling last row and column
-//        for (int i = 0; i < oldMatrix.length - 1; i++) {
-//            if (i == oldMatrix.length - 2) {
-//                matrix[i][i] = -1;
-//            } else if (i == 0) {
-//                matrix[i][0] = indexes.get(0);
-//                matrix[0][i] = indexes.get(0);
-//            } else {
-//                var distanceBetweenKlasters = getDistanceBetweenKlasters(oldMatrix[i][indexes.get(0)], oldMatrix[i][indexes.get(1)]);
-//                matrix[i][oldMatrix.length - 2] = distanceBetweenKlasters;
-//                matrix[oldMatrix.length - 2][i] = distanceBetweenKlasters;
-//            }
-//        }
         return matrix;
     }
 
@@ -215,31 +219,51 @@ public class Klastarization {
         return minKey;
     }
 
-    private String gradeOfKlasters(List<List<Integer>> indexes, ArrayList<List<Double>> dotsList, int typeOfMethod) {
-        String result = "";
+    private String gradeOfKlasters(List<List<Integer>> indexes, List<List<Double>> listOfLists, ArrayList<List<Double>> dotsList, int typeOfMethod, List<Integer> oznaki) {
+        String klastresResult = "";
         var sum = 0d;
         for (int i = 0; i < indexes.size(); i++) {
 
-            var originList = new ArrayList<List<Double>>();
-            for (int j = 0; j < dotsList.get(0).size(); j++) {
+            //for average:
+            var originList1 = new ArrayList<Double>();
+            for (int l = 0; l < indexes.get(i).size(); l++) {
+                originList1.add(listOfLists.get(oznaki.get(0)).get(indexes.get(i).get(l)));
+            }
+
+            var originList2 = new ArrayList<Double>();
+            for (int l = 0; l < indexes.get(i).size(); l++) {
+                originList2.add(listOfLists.get(oznaki.get(1)).get(indexes.get(i).get(l)));
+            }
+//for Q1:
+            var q1List = new ArrayList<List<Double>>();
+            for (int l = 0; l < indexes.get(i).size(); l++) {
+                q1List.add(dotsList.get(indexes.get(i).get(l)));
+            }
+
+
+            var q1ListReversed = new ArrayList<List<Double>>();
+            for (int j = 0; j < q1List.get(0).size(); j++) {
                 var tempList = new ArrayList<Double>();
-                for (int l = 0; l < indexes.get(i).size(); l++) {
-                    tempList.add(dotsList.get(indexes.get(i).get(j)).get(l));
+                for (int k = 0; k < q1List.size(); k++) {
+                    tempList.add(q1List.get(k).get(j));
                 }
-                originList.add(tempList);
+                q1ListReversed.add(tempList);
             }
 
             var average = new ArrayList<Double>();
-            for (int j = 0; j < originList.size(); j++) {
-                average.add(originList.get(j).stream().mapToDouble(v -> v).average().orElseThrow());
+            for (int j = 0; j < q1ListReversed.size(); j++) {
+                average.add(q1List.get(j).stream().mapToDouble(v -> v).average().orElseThrow());
             }
 
-            for (int j = 0; j < originList.size(); j++) {
-                sum += getDistanceBetweenDots(typeOfMethod, originList.get(j), average);
+            klastresResult += "--------------------------------------\n";
+            klastresResult += String.format("Кластер №%d:\n Ознака %d середнє значення = %.2f, середнє квадратичне = %.2f\n Ознака %d середнє значення = %.2f, середнє квадратичне = %.2f\n",
+                    i + 1, oznaki.get(0), MainFunction.matSpodivan(originList1), MainFunction.serKva(originList1),
+                    oznaki.get(1), MainFunction.matSpodivan(originList2), MainFunction.serKva(originList2));
+            for (int j = 0; j < q1List.size(); j++) {
+                sum += getDistanceBetweenDots(typeOfMethod, q1List.get(j), average);
             }
-            //todo: середні
         }
-        result += String.format("Q1(S) = %.2f", sum);
+        String result = String.format("Q1(S) = %.2f\n", sum) + klastresResult;
 
         return result;
     }
@@ -286,7 +310,7 @@ public class Klastarization {
             if (counter == 0) {
                 klasterResultListPrevious = new ArrayList<>(klasterResultList);
             } else {
-                if (verificationOfExitForKAverage(klasterResultList, klasterResultListPrevious) || counter == 10000) {
+                if (verificationOfExitForKAverage(dotsList, klasterResultList, klasterResultListPrevious, typeOfMethod) || counter == 10000) {
                     break;
                 } else {
                     klasterResultListPrevious = new ArrayList<>(klasterResultList);
@@ -298,16 +322,63 @@ public class Klastarization {
         return klasterResultList;
     }
 
-    private boolean verificationOfExitForKAverage(List<List<Integer>> current, List<List<Integer>> previous) {
+    private boolean verificationOfExitForKAverage(List<List<Double>> dots, List<List<Integer>> current, List<List<Integer>> previous, int type) {
         boolean flag = true;
+        var cr = new ArrayList<List<List<Double>>>();
+        var pr = new ArrayList<List<List<Double>>>();
         for (int i = 0; i < current.size(); i++) {
-            var currentAverage = current.get(i).stream().mapToInt(v -> v).average().orElseThrow();
-            var previousAverage = previous.get(i).stream().mapToInt(v -> v).average().orElseThrow();
-            if (Math.abs(currentAverage - previousAverage) > epsForKAverageMethod) {
-                flag = false;
-                break;
+            ArrayList<List<Double>> tempListCr = new ArrayList<>();
+            for (int j = 0; j < current.get(i).size(); j++) {
+                tempListCr.add(new ArrayList(dots.get(current.get(i).get(j))));
             }
+            cr.add(tempListCr);
         }
+
+        for (int i = 0; i < previous.size(); i++) {
+            ArrayList<List<Double>> tempListPr = new ArrayList<>();
+            for (int j = 0; j < previous.get(i).size(); j++) {
+                tempListPr.add(new ArrayList(dots.get(previous.get(i).get(j))));
+            }
+            pr.add(tempListPr);
+        }
+
+        var crReversed0 = new ArrayList<List<Double>>();
+            for (int j = 0; j < dots.get(0).size(); j++) {
+                var tempList = new ArrayList<Double>();
+                for (int k = 0; k < cr.get(0).size(); k++) {
+                    tempList.add(cr.get(0).get(k).get(j));
+                }
+                crReversed0.add(tempList);
+            }
+
+
+        var prReversed0 = new ArrayList<List<Double>>();
+        for (int j = 0; j < dots.get(0).size(); j++) {
+            var tempList = new ArrayList<Double>();
+            for (int k = 0; k < pr.get(0).size(); k++) {
+                tempList.add(pr.get(0).get(k).get(j));
+            }
+            prReversed0.add(tempList);
+        }
+
+//        for (int i = 0; i < current.size(); i++) {
+        var currentAverage = new ArrayList<Double>();
+        for (int i = 0; i < crReversed0.size(); i++) {
+            currentAverage.add(crReversed0.get(i).stream().mapToDouble(v->v).average().orElseThrow());
+        }
+
+        var previousAverage = new ArrayList<Double>();
+        for (int i = 0; i < crReversed0.size(); i++) {
+            previousAverage.add(prReversed0.get(i).stream().mapToDouble(v->v).average().orElseThrow());
+        }
+
+//            var currentAverage = current.get(i).stream().mapToInt(v -> v).average().orElseThrow();
+//            var previousAverage = previous.get(i).stream().mapToInt(v -> v).average().orElseThrow();
+            if (getDistanceBetweenDots(type,currentAverage,previousAverage) > epsForKAverageMethod) {
+                flag = false;
+//                break;
+            }
+//        }
         return flag;
     }
 
@@ -386,7 +457,16 @@ public class Klastarization {
 
     //Махаланобіса відстань(4)
     private double mehalanobisaDistance(List<Double> xi, List<Double> xh) {
-        //todo:
-        return 0;
+        if (xi.size() == xh.size()) {
+            return (evklidovaDistance(xi, xh) + manhetenDistance(xi, xh)) / 2;
+        }
+        var vMatrix = MainFunction.findRForDuspKovMatrixForManyVibirok(List.of(xi, xh));
+        var temp = new double[xi.size()][0];
+        for (int i = 0; i < xi.size(); i++) {
+            temp[i][0] = xi.get(i) - xh.get(i);
+        }
+        var a = MainFunction.multiplyMatrixOnMatrix(MainFunction.multiplyMatrixOnMatrix(MainFunction.getInverseMatrix(vMatrix), temp), MainFunction.transposeMatrix(temp));
+        return a[0][0];
+        //matrix
     }
 }
