@@ -2207,6 +2207,10 @@ public class HelloController {
         JOptionPane.showMessageDialog(null, matrixResult, "Матриця факторного відображення", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    //часові ряди:
+
+
+//    public void
     //AI:
     @FXML
     public void findZalForNotPerehresne() {

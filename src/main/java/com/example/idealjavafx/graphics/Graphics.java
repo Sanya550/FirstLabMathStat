@@ -258,14 +258,30 @@ public class Graphics {
     }
 
     //графік зламаної тростини
-    public static void brokenStickVizual(LineChart lineChart, List<List<Double>> listNotSorted){
+    public static void brokenStickVizual(LineChart lineChart, List<List<Double>> listNotSorted) {
         lineChart.getData().clear();
         lineChart.layout();
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Графік зламаної тростини");
         for (int i = 0; i < HelloController.vlasniiValues.size(); i++) {
-                series1.getData().add(new XYChart.Data(String.valueOf(i + 1), HelloController.vlasniiValues.get(i)));
+            series1.getData().add(new XYChart.Data(String.valueOf(i + 1), HelloController.vlasniiValues.get(i)));
         }
         lineChart.getData().addAll(series1);
+    }
+
+    //часовий ряд
+    public static void timeRowVisual(LineChart lineChart, List<List<Double>> list) {
+        if (list.size() != 2) {
+            JOptionPane.showMessageDialog(null, "Size must be 2");
+        } else {
+            var time = list.get(0);
+            var parameters = list.get(1);
+            XYChart.Series series1 = new XYChart.Series();
+            series1.setName("Часвовий ряд");
+            for (int i = 0; i < time.size(); i++) {
+                series1.getData().add(new XYChart.Data(String.valueOf(time.get(i)), parameters.get(i)));
+            }
+            lineChart.getData().addAll(series1);
+        }
     }
 }

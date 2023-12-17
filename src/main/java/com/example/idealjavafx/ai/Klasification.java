@@ -133,7 +133,6 @@ public class Klasification {
             b -= learningRate * db;
         }
 
-        //??????????????????????????????
         double val = (double) 1 / (1 + Math.pow(2.73, -wArray[0] * xDot + wArray[1] * yDot + b));
         var x1 = listOfListInitial.get(listOfIndexesInput.get(0)).get(klasterixationIndexes.get(0).get(0));
         var x2 = listOfListInitial.get(listOfIndexesInput.get(1)).get(klasterixationIndexes.get(0).get(0));
@@ -149,7 +148,6 @@ public class Klasification {
         }
         seriesDot.getData().add(new XYChart.Data(xDot, yDot));
         scatterChart.getData().add(seriesDot);
-        ///???????????????????
 
         var listX = new ArrayList<Double>();
         for (int i = 0; i < klasterixationIndexes.get(0).size(); i++) {
@@ -170,11 +168,18 @@ public class Klasification {
                 .map(innerList ->
                         innerList.subList(0, innerList.size() - 1))
                 .collect(Collectors.toList());
+        var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
+        JOptionPane.showMessageDialog(null, String.format("%.2f*x1 + %.2f*x2 + %.2f", wArray[0], wArray[1], b));
+        if (gr == 1) {
+            JOptionPane.showMessageDialog(null, gradeOfModelFor2(refactoredList, klasterixationIndexes), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        }
+//        scatterChart.getXAxis().autoRangingProperty().set(true);
+//        scatterChart.getYAxis().autoRangingProperty().set(true);
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
 
-        JOptionPane.showMessageDialog(null, String.format("%.2f*x1 + %.2f*x2 + %.2f",wArray[0], wArray[1], b));
-        JOptionPane.showMessageDialog(null, gradeOfModelFor2(refactoredList, klasterixationIndexes), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
-        scatterChart.getXAxis().autoRangingProperty().set(true);
-        scatterChart.getYAxis().autoRangingProperty().set(true);
+        xAxis.setForceZeroInRange(false); // Вимкнення примусового нуля
+        yAxis.setForceZeroInRange(false);
     }
 
     private double[] findZList(double b, double[] w, double[][] x) {
@@ -313,7 +318,15 @@ public class Klasification {
         seriesDot.setName(String.format("Точка належить %d кластеру", simpleMethodRelateToWhichKlaster(newDot, dotsList, indexesOfData) + 1));
         seriesDot.getData().add(new XYChart.Data(xDot, yDot));
         scatterChart.getData().add(seriesDot);
-        JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 1, 0), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
+        if (gr == 1) {
+            JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 1, 0), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        }
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
+
+        xAxis.setForceZeroInRange(false); // Вимкнення примусового нуля
+        yAxis.setForceZeroInRange(false);
     }
 
     private void visualizationOnKorialiationGraphicWithKQuantityDots(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis,
@@ -327,7 +340,15 @@ public class Klasification {
         seriesDot.setName(String.format("Точка належить %d кластеру", kMethodRelateToWhichKlaster(newDot, dotsList, indexesOfData, k) + 1));
         seriesDot.getData().add(new XYChart.Data(xDot, yDot));
         scatterChart.getData().add(seriesDot);
-        JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 3, k), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
+        if (gr == 1) {
+            JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 3, k), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        }
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
+
+        xAxis.setForceZeroInRange(false); // Вимкнення примусового нуля
+        yAxis.setForceZeroInRange(false);
     }
 
     private void visualizationOnKorialiationGraphicWithDotModificat(ScatterChart<Number, Number> scatterChart, NumberAxis xAxis,
@@ -344,9 +365,17 @@ public class Klasification {
         } else {
             seriesDot.setName(String.format("Точка належить %d кластеру", val + 1));
         }
-        JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 2, 0), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
+        if (gr == 1) {
+            JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 2, 0), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        }
         seriesDot.getData().add(new XYChart.Data(xDot, yDot));
         scatterChart.getData().add(seriesDot);
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
+
+        xAxis.setForceZeroInRange(false); // Вимкнення примусового нуля
+        yAxis.setForceZeroInRange(false);
     }
 
     private int simpleMethodRelateToWhichKlaster(List<Double> newDot, List<List<Double>> dotsList, List<List<Integer>> klasterixationIndexes) {
@@ -585,9 +614,9 @@ public class Klasification {
         String result = "";
         for (int i = 0; i < kMatrix.length; i++) {
             for (int j = 0; j < kMatrix.length; j++) {
-                result+=String.format("%d  ", kMatrix[i][j]);
+                result += String.format("%d  ", kMatrix[i][j]);
             }
-            result+="\n";
+            result += "\n";
         }
 
         return result;
