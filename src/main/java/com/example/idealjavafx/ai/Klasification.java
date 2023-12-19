@@ -156,9 +156,6 @@ public class Klasification {
 
         XYChart.Series seriesRegr = new XYChart.Series();
         seriesRegr.setName("Логістична регресія");
-//        for (int i = 0; i < listX.size(); i ++) {
-//            seriesRegr.getData().add(new XYChart.Data(listX.get(i), -(wArray[0]*listX.get(i)+b)/wArray[1]));
-//        }
         for (double i = minForRegr; i < maxForRegr; i += 0.05) {
             seriesRegr.getData().add(new XYChart.Data(i, -(wArray[0] * i + b) / wArray[1]));
         }
@@ -168,13 +165,16 @@ public class Klasification {
                 .map(innerList ->
                         innerList.subList(0, innerList.size() - 1))
                 .collect(Collectors.toList());
-        var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
-        JOptionPane.showMessageDialog(null, String.format("%.2f*x1 + %.2f*x2 + %.2f", wArray[0], wArray[1], b));
-        if (gr == 1) {
-            JOptionPane.showMessageDialog(null, gradeOfModelFor2(refactoredList, klasterixationIndexes), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
+
+            JOptionPane.showMessageDialog(null, String.format("%.2f*x1 + %.2f*x2 + %.2f", wArray[0], wArray[1], b));
+            if (gr == 1) {
+                JOptionPane.showMessageDialog(null, gradeOfModelFor2Upt(refactoredList, klasterixationIndexes, List.of(wArray[0], wArray[1], b), listOfIndexesInput), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
         }
-//        scatterChart.getXAxis().autoRangingProperty().set(true);
-//        scatterChart.getYAxis().autoRangingProperty().set(true);
+
         xAxis.setAutoRanging(true);
         yAxis.setAutoRanging(true);
 
@@ -318,9 +318,12 @@ public class Klasification {
         seriesDot.setName(String.format("Точка належить %d кластеру", simpleMethodRelateToWhichKlaster(newDot, dotsList, indexesOfData) + 1));
         seriesDot.getData().add(new XYChart.Data(xDot, yDot));
         scatterChart.getData().add(seriesDot);
-        var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
-        if (gr == 1) {
-            JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 1, 0), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
+            if (gr == 1) {
+                JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 1, 0), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
         }
         xAxis.setAutoRanging(true);
         yAxis.setAutoRanging(true);
@@ -340,9 +343,12 @@ public class Klasification {
         seriesDot.setName(String.format("Точка належить %d кластеру", kMethodRelateToWhichKlaster(newDot, dotsList, indexesOfData, k) + 1));
         seriesDot.getData().add(new XYChart.Data(xDot, yDot));
         scatterChart.getData().add(seriesDot);
-        var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
-        if (gr == 1) {
-            JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 3, k), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
+            if (gr == 1) {
+                JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 3, k), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
         }
         xAxis.setAutoRanging(true);
         yAxis.setAutoRanging(true);
@@ -365,9 +371,13 @@ public class Klasification {
         } else {
             seriesDot.setName(String.format("Точка належить %d кластеру", val + 1));
         }
-        var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
-        if (gr == 1) {
-            JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 2, 0), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            var gr = Integer.parseInt(JOptionPane.showInputDialog("Вивести оцінки?(Якщо так введіть 1)"));
+            if (gr == 1) {
+                JOptionPane.showMessageDialog(null, gradeOfModelFor3(dotsList, indexesOfData, 2, 0), "Оцінка якості класифікації", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+
         }
         seriesDot.getData().add(new XYChart.Data(xDot, yDot));
         scatterChart.getData().add(seriesDot);
@@ -395,6 +405,18 @@ public class Klasification {
             }
         }
         return -1;
+    }
+
+    private int sigmoidaRelateToKlass(List<Double> newDot, List<Double> parameters, List<Integer> indexes) {
+        double w0 = parameters.get(0);
+        double w1 = parameters.get(1);
+        double b = parameters.get(2);
+        var val = (double) 1 / (1 + Math.pow(2.73, -w0 * newDot.get(indexes.get(0)) - w1 * newDot.get(indexes.get(1)) - b));
+        if (val > 0.5) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     private int modificationMethodRelateToWhichKlaster(List<Double> newDot, List<List<Double>> dotsList, List<List<Integer>> klasterixationIndexes) {
@@ -546,6 +568,53 @@ public class Klasification {
         int TN = 0;
         for (int i = 0; i < test.size(); i++) {
             var actual = simpleMethodRelateToWhichKlaster(test.get(i), dotsList, klasterixationIndexes);
+            var expected = klasterixationIndexes.get(0).contains(testKlaster.get(i)) ? 0 : 1;
+            if (actual == expected) {
+                if (actual == 1) {
+                    TP++;
+                } else {
+                    TN++;
+                }
+            } else {
+                if (expected > actual) {
+                    FN++;
+                } else {
+                    FP++;
+                }
+            }
+        }
+        String result = "TP = " + TP + ", FP = " + FP + ", FN = " + FN + ", TN = " + TN;
+        result += String.format("\nВідносна частота істинно позитивних результатів(чутливість) = %.2f", (double) TP / (TP + FN));
+        result += String.format("\nВідносна частота помилкових тривог = %.2f", (double) FP / (TN + FP));
+        result += String.format("\nВідносна частота хибних результатів = %.2f", (double) FN / (TP + FN));
+        result += String.format("\nЧастота позитивно-негативних результатів(специфічність) = %.2f", (double) TN / (FP + TN));
+        result += String.format("\nПрогностична точність позитивного результату = %.2f", (double) TP / (FP + TP));
+        result += String.format("\nПрогностична точність негативного результату = %.2f", (double) TN / (FN + TN));
+        result += String.format("\nВідносна частота хибних виявлень = %.2f", (double) FP / (FP + TP));
+        result += String.format("\nПрогностична точність хибних пропусків = %.2f", (double) FN / (FN + TN));
+        result += String.format("\nТочність = %.2f", (double) (TP + TN) / (TP + FP + FN + TN));
+        return result;
+    }
+
+    private String gradeOfModelFor2Upt(List<List<Double>> dotsList, List<List<Integer>> klasterixationIndexes, List<Double> parameters, List<Integer> indexes) {
+        var navch = new ArrayList<List<Double>>();
+        var test = new ArrayList<List<Double>>();
+        var testKlaster = new ArrayList<Integer>();
+        for (int i = 0; i < dotsList.size(); i++) {
+            if ((i + 1) % 5 == 0) {
+                test.add(dotsList.get(i));
+                testKlaster.add(i);
+            } else {
+                navch.add(dotsList.get(i));
+            }
+        }
+
+        int TP = 0;
+        int FP = 0;
+        int FN = 0;
+        int TN = 0;
+        for (int i = 0; i < test.size(); i++) {
+            var actual = sigmoidaRelateToKlass(test.get(i), parameters, indexes);
             var expected = klasterixationIndexes.get(0).contains(testKlaster.get(i)) ? 0 : 1;
             if (actual == expected) {
                 if (actual == 1) {

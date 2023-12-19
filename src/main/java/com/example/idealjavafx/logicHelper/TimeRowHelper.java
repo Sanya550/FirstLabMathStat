@@ -2,6 +2,7 @@ package com.example.idealjavafx.logicHelper;
 
 import com.example.idealjavafx.MainFunction;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -27,7 +28,6 @@ public class TimeRowHelper {
         return elements;
     }
 
-    //тренд:
     //критерій знаків
     public String criteriaZnakiv(List<Double> initialElements) {
         var elements = new ArrayList<>(initialElements);
@@ -182,7 +182,7 @@ public class TimeRowHelper {
         var resultList = new ArrayList<Double>();
         for (int i = 0; i < elements.size(); i++) {
             if (i < kKovz) {
-                resultList.add(-1d);  //???????
+                resultList.add(elements.get(i));
             } else if (i == kKovz) {
                 int counter = 0;
                 double sum = 0d;
@@ -197,5 +197,40 @@ public class TimeRowHelper {
             }
         }
         return resultList;
+    }
+
+    public List<Double> DMA(List<Double> initialElements, int kovz) {
+        var elements = new ArrayList<>(initialElements);
+        var emaList = EMA(elements, kovz);
+        return EMA(emaList, kovz);
+    }
+
+    public List<Double> TMA(List<Double> initialElements, int kovz) {
+        var elements = new ArrayList<>(initialElements);
+        var emaList = EMA(elements, kovz);
+        var dmaList = EMA(emaList, kovz);
+        return EMA(dmaList, kovz);
+    }
+
+    //тренд лінійний
+    public void liniinaTrend(List<List<Double>> initialElements) {//t and elements
+        if (initialElements.size() != 2) {
+            JOptionPane.showMessageDialog(null, "size must be 2");
+        } else {
+            var tList = new ArrayList<>(initialElements.get(0));
+            var paremetersList = new ArrayList<>(initialElements.get(1));
+            //ініціалізація
+            var t_ = MainFunction.matSpodivan(tList);
+            var t2_ = tList.stream().mapToDouble(v -> v * v).average().orElseThrow();
+            var x_ = MainFunction.matSpodivan(paremetersList);
+            var tx_ = 0d;
+            for (int i = 0; i < tList.size(); i++) {
+                tx_ += tList.get(i) * paremetersList.get(i);
+            }
+            tx_ /= tList.size();
+            var a0 = (x_ * t2_ - t_ * tx_) / (t2_ - t_ * t_);
+            var a1 = (tx_ - t_ * x_) / (t2_ - t_ * t_);
+//todo: graphic a0 + a1*t;
+        }
     }
 }
