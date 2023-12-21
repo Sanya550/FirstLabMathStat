@@ -230,7 +230,7 @@ public class TimeRowHelper {
             tx_ /= tList.size();
             var a0 = (x_ * t2_ - t_ * tx_) / (t2_ - t_ * t_);
             var a1 = (tx_ - t_ * x_) / (t2_ - t_ * t_);
-//todo: graphic a0 + a1*t;
+            //todo: graphic a0 + a1*t;
         }
     }
 }

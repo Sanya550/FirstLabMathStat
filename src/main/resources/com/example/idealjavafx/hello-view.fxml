@@ -279,6 +279,28 @@
                   </Menu>
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Часовий ряд">
+               <items>
+                  <Menu mnemonicParsing="false" text="Збіг параметрів">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Критерій знаків" />
+                        <MenuItem mnemonicParsing="false" text="Критерій Манна" />
+                        <MenuItem mnemonicParsing="false" text="Критерій серій" />
+                        <MenuItem mnemonicParsing="false" text="Критерій зростаючих і спадаючих серій" />
+                        <MenuItem mnemonicParsing="false" text="Критерій Аббе" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Згладжування">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
+                     </items>
+                  </Menu>
+                  <MenuItem mnemonicParsing="false" text="Медіане згладжування" />
+                  <MenuItem mnemonicParsing="false" text="EMA" />
+                  <MenuItem mnemonicParsing="false" text="DMA" />
+                  <MenuItem mnemonicParsing="false" text="TMA" />
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Про програму">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
