@@ -8,6 +8,7 @@ import com.example.idealjavafx.graphics.Glif;
 import com.example.idealjavafx.graphics.Graphics;
 import com.example.idealjavafx.graphics.HeatMapVisualization;
 import com.example.idealjavafx.logicHelper.FactorHelper;
+import com.example.idealjavafx.logicHelper.TimeRowHelper;
 import com.example.idealjavafx.models.MainCharactericticForData;
 import com.example.idealjavafx.models.VariationMatrix;
 import com.example.idealjavafx.models.VariationRowForData;
@@ -84,6 +85,8 @@ public class HelloController {
     static double cForT = 0;
     static double alfaForAnomalData = 0;
 
+    private final TimeRowHelper timeRowHelper = new TimeRowHelper();
+
     @FXML
     private TextField stringOfNumberOfClasses;
     @FXML
@@ -118,6 +121,10 @@ public class HelloController {
     private NumberAxis xAxisForScatterChartForFrequencyOfHystograma;
     @FXML
     private NumberAxis yAxisForScatterChartForFrequencyOfHystograma;
+    @FXML
+    private NumberAxis xAxisForLineChart;
+    @FXML
+    private NumberAxis yAxisForLineChart;
     @FXML
     private TableView tableView;
     @FXML
@@ -2208,9 +2215,166 @@ public class HelloController {
     }
 
     //часові ряди:
+    @FXML
+    public void mainCharactericticTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            JOptionPane.showMessageDialog(null, timeRowHelper.getMainCharacteristics(listNotSorted.get(1)), "Головні характеристики", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
+    @FXML
+    public void graphicTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            Graphics.timeRowVisual(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-//    public void
+    @FXML
+    public void clearGraphicTimeRow() {
+        lineChart.getData().clear();
+        lineChart.layout();
+    }
+
+    @FXML
+    public void removeAnomalTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.changeAnomalData(listNotSorted.get(1));
+            JOptionPane.showMessageDialog(null, "Збережено", "Info", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    //критерій серій:
+    @FXML
+    public void criteriiZnakivTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaZnakiv(listNotSorted.get(1)), "Критерій знаків", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void criteriiMannaTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaManna(listNotSorted.get(1)), "Критерій Манна", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void criteriiSeriesTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaSeries(listNotSorted.get(1)), "Критерій серій", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void criteriiSeriesOfGrowAndFallTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaSeriesOfGrowAndFall(listNotSorted.get(1)), "Критерій зростаючих та падаючих серій", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void criteriiAbbeTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaAbbe(listNotSorted.get(1)), "Критерій Аббе", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    //тренд:
+    @FXML
+    public void liniinaTrendTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.liniinaTrend(listNotSorted, lineChart);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void parabolTrendTimeRow() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.parabolTrend(listNotSorted, lineChart);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    //згладжування:
+    @FXML
+    public void medianZgl() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.drawMedianZgl(lineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void smaZgl() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.smaZgl(lineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void emaZgl() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.emaZgl(lineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void dmaZgl() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.dmaZgl(lineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void tmaZgl() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.tmaZgl(lineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     //AI:
     @FXML
     public void findZalForNotPerehresne() {
@@ -2263,25 +2427,25 @@ public class HelloController {
 
     //класифікація:
     @FXML
-    public void methodNeighbourSimple(){
+    public void methodNeighbourSimple() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         new Klasification().methodNeighbourhoodSimple(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
     }
 
     @FXML
-    public void methodNeighbourModification(){
+    public void methodNeighbourModification() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         new Klasification().methodNeighbourhoodModification(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
     }
 
     @FXML
-    public void methodKClosestNeighbour(){
+    public void methodKClosestNeighbour() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         new Klasification().methodNeighbourhoodForKQuantity(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
     }
 
     @FXML
-    public void logisticRegression(){
+    public void logisticRegression() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         new Klasification().logisticRegression(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
     }

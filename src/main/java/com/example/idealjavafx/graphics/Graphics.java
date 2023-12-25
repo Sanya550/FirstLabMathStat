@@ -264,24 +264,27 @@ public class Graphics {
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Графік зламаної тростини");
         for (int i = 0; i < HelloController.vlasniiValues.size(); i++) {
-            series1.getData().add(new XYChart.Data(String.valueOf(i + 1), HelloController.vlasniiValues.get(i)));
+            series1.getData().add(new XYChart.Data(i + 1, HelloController.vlasniiValues.get(i)));
         }
         lineChart.getData().addAll(series1);
     }
 
     //часовий ряд
-    public static void timeRowVisual(LineChart lineChart, List<List<Double>> list) {
-        if (list.size() != 2) {
-            JOptionPane.showMessageDialog(null, "Size must be 2");
-        } else {
-            var time = list.get(0);
-            var parameters = list.get(1);
-            XYChart.Series series1 = new XYChart.Series();
-            series1.setName("Часвовий ряд");
-            for (int i = 0; i < time.size(); i++) {
-                series1.getData().add(new XYChart.Data(String.valueOf(time.get(i)), parameters.get(i)));
-            }
-            lineChart.getData().addAll(series1);
+    public static void timeRowVisual(LineChart lineChart,NumberAxis xAxis, NumberAxis yAxis,  List<List<Double>> list) {
+        var time = list.get(0);
+        var parameters = list.get(1);
+        XYChart.Series series1 = new XYChart.Series();
+        for (int i = 0; i < time.size(); i++) {
+            series1.getData().add(new XYChart.Data(time.get(i), parameters.get(i)));
         }
+        lineChart.getData().addAll(series1);
+        lineChart.getXAxis().setAutoRanging(true);
+        lineChart.getYAxis().setAutoRanging(true);
+
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
+
+        xAxis.setForceZeroInRange(false); // Вимкнення примусового нуля
+        yAxis.setForceZeroInRange(false);
     }
 }

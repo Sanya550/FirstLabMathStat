@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
     <top>
         <MenuBar layoutX="-2.0" layoutY="1.0" prefHeight="26.0" prefWidth="951.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0">
             <menus>
@@ -281,24 +281,34 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Часовий ряд">
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#graphicTimeRow" text="Графік" />
+                  <MenuItem mnemonicParsing="false" onAction="#mainCharactericticTimeRow" text="Основні характеристики" />
+                  <MenuItem mnemonicParsing="false" onAction="#removeAnomalTimeRow" text="Видалення аномальних даних" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearGraphicTimeRow" text="Очистити" />
                   <Menu mnemonicParsing="false" text="Збіг параметрів">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Критерій знаків" />
-                        <MenuItem mnemonicParsing="false" text="Критерій Манна" />
-                        <MenuItem mnemonicParsing="false" text="Критерій серій" />
-                        <MenuItem mnemonicParsing="false" text="Критерій зростаючих і спадаючих серій" />
-                        <MenuItem mnemonicParsing="false" text="Критерій Аббе" />
+                        <MenuItem mnemonicParsing="false" onAction="#criteriiZnakivTimeRow" text="Критерій знаків" />
+                        <MenuItem mnemonicParsing="false" onAction="#criteriiMannaTimeRow" text="Критерій Манна" />
+                        <MenuItem mnemonicParsing="false" onAction="#criteriiSeriesTimeRow" text="Критерій серій" />
+                        <MenuItem mnemonicParsing="false" onAction="#criteriiSeriesOfGrowAndFallTimeRow" text="Критерій зростаючих і спадаючих серій" />
+                        <MenuItem mnemonicParsing="false" onAction="#criteriiAbbeTimeRow" text="Критерій Аббе" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Згладжування">
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#aboutMenu" text="Додаткова інформація" />
+                        <MenuItem mnemonicParsing="false" onAction="#medianZgl" text="Медіане згладжування" />
+                        <MenuItem mnemonicParsing="false" onAction="#smaZgl" text="SMA" />
+                        <MenuItem mnemonicParsing="false" onAction="#emaZgl" text="EMA" />
+                        <MenuItem mnemonicParsing="false" onAction="#dmaZgl" text="DMA" />
+                        <MenuItem mnemonicParsing="false" onAction="#tmaZgl" text="TMA" />
                      </items>
                   </Menu>
-                  <MenuItem mnemonicParsing="false" text="Медіане згладжування" />
-                  <MenuItem mnemonicParsing="false" text="EMA" />
-                  <MenuItem mnemonicParsing="false" text="DMA" />
-                  <MenuItem mnemonicParsing="false" text="TMA" />
+                  <Menu mnemonicParsing="false" text="Тренд">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#liniinaTrendTimeRow" text="Лінійний тренд" />
+                        <MenuItem mnemonicParsing="false" onAction="#parabolTrendTimeRow" text="Пабаболічний тренд" />
+                     </items>
+                  </Menu>
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">
@@ -1146,10 +1156,10 @@
                                                                             <children>
                                                                                 <LineChart fx:id="lineChart" layoutX="-42.0" layoutY="-101.0" prefHeight="174.4" prefWidth="380.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                                     <xAxis>
-                                                                                        <CategoryAxis side="BOTTOM" />
+                                                                                        <NumberAxis side="BOTTOM" fx:id="xAxisForLineChart" />
                                                                                     </xAxis>
                                                                                     <yAxis>
-                                                                                        <NumberAxis side="LEFT" />
+                                                                                        <NumberAxis fx:id="yAxisForLineChart" layoutX="10.0" side="LEFT" />
                                                                                     </yAxis>
                                                                                 </LineChart>
                                                                             </children>

@@ -352,4 +352,13 @@ public class MainFunction {
         }
         return doubleArray;
     }
+
+
+    public static double[] findSlar(double[][] aMatrix, double[] bVector) {
+        RealMatrix coefficients = MatrixUtils.createRealMatrix(aMatrix);
+        RealVector constants = new ArrayRealVector(bVector);
+        DecompositionSolver solver = new LUDecomposition(coefficients).getSolver();
+        RealVector solution = solver.solve(constants);
+        return solution.toArray();
+    }
 }

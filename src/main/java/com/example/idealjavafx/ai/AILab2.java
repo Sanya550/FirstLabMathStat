@@ -193,8 +193,8 @@ public class AILab2 {
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Похибка тестування");
         for (int i = 0; i < listOfDigits.size(); i++) {
-            series1.getData().add(new XYChart.Data(String.valueOf(listOfDigits.get(i)), matrixData[i][0]));
-            series2.getData().add(new XYChart.Data(String.valueOf(listOfDigits.get(i)), matrixData[i][1]));
+            series1.getData().add(new XYChart.Data(listOfDigits.get(i), matrixData[i][0]));
+            series2.getData().add(new XYChart.Data(listOfDigits.get(i), matrixData[i][1]));
         }
         lineChart.getData().addAll(series1, series2);
     }

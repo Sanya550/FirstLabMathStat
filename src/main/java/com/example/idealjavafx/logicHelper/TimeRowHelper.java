@@ -1,31 +1,32 @@
 package com.example.idealjavafx.logicHelper;
 
 import com.example.idealjavafx.MainFunction;
+import com.example.idealjavafx.graphics.Graphics;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TimeRowHelper {
     private static final double kvantilZna = 1.96;
 
     public String getMainCharacteristics(List<Double> elements) {
-        //todo: автоковаріація
         return String.format("Математичне сподівання = %.2f,\nДисперсія = %.2f", MainFunction.matSpodivan(elements), MainFunction.duspersia(elements));
     }
 
-    public List<Double> changeAnomalData(List<Double> initialElements, int k) {
-        var elements = new ArrayList<>(initialElements);
+    public void changeAnomalData(List<Double> elements) {
+        var k = Integer.parseInt(JOptionPane.showInputDialog("Введіть k: "));
+//        var elements = new ArrayList<>(initialElements);
         var matSpodivan = MainFunction.matSpodivan(elements);
-        var duspersia = MainFunction.duspersia(elements);
+        var serKva = MainFunction.serKva(elements);
         for (int i = 1; i < elements.size() - 1; i++) {
-            if (matSpodivan - k * duspersia > elements.get(i + 1) || elements.get(i + 1) > matSpodivan + k * duspersia) {
+            if (matSpodivan - k * serKva > elements.get(i + 1) || elements.get(i + 1) > matSpodivan + k * serKva) {
                 elements.set(i + 1, 2 * elements.get(i) - elements.get(i - 1));
             }
         }
-        return elements;
+//        return elements;
     }
 
     //критерій знаків
@@ -105,7 +106,7 @@ public class TimeRowHelper {
     public String criteriaSeriesOfGrowAndFall(List<Double> initialElements) {
         var elements = new ArrayList<>(initialElements);
         List<Integer> yi = new ArrayList<>();
-        for (int i = 0; i < elements.size(); i++) {
+        for (int i = 0; i < elements.size() - 1; i++) {
             if (elements.get(i + 1) < elements.get(i)) {
                 yi.add(-1);
             } else {
@@ -164,19 +165,29 @@ public class TimeRowHelper {
     }
 
     //Згладжування даних
-    //медіане згладжування
-    public List<Double> medianIroning(List<Double> initialElements) {
+    public void drawMedianZgl(LineChart lineChart, List<List<Double>> initialList) {
+        var newElements = medianIroning(initialList.get(1));
+        drawZgladzuvan(lineChart, initialList.get(0), newElements, 1);
+    }
+
+    private List<Double> medianIroning(List<Double> initialElements) {
         var elements = new ArrayList<>(initialElements);
         var medianResult = new ArrayList<Double>();
         medianResult.add(elements.get(0));
-        for (int i = 1; i < elements.size(); i++) {
+        for (int i = 1; i < elements.size() - 1; i++) {
             medianResult.add(0.33 * (elements.get(i - 1) + elements.get(i) + elements.get(i + 1)));
         }
         medianResult.add(elements.get(elements.size() - 1));
         return medianResult;
     }
 
-    public List<Double> EMA(List<Double> initialElements, int kKovz) {
+    public void emaZgl(LineChart lineChart, List<List<Double>> initialList) {
+        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        var newElements = EMA(initialList.get(1), kovz);
+        drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
+    }
+
+    private List<Double> EMA(List<Double> initialElements, int kKovz) {
         var elements = new ArrayList<>(initialElements);
         double alfa = 2d / ((double) kKovz + 1);
         var resultList = new ArrayList<Double>();
@@ -199,38 +210,110 @@ public class TimeRowHelper {
         return resultList;
     }
 
-    public List<Double> DMA(List<Double> initialElements, int kovz) {
+    public void dmaZgl(LineChart lineChart, List<List<Double>> initialList) {
+        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        var newElements = DMA(initialList.get(1), kovz);
+        drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
+    }
+
+    private List<Double> DMA(List<Double> initialElements, int kovz) {
         var elements = new ArrayList<>(initialElements);
         var emaList = EMA(elements, kovz);
         return EMA(emaList, kovz);
     }
 
-    public List<Double> TMA(List<Double> initialElements, int kovz) {
+    public void tmaZgl(LineChart lineChart, List<List<Double>> initialList) {
+        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        var newElements = TMA(initialList.get(1), kovz);
+        drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
+    }
+
+    private List<Double> TMA(List<Double> initialElements, int kovz) {
         var elements = new ArrayList<>(initialElements);
         var emaList = EMA(elements, kovz);
         var dmaList = EMA(emaList, kovz);
         return EMA(dmaList, kovz);
     }
 
-    //тренд лінійний
-    public void liniinaTrend(List<List<Double>> initialElements) {//t and elements
-        if (initialElements.size() != 2) {
-            JOptionPane.showMessageDialog(null, "size must be 2");
-        } else {
-            var tList = new ArrayList<>(initialElements.get(0));
-            var paremetersList = new ArrayList<>(initialElements.get(1));
-            //ініціалізація
-            var t_ = MainFunction.matSpodivan(tList);
-            var t2_ = tList.stream().mapToDouble(v -> v * v).average().orElseThrow();
-            var x_ = MainFunction.matSpodivan(paremetersList);
-            var tx_ = 0d;
-            for (int i = 0; i < tList.size(); i++) {
-                tx_ += tList.get(i) * paremetersList.get(i);
+    public void smaZgl(LineChart lineChart, List<List<Double>> initialList) {
+        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        var newElements = SMA(initialList.get(1), kovz);
+        drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
+    }
+
+    private List<Double> SMA(List<Double> initialElements, int kovz) {
+        var resultElements = new ArrayList<Double>();
+        var elements = new ArrayList<>(initialElements);
+        for (int i = 0; i < elements.size(); i++) {
+            if (i < kovz - 1) {
+                resultElements.add(elements.get(i));
+            } else {
+                var tempList = new ArrayList<Double>();
+                for (int j = 0; j < kovz; j++) {
+                    tempList.add(elements.get(i - j));
+                }
+                resultElements.add(tempList.stream().mapToDouble(v -> v).average().orElseThrow());
             }
-            tx_ /= tList.size();
-            var a0 = (x_ * t2_ - t_ * tx_) / (t2_ - t_ * t_);
-            var a1 = (tx_ - t_ * x_) / (t2_ - t_ * t_);
-            //todo: graphic a0 + a1*t;
         }
+        return resultElements;
+    }
+
+    private void drawZgladzuvan(LineChart lineChart, List<Double> tList, List<Double> elements, int kovz) {
+        XYChart.Series series1 = new XYChart.Series();
+        for (int i = kovz; i < tList.size(); i++) {
+            series1.getData().add(new XYChart.Data(tList.get(i), elements.get(i)));
+        }
+        lineChart.getData().addAll(series1);
+    }
+
+    //тренд лінійний
+    public void liniinaTrend(List<List<Double>> initialElements, LineChart lineChart) {//t and elements
+        var tList = new ArrayList<>(initialElements.get(0));
+        var paremetersList = new ArrayList<>(initialElements.get(1));
+        var t_ = MainFunction.matSpodivan(tList);
+        var t2_ = tList.stream().mapToDouble(v -> v * v).average().orElseThrow();
+        var x_ = MainFunction.matSpodivan(paremetersList);
+        var tx_ = 0d;
+        for (int i = 0; i < tList.size(); i++) {
+            tx_ += tList.get(i) * paremetersList.get(i);
+        }
+        tx_ /= tList.size();
+        var a0 = (x_ * t2_ - t_ * tx_) / (t2_ - t_ * t_);
+        var a1 = (tx_ - t_ * x_) / (t2_ - t_ * t_);
+        XYChart.Series series1 = new XYChart.Series();
+        series1.getData().add(new XYChart.Data(tList.get(0), a0 + a1 * tList.get(0)));
+        series1.getData().add(new XYChart.Data(tList.get(tList.size() - 1), a0 + a1 * tList.get(tList.size() - 1)));
+        lineChart.getData().addAll(series1);
+    }
+
+    //тренд параболічний
+    public void parabolTrend(List<List<Double>> initialElements, LineChart lineChart) {
+        var tList = new ArrayList<>(initialElements.get(0));
+        var paremetersList = new ArrayList<>(initialElements.get(1));
+        var t_ = MainFunction.matSpodivan(tList);
+        var t2_ = tList.stream().mapToDouble(v -> v * v).average().orElseThrow();
+        var x_ = MainFunction.matSpodivan(paremetersList);
+        var tx_ = 0d;
+        var t2x_ = 0d;
+        for (int i = 0; i < tList.size(); i++) {
+            tx_ += tList.get(i) * paremetersList.get(i);
+            t2x_ += Math.pow(tList.get(i), 2) * paremetersList.get(i);
+        }
+        tx_ /= tList.size();
+        t2x_ /= tList.size();
+        var t3_ = tList.stream().mapToDouble(v -> Math.pow(v, 3)).average().orElseThrow();
+        var t4_ = tList.stream().mapToDouble(v -> Math.pow(v, 4)).average().orElseThrow();
+
+        var aVector = MainFunction.findSlar(new double[][]{
+                {1, t_, t2_},
+                {t_, t2_, t3_},
+                {t2_, t3_, t4_},
+        }, new double[]{x_, tx_, t2x_});
+        XYChart.Series series1 = new XYChart.Series();
+        for (int i = 0; i < tList.size(); i++) {
+            series1.getData().add(new XYChart.Data(tList.get(i),
+                    aVector[0] + aVector[1] * tList.get(i) + Math.pow(aVector[2], 2) * tList.get(i)));
+        }
+        lineChart.getData().addAll(series1);
     }
 }
