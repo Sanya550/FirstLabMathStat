@@ -6,6 +6,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -341,6 +342,24 @@ public class MainFunction {
         return eigenValues;
     }
 
+    //Пошук матриці власних векторів, які відсортовані по відсотку накопичення
+    public static double[][] getSortedVlasniVectors(double[][] matrixData) {
+        var resultVectors = new ArrayList<RealVector>();
+        var initialVlasniVectorsMatrix = getVlasniiVectors(matrixData);
+        var initialVlasniValues = getVlasniiValues(matrixData);
+        var sortedInitialValues = new ArrayList<>(initialVlasniValues);
+        sortedInitialValues.sort(Comparator.reverseOrder());
+        for (int i = 0; i < sortedInitialValues.size(); i++) {
+            for (int j = 0; j < initialVlasniValues.size(); j++) {
+                if (sortedInitialValues.get(i) ==initialVlasniValues.get(j)){
+                    resultVectors.add(initialVlasniVectorsMatrix.get(j));
+                    break;
+                }
+            }
+        }
+        return convectListOfRealVectorsToRwoDimensionArray(resultVectors);
+    }
+
     //List<RealVector> to array[][]
     public static double[][] convectListOfRealVectorsToRwoDimensionArray(List<RealVector> resultVectors) {
         int numRows = resultVectors.size();
@@ -353,7 +372,7 @@ public class MainFunction {
         return doubleArray;
     }
 
-
+    //Пошук X з СЛАР
     public static double[] findSlar(double[][] aMatrix, double[] bVector) {
         RealMatrix coefficients = MatrixUtils.createRealMatrix(aMatrix);
         RealVector constants = new ArrayRealVector(bVector);

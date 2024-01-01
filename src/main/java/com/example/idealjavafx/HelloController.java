@@ -829,8 +829,70 @@ public class HelloController {
                 arrayListNumber6.sort(Comparator.naturalOrder());
                 break;
             default:
-                System.out.println("Something wrong with this value: numberOfColumns");
-                break;
+                var listOfIndexesInput = Arrays.stream(JOptionPane.showInputDialog(
+                        String.format("Так як кількість ознак = %d, то виберіть 6 ознак номера яких будуть записані через пробіл", numberOfColumns), "1 2 3 4 5 6")
+                        .trim().split(" ")).map(v -> Integer.parseInt(v) - 1).collect(Collectors.toList());
+                if (listOfIndexesInput.size() != 6){
+                    JOptionPane.showMessageDialog(null, "Error! Size must be 6", "ERROR",JOptionPane.ERROR_MESSAGE);
+                }else {
+                    List space5 = new ArrayList();
+                    for (int i = 0; i < listString.size(); i++) {
+                        for (int j = 0; j < listString.get(i).replaceAll("\\s+", " ").length(); j++) {
+                            if (listString.get(i).replaceAll("\\s+", " ").charAt(j) == ' ') {
+                                space5.add(j);
+                                if (space5.size() == numberOfColumns-1) {
+                                    if (listOfIndexesInput.contains(0)) {
+                                        arrayListNumber1.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, (Integer) space5.get(0))));
+                                    } else {
+                                        arrayListNumber1.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space5.get(listOfIndexesInput.get(0) - 1), (Integer) space5.get(listOfIndexesInput.get(0)))));
+                                    }
+                                    if (listOfIndexesInput.contains(numberOfColumns - 1)) {
+                                        arrayListNumber6.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space5.get(space5.size() - 1))));
+                                    } else {
+                                        arrayListNumber6.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space5.get(listOfIndexesInput.get(5) - 1), (Integer) space5.get(listOfIndexesInput.get(5)))));
+                                    }
+                                    arrayListNumber2.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space5.get(listOfIndexesInput.get(1) - 1), (Integer) space5.get(listOfIndexesInput.get(1)))));
+                                    arrayListNumber3.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space5.get(listOfIndexesInput.get(2) - 1), (Integer) space5.get(listOfIndexesInput.get(2)))));
+                                    arrayListNumber4.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space5.get(listOfIndexesInput.get(3) - 1), (Integer) space5.get(listOfIndexesInput.get(3)))));
+                                    arrayListNumber5.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring((Integer) space5.get(listOfIndexesInput.get(4) - 1), (Integer) space5.get(listOfIndexesInput.get(4)))));
+
+                                    space5.clear();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    for (int i = 0; i < arrayListNumber1.size(); i++) {
+                        arrayListGeneral.add(arrayListNumber1.get(i));
+                        arrayListGeneral.add(arrayListNumber2.get(i));
+                        arrayListGeneral.add(arrayListNumber3.get(i));
+                        arrayListGeneral.add(arrayListNumber4.get(i));
+                        arrayListGeneral.add(arrayListNumber5.get(i));
+                        arrayListGeneral.add(arrayListNumber6.get(i));
+                        withoutSortingArrayListNumber1.add(arrayListNumber1.get(i));
+                        withoutSortingArrayListNumber2.add(arrayListNumber2.get(i));
+                        withoutSortingArrayListNumber3.add(arrayListNumber3.get(i));
+                        withoutSortingArrayListNumber4.add(arrayListNumber4.get(i));
+                        withoutSortingArrayListNumber5.add(arrayListNumber5.get(i));
+                        withoutSortingArrayListNumber6.add(arrayListNumber6.get(i));
+                        savingListNumber1.add(arrayListNumber1.get(i));
+                        savingListNumber2.add(arrayListNumber2.get(i));
+                        savingListNumber3.add(arrayListNumber3.get(i));
+                        savingListNumber4.add(arrayListNumber4.get(i));
+                        savingListNumber5.add(arrayListNumber5.get(i));
+                        savingListNumber6.add(arrayListNumber6.get(i));
+                    }
+                    for (int i = 0; i < arrayListGeneral.size(); i++) {
+                        arrayList.add(arrayListGeneral.get(i));
+                    }
+                    arrayListNumber1.sort(Comparator.naturalOrder());
+                    arrayListNumber2.sort(Comparator.naturalOrder());
+                    arrayListNumber3.sort(Comparator.naturalOrder());
+                    arrayListNumber4.sort(Comparator.naturalOrder());
+                    arrayListNumber5.sort(Comparator.naturalOrder());
+                    arrayListNumber6.sort(Comparator.naturalOrder());
+                    break;
+                }
         }
 
         arrayList.sort(Comparator.naturalOrder());
@@ -2236,6 +2298,26 @@ public class HelloController {
     }
 
     @FXML
+    public void autokovariationTimeRow(){
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.autokovariation(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void autokorilationTimeRow(){
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.autoKorilation(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
     public void clearGraphicTimeRow() {
         lineChart.getData().clear();
         lineChart.layout();
@@ -2370,6 +2452,27 @@ public class HelloController {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         if (listNotSorted.size() == 2) {
             timeRowHelper.tmaZgl(lineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void mnkZgl() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.mnkZgl(lineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    //метод Гусені
+    @FXML
+    public void decompositionMethodSSA() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            JOptionPane.showMessageDialog(null, timeRowHelper.decomposition(listNotSorted), "Декомпозиція", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
         }

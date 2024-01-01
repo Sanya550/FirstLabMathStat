@@ -281,10 +281,16 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Часовий ряд">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#graphicTimeRow" text="Графік" />
-                  <MenuItem mnemonicParsing="false" onAction="#mainCharactericticTimeRow" text="Основні характеристики" />
-                  <MenuItem mnemonicParsing="false" onAction="#removeAnomalTimeRow" text="Видалення аномальних даних" />
-                  <MenuItem mnemonicParsing="false" onAction="#clearGraphicTimeRow" text="Очистити" />
+                  <Menu mnemonicParsing="false" text="Основне">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#graphicTimeRow" text="Графік" />
+                        <MenuItem mnemonicParsing="false" onAction="#mainCharactericticTimeRow" text="Основні характеристики" />
+                        <MenuItem mnemonicParsing="false" onAction="#autokovariationTimeRow" text="Автоковаріація" />
+                        <MenuItem mnemonicParsing="false" onAction="#autokorilationTimeRow" text="Автокореляція" />
+                        <MenuItem mnemonicParsing="false" onAction="#removeAnomalTimeRow" text="Видалення аномальних даних" />
+                        <MenuItem mnemonicParsing="false" onAction="#clearGraphicTimeRow" text="Очистити" />
+                     </items>
+                  </Menu>
                   <Menu mnemonicParsing="false" text="Збіг параметрів">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#criteriiZnakivTimeRow" text="Критерій знаків" />
@@ -297,6 +303,7 @@
                   <Menu mnemonicParsing="false" text="Згладжування">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#medianZgl" text="Медіане згладжування" />
+                        <MenuItem mnemonicParsing="false" onAction="#mnkZgl" text="МНК" />
                         <MenuItem mnemonicParsing="false" onAction="#smaZgl" text="SMA" />
                         <MenuItem mnemonicParsing="false" onAction="#emaZgl" text="EMA" />
                         <MenuItem mnemonicParsing="false" onAction="#dmaZgl" text="DMA" />
@@ -307,6 +314,11 @@
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#liniinaTrendTimeRow" text="Лінійний тренд" />
                         <MenuItem mnemonicParsing="false" onAction="#parabolTrendTimeRow" text="Пабаболічний тренд" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Метод Гусені">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#decompositionMethodSSA" text="Декомпозиція" />
                      </items>
                   </Menu>
                </items>

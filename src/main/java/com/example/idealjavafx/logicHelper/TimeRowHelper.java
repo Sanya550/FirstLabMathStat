@@ -2,23 +2,85 @@ package com.example.idealjavafx.logicHelper;
 
 import com.example.idealjavafx.MainFunction;
 import com.example.idealjavafx.graphics.Graphics;
+import com.example.idealjavafx.tableView.TableViewHelper;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.TableView;
 
 import javax.swing.*;
+import javax.swing.text.TabableView;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class TimeRowHelper {
     private static final double kvantilZna = 1.96;
+    private static double matrixDecomposition[][];//Матриця для методу Гусені
 
     public String getMainCharacteristics(List<Double> elements) {
         return String.format("Математичне сподівання = %.2f,\nДисперсія = %.2f", MainFunction.matSpodivan(elements), MainFunction.duspersia(elements));
     }
 
+    public void autokovariation(LineChart lineChart, NumberAxis xAxis, NumberAxis yAxis, List<List<Double>> initialList) {
+        lineChart.getData().clear();
+        lineChart.layout();
+        var time = new ArrayList<>(initialList.get(0));
+        var elements = new ArrayList<>(initialList.get(1));
+        var autoKorivariation = new ArrayList<Double>();
+        var m = MainFunction.matSpodivan(elements);
+        for (int i = 0; i < elements.size() - 1; i++) {
+            var chisel = 0d;
+            for (int j = 0; j < elements.size() - i; j++) {
+                chisel += (elements.get(j) - m) * (elements.get(j + i) - m);
+            }
+            chisel /= (elements.size() - i);
+            var znam = elements.stream().mapToDouble(v -> Math.pow(v - m, 2) / elements.size()).sum();
+            autoKorivariation.add(chisel);
+        }
+
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Автоковаріація");
+        for (int i = 0; i < autoKorivariation.size(); i++) {
+            series2.getData().add(new XYChart.Data(time.get(i), autoKorivariation.get(i)));
+        }
+        lineChart.getData().addAll(series2);
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
+        xAxis.setForceZeroInRange(false);
+        yAxis.setForceZeroInRange(false);
+    }
+
+    public void autoKorilation(LineChart lineChart, NumberAxis xAxis, NumberAxis yAxis, List<List<Double>> initialList) {
+        lineChart.getData().clear();
+        lineChart.layout();
+        var time = new ArrayList<>(initialList.get(0));
+        var elements = new ArrayList<>(initialList.get(1));
+        var autoKorilation = new ArrayList<Double>();
+        var m = MainFunction.matSpodivan(elements);
+        for (int i = 0; i < elements.size() - 1; i++) {
+            var chisel = 0d;
+            for (int j = 0; j < elements.size() - i; j++) {
+                chisel += (elements.get(j) - m) * (elements.get(j + i) - m);
+            }
+            chisel /= (elements.size() - i);
+            var znam = elements.stream().mapToDouble(v -> Math.pow(v - m, 2) / elements.size()).sum();
+            autoKorilation.add(chisel / znam);
+        }
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Автокореляція");
+        for (int i = 0; i < autoKorilation.size(); i++) {
+            series1.getData().add(new XYChart.Data(time.get(i), autoKorilation.get(i)));
+        }
+        lineChart.getData().addAll(series1);
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
+        xAxis.setForceZeroInRange(false);
+        yAxis.setForceZeroInRange(false);
+    }
+
     public void changeAnomalData(List<Double> elements) {
         var k = Integer.parseInt(JOptionPane.showInputDialog("Введіть k: "));
-//        var elements = new ArrayList<>(initialElements);
         var matSpodivan = MainFunction.matSpodivan(elements);
         var serKva = MainFunction.serKva(elements);
         for (int i = 1; i < elements.size() - 1; i++) {
@@ -26,7 +88,6 @@ public class TimeRowHelper {
                 elements.set(i + 1, 2 * elements.get(i) - elements.get(i - 1));
             }
         }
-//        return elements;
     }
 
     //критерій знаків
@@ -168,6 +229,9 @@ public class TimeRowHelper {
     public void drawMedianZgl(LineChart lineChart, List<List<Double>> initialList) {
         var newElements = medianIroning(initialList.get(1));
         drawZgladzuvan(lineChart, initialList.get(0), newElements, 1);
+        for (int i = 0; i < newElements.size(); i++) {
+            initialList.get(1).set(i, newElements.get(i));
+        }
     }
 
     private List<Double> medianIroning(List<Double> initialElements) {
@@ -185,6 +249,9 @@ public class TimeRowHelper {
         var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
         var newElements = EMA(initialList.get(1), kovz);
         drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
+        for (int i = 0; i < newElements.size(); i++) {
+            initialList.get(1).set(i, newElements.get(i));
+        }
     }
 
     private List<Double> EMA(List<Double> initialElements, int kKovz) {
@@ -214,6 +281,9 @@ public class TimeRowHelper {
         var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
         var newElements = DMA(initialList.get(1), kovz);
         drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
+        for (int i = 0; i < newElements.size(); i++) {
+            initialList.get(1).set(i, newElements.get(i));
+        }
     }
 
     private List<Double> DMA(List<Double> initialElements, int kovz) {
@@ -226,6 +296,9 @@ public class TimeRowHelper {
         var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
         var newElements = TMA(initialList.get(1), kovz);
         drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
+        for (int i = 0; i < newElements.size(); i++) {
+            initialList.get(1).set(i, newElements.get(i));
+        }
     }
 
     private List<Double> TMA(List<Double> initialElements, int kovz) {
@@ -239,6 +312,9 @@ public class TimeRowHelper {
         var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
         var newElements = SMA(initialList.get(1), kovz);
         drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
+        for (int i = 0; i < newElements.size(); i++) {
+            initialList.get(1).set(i, newElements.get(i));
+        }
     }
 
     private List<Double> SMA(List<Double> initialElements, int kovz) {
@@ -256,6 +332,60 @@ public class TimeRowHelper {
             }
         }
         return resultElements;
+    }
+
+    public void mnkZgl(LineChart lineChart, List<List<Double>> initialList) {
+        var k = Integer.parseInt(JOptionPane.showInputDialog("Введіть K(5, 7 або 9)", "5"));
+        if (k != 5 && k != 7 && k != 9) {
+            JOptionPane.showMessageDialog(null, "K має бути 5, 7 або 9", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            var newElements = MNK(initialList, k);
+            drawZgladzuvan(lineChart, initialList.get(0), newElements, 0);
+            for (int i = 0; i < newElements.size(); i++) {
+                initialList.get(1).set(i, newElements.get(i));
+            }
+        }
+    }
+
+    private List<Double> MNK(List<List<Double>> initialList, int k) {
+        var resultElements = new ArrayList<Double>();
+        var elements = new ArrayList<>(initialList.get(1));
+        for (int i = (k - 1) / 2; i < elements.size() - (k - 1) / 2; i++) {
+            resultElements.add(getA0Value(initialList, k, i));
+        }
+
+        for (int i = (k - 1) / 2 - 1; i >= 2; i--) {
+            resultElements.add(0, 2 * resultElements.get(0) - resultElements.get(1));
+        }
+
+        for (int i = elements.size() - (k - 1) / 2 + 1; i <= elements.size() - 2; i++) {
+            resultElements.add(2 * resultElements.get(resultElements.size() - 1) - resultElements.get(resultElements.size() - 2));
+        }
+
+        var x1 = (69 * resultElements.get(0) + 4 * resultElements.get(1) - 6 * resultElements.get(2) + 4 * resultElements.get(3) - resultElements.get(4)) / 70.0;
+        var x2 = 2 * (2 * resultElements.get(0) + 27 * resultElements.get(1) + 12 * resultElements.get(2) - 8 * resultElements.get(3) + 2 * resultElements.get(4)) / 70.0;
+        var prelast = 2 * (2 * resultElements.get(resultElements.size() - 5) - 8 * resultElements.get(resultElements.size() - 4) + 12 * resultElements.get(resultElements.size() - 3) + 27 * resultElements.get(resultElements.size() - 2) + 2 * resultElements.get(resultElements.size() - 1)) / 70.0;
+        var last = (-resultElements.get(resultElements.size() - 5) + 4 * resultElements.get(resultElements.size() - 4) - 6 * resultElements.get(resultElements.size() - 3) + 4 * resultElements.get(resultElements.size() - 2) + 69 * resultElements.get(resultElements.size() - 1)) / 70.0;
+
+        resultElements.add(0, x1);
+        resultElements.add(1, x2);
+        resultElements.add(prelast);
+        resultElements.add(last);
+
+        return resultElements;
+    }
+
+    private double getA0Value(List<List<Double>> initialList, int k, int index) {
+        var elements = new ArrayList<>(initialList.get(1));
+        if (k == 5) {
+            return (-3 * elements.get(index - 2) + 12 * elements.get(index - 1) + 17 * elements.get(index) + 12 * elements.get(index + 1) - 3 * elements.get(index + 2)) / 35.0;
+        } else if (k == 7) {
+            return (-2 * elements.get(index - 3) + 3 * elements.get(index - 2) + 6 * elements.get(index - 1) + 7 * elements.get(index) + 6 * elements.get(index + 1) + 3 * elements.get(index + 2) - 2 * elements.get(index + 3)) / 21.0;
+        } else {
+            return (-21 * elements.get(index - 4) + 14 * elements.get(index - 3) + 39 * elements.get(index - 2) +
+                    54 * elements.get(index - 1) + 59 * elements.get(index) + 54 * elements.get(index + 1) +
+                    39 * elements.get(index + 2) + 14 * elements.get(index + 3) - 21 * elements.get(index + 4)) / 231.0;
+        }
     }
 
     private void drawZgladzuvan(LineChart lineChart, List<Double> tList, List<Double> elements, int kovz) {
@@ -284,6 +414,14 @@ public class TimeRowHelper {
         series1.getData().add(new XYChart.Data(tList.get(0), a0 + a1 * tList.get(0)));
         series1.getData().add(new XYChart.Data(tList.get(tList.size() - 1), a0 + a1 * tList.get(tList.size() - 1)));
         lineChart.getData().addAll(series1);
+
+        var newElements = new ArrayList<Double>();
+        for (int i = 0; i < paremetersList.size(); i++) {
+            newElements.add(paremetersList.get(i) - a0 - a1 * tList.get(i));
+        }
+        for (int i = 0; i < newElements.size(); i++) {
+            initialElements.get(1).set(i, newElements.get(i));
+        }
     }
 
     //тренд параболічний
@@ -312,8 +450,91 @@ public class TimeRowHelper {
         XYChart.Series series1 = new XYChart.Series();
         for (int i = 0; i < tList.size(); i++) {
             series1.getData().add(new XYChart.Data(tList.get(i),
-                    aVector[0] + aVector[1] * tList.get(i) + Math.pow(aVector[2], 2) * tList.get(i)));
+                    aVector[0] + aVector[1] * tList.get(i) + Math.pow(tList.get(i), 2) * aVector[2]));
         }
         lineChart.getData().addAll(series1);
+
+        var newElements = new ArrayList<Double>();
+        for (int i = 0; i < paremetersList.size(); i++) {
+            newElements.add(paremetersList.get(i) - aVector[0] - aVector[1] * tList.get(i) - Math.pow(tList.get(i), 2) * aVector[2]);
+        }
+        for (int i = 0; i < newElements.size(); i++) {
+            initialElements.get(1).set(i, newElements.get(i));
+        }
+    }
+
+    //Метод Гусені
+    public String decomposition(List<List<Double>> initialElements) {
+        var elements = new ArrayList<>(initialElements.get(1));
+        var N = elements.size();
+        var M = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть M(більше 2, але менше %d:", (int) N / 2)));
+        double[][] xMatrix = new double[M][N - M + 1];
+        int tmp = 0;
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N - M + 1; j++) {
+                xMatrix[i][j] = elements.get(j + tmp);
+            }
+            tmp++;
+        }
+        var dcMatrix = MainFunction.multiplyMatrixOnMatrix(xMatrix, MainFunction.transposeMatrix(xMatrix));
+        matrixDecomposition = MainFunction.getSortedVlasniVectors(dcMatrix);
+        var vlValues = MainFunction.getVlasniiValues(matrixDecomposition).stream().mapToDouble(v -> Math.abs(v)).boxed().collect(Collectors.toList());
+        vlValues.sort(Comparator.reverseOrder());
+
+        //Вивід результатів:
+        String result = "";
+        for (int i = 0; i < matrixDecomposition.length; i++) {
+            for (int j = -1; j < matrixDecomposition.length; j++) {
+                if (j == -1) {
+                    if (i < 10) {
+                        result += String.format("X%d   ", i + 1);
+                    } else {
+                        result += String.format("X%d  ", i + 1);
+                    }
+                } else {
+                    if (matrixDecomposition[i][j] >= 0) {
+                        result += String.format("%.3f  ", matrixDecomposition[i][j]);
+                    } else {
+                        result += String.format("%.3f ", matrixDecomposition[i][j]);
+                    }
+
+                    if (j == matrixDecomposition.length - 1) {
+                        result += "\n";
+                    }
+                }
+            }
+        }
+
+        var sumVl = vlValues.stream().mapToDouble(v -> v).sum();
+        var nkList = vlValues.stream().mapToDouble(v -> v / sumVl).boxed().collect(Collectors.toList());
+        result += "нп%  ";
+        for (int i = 0; i < nkList.size(); i++) {
+            if (nkList.get(i) >= 0) {
+                result += String.format("%.3f  ", nkList.get(i));
+            } else {
+                result += String.format("%.3f ", nkList.get(i));
+            }
+        }
+
+        result += "\nнк%  ";
+        for (int i = 0; i < nkList.size(); i++) {
+            var tempList = new ArrayList<Double>();
+            for (int j = 0; j < i+1; j++) {
+                tempList.add(nkList.get(j));
+            }
+            var tSum = tempList.stream().mapToDouble(v->v).sum();
+
+            if (tSum >= 0) {
+                result += String.format("%.3f  ", tSum);
+            } else {
+                result += String.format("%.3f ", tSum);
+            }
+        }
+        return result;
+    }
+
+    //Реконструкція
+    public void reconstruction() {
+//       var yMatrix = MainFunction.multiplyMatrixOnMatrix(aMatrix, xMatrix); //Реконструкція
     }
 }
