@@ -519,10 +519,10 @@ public class TimeRowHelper {
         result += "\nнк%  ";
         for (int i = 0; i < nkList.size(); i++) {
             var tempList = new ArrayList<Double>();
-            for (int j = 0; j < i+1; j++) {
+            for (int j = 0; j < i + 1; j++) {
                 tempList.add(nkList.get(j));
             }
-            var tSum = tempList.stream().mapToDouble(v->v).sum();
+            var tSum = tempList.stream().mapToDouble(v -> v).sum();
 
             if (tSum >= 0) {
                 result += String.format("%.3f  ", tSum);
@@ -534,7 +534,36 @@ public class TimeRowHelper {
     }
 
     //Реконструкція
-    public void reconstruction() {
-//       var yMatrix = MainFunction.multiplyMatrixOnMatrix(aMatrix, xMatrix); //Реконструкція
+    public String reconstruction(List<List<Double>> initialElements) {
+        var elements = new ArrayList<>(initialElements.get(1));
+        var N = elements.size();
+        var M = matrixDecomposition.length - 1;
+        double[][] xMatrix = new double[M][N - M + 1];
+        int tmp = 0;
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N - M + 1; j++) {
+                xMatrix[i][j] = elements.get(j + tmp);
+            }
+            tmp++;
+        }
+        var yMatrix = MainFunction.multiplyMatrixOnMatrix(matrixDecomposition, xMatrix);
+        var option = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть число\n1 - повернутись по всім компонентам\n2 - декільком першим\n3 - по одній компоненті", 1)));
+        switch (option) {
+            case 1:
+                ///.
+                break;
+            case 2:
+                var firstNum = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть к-сть перших компонентів, по яким потрібно повернутись(max=%d)", matrixDecomposition.length - 1), 1));
+                //
+                break;
+            case 3:
+                var component = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть номер компоненти(max=%d)", matrixDecomposition.length - 1), 1));
+                //
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Error.Must ne digit in range 1 to 3", "ERROR", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
+        return "";
     }
 }

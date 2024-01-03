@@ -319,6 +319,7 @@
                   <Menu mnemonicParsing="false" text="Метод Гусені">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#decompositionMethodSSA" text="Декомпозиція" />
+                        <MenuItem mnemonicParsing="false" onAction="#reconstructionMethodSSA" text="Реконструкція" />
                      </items>
                   </Menu>
                </items>
