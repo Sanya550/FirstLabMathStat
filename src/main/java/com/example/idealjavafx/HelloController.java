@@ -2482,7 +2482,17 @@ public class HelloController {
     public void reconstructionMethodSSA() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         if (listNotSorted.size() == 2) {
-            JOptionPane.showMessageDialog(null, timeRowHelper.reconstruction(listNotSorted), "Декомпозиція", JOptionPane.INFORMATION_MESSAGE);
+            timeRowHelper.reconstruction(lineChart, listNotSorted);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @FXML
+    public void forecastingMethodSSA() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            timeRowHelper.forecacting(lineChart, listNotSorted);
         } else {
             JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
         }

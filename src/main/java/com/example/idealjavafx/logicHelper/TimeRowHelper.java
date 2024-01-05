@@ -7,6 +7,10 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableView;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.linear.SingularValueDecomposition;
 
 import javax.swing.*;
 import javax.swing.text.TabableView;
@@ -477,8 +481,13 @@ public class TimeRowHelper {
             tmp++;
         }
         var dcMatrix = MainFunction.multiplyMatrixOnMatrix(xMatrix, MainFunction.transposeMatrix(xMatrix));
-        matrixDecomposition = MainFunction.getSortedVlasniVectors(dcMatrix);
-        var vlValues = MainFunction.getVlasniiValues(matrixDecomposition).stream().mapToDouble(v -> Math.abs(v)).boxed().collect(Collectors.toList());
+        matrixDecomposition = MainFunction.transposeMatrix(MainFunction.getSortedVlasniVectors(dcMatrix));
+        //todo: need delete:
+        for (int i = 0; i < matrixDecomposition[0].length; i++) {
+            matrixDecomposition[0][i] = -matrixDecomposition[0][i];
+        }
+        //
+        var vlValues = MainFunction.getVlasniiValues(dcMatrix).stream().mapToDouble(v -> Math.abs(v)).boxed().collect(Collectors.toList());
         vlValues.sort(Comparator.reverseOrder());
 
         //Вивід результатів:
@@ -534,10 +543,10 @@ public class TimeRowHelper {
     }
 
     //Реконструкція
-    public String reconstruction(List<List<Double>> initialElements) {
+    public void reconstruction(LineChart lineChart, List<List<Double>> initialElements) {
         var elements = new ArrayList<>(initialElements.get(1));
         var N = elements.size();
-        var M = matrixDecomposition.length - 1;
+        var M = matrixDecomposition.length;
         double[][] xMatrix = new double[M][N - M + 1];
         int tmp = 0;
         for (int i = 0; i < M; i++) {
@@ -546,24 +555,147 @@ public class TimeRowHelper {
             }
             tmp++;
         }
-        var yMatrix = MainFunction.multiplyMatrixOnMatrix(matrixDecomposition, xMatrix);
+        var reconstructionArray = getReconstructionArray(xMatrix, N, M);
+
+        XYChart.Series series2 = new XYChart.Series();
+        for (int i = 0; i < reconstructionArray.size(); i++) {
+            series2.getData().add(new XYChart.Data(initialElements.get(0).get(i), reconstructionArray.get(i)));
+        }
+        lineChart.getData().addAll(series2);
+    }
+
+    private List<Double> getReconstructionArray(double[][] xMatrix, int N, int M) {
+        var yMatrix = MainFunction.multiplyMatrixOnMatrix(MainFunction.transposeMatrix(matrixDecomposition), xMatrix);
         var option = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть число\n1 - повернутись по всім компонентам\n2 - декільком першим\n3 - по одній компоненті", 1)));
+        var xKl = MainFunction.multiplyMatrixOnMatrix(matrixDecomposition, yMatrix);
         switch (option) {
             case 1:
-                ///.
                 break;
             case 2:
                 var firstNum = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть к-сть перших компонентів, по яким потрібно повернутись(max=%d)", matrixDecomposition.length - 1), 1));
-                //
+                xKl = new double[M][N-M];
+                for (int k = 0; k < M; k++) {
+                    for (int l = 0; l < N-M; l++) {
+                        var tempSum = 0d;
+                        for (int v = 0; v < firstNum; v++) {
+                            tempSum+=matrixDecomposition[k][v]*yMatrix[v][l];
+                        }
+                        xKl[k][l]= tempSum;
+                    }
+                }
                 break;
             case 3:
-                var component = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть номер компоненти(max=%d)", matrixDecomposition.length - 1), 1));
-                //
+                var component = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть номер компоненти(max=%d)", matrixDecomposition.length - 1), 1)) - 1;
+                xKl = new double[M][N-M];
+                for (int k = 0; k < M; k++) {
+                    for (int l = 0; l < N-M; l++) {
+                        var tempSum = matrixDecomposition[k][component]*yMatrix[component][l];//[v][k] maybe
+                        xKl[k][l]= tempSum;
+                    }
+                }
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Error.Must ne digit in range 1 to 3", "ERROR", JOptionPane.ERROR_MESSAGE);
                 break;
         }
-        return "";
+        return getPTimeRow(xKl);
+    }
+
+    private List<Double> getPTimeRow(double[][] matrix) {
+        var result = new ArrayList<Double>();
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        if (rows > cols) {
+            System.out.println("WARNING!!!!!!!!!!! getPTimeRow method");
+        }
+
+        for (int i = 0; i < cols; i++) {
+            var sum = 0d;
+            var quantity = 0;
+            for (int j = i, counterRow = 0; j >= 0 && counterRow < rows; j--, counterRow++) {
+                quantity++;
+                sum += matrix[counterRow][j];
+            }
+            result.add(sum / quantity);
+        }
+
+        for (int i = 1; i < rows; i++) {
+            var sum = 0d;
+            var quantity = 0;
+            for (int j = cols - 1, counterRow = i; counterRow < rows; j--, counterRow++) {
+                quantity++;
+                sum += matrix[counterRow][j];
+            }
+            result.add(sum / quantity);
+        }
+        return result;
+    }
+
+    //Прогнозування
+    public void forecacting(LineChart lineChart, List<List<Double>> initialElements) {
+        var time = new ArrayList<>(initialElements.get(0));
+        var elements = new ArrayList<>(initialElements.get(1));
+        var forecastElements = new ArrayList<Double>();
+        var M = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть M(більше 2, але менше %d:", elements.size() / 2)));
+        var perCent = Integer.parseInt(JOptionPane.showInputDialog("Введіть к-сть відсотків, яка буде брати для тестової вибірки від початкової(більше 0 і менше 100)", "30"));
+        if (perCent <= 0 && perCent >= 100) {
+            JOptionPane.showMessageDialog(null, "ERROR! Range from 0 to 100", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            for (int i = 0; i < elements.size() * (100 - perCent) / 100; i++) {
+                forecastElements.add(elements.get(i));
+            }
+            while (forecastElements.size() < elements.size()) {
+                var nextNumber = forecastNextNumber(forecastElements, M);
+                forecastElements.add(nextNumber);
+            }
+
+            XYChart.Series series2 = new XYChart.Series();
+            for (int i = 0; i < forecastElements.size(); i++) {
+                series2.getData().add(new XYChart.Data(time.get(i), forecastElements.get(i)));
+            }
+            lineChart.getData().addAll(series2);
+        }
+    }
+
+    private double forecastNextNumber(List<Double> elements, int M) {
+        //decomposition:
+        var N = elements.size();
+        double[][] xMatrix = new double[M][N - M];//was N - M + 1
+        int tmp = 0;
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N - M; j++) {//was N - M + 1
+                xMatrix[i][j] = elements.get(j + tmp);
+            }
+            tmp++;
+        }
+        var dcMatrix = MainFunction.multiplyMatrixOnMatrix(xMatrix, MainFunction.transposeMatrix(xMatrix));//DC
+        var matrixDecompositionForForecast = MainFunction.getSortedVlasniVectors(dcMatrix);//A
+
+        //reconstruction:
+        var yMatrix = MainFunction.multiplyMatrixOnMatrix(matrixDecompositionForForecast, xMatrix);//Y
+        var xKl = MainFunction.multiplyMatrixOnMatrix(matrixDecompositionForForecast, yMatrix);//Xkl
+        double[] lastColumnXkl = new double[M - 1];//b or last column Xkl(without first number);
+        for (int i = 1; i < M; i++) {
+            lastColumnXkl[i - 1] = xKl[i][N - M - 1];
+        }
+        var lastColumnMatrixDecompositionForForecast = new double[M - 1];//last column A(without last number);
+        for (int i = 0; i < M - 1; i++) {
+            lastColumnMatrixDecompositionForForecast[i] = matrixDecompositionForForecast[i][M - 1];
+        }
+
+        var matrixDecompositionForForecastCropped = new double[matrixDecompositionForForecast.length - 1][matrixDecompositionForForecast.length - 1];//without last column and row
+        for (int i = 0; i < matrixDecompositionForForecast.length - 1; i++) {
+            for (int j = 0; j < matrixDecompositionForForecast.length - 1; j++) {
+                matrixDecompositionForForecastCropped[i][j] = matrixDecompositionForForecast[i][j];
+            }
+        }
+
+        var x_ = MainFunction.findSlar(matrixDecompositionForForecastCropped, lastColumnXkl);
+        double result = 0.0;
+        for (int i = 0; i < x_.length; i++) {
+            result += x_[i] * lastColumnMatrixDecompositionForForecast[i];
+        }
+
+        return result;
     }
 }

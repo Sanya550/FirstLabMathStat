@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
+<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idealjavafx.HelloController">
     <top>
         <MenuBar layoutX="-2.0" layoutY="1.0" prefHeight="26.0" prefWidth="951.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0">
             <menus>
@@ -319,6 +319,8 @@
                   <Menu mnemonicParsing="false" text="Метод Гусені">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#decompositionMethodSSA" text="Декомпозиція" />
+                        <MenuItem mnemonicParsing="false" onAction="#reconstructionMethodSSA" text="Реконструкція" />
+                        <MenuItem mnemonicParsing="false" onAction="#forecastingMethodSSA" text="Прогнозування" />
                      </items>
                   </Menu>
                </items>
