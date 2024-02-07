@@ -3,11 +3,13 @@ package com.example.idealjavafx.graphics;
 import com.example.idealjavafx.HelloController;
 import com.example.idealjavafx.Helper;
 import com.example.idealjavafx.MainFunction;
+import com.example.idealjavafx.SecondHelper;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -270,7 +272,7 @@ public class Graphics {
     }
 
     //часовий ряд
-    public static void timeRowVisual(LineChart lineChart,NumberAxis xAxis, NumberAxis yAxis,  List<List<Double>> list) {
+    public static void timeRowVisual(LineChart lineChart, NumberAxis xAxis, NumberAxis yAxis, List<List<Double>> list) {
         var time = list.get(0);
         var parameters = list.get(1);
         XYChart.Series series1 = new XYChart.Series();
@@ -286,5 +288,32 @@ public class Graphics {
 
         xAxis.setForceZeroInRange(false); // Вимкнення примусового нуля
         yAxis.setForceZeroInRange(false);
+    }
+
+    //лінійна регресія методом градієнтного спуску
+    public static void liniinaGradientVisual(List<List<Double>> listNotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
+        scatterChart.getData().clear();
+        scatterChart.layout();
+        var listX = new ArrayList(listNotSorted.get(0));
+        var listY = new ArrayList(listNotSorted.get(1));
+
+        XYChart.Series series1 = new XYChart.Series();
+        for (int i = 0; i < listX.size(); i++) {
+            series1.getData().add(new XYChart.Data(listX.get(i), listY.get(i)));
+        }
+
+        var parameters = new SecondHelper().getParametersForGradientRegression(listNotSorted);
+        var sortedX = new ArrayList(listX);
+        sortedX.sort(Comparator.naturalOrder());
+        XYChart.Series series2 = new XYChart.Series();
+        for (double i = (double) sortedX.get(0); i < (double) sortedX.get(sortedX.size() - 1); i += 0.1) {
+            series2.getData().add(new XYChart.Data(i, parameters.get(0) + i * parameters.get(1)));
+        }
+
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
+        xAxis.setForceZeroInRange(false);
+        yAxis.setForceZeroInRange(false);
+        scatterChart.getData().addAll(series1, series2);
     }
 }

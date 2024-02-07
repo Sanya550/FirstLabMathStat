@@ -830,17 +830,17 @@ public class HelloController {
                 break;
             default:
                 var listOfIndexesInput = Arrays.stream(JOptionPane.showInputDialog(
-                        String.format("Так як кількість ознак = %d, то виберіть 6 ознак номера яких будуть записані через пробіл", numberOfColumns), "1 2 3 4 5 6")
+                                String.format("Так як кількість ознак = %d, то виберіть 6 ознак номера яких будуть записані через пробіл", numberOfColumns), "1 2 3 4 5 6")
                         .trim().split(" ")).map(v -> Integer.parseInt(v) - 1).collect(Collectors.toList());
-                if (listOfIndexesInput.size() != 6){
-                    JOptionPane.showMessageDialog(null, "Error! Size must be 6", "ERROR",JOptionPane.ERROR_MESSAGE);
-                }else {
+                if (listOfIndexesInput.size() != 6) {
+                    JOptionPane.showMessageDialog(null, "Error! Size must be 6", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
                     List space5 = new ArrayList();
                     for (int i = 0; i < listString.size(); i++) {
                         for (int j = 0; j < listString.get(i).replaceAll("\\s+", " ").length(); j++) {
                             if (listString.get(i).replaceAll("\\s+", " ").charAt(j) == ' ') {
                                 space5.add(j);
-                                if (space5.size() == numberOfColumns-1) {
+                                if (space5.size() == numberOfColumns - 1) {
                                     if (listOfIndexesInput.contains(0)) {
                                         arrayListNumber1.add(Double.parseDouble(listString.get(i).replaceAll("\\s+", " ").substring(0, (Integer) space5.get(0))));
                                     } else {
@@ -2129,6 +2129,16 @@ public class HelloController {
         }
     }
 
+    @FXML
+    protected void liniinaRegresiaBasedOnGradient() {
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+        if (listNotSorted.size() == 2) {
+            Graphics.liniinaGradientVisual(listNotSorted, scatterChartForFrequencyOfHystograma, xAxisForScatterChartForFrequencyOfHystograma, yAxisForScatterChartForFrequencyOfHystograma);
+        } else {
+            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     //візуалізація:
     //Матриця діаграм розкиду
     @FXML
@@ -2298,7 +2308,7 @@ public class HelloController {
     }
 
     @FXML
-    public void autokovariationTimeRow(){
+    public void autokovariationTimeRow() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         if (listNotSorted.size() == 2) {
             timeRowHelper.autokovariation(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
@@ -2308,7 +2318,7 @@ public class HelloController {
     }
 
     @FXML
-    public void autokorilationTimeRow(){
+    public void autokorilationTimeRow() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         if (listNotSorted.size() == 2) {
             timeRowHelper.autoKorilation(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);

@@ -8,6 +8,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.math3.linear.RealVector;
@@ -1505,4 +1506,33 @@ public class SecondHelper {
         }
     }
 
+    //лінійне ріноманіття градієнтом
+    public List<Double> getParametersForGradientRegression(List<List<Double>> listNotSorted) {
+        var listX = new ArrayList(listNotSorted.get(0));
+        var listY = new ArrayList(listNotSorted.get(1));
+        double step = 0.0001;
+        var a = 0d;
+        var b = 0d;
+        int m = 100000;
+        for (int i = 0; i < m; i++) {
+            a = a - step/listX.size() * getAGradient(a, b, listX, listY);
+            b = b - step/listX.size() * getBGradient(a, b, listX, listY);
+        }
+        return List.of(a, b);
+    }
+    private static double getAGradient(double a, double b, List<Double> xList, List<Double> yList) {
+        double sum = 0d;
+        for (int i = 0; i < xList.size(); i++) {
+            sum += -yList.get(i) + a + b * xList.get(i);
+        }
+        return sum;
+    }
+
+    private static double getBGradient(double a, double b, List<Double> xList, List<Double> yList) {
+        double sum = 0d;
+        for (int i = 0; i < xList.size(); i++) {
+            sum += (-yList.get(i) + a + b * xList.get(i)) * xList.get(i);
+        }
+        return sum;
+    }
 }

@@ -221,6 +221,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#characteristicForManyLiniinaRegresia" text="Характеристики" />
                      </items>
                   </Menu>
+                  <MenuItem mnemonicParsing="false" onAction="#liniinaRegresiaBasedOnGradient" text="Лінійна регресія методом градієнтного спуску" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Компонентний і факторний аналіз">
