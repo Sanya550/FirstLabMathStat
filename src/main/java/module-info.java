@@ -4,7 +4,6 @@ module com.example.idealjavafx {
     requires java.desktop;
     requires commons.math3;
     requires jama;
-    requires lombok;
 
 
     opens com.example.idealjavafx to javafx.fxml;
@@ -17,4 +16,5 @@ module com.example.idealjavafx {
     exports com.example.idealjavafx.ai;
     opens com.example.idealjavafx.ai to javafx.fxml;
     requires javafx.graphics;
+//    requires lombok;
 }

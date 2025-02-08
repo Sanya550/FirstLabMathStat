@@ -1,13 +1,6 @@
 package com.example.idealjavafx.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
 public class DataRowForFullKorilation {
     private String index;
     private String value;
@@ -28,5 +21,35 @@ public class DataRowForFullKorilation {
 
     public void setZna(String zna) {
         this.zna = zna;
+    }
+
+    public DataRowForFullKorilation(String index, String value, String fValue, String zna) {
+        this.index = index;
+        this.value = value;
+        this.fValue = fValue;
+        this.zna = zna;
+    }
+
+    public DataRowForFullKorilation() {
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getfValue() {
+        return fValue;
+    }
+
+    public void setfValue(String fValue) {
+        this.fValue = fValue;
+    }
+
+    public String getZna() {
+        return zna;
     }
 }

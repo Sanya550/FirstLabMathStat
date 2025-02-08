@@ -1,13 +1,6 @@
 package com.example.idealjavafx.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@AllArgsConstructor
-@Getter
-@NoArgsConstructor
 public class DataRowForPartKorilation {
     private String index;
     private String lowValue;
@@ -38,5 +31,45 @@ public class DataRowForPartKorilation {
 
     public void setZna(String zna) {
         this.zna = zna;
+    }
+
+    public DataRowForPartKorilation(String index, String lowValue, String value, String highValue, String tValue, String zna) {
+        this.index = index;
+        this.lowValue = lowValue;
+        this.value = value;
+        this.highValue = highValue;
+        this.tValue = tValue;
+        this.zna = zna;
+    }
+
+    public DataRowForPartKorilation() {
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public String getLowValue() {
+        return lowValue;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getHighValue() {
+        return highValue;
+    }
+
+    public String gettValue() {
+        return tValue;
+    }
+
+    public void settValue(String tValue) {
+        this.tValue = tValue;
+    }
+
+    public String getZna() {
+        return zna;
     }
 }
