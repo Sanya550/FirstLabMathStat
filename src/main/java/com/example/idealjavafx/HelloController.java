@@ -2320,11 +2320,18 @@ public class HelloController {
     //часові ряди:
     @FXML
     public void mainCharactericticTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            JOptionPane.showMessageDialog(null, timeRowHelper.getMainCharacteristics(listNotSorted.get(1)), "Головні характеристики", JOptionPane.INFORMATION_MESSAGE);
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            JOptionPane.showMessageDialog(null, timeRowHelper.getMainCharacteristics(listNotSorted.get(1)), "Головні характеристики", JOptionPane.INFORMATION_MESSAGE);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            JOptionPane.showMessageDialog(null, timeRowHelper.getMainCharacteristics(values), "Головні характеристики", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -2361,21 +2368,31 @@ public class HelloController {
 
     @FXML
     public void autokovariationTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.autokovariation(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet());
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.autokovariation(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
         }
     }
 
     @FXML
     public void autokorilationTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.autoKorilation(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet());
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.autoKorilation(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
         }
     }
 
@@ -2385,14 +2402,26 @@ public class HelloController {
         lineChart.layout();
     }
 
+//    @FXML
+//    public void removeAnomalTimeRow() {
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            timeRowHelper.changeAnomalData(listNotSorted.get(1));
+//            JOptionPane.showMessageDialog(null, "Збережено", "Info", JOptionPane.INFORMATION_MESSAGE);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
+
     @FXML
     public void removeAnomalTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.changeAnomalData(listNotSorted.get(1));
-            JOptionPane.showMessageDialog(null, "Збережено", "Info", JOptionPane.INFORMATION_MESSAGE);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Часові ряди пусті або Ви не обрали жодного чекбоксу", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            for (var map : list) {
+                timeRowHelper.changeAnomalData(map);
+            }
         }
     }
 
@@ -2450,83 +2479,175 @@ public class HelloController {
     //тренд:
     @FXML
     public void liniinaTrendTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.liniinaTrend(listNotSorted, lineChart);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet().stream()
+                    .map(Integer::doubleValue)
+                    .collect(Collectors.toList()));
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.liniinaTrend(listNotSorted, lineChart);
         }
     }
 
     @FXML
     public void parabolTrendTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.parabolTrend(listNotSorted, lineChart);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet().stream()
+                    .map(Integer::doubleValue)
+                    .collect(Collectors.toList()));
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.parabolTrend(listNotSorted, lineChart);
         }
     }
 
     //згладжування:
     @FXML
     public void medianZgl() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.drawMedianZgl(lineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet().stream()
+                    .map(Integer::doubleValue)
+                    .collect(Collectors.toList()));
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.drawMedianZgl(lineChart, listNotSorted);
         }
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            timeRowHelper.drawMedianZgl(lineChart, listNotSorted);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     @FXML
     public void smaZgl() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.smaZgl(lineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet().stream()
+                    .map(Integer::doubleValue)
+                    .collect(Collectors.toList()));
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.smaZgl(lineChart, listNotSorted);
         }
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            timeRowHelper.smaZgl(lineChart, listNotSorted);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     @FXML
     public void emaZgl() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.emaZgl(lineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet().stream()
+                    .map(Integer::doubleValue)
+                    .collect(Collectors.toList()));
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.emaZgl(lineChart, listNotSorted);
         }
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            timeRowHelper.emaZgl(lineChart, listNotSorted);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     @FXML
     public void dmaZgl() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.dmaZgl(lineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet().stream()
+                    .map(Integer::doubleValue)
+                    .collect(Collectors.toList()));
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.dmaZgl(lineChart, listNotSorted);
         }
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            timeRowHelper.dmaZgl(lineChart, listNotSorted);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     @FXML
     public void tmaZgl() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.tmaZgl(lineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet().stream()
+                    .map(Integer::doubleValue)
+                    .collect(Collectors.toList()));
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.tmaZgl(lineChart, listNotSorted);
         }
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            timeRowHelper.tmaZgl(lineChart, listNotSorted);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     @FXML
     public void mnkZgl() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            timeRowHelper.mnkZgl(lineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            var values = new ArrayList(list.get(0).values());
+            var keys = new ArrayList(list.get(0).keySet().stream()
+                    .map(Integer::doubleValue)
+                    .collect(Collectors.toList()));
+            var listNotSorted = new ArrayList();
+            listNotSorted.add(keys);
+            listNotSorted.add(values);
+            timeRowHelper.mnkZgl(lineChart, listNotSorted);
         }
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            timeRowHelper.mnkZgl(lineChart, listNotSorted);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     //метод Гусені
@@ -2733,11 +2854,16 @@ public class HelloController {
         if (checkBox1.isSelected()) {
             timeMapDouble1 = new LinkedHashMap(helper.interpolation(timeMap1));
         }
-        if (checkBox2.isSelected()) {
+        if (checkBox3.isSelected()) {
             timeMapDouble2 = new LinkedHashMap(helper.interpolation(timeMap2));
         }
-        if (checkBox3.isSelected()) {
+        if (checkBox5.isSelected()) {
             timeMapDouble3 = new LinkedHashMap(helper.interpolation(timeMap3));
+        }
+        if (!checkBox1.isSelected() && !checkBox1.isSelected() && !checkBox1.isSelected()) {
+            JOptionPane.showMessageDialog(null, "Виберіть хоча б 1 чекбокс", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else{
+            JOptionPane.showMessageDialog(null, "Дані оновлено", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

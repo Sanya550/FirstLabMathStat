@@ -42,14 +42,14 @@
                         <Menu mnemonicParsing="false" text="Додаткові опції">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#additionalInterpolation" text="Інтерполяція" />
-                                <MenuItem mnemonicParsing="false" onAction="#additionalDeleteAnomal" text="Видалення аномальних значень" />
+                        <MenuItem mnemonicParsing="false" onAction="#removeAnomalTimeRow" text="Видалення аномальних даних" />
                                 <MenuItem mnemonicParsing="false" onAction="#additionalStardantization" text="Стандартизувати" />
                                 <MenuItem mnemonicParsing="false" onAction="#additionalZsuvAndLogarifm" text="Зсув і логарифмування" />
                             </items>
                         </Menu>
                         <MenuItem mnemonicParsing="false" onAction="#shownMainCharacteristic" text="Основні характеристики" />
-                        <MenuItem mnemonicParsing="false" onAction="#showInitialTable" text="Вивести дані початкові дані" />
-                  <MenuItem mnemonicParsing="false" onAction="#showCurrentTable" text="Вивести дані поточні дані" />
+                        <MenuItem mnemonicParsing="false" onAction="#showInitialTable" text="Вивести початкові дані" />
+                  <MenuItem mnemonicParsing="false" onAction="#showCurrentTable" text="Вивести поточні дані" />
                     </items>
                 </Menu>
             <Menu mnemonicParsing="false" text="Часовий ряд">
@@ -61,7 +61,6 @@
                         <MenuItem mnemonicParsing="false" onAction="#mainCharactericticTimeRow" text="Основні характеристики" />
                         <MenuItem mnemonicParsing="false" onAction="#autokovariationTimeRow" text="Автоковаріація" />
                         <MenuItem mnemonicParsing="false" onAction="#autokorilationTimeRow" text="Автокореляція" />
-                        <MenuItem mnemonicParsing="false" onAction="#removeAnomalTimeRow" text="Видалення аномальних даних" />
                         <MenuItem mnemonicParsing="false" onAction="#clearGraphicTimeRow" text="Очистити" />
                      </items>
                   </Menu>
@@ -119,11 +118,8 @@
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="202.0" prefWidth="802.0">
                                               <children>
                                                   <CheckBox fx:id="checkBox1" layoutX="3.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="1" />
-                                                  <CheckBox fx:id="checkBox2" layoutX="39.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="2" />
-                                                  <CheckBox fx:id="checkBox3" layoutX="76.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="3" />
-                                                  <CheckBox fx:id="checkBox4" layoutX="107.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="27.0" text="4" />
-                                                  <CheckBox fx:id="checkBox5" layoutX="140.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="5" />
-                                                  <CheckBox fx:id="checkBox6" layoutX="174.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="6" />
+                                                  <CheckBox fx:id="checkBox3" layoutX="57.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="35.0" text="2" />
+                                                  <CheckBox fx:id="checkBox5" layoutX="111.0" layoutY="110.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="3" />
                                               </children>
                                           </AnchorPane>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="100.0">

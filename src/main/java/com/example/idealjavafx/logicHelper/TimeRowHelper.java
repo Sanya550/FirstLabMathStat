@@ -94,6 +94,19 @@ public class TimeRowHelper {
         }
     }
 
+    public static void changeAnomalData(LinkedHashMap<Integer, Double> map) {
+        var k = 3;//this value could be changed
+        var elements = new ArrayList<>(map.values());
+        var matSpodivan = MainFunction.matSpodivan(elements);
+        var serKva = MainFunction.serKva(elements);
+        for (int i = 1; i < elements.size() - 1; i++) {
+            if (matSpodivan - k * serKva > elements.get(i + 1) || elements.get(i + 1) > matSpodivan + k * serKva) {
+                elements.set(i + 1, 2 * elements.get(i) - elements.get(i - 1));
+            }
+        }
+        changeValuesForStaticLinkedHashMap(map, elements);
+    }
+
     //критерій знаків
     public String criteriaZnakiv(List<Double> initialElements) {
         var elements = new ArrayList<>(initialElements);
@@ -250,7 +263,8 @@ public class TimeRowHelper {
     }
 
     public void emaZgl(LineChart lineChart, List<List<Double>> initialList) {
-        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+//        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        var kovz = 4;
         var newElements = EMA(initialList.get(1), kovz);
         drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
         for (int i = 0; i < newElements.size(); i++) {
@@ -282,7 +296,8 @@ public class TimeRowHelper {
     }
 
     public void dmaZgl(LineChart lineChart, List<List<Double>> initialList) {
-        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+//        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        var kovz = 4;
         var newElements = DMA(initialList.get(1), kovz);
         drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
         for (int i = 0; i < newElements.size(); i++) {
@@ -297,7 +312,8 @@ public class TimeRowHelper {
     }
 
     public void tmaZgl(LineChart lineChart, List<List<Double>> initialList) {
-        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        //        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        var kovz = 4;
         var newElements = TMA(initialList.get(1), kovz);
         drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
         for (int i = 0; i < newElements.size(); i++) {
@@ -313,7 +329,8 @@ public class TimeRowHelper {
     }
 
     public void smaZgl(LineChart lineChart, List<List<Double>> initialList) {
-        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        //        var kovz = Integer.parseInt(JOptionPane.showInputDialog("Введіть ковзне значення(наприклад 4):"));
+        var kovz = 4;
         var newElements = SMA(initialList.get(1), kovz);
         drawZgladzuvan(lineChart, initialList.get(0), newElements, kovz);
         for (int i = 0; i < newElements.size(); i++) {
@@ -339,7 +356,8 @@ public class TimeRowHelper {
     }
 
     public void mnkZgl(LineChart lineChart, List<List<Double>> initialList) {
-        var k = Integer.parseInt(JOptionPane.showInputDialog("Введіть K(5, 7 або 9)", "5"));
+//        var k = Integer.parseInt(JOptionPane.showInputDialog("Введіть K(5, 7 або 9)", "5"));
+        int k = 5;
         if (k != 5 && k != 7 && k != 9) {
             JOptionPane.showMessageDialog(null, "K має бути 5, 7 або 9", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -394,7 +412,8 @@ public class TimeRowHelper {
 
     private void drawZgladzuvan(LineChart lineChart, List<Double> tList, List<Double> elements, int kovz) {
         XYChart.Series series1 = new XYChart.Series();
-        for (int i = kovz; i < tList.size(); i++) {
+//        for (int i = kovz; i < tList.size(); i++) {
+        for (int i = 0; i < tList.size(); i++) {
             series1.getData().add(new XYChart.Data(tList.get(i), elements.get(i)));
         }
         lineChart.getData().addAll(series1);
@@ -573,24 +592,24 @@ public class TimeRowHelper {
                 break;
             case 2:
                 var firstNum = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть к-сть перших компонентів, по яким потрібно повернутись(max=%d)", matrixDecomposition.length - 1), 1));
-                xKl = new double[M][N-M];
+                xKl = new double[M][N - M];
                 for (int k = 0; k < M; k++) {
-                    for (int l = 0; l < N-M; l++) {
+                    for (int l = 0; l < N - M; l++) {
                         var tempSum = 0d;
                         for (int v = 0; v < firstNum; v++) {
-                            tempSum+=matrixDecomposition[k][v]*yMatrix[v][l];
+                            tempSum += matrixDecomposition[k][v] * yMatrix[v][l];
                         }
-                        xKl[k][l]= tempSum;
+                        xKl[k][l] = tempSum;
                     }
                 }
                 break;
             case 3:
                 var component = Integer.parseInt(JOptionPane.showInputDialog(String.format("Введіть номер компоненти(max=%d)", matrixDecomposition.length - 1), 1)) - 1;
-                xKl = new double[M][N-M];
+                xKl = new double[M][N - M];
                 for (int k = 0; k < M; k++) {
-                    for (int l = 0; l < N-M; l++) {
-                        var tempSum = matrixDecomposition[k][component]*yMatrix[component][l];//[v][k] maybe
-                        xKl[k][l]= tempSum;
+                    for (int l = 0; l < N - M; l++) {
+                        var tempSum = matrixDecomposition[k][component] * yMatrix[component][l];//[v][k] maybe
+                        xKl[k][l] = tempSum;
                     }
                 }
                 break;
@@ -697,5 +716,20 @@ public class TimeRowHelper {
         }
 
         return result;
+    }
+
+    public static void changeValuesForStaticLinkedHashMap(LinkedHashMap<Integer, Double> map, List<Double> values) {
+        if (map.size() != values.size()) {
+            throw new IllegalArgumentException("Размер списка и карты должен совпадать.");
+        }
+
+        Iterator<Integer> keyIterator = map.keySet().iterator();
+        Iterator<Double> valueIterator = values.iterator();
+
+        while (keyIterator.hasNext() && valueIterator.hasNext()) {
+            Integer key = keyIterator.next();
+            Double newValue = valueIterator.next();
+            map.put(key, newValue);
+        }
     }
 }
