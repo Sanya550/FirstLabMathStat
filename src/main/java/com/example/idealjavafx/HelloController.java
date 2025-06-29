@@ -23,17 +23,16 @@ import org.apache.commons.math3.linear.RealVector;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class HelloController {
+    public static final String DASH_DASH = "--";
     static ArrayList currentArrayList = new ArrayList();
     static ArrayList arrayList = new ArrayList();
     static ArrayList arrayListNumber1 = new ArrayList();
@@ -86,6 +85,15 @@ public class HelloController {
     static double alfaForAnomalData = 0;
 
     private final TimeRowHelper timeRowHelper = new TimeRowHelper();
+
+    //KPI linked hash maps:
+    static LinkedHashMap<Integer, String> timeMap1 = new LinkedHashMap();
+    static LinkedHashMap<Integer, String> timeMap2 = new LinkedHashMap();
+    static LinkedHashMap<Integer, String> timeMap3 = new LinkedHashMap();
+
+    static LinkedHashMap<Integer, Double> timeMapDouble1 = new LinkedHashMap();
+    static LinkedHashMap<Integer, Double> timeMapDouble2 = new LinkedHashMap();
+    static LinkedHashMap<Integer, Double> timeMapDouble3 = new LinkedHashMap();
 
     @FXML
     private TextField stringOfNumberOfClasses;
@@ -1224,8 +1232,19 @@ public class HelloController {
     //Про програму:
     @FXML
     protected void aboutMenu(ActionEvent event) {
-        String message = "Program created by Oleksandr Pyvovar";
-        JOptionPane.showMessageDialog(null, message, "About", JOptionPane.INFORMATION_MESSAGE);
+//        String modifiedLine ="";
+//        for (int i = 0; i < HelloController.withoutSortingArrayListNumber1.size(); i++) {
+//            modifiedLine += String.format(HelloController.withoutSortingArrayListNumber1.get(i) + "," + HelloController.withoutSortingArrayListNumber2.get(i));
+//            modifiedLine+="\n";
+//
+//        }
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter("after_refactoring2.csv"))) {
+//            writer.write(modifiedLine);
+//        }catch (Exception e){
+//            System.out.println("dfdf");
+//        }
+//            String message = "Program created by Oleksandr Pyvovar";
+        JOptionPane.showMessageDialog(null, "message", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
@@ -2004,7 +2023,19 @@ public class HelloController {
         tableView.getColumns().clear();
         SecondHelper secondHelper = new SecondHelper();
         try {
-            secondHelper.showInitialTableHelper(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, tableView);
+//            secondHelper.showInitialTableHelper(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, tableView);
+            secondHelper.showTableHelper(checkBox1, checkBox3, checkBox5, tableView, false);
+        } catch (IndexOutOfBoundsException e) {
+        }
+    }
+
+    @FXML
+    protected void showCurrentTable() {
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+        SecondHelper secondHelper = new SecondHelper();
+        try {
+            secondHelper.showTableHelper(checkBox1, checkBox3, checkBox5, tableView, true);
         } catch (IndexOutOfBoundsException e) {
         }
     }
@@ -2299,11 +2330,32 @@ public class HelloController {
 
     @FXML
     public void graphicTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            Graphics.timeRowVisual(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
+        var list = new SecondHelper().defineWhichCheckBoxCheckedTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Часові ряди пусті або Ви не обрали жодного чекбоксу", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            for (var map : list) {
+                Graphics.timeRowMapStringVisual(lineChart, xAxisForLineChart, yAxisForLineChart, map);
+            }
+        }
+//        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
+//        if (listNotSorted.size() == 2) {
+//            Graphics.timeRowVisual(lineChart, xAxisForLineChart, yAxisForLineChart, listNotSorted);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+
+    }
+
+    @FXML
+    public void graphicTimeRowCurrent() {
+        var list = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Часові ряди пусті або Ви не обрали жодного чекбоксу", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            for (var map : list) {
+                Graphics.timeRowMapDoubleVisual(lineChart, xAxisForLineChart, yAxisForLineChart, map);
+            }
         }
     }
 
@@ -2581,5 +2633,111 @@ public class HelloController {
     public void logisticRegression() {
         var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
         new Klasification().logisticRegression(scatterChartForKorilationField, xAxisForScatterChartForKorilationField, yAxisForScatterChartForKorilationField, listNotSorted);
+    }
+
+    @FXML
+    public void clearTimeRows() {
+        if (checkBox1.isSelected()) {
+            timeMap1.clear();
+            timeMapDouble1.clear();
+        }
+        if (checkBox3.isSelected()) {
+            timeMap2.clear();
+            timeMapDouble2.clear();
+        }
+        if (checkBox5.isSelected()) {
+            timeMap3.clear();
+            timeMapDouble3.clear();
+        }
+        if (!checkBox3.isSelected() && !checkBox3.isSelected() && checkBox5.isSelected()) {
+            timeMap1.clear();
+            timeMap2.clear();
+            timeMap3.clear();
+            timeMapDouble1.clear();
+            timeMapDouble2.clear();
+            timeMapDouble3.clear();
+        }
+        JOptionPane.showMessageDialog(null, "Часові ряди очищені", "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    public void quantityOfTimeRows() {
+        int a = 0;
+        if (!timeMap1.isEmpty()) {
+            a++;
+        }
+        if (!timeMap2.isEmpty()) {
+            a++;
+        }
+        if (!timeMap3.isEmpty()) {
+            a++;
+        }
+        JOptionPane.showMessageDialog(null, "К-сть рядів = " + a, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FXML
+    protected void downloadTimeRow() {
+        JFileChooser fileopen = new JFileChooser(Paths.get("C:\\Users\\Alex\\Desktop\\Data\\KPI\\Master Dyplom\\timerows").toFile());
+        fileopen.showDialog(null, "Виберіть текстовий файл");
+        File file = fileopen.getSelectedFile();
+        String s = file.getPath();
+        List<String> listString = new ArrayList<>();
+        try (BufferedReader br = Files.newBufferedReader(Path.of(s))) {
+            listString = br.lines().collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int numberOfColumns = 0;
+        listString = listString.stream().map(String::trim).collect(Collectors.toList());
+        numberOfColumns = (int) listString.get(0).replaceAll("\\s+", " ").chars().filter(c -> c == (int) ' ').count() + 1;
+
+        var tempMap = new LinkedHashMap<Integer, String>();
+        switch (numberOfColumns) {
+            case 1:
+                for (int i = 0; i < listString.size(); i++) {
+                    tempMap.put(i + 1, listString.get(i).trim());
+                }
+                break;
+            case 2:
+                int space;
+                for (int i = 0; i < listString.size(); i++) {
+                    var str = listString.get(i).replaceAll("\\s+", " ");
+                    for (int j = 0; j < str.length(); j++) {
+                        if (str.charAt(j) == ' ') {
+                            space = j;
+                            tempMap.put(i + 1, str.substring(space).trim());
+                            break;
+                        } else {
+                            tempMap.put(i + 1, DASH_DASH);
+                        }
+                    }
+                }
+                break;
+        }
+
+        if (timeMap1.isEmpty()) {
+            timeMap1 = new LinkedHashMap(tempMap);
+        } else if (timeMap2.isEmpty()) {
+            timeMap2 = new LinkedHashMap(tempMap);
+        } else if (timeMap3.isEmpty()) {
+            timeMap3 = new LinkedHashMap(tempMap);
+        } else {
+            JOptionPane.showMessageDialog(null, "All maps are not empty. Clear it firstly");
+        }
+    }
+
+    @FXML
+    public void additionalInterpolation() {
+        var helper = new SecondHelper();
+        if (checkBox1.isSelected()) {
+            timeMapDouble1 = new LinkedHashMap(helper.interpolation(timeMap1));
+        }
+        if (checkBox2.isSelected()) {
+            timeMapDouble2 = new LinkedHashMap(helper.interpolation(timeMap2));
+        }
+        if (checkBox3.isSelected()) {
+            timeMapDouble3 = new LinkedHashMap(helper.interpolation(timeMap3));
+        }
     }
 }

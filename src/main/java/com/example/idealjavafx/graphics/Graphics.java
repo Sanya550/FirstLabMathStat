@@ -8,10 +8,10 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.example.idealjavafx.SecondHelper.convertLinkedStringHashMapToDoubleMap;
 
 //Note: here locate graphics started from lab5
 public class Graphics {
@@ -290,6 +290,28 @@ public class Graphics {
         yAxis.setForceZeroInRange(false);
     }
 
+    public static void timeRowMapStringVisual(LineChart lineChart, NumberAxis xAxis, NumberAxis yAxis, LinkedHashMap<Integer, String> map) {
+        XYChart.Series series1 = new XYChart.Series();
+        for (var m : map.entrySet()) {
+            if (!m.getValue().equals(HelloController.DASH_DASH)) {
+                series1.getData().add(new XYChart.Data(m.getKey(), Double.parseDouble(m.getValue())));
+            }
+        }
+        lineChart.getData().addAll(series1);
+        lineChart.getXAxis().setAutoRanging(true);
+        lineChart.getYAxis().setAutoRanging(true);
+
+        xAxis.setAutoRanging(true);
+        yAxis.setAutoRanging(true);
+
+        xAxis.setForceZeroInRange(false); // Вимкнення примусового нуля
+        yAxis.setForceZeroInRange(false);
+    }
+
+    public static void timeRowMapDoubleVisual(LineChart lineChart, NumberAxis xAxis, NumberAxis yAxis, LinkedHashMap<Integer, Double> map) {
+        timeRowMapStringVisual(lineChart, xAxis, yAxis, convertLinkedStringHashMapToDoubleMap(map));
+    }
+
     //лінійна регресія методом градієнтного спуску
     public static void liniinaGradientVisual(List<List<Double>> listNotSorted, ScatterChart scatterChart, NumberAxis xAxis, NumberAxis yAxis) {
         scatterChart.getData().clear();
@@ -316,4 +338,5 @@ public class Graphics {
         yAxis.setForceZeroInRange(false);
         scatterChart.getData().addAll(series1, series2);
     }
+
 }

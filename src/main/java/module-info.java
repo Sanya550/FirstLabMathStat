@@ -16,5 +16,7 @@ module com.example.idealjavafx {
     exports com.example.idealjavafx.ai;
     opens com.example.idealjavafx.ai to javafx.fxml;
     requires javafx.graphics;
+    requires deeplearning4j.nn;
+    requires nd4j.api;
 //    requires lombok;
 }

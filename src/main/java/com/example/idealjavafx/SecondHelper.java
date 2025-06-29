@@ -24,91 +24,177 @@ public class SecondHelper {
     public static double pohibkaForcheckParametersOfSukupnistsHelperForFirstNum1 = 7.8;//should be deleted
     public static double pohibkaForcheckParametersOfSukupnistsHelperForFirstNum2 = 12.6;//should be deleted
 
-    public void showInitialTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, TableView tableView) {
-        var list = new ArrayList<ArrayList<Double>>();
+    public void showTableHelper(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6, TableView tableView) {
+        var list = new ArrayList<ArrayList<Object>>();
         if (ch1.isSelected()) {
-            list.add(withoutSortingArrayListNumber1);
+            list.add(new ArrayList<>(withoutSortingArrayListNumber1));
         }
         if (ch2.isSelected()) {
-            list.add(withoutSortingArrayListNumber2);
+            list.add(new ArrayList<>(withoutSortingArrayListNumber2));
         }
         if (ch3.isSelected()) {
-            list.add(withoutSortingArrayListNumber3);
+            list.add(new ArrayList<>(withoutSortingArrayListNumber3));
         }
         if (ch4.isSelected()) {
-            list.add(withoutSortingArrayListNumber4);
+            list.add(new ArrayList<>(withoutSortingArrayListNumber4));
         }
         if (ch5.isSelected()) {
-            list.add(withoutSortingArrayListNumber5);
+            list.add(new ArrayList<>(withoutSortingArrayListNumber5));
         }
         if (ch6.isSelected()) {
-            list.add(withoutSortingArrayListNumber6);
+            list.add(new ArrayList<>(withoutSortingArrayListNumber6));
         }
 
         int errorCounter = (int) list.stream().filter(ArrayList::isEmpty).count();
         if (errorCounter > 0) {
             JOptionPane.showMessageDialog(null, "Одна чи більше вибірок не існує у файлі", "Помилка", JOptionPane.ERROR_MESSAGE);
         }
-        list.stream().filter(t -> !t.isEmpty());
+
         ObservableList<DataForTableView> data = FXCollections.observableArrayList();
 
         if (!list.isEmpty()) {
             for (int i = 0; i < list.get(0).size(); i++) {
                 var row = new DataForTableView();
+
                 if (list.size() >= 1) {
-                    row.setCharacterisctic(String.format("%.2f", list.get(0).get(i)));
+                    row.setCharacterisctic(formatValue(list.get(0).get(i)));
                 }
                 if (list.size() >= 2) {
-                    row.setValue1(String.format("%.2f", list.get(1).get(i)));
+                    row.setValue1(formatValue(list.get(1).get(i)));
                 }
                 if (list.size() >= 3) {
-                    row.setValue2(String.format("%.2f", list.get(2).get(i)));
+                    row.setValue2(formatValue(list.get(2).get(i)));
                 }
                 if (list.size() >= 4) {
-                    row.setValue3(String.format("%.2f", list.get(3).get(i)));
+                    row.setValue3(formatValue(list.get(3).get(i)));
                 }
                 if (list.size() >= 5) {
-                    row.setValue4(String.format("%.2f", list.get(4).get(i)));
+                    row.setValue4(formatValue(list.get(4).get(i)));
                 }
                 if (list.size() >= 6) {
-                    row.setValue5(String.format("%.2f", list.get(5).get(i)));
+                    row.setValue5(formatValue(list.get(5).get(i)));
                 }
+
                 data.add(row);
             }
         }
 
+        tableView.getColumns().clear(); // Очищаем старые колонки
+
         if (list.size() >= 1) {
             TableColumn columnForCharacteristic = new TableColumn("Column1");
             columnForCharacteristic.setCellValueFactory(new PropertyValueFactory<>("characterisctic"));
-            tableView.getColumns().addAll(columnForCharacteristic);
+            tableView.getColumns().add(columnForCharacteristic);
         }
         if (list.size() >= 2) {
             TableColumn columnForValue1 = new TableColumn("Column2");
             columnForValue1.setCellValueFactory(new PropertyValueFactory<>("value1"));
-            tableView.getColumns().addAll(columnForValue1);
+            tableView.getColumns().add(columnForValue1);
         }
-        if (list.size() >= 2) {
+        if (list.size() >= 3) {
             TableColumn columnForValue2 = new TableColumn("Column3");
             columnForValue2.setCellValueFactory(new PropertyValueFactory<>("value2"));
-            tableView.getColumns().addAll(columnForValue2);
+            tableView.getColumns().add(columnForValue2);
         }
         if (list.size() >= 4) {
             TableColumn columnForValue3 = new TableColumn("Column4");
             columnForValue3.setCellValueFactory(new PropertyValueFactory<>("value3"));
-            tableView.getColumns().addAll(columnForValue3);
+            tableView.getColumns().add(columnForValue3);
         }
         if (list.size() >= 5) {
             TableColumn columnForValue4 = new TableColumn("Column5");
             columnForValue4.setCellValueFactory(new PropertyValueFactory<>("value4"));
-            tableView.getColumns().addAll(columnForValue4);
+            tableView.getColumns().add(columnForValue4);
         }
         if (list.size() >= 6) {
             TableColumn columnForValue5 = new TableColumn("Column6");
             columnForValue5.setCellValueFactory(new PropertyValueFactory<>("value5"));
-            tableView.getColumns().addAll(columnForValue5);
+            tableView.getColumns().add(columnForValue5);
         }
 
-        tableView.setItems(FXCollections.observableArrayList(data));
+        tableView.setItems(data);
+    }
+
+    public void showTableHelper(CheckBox ch1, CheckBox ch3, CheckBox ch5, TableView<DataForTableView> tableView, boolean isDouble) {
+        var list = new ArrayList<LinkedHashMap<Integer, String>>();
+        if (ch1.isSelected()) {
+            if (isDouble) {
+                list.add(new LinkedHashMap<>(convertLinkedStringHashMapToDoubleMap(timeMapDouble1)));
+            } else {
+                list.add(new LinkedHashMap<>(timeMap1));
+            }
+        }
+        if (ch3.isSelected()) {
+            if (isDouble) {
+                list.add(new LinkedHashMap<>(convertLinkedStringHashMapToDoubleMap(timeMapDouble2)));
+            } else {
+                list.add(new LinkedHashMap<>(timeMap2));
+            }
+        }
+        if (ch5.isSelected()) {
+            if (isDouble) {
+                list.add(new LinkedHashMap<>(convertLinkedStringHashMapToDoubleMap(timeMapDouble3)));
+            } else {
+                list.add(new LinkedHashMap<>(timeMap3));
+            }
+        }
+
+        int errorCounter = (int) list.stream().filter(Map::isEmpty).count();
+        if (errorCounter > 0) {
+            JOptionPane.showMessageDialog(null, "Одна чи більше вибірок не існує у файлі", "Помилка", JOptionPane.ERROR_MESSAGE);
+        }
+
+        ObservableList<DataForTableView> data = FXCollections.observableArrayList();
+
+        if (!list.isEmpty()) {
+            // Получаем отсортированные ключи (все ключи из первой карты, так как предполагается одинаковый набор ключей)
+            List<Integer> keys = new ArrayList<>(list.get(0).keySet());
+
+            for (Integer key : keys) {
+                var row = new DataForTableView();
+
+                if (list.size() >= 1) {
+                    row.setCharacterisctic(formatValue(list.get(0).get(key)));
+                }
+                if (list.size() >= 2) {
+                    row.setValue1(formatValue(list.get(1).get(key)));
+                }
+                if (list.size() >= 3) {
+                    row.setValue2(formatValue(list.get(2).get(key)));
+                }
+                if (list.size() >= 4) {
+                    row.setValue3(formatValue(list.get(3).get(key)));
+                }
+                if (list.size() >= 5) {
+                    row.setValue4(formatValue(list.get(4).get(key)));
+                }
+                if (list.size() >= 6) {
+                    row.setValue5(formatValue(list.get(5).get(key)));
+                }
+
+                data.add(row);
+            }
+        }
+
+        tableView.getColumns().clear(); // Очищаем старые колонки
+
+        if (list.size() >= 1) {
+            TableColumn<DataForTableView, String> column1 = new TableColumn<>("Time Row 1");
+            column1.setCellValueFactory(new PropertyValueFactory<>("characterisctic"));
+            tableView.getColumns().add(column1);
+        }
+        if (list.size() >= 2) {
+            TableColumn<DataForTableView, String> column2 = new TableColumn<>("Time Row 2");
+            column2.setCellValueFactory(new PropertyValueFactory<>("value1"));
+            tableView.getColumns().add(column2);
+        }
+        if (list.size() >= 3) {
+            TableColumn<DataForTableView, String> column3 = new TableColumn<>("Time Row 3");
+            column3.setCellValueFactory(new PropertyValueFactory<>("value2"));
+            tableView.getColumns().add(column3);
+        }
+
+        tableView.setItems(data);
     }
 
     public List<List<Double>> defineWhichCheckBoxChecked(CheckBox ch1, CheckBox ch2, CheckBox ch3, CheckBox ch4, CheckBox ch5, CheckBox ch6) {
@@ -154,6 +240,34 @@ public class SecondHelper {
         }
         if (ch6.isSelected()) {
             resList.add(withoutSortingArrayListNumber6);
+        }
+        return resList;
+    }
+
+    public List<LinkedHashMap<Integer, String>> defineWhichCheckBoxCheckedTimeRows(CheckBox ch1, CheckBox ch3, CheckBox ch5) {
+        List<LinkedHashMap<Integer, String>> resList = new ArrayList<>();
+        if (ch1.isSelected()) {
+            resList.add(timeMap1);
+        }
+        if (ch3.isSelected()) {
+            resList.add(timeMap2);
+        }
+        if (ch5.isSelected()) {
+            resList.add(timeMap3);
+        }
+        return resList;
+    }
+
+    public List<LinkedHashMap<Integer, Double>> defineWhichCheckBoxCheckedDoubleTimeRows(CheckBox ch1, CheckBox ch3, CheckBox ch5) {
+        List<LinkedHashMap<Integer, Double>> resList = new ArrayList<>();
+        if (ch1.isSelected()) {
+            resList.add(timeMapDouble1);
+        }
+        if (ch3.isSelected()) {
+            resList.add(timeMapDouble2);
+        }
+        if (ch5.isSelected()) {
+            resList.add(timeMapDouble3);
         }
         return resList;
     }
@@ -1501,8 +1615,8 @@ public class SecondHelper {
                     - (list.get(0).get(1) - list.get(0).get(0)) * (list.get(2).get(2) - list.get(2).get(0));
             double koefForX3 = (list.get(0).get(1) - list.get(0).get(0)) * (list.get(1).get(2) - list.get(1).get(0))
                     - (list.get(1).get(1) - list.get(1).get(0)) * (list.get(0).get(2) - list.get(0).get(0));
-            return String.format("%.3f * x1 + (%.3f) * x2 + 1.0 * x3 + (%.3f)", koefForX1/koefForX3, koefForX2/koefForX3,
-                    (-list.get(0).get(0) * koefForX1 - list.get(1).get(0) * koefForX2 - list.get(2).get(0) * koefForX3)/koefForX3);
+            return String.format("%.3f * x1 + (%.3f) * x2 + 1.0 * x3 + (%.3f)", koefForX1 / koefForX3, koefForX2 / koefForX3,
+                    (-list.get(0).get(0) * koefForX1 - list.get(1).get(0) * koefForX2 - list.get(2).get(0) * koefForX3) / koefForX3);
         }
     }
 
@@ -1515,11 +1629,80 @@ public class SecondHelper {
         var b = 0d;
         int m = 100000;
         for (int i = 0; i < m; i++) {
-            a = a - step/listX.size() * getAGradient(a, b, listX, listY);
-            b = b - step/listX.size() * getBGradient(a, b, listX, listY);
+            a = a - step / listX.size() * getAGradient(a, b, listX, listY);
+            b = b - step / listX.size() * getBGradient(a, b, listX, listY);
         }
         return List.of(a, b);
     }
+/*
+    public LinkedHashMap<Integer, String> fillEmptyValue(LinkedHashMap<Integer, String> map) {
+
+    }*/
+
+    public static LinkedHashMap<Integer, Double> interpolation(LinkedHashMap<Integer, String> map) {
+        var returnedMap = new LinkedHashMap<Integer, Double>();
+        var values = fillMissingValues(map.entrySet().stream().map(v -> v.getValue()).collect(Collectors.toList()));
+        for (int i = 0; i < values.size(); i++) {
+            returnedMap.put(i + 1, values.get(i));
+        }
+        return returnedMap;
+    }
+
+    public static List<Double> fillMissingValues(List<String> data) {
+        List<Double> result = new ArrayList<>(Collections.nCopies(data.size(), 0.0));
+        List<Integer> missingIndexes = new ArrayList<>();
+        List<Double> knownValues = new ArrayList<>();
+
+        // Сбор известных значений и индексов пропусков
+        for (int i = 0; i < data.size(); i++) {
+            if (!data.get(i).equals("--")) {
+                double value = Double.parseDouble(data.get(i));
+                result.set(i, value);
+                knownValues.add(value);
+            } else {
+                missingIndexes.add(i);
+            }
+        }
+
+        double globalMean = knownValues.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+
+        for (int index : missingIndexes) {
+            Double prev = null;
+            Double next = null;
+
+            // Поиск предыдущего известного значения
+            for (int j = index - 1; j >= 0; j--) {
+                if (!data.get(j).equals("--")) {
+                    prev = Double.parseDouble(data.get(j));
+                    break;
+                }
+            }
+
+            // Поиск следующего известного значения
+            for (int j = index + 1; j < data.size(); j++) {
+                if (!data.get(j).equals("--")) {
+                    next = Double.parseDouble(data.get(j));
+                    break;
+                }
+            }
+
+            double estimate;
+            if (prev != null && next != null) {
+                estimate = (prev + next + globalMean) / 3.0;
+            } else if (prev != null) {
+                estimate = (prev + globalMean) / 2.0;
+            } else if (next != null) {
+                estimate = (next + globalMean) / 2.0;
+            } else {
+                estimate = globalMean;
+            }
+
+            result.set(index, estimate);
+        }
+
+        return result;
+    }
+
     private static double getAGradient(double a, double b, List<Double> xList, List<Double> yList) {
         double sum = 0d;
         for (int i = 0; i < xList.size(); i++) {
@@ -1534,5 +1717,26 @@ public class SecondHelper {
             sum += (-yList.get(i) + a + b * xList.get(i)) * xList.get(i);
         }
         return sum;
+    }
+
+    // Метод для форматирования значения: округляет Double или возвращает строку, если "--"
+    private String formatValue(Object value) {
+        if (value instanceof Double) {
+            return String.format("%.2f", (Double) value);
+        } else {
+            return String.valueOf(value);
+        }
+    }
+
+    public static LinkedHashMap<Integer, String> convertLinkedStringHashMapToDoubleMap(LinkedHashMap<Integer, Double> map) {
+        LinkedHashMap<Integer, String> stringMap = map.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> String.format(Locale.US, "%.2f", e.getValue()),  // convert Double to formatted String
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+        return stringMap;
     }
 }
