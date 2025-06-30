@@ -31,6 +31,8 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.example.idealjavafx.AdaptHelper.applySmoothing;
+
 public class HelloController {
     public static final String DASH_DASH = "--";
     static ArrayList currentArrayList = new ArrayList();
@@ -2866,4 +2868,31 @@ public class HelloController {
             JOptionPane.showMessageDialog(null, "Дані оновлено", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+    @FXML
+    public void adaptMethod() {
+        var helper = new SecondHelper();
+        if (checkBox1.isSelected()) {
+            timeMapDouble1 = new LinkedHashMap(helper.interpolation(timeMap1));
+            timeRowHelper.changeAnomalData(timeMapDouble1);
+            applySmoothing(timeMapDouble1);
+        }
+        if (checkBox3.isSelected()) {
+            timeMapDouble2 = new LinkedHashMap(helper.interpolation(timeMap2));
+            timeRowHelper.changeAnomalData(timeMapDouble2);
+            applySmoothing(timeMapDouble2);
+        }
+        if (checkBox5.isSelected()) {
+            timeMapDouble3 = new LinkedHashMap(helper.interpolation(timeMap3));
+            timeRowHelper.changeAnomalData(timeMapDouble3);
+            applySmoothing(timeMapDouble3);
+        }
+        if (!checkBox1.isSelected() && !checkBox1.isSelected() && !checkBox1.isSelected()) {
+            JOptionPane.showMessageDialog(null, "Виберіть хоча б 1 чекбокс", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else{
+            JOptionPane.showMessageDialog(null, "Дані оновлено", "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+
 }

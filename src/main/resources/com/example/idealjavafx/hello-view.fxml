@@ -96,6 +96,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#forecastingMethodSSA" text="Прогнозування" />
                      </items>
                   </Menu>
+                  <MenuItem mnemonicParsing="false" onAction="#adaptMethod" text="Автоматичний метод" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Про програму">
