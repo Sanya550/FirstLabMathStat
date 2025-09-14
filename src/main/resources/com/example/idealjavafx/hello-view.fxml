@@ -35,6 +35,7 @@
                   <MenuItem fx:id="downloadTimeRow" mnemonicParsing="false" onAction="#downloadTimeRow" text="Завантажити часовий ряд" />
                   <MenuItem mnemonicParsing="false" onAction="#clearTimeRows" text="Очистити часові ряди" />
                   <MenuItem mnemonicParsing="false" onAction="#quantityOfTimeRows" text="Дізнатись кількість рядів" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportTimeRow" text="Експортувати часовий ряд" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Дані">
@@ -47,7 +48,6 @@
                                 <MenuItem mnemonicParsing="false" onAction="#additionalZsuvAndLogarifm" text="Зсув і логарифмування" />
                             </items>
                         </Menu>
-                        <MenuItem mnemonicParsing="false" onAction="#shownMainCharacteristic" text="Основні характеристики" />
                         <MenuItem mnemonicParsing="false" onAction="#showInitialTable" text="Вивести початкові дані" />
                   <MenuItem mnemonicParsing="false" onAction="#showCurrentTable" text="Вивести поточні дані" />
                     </items>
@@ -87,13 +87,6 @@
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#liniinaTrendTimeRow" text="Лінійний тренд" />
                         <MenuItem mnemonicParsing="false" onAction="#parabolTrendTimeRow" text="Пабаболічний тренд" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Метод Гусені">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#decompositionMethodSSA" text="Декомпозиція" />
-                        <MenuItem mnemonicParsing="false" onAction="#reconstructionMethodSSA" text="Реконструкція" />
-                        <MenuItem mnemonicParsing="false" onAction="#forecastingMethodSSA" text="Прогнозування" />
                      </items>
                   </Menu>
                   <MenuItem mnemonicParsing="false" onAction="#adaptMethod" text="Автоматичний метод" />

@@ -1,15 +1,11 @@
 package com.example.idealjavafx;
 
-import javafx.scene.chart.LineChart;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.example.idealjavafx.SmoothingType.*;
 import static com.example.idealjavafx.logicHelper.TimeRowHelper.changeValuesForStaticLinkedHashMap;
 
 public class AdaptHelper {

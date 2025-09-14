@@ -32,6 +32,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.idealjavafx.AdaptHelper.applySmoothing;
+import static com.example.idealjavafx.ExportHelper.exportMapToFile;
 
 public class HelloController {
     public static final String DASH_DASH = "--";
@@ -1852,19 +1853,19 @@ public class HelloController {
     @FXML
     protected void additionalStardantization() {
         SecondHelper secondHelper = new SecondHelper();
-        var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        for (var list : listOfLists) {
-            double resultSA = MainFunction.matSpodivan(list);
-            double serKva = MainFunction.serKva(list);
-            list.replaceAll(a -> (a - resultSA) / serKva);
+        var listOfLists = secondHelper.defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (listOfLists.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Оберіть хоча б 1 чекбокс", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            for (var list : listOfLists) {
+                var data = new ArrayList<>(list.values().stream().toList());
+                double resultSA = MainFunction.matSpodivan(data);
+                double serKva = MainFunction.serKva(data);
+                data.replaceAll(a -> (a - resultSA) / serKva);
+                new TimeRowHelper().changeValuesForStaticLinkedHashMap(list, data);
+            }
+            JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
         }
-        for (var list : listOfWithoutSorted) {
-            double resultSA = MainFunction.matSpodivan(list);
-            double serKva = MainFunction.serKva(list);
-            list.replaceAll(a -> (a - resultSA) / serKva);
-        }
-        JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
@@ -1881,17 +1882,18 @@ public class HelloController {
     @FXML
     protected void additionalZsuvAndLogarifm(ActionEvent event) {
         SecondHelper secondHelper = new SecondHelper();
-        var listOfLists = secondHelper.defineWhichCheckBoxChecked(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        var listOfWithoutSorted = secondHelper.defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        for (var list : listOfLists) {
-            double modulMin = Math.abs(list.get(0));
-            list.replaceAll(a -> Math.log(a + modulMin + 0.01) + modulMin + 0.01);
+        var listOfLists = secondHelper.defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (listOfLists.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Оберіть хоча б 1 чекбокс", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            for (var list : listOfLists) {
+                var data = new ArrayList<>(list.values().stream().toList());
+                double modulMin = Math.abs(data.get(0));
+                data.replaceAll(a -> Math.log(a + modulMin + 0.01) + modulMin + 0.01);
+                new TimeRowHelper().changeValuesForStaticLinkedHashMap(list, data);
+            }
+            JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
         }
-        for (var list : listOfWithoutSorted) {
-            double modulMin = Math.abs(list.get(0));
-            list.replaceAll(a -> Math.log(a + modulMin + 0.01) + modulMin + 0.01);
-        }
-        JOptionPane.showMessageDialog(null, "Збережено", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
@@ -2430,51 +2432,51 @@ public class HelloController {
     //критерій серій:
     @FXML
     public void criteriiZnakivTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaZnakiv(listNotSorted.get(1)), "Критерій знаків", JOptionPane.INFORMATION_MESSAGE);
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (listNotSorted.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaZnakiv(listNotSorted.get(0).values().stream().toList()), "Критерій знаків", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     @FXML
     public void criteriiMannaTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaManna(listNotSorted.get(1)), "Критерій Манна", JOptionPane.INFORMATION_MESSAGE);
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (listNotSorted.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaManna(listNotSorted.get(0).values().stream().toList()), "Критерій знаків", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     @FXML
     public void criteriiSeriesTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaSeries(listNotSorted.get(1)), "Критерій серій", JOptionPane.INFORMATION_MESSAGE);
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (listNotSorted.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaSeries(listNotSorted.get(0).values().stream().toList()), "Критерій знаків", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     @FXML
     public void criteriiSeriesOfGrowAndFallTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaSeriesOfGrowAndFall(listNotSorted.get(1)), "Критерій зростаючих та падаючих серій", JOptionPane.INFORMATION_MESSAGE);
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (listNotSorted.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaSeriesOfGrowAndFall(listNotSorted.get(0).values().stream().toList()), "Критерій знаків", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     @FXML
     public void criteriiAbbeTimeRow() {
-        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedForWithoutSorted(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6);
-        if (listNotSorted.size() == 2) {
-            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaAbbe(listNotSorted.get(1)), "Критерій Аббе", JOptionPane.INFORMATION_MESSAGE);
+        var listNotSorted = new SecondHelper().defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (listNotSorted.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Оберіть 1 чекбокс", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Size must be 2", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, timeRowHelper.criteriaAbbe(listNotSorted.get(0).values().stream().toList()), "Критерій знаків", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -2862,9 +2864,9 @@ public class HelloController {
         if (checkBox5.isSelected()) {
             timeMapDouble3 = new LinkedHashMap(helper.interpolation(timeMap3));
         }
-        if (!checkBox1.isSelected() && !checkBox1.isSelected() && !checkBox1.isSelected()) {
+        if (!checkBox1.isSelected() && !checkBox3.isSelected() && !checkBox5.isSelected()) {
             JOptionPane.showMessageDialog(null, "Виберіть хоча б 1 чекбокс", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "Дані оновлено", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -2887,12 +2889,29 @@ public class HelloController {
             timeRowHelper.changeAnomalData(timeMapDouble3);
             applySmoothing(timeMapDouble3);
         }
-        if (!checkBox1.isSelected() && !checkBox1.isSelected() && !checkBox1.isSelected()) {
+        if (!checkBox1.isSelected() && !checkBox3.isSelected() && !checkBox5.isSelected()) {
             JOptionPane.showMessageDialog(null, "Виберіть хоча б 1 чекбокс", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "Дані оновлено", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
+    @FXML
+    public void exportTimeRow() {
+        var helper = new SecondHelper();
+        var list = helper.defineWhichCheckBoxCheckedDoubleTimeRows(checkBox1, checkBox3, checkBox5);
+        if (list.size() != 1) {
+            JOptionPane.showMessageDialog(null, "Виберіть 1 чекбокс", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (checkBox1.isSelected()) {
+                exportMapToFile(timeMapDouble1);
+            } else if (checkBox2.isSelected()) {
+                exportMapToFile(timeMapDouble2);
+            } else {
+                exportMapToFile(timeMapDouble3);
+            }
+        }
+
+    }
 
 }
